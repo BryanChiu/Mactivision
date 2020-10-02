@@ -1,4 +1,4 @@
-##### **Mactivision Meeting #1**
+#### **Mactivision Meeting #1**
 All members attended.
 Started meeting on discord Friday October 2 at 2:30pm est.
 
@@ -20,10 +20,10 @@ Fine motor abilities, require perceive motor control. Moving finger slightly. Bi
 There are research already on how to capture cognitive abilities. Compare how we capture cognitive abilities with other methods used before. 
 
 Measurements:
-Pressing any button when no stimulus appears
-Pressing no button when the stimulus appears
-Pressing the wrong button for a stimulus
-The absolute speed of pressing. (Difference between appearance time and response time).
+- Pressing any button when no stimulus appears
+- Pressing no button when the stimulus appears
+- Pressing the wrong button for a stimulus
+- The absolute speed of pressing. (Difference between appearance time and response time).
 
 Choice reaction time task. Procedural memory.
 
@@ -37,19 +37,19 @@ Selective/focused attention (cognitive)
 Not getting distracted, inhibition (cognitive)
 
 What is happening:
-Goal of the game
-Mechanic
-Score (Score is typed to how well they reacted to the stimuli)
-Duration
+- Goal of the game
+- Mechanic
+- Score (Score is typed to how well they reacted to the stimuli)
+- Duration
 
 Look for the in between actions. What actions take place in between actions and what actions are not being taken.
 
 Beginning workflow mental model:
-Understanding the details and nuances of the abilities
-Figure out how to isolate and measure this ability
-Figure out which abilities are coupled with the one you’re trying to study
-Figure out how to mitigate the effects of those abilities
-Design a mini-game for the isolated ability
+1. Understanding the details and nuances of the abilities
+2. Figure out how to isolate and measure this ability
+3. Figure out which abilities are coupled with the one you’re trying to study
+4. Figure out how to mitigate the effects of those abilities
+5. Design a mini-game for the isolated ability
 
 Putting a playful interface on top of the test / challenges.
 
