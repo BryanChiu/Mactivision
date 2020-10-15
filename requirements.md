@@ -119,6 +119,10 @@ This minigame battery project has some constraints regarding the design of the m
 ### 2.4 User Characteristics
 <!-- Identify the various user classes that you anticipate will use this product. User classes may be differentiated based on frequency of use, subset of product functions used, technical expertise, security or privilege levels, educational level, or experience. Describe the pertinent characteristics of each user class. Certain requirements may pertain only to certain user classes. Distinguish the most important user classes for this product from those who are less important to satisfy. -->
 
+There are two user classes which will use this product:
+* General users, which will play the minigames. This group of users is very broad and can contain users in almost any demographic. These users should have basic computer literacy as they will mostly play minigames on a PC.
+* Admin users, which will interface with the backend to gather general user profiles and other minigame data. This group of users will have a higher computer literacy, as they may be interfacing with the backend or database directly, possibly through a terminal. Admin users will be the clients of the project.
+
 ### 2.5 Assumptions and Dependencies
 <!-- List any assumed factors (as opposed to known facts) that could affect the requirements stated in the SRS. These could include third-party or commercial components that you plan to use, issues around the development or operating environment, or constraints. The project could be affected if these assumptions are incorrect, are not shared, or change. Also identify any dependencies the project has on external factors, such as software components that you intend to reuse from another project, unless they are already documented elsewhere (for example, in the vision and scope document or the project plan). -->
 
