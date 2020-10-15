@@ -126,6 +126,15 @@ There are two user classes which will use this product:
 ### 2.5 Assumptions and Dependencies
 <!-- List any assumed factors (as opposed to known facts) that could affect the requirements stated in the SRS. These could include third-party or commercial components that you plan to use, issues around the development or operating environment, or constraints. The project could be affected if these assumptions are incorrect, are not shared, or change. Also identify any dependencies the project has on external factors, such as software components that you intend to reuse from another project, unless they are already documented elsewhere (for example, in the vision and scope document or the project plan). -->
 
+The minigames portion of this project will rely on assets from the Unity asset store to develop the minigames. It is assumed that we the developers will find relevant assets in the Unity asset store that will help us build minigames that fit the requirements described in this document in a more time-efficient manner, as opposed to spending more time creating the assets we require. These assets might include:
+* 3D models or 2D sprites
+* Audio clips for game sounds effects
+* Various prebuilt scripts to control various mechanics in the minigames
+
+We estimate that the time saved when using premade assets like these will be substantial, and will help us develop minigames much more efficiently, so more time can be allocated to the design of the games rather than the programming of them.
+
+<!-- TODO(dhospital): Add more assumptions and dependencies -->
+
 ### 2.6 Apportioning of Requirements
 <!-- Apportion the software requirements to software elements. For requirements that will require implementation over multiple software elements, or when allocation to a software element is initially undefined, this should be so stated. A cross reference table by function and software element should be used to summarize the apportioning.
 
