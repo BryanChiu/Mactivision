@@ -114,6 +114,8 @@ Since each minigame is essentially be a medium for the backend to measure and re
 * Standards compliance.  
 * Constraints around design or implementation. -->
 
+This minigame battery project has some constraints regarding the design of the minigames. All minigames must be build using the Unity engine, and must be designed for play on PC. The minigames must be able to be run on lower end machines, as they will be given to various users to play on their personal machines, many of which may not be built to handle higher-end graphics or games. Furthermore, Some of these users may not have access a mouse, and only have the trackpad on their personal laptop to control their cursor, so most minigames must be designed to only require a keyboard, as the subset of motor abilities to use a trackpad versus a mouse are different, and we can assume that every user playing these minigames will have access to a keyboard.
+
 ### 2.4 User Characteristics
 <!-- Identify the various user classes that you anticipate will use this product. User classes may be differentiated based on frequency of use, subset of product functions used, technical expertise, security or privilege levels, educational level, or experience. Describe the pertinent characteristics of each user class. Certain requirements may pertain only to certain user classes. Distinguish the most important user classes for this product from those who are less important to satisfy. -->
 
