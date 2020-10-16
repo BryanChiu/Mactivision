@@ -209,9 +209,25 @@ https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/inside-a-progra
 
 ID             | CO-1 Type: Non-functional Requirements (Complicance)
 ---------------|----
-PUC            | N/A
+PUC: N/A       | Originator: Team
 Description    | Project will adhere to Unity terms and conditions.
 Rationale      | Required for legal use of software.
+Fit Criterion  | All terms and conditions will be followed.
+Priority       | Very High
+
+ID             | CO-2 Type: Non-functional Requirements (Complicance)
+---------------|----
+PUC: N/A       | Originator: Team
+Description    | Project will adhere to McMaster's Academic Integrity policy.
+Rationale      | Required to be a student of McMaster University.
+Fit Criterion  | All terms and conditions will be followed.
+Priority       | Very High
+
+ID             | CO-3 Type: Non-functional Requirements (Complicance)
+---------------|----
+PUC: N/A       | Originator: Team
+Description    | Project will licensed under Creative Commons Attribution 3.0 License.
+Rationale      | Required for legal use of software and assets.
 Fit Criterion  | All terms and conditions will be followed.
 Priority       | Very High
 
