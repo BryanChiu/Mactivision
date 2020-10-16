@@ -195,13 +195,17 @@ Specify the factors required to establish the required reliability of the softwa
 Specify the factors required to guarantee a defined availability level for the entire system such as checkpoint, recovery, and restart.
 
 ### 3.4 Compliance
-Specify the requirements derived from existing standards or regulations, including:  
+<!-- Specify the requirements derived from existing standards or regulations, including:  
 * Report format
 * Data naming
 * Accounting procedures
 * Audit tracing
 
 For example, this could specify the requirement for software to trace processing activity. Such traces are needed for some applications to meet minimum regulatory or financial standards. An audit trace requirement may, for example, state that all changes to a payroll database shall be recorded in a trace file with before and after values.
+-->
+
+C# code should conform to [Microsft Coding Convention.](
+https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/inside-a-program/coding-conventions)
 
 ### 3.5 Design and Implementation
 
@@ -261,3 +265,10 @@ Apr 8  | Capstone Day Showcase
 <!-- ieee 15288:2015 -->
 
 ## 5. Appendixes
+
+https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/inside-a-program/coding-conventions
+https://unity.com/features/multiplatform
+https://store.unity.com/compare-plans
+https://assetstore.unity.com/top-assets/top-free
+https://unity.com/products/unity-distribution-portal
+https://jrsoftware.org/isinfo.php
