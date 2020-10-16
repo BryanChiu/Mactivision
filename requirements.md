@@ -237,7 +237,7 @@ Unity is free as long as “revenue or funding is less than $100K in the last 12
 #### 3.5.7 Deadline
 <!-- Specify schedule for delivery of the software product. -->
 Week   | Deliverables
-------------------------------
+-------|----------------------
 Oct 19 | Requirements Specification
 Oct 28 | Prototype
 Nov 13 | Design
