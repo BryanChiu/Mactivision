@@ -207,6 +207,19 @@ For example, this could specify the requirement for software to trace processing
 C# code should conform to [Microsft Coding Convention.](
 https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/inside-a-program/coding-conventions)
 
+ID             | CO-1 Type: Non-functional Requirements (Complicance)
+---------------|----
+PUC            | N/A
+---------------|-----
+Description    | Project will adhere to Unity terms and conditions.
+---------------|-----
+Rationale      | Required for legal use of software.
+---------------|-----
+Fit Criterion  | All terms and conditions will be followed.
+---------------|-----
+Priority       | Very High
+---------------|-----
+
 ### 3.5 Design and Implementation
 
 #### 3.5.1 Installation
