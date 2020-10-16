@@ -177,7 +177,7 @@ Describe the logical and physical characteristics of each interface between the 
 Describe the connections between this product and other specific software components (name and version), including databases, operating systems, tools, libraries, and integrated commercial components. Identify the data items or messages coming into the system and going out and describe the purpose of each. Describe the services needed and the nature of communications. Refer to documents that describe detailed application programming interface protocols. Identify data that will be shared across software components. If the data sharing mechanism must be implemented in a specific way (for example, use of a global data area in a multitasking operating system), specify this as an implementation constraint.
 
 ### 3.2 Functional
-> This section specifies the requirements of functional effects that the software-to-be is to have on its environment.
+<!-- This section specifies the requirements of functional effects that the software-to-be is to have on its environment. -->
 
 ### 3.3 Quality of Service
 > This section states additional, quality-related property requirements that the functional effects of the software should present.
@@ -204,10 +204,7 @@ Specify the factors required to guarantee a defined availability level for the e
 For example, this could specify the requirement for software to trace processing activity. Such traces are needed for some applications to meet minimum regulatory or financial standards. An audit trace requirement may, for example, state that all changes to a payroll database shall be recorded in a trace file with before and after values.
 -->
 
-C# code should conform to [Microsft Coding Convention.](
-https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/inside-a-program/coding-conventions)
-
-ID             | CO-1 Type: Non-functional Requirements (Complicance)
+ID: 3.4.1      | Type: Non-functional Requirements (Complicance)
 ---------------|----
 PUC: N/A       | Originator: Team
 Description    | Project will adhere to Unity terms and conditions.
@@ -215,7 +212,7 @@ Rationale      | Required for legal use of software.
 Fit Criterion  | All terms and conditions will be followed.
 Priority       | Very High
 
-ID             | CO-2 Type: Non-functional Requirements (Complicance)
+ID: 3.4.2      | Type: Non-functional Requirements (Complicance)
 ---------------|----
 PUC: N/A       | Originator: Team
 Description    | Project will adhere to McMaster's Academic Integrity policy.
@@ -223,7 +220,7 @@ Rationale      | Required to be a student of McMaster University.
 Fit Criterion  | All terms and conditions will be followed.
 Priority       | Very High
 
-ID             | CO-3 Type: Non-functional Requirements (Complicance)
+ID: 3.4.3      | Type: Non-functional Requirements (Complicance)
 ---------------|----
 PUC: N/A       | Originator: Team
 Description    | Project will licensed under Creative Commons Attribution 3.0 License.
@@ -290,7 +287,6 @@ Apr 8  | Capstone Day Showcase
 
 ## 5. Appendixes
 
-https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/inside-a-program/coding-conventions
 https://unity.com/features/multiplatform
 https://store.unity.com/compare-plans
 https://assetstore.unity.com/top-assets/top-free
