@@ -210,15 +210,10 @@ https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/inside-a-progra
 ID             | CO-1 Type: Non-functional Requirements (Complicance)
 ---------------|----
 PUC            | N/A
----------------|-----
 Description    | Project will adhere to Unity terms and conditions.
----------------|-----
 Rationale      | Required for legal use of software.
----------------|-----
 Fit Criterion  | All terms and conditions will be followed.
----------------|-----
 Priority       | Very High
----------------|-----
 
 ### 3.5 Design and Implementation
 
