@@ -1,5 +1,5 @@
 # Software Requirements Specification
-## For Minigame Battery Project
+## For Mini-game Battery Project
 
 Version 0.1  
 Prepared by <author> 
@@ -206,28 +206,53 @@ For example, this could specify the requirement for software to trace processing
 ### 3.5 Design and Implementation
 
 #### 3.5.1 Installation
-Constraints to ensure that the software-to-be will run smoothly on the target implementation platform.
+<!-- Constraints to ensure that the software-to-be will run smoothly on the target implementation platform. -->
+If third-party app stores are used, such as steam, they will handle installation. Otherwise, Inno Setup can be used to create an installer for the project. In either case, the user will not have to worry about where to put files or how to remove them. Furthermore, the Installations will run smoothly because the Unity runtime is self-contained and does not require redistributables like the Visual C++ runtime library or auxiliary third party applications.
 
 #### 3.5.2 Distribution
-Constraints on software components to fit the geographically distributed structure of the host organization, the distribution of data to be processed, or the distribution of devices to be controlled.
+<!-- Constraints on software components to fit the geographically distributed structure of the host organization, the distribution of data to be processed, or the distribution of devices to be controlled. -->
+
+Unity Distribution Portal allows game developers to distribute games to multiple app stores through a single hub. Projects can also be distributed manually by supplying users with copies of production builds.  WebGL builds can be played online through a modern browser. Other builds require a download onto the user’s hardware. The size of download will depend on the size of the code base and assets. Distribution to those without internet connections would be more difficult. However, physical media, such as spinning discs, could be used to reach those without connections.
+This project does not provide any hardware or controller devices, they must be supplied by the user.
 
 #### 3.5.3 Maintainability
-Specify attributes of software that relate to the ease of maintenance of the software itself. These may include requirements for certain modularity, interfaces, or complexity limitation. Requirements should not be placed here just because they are thought to be good design practices.
+<!-- Specify attributes of software that relate to the ease of maintenance of the software itself. These may include requirements for certain modularity, interfaces, or complexity limitation. Requirements should not be placed here just because they are thought to be good design practices. -->
+
+Unity games are written in C# which is strongly typed to prevent common programming errors. C# is object oriented, which provides modularity.  The .NET standard library reduces complexity and increases maintainability. Debugging C# code can be done with Visual Studio. 
 
 #### 3.5.4 Reusability
 <!-- TODO: come up with a description -->
 
+Game logic and player cognitive and physical analysis could be reusable in other projects. Code, which interfaces with Unity, would only be reusable with other Unity projects.
+
 #### 3.5.5 Portability
-Specify attributes of software that relate to the ease of porting the software to other host machines and/or operating systems.
+<!-- Specify attributes of software that relate to the ease of porting the software to other host machines and/or operating systems. -->
+
+Unity provides multi-platform support for personal computers, phones, websites and consoles. Unity also supports multiple input devices such as, keyboard, mouse, touch, joystick and game pads. C# code is portable to Windows, Mac and Linux.
 
 #### 3.5.6 Cost
-Specify monetary cost of the software product.
+<!-- Specify monetary cost of the software product. -->
+Unity is free as long as “revenue or funding is less than $100K in the last 12 months”. Editors for coding with Unity such as Visual Studio and Visual Studio Code have free community versions. Github provides free public repos. Some assets are available in the Unity Store for free. Other free assets may be found online.
 
 #### 3.5.7 Deadline
-Specify schedule for delivery of the software product.
+<!-- Specify schedule for delivery of the software product. -->
+Week   | Deliverables
+------------------------------
+Oct 19 | Requirements Specification
+Oct 28 | Prototype
+Nov 13 | Design
+Jan 11 | Prototype 2.0
+Feb 4  | Internal and External Testing
+Mar 11 | Final Version
+Mar 18 | Internal Demo
+Mar 25 | Extra Time
+Apr 5  | Capstone Day Materials
+Apr 8  | Capstone Day Showcase
 
 #### 3.5.8 Proof of Concept
-TODO: come up with a description
+<!-- TODO: come up with a description -->
+
+![Image of Proof of Concept](https://i.imgur.com/j2X5dEe.png)
 
 ## 4. Verification
 > This section provides the verification approaches and methods planned to qualify the software. The information items for verification are recommended to be given in a parallel manner with the requirement items in Section 3. The purpose of the verification process is to provide objective evidence that a system or system element fulfills its specified requirements and characteristics.
