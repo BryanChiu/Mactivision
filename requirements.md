@@ -148,26 +148,42 @@ __Product Use Case (PUC) Table (Measurement Framework)__
 PUC | PUC Name           | Actor(s)         | Input / Output
 ----|--------------------|------------------|---------------
 1   | Record Input       | Player           | Key Input(IN)
-2   | Objective Complete | Player, System   | Key Input(IN), success Boolean(OUT)
-3   | Start Timer        | System           | Time(OUT) 
+2   | Objective Complete | Player, System   | Key Input(IN), Success Boolean(OUT)
+3   | Start Timer        | System           | Time(OUT)
 4   | End Timer          | System           | Time(OUT)
-5   | Input Sequence     | Player, System   | Key Input(IN), success Boolean(OUT)
-6   | Stage of Objective | Player, System   | Key Input(IN), stage Int(OUT)
-7   | Success Rate       | System           | rate Float(OUT)
-8   | Failure Rate       | System           | rate Float(OUT)
-9   | Change Control Map | System           | 
+5   | Input Sequence     | Player, System   | Key Input(IN), Success Boolean(OUT)
+6   | Stage of Objective | Player, System   | Key Input(IN), Stage Int(OUT)
+7   | Success Rate       | System           | Rate Float(OUT)
+8   | Failure Rate       | System           | Rate Float(OUT)
+9   | Change Controls    | System           | 
 10  | Output Data        | System           | String(OUT)
-11  | Request Input      | Player, System   | Key Input(IN), success Boolean(OUT)
+11  | Request Input      | Player, System   | Key Input(IN), Success Boolean(OUT)
 12  | Start Objective    | Player, System   | Key Input(IN)
 13  | End Objective      | Player, System   | Key Input(IN)
 
-
-
-
 __Product Use Case (PUC) Table (Generic Game)__
 
+PUC | PUC Name           | Actor(s)         | Input / Output
+----|--------------------|------------------|---------------
+14  | Move Player        | Player           | Key Input(IN), Pos Vector3(OUT)
+15  | Start Game         | Player           | Key Input(IN)
+16  | End Game           | Player           | Key Input(IN)
+17  | Move Camera        | Player,System    | Key Input(IN), Pos Vector3(OUT)
+18  | Move Object        | System           | Key Input(IN), Pos Vector3(OUT)
+19  | Change Scene       | System           | Key Input(IN)
+20  | Pause Game         | Player           | Key Input(IN)
+21  | Change Setting     | Player           | Key Input(IN)
+22  | Show Score         | Player,System    | Key Input(IN), Score Float(OUT)
 
 __Product Use Case (PUC) Table (Database)__
+
+PUC | PUC Name           | Actor(s)         | Input / Output
+----|--------------------|------------------|---------------
+23  | Read               | System           | Query String(IN), Results String(OUT)
+24  | Write              | System           | Query String(IN)
+25  | Append             | System           | Query String(IN)
+26  | Modify             | System           | Query String(IN) 
+27  | Delete             | System           | Query String(IN)
 
 > The specific requirements should:
 * Be uniquely identifiable.
