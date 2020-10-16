@@ -141,7 +141,33 @@ We estimate that the time saved when using premade assets like these will be sub
 Identify requirements that may be delayed until future versions of the system (e.g., blocks and/or increments). -->
 
 ## 3. Requirements
-> This section specifies the software product's requirements. Specify all of the software requirements to a level of detail sufficient to enable designers to design a software system to satisfy those requirements, and to enable testers to test that the software system satisfies those requirements.
+<!-- This section specifies the software product's requirements. Specify all of the software requirements to a level of detail sufficient to enable designers to design a software system to satisfy those requirements, and to enable testers to test that the software system satisfies those requirements. -->
+
+__Product Use Case (PUC) Table (Measurement Framework)__
+
+PUC | PUC Name           | Actor(s)         | Input / Output
+----|--------------------|------------------|---------------
+1   | Record Input       | Player           | Key Input(IN)
+2   | Objective Complete | Player, System   | Key Input(IN), success Boolean(OUT)
+3   | Start Timer        | System           | Time(OUT) 
+4   | End Timer          | System           | Time(OUT)
+5   | Input Sequence     | Player, System   | Key Input(IN), success Boolean(OUT)
+6   | Stage of Objective | Player, System   | Key Input(IN), stage Int(OUT)
+7   | Success Rate       | System           | rate Float(OUT)
+8   | Failure Rate       | System           | rate Float(OUT)
+9   | Change Control Map | System           | 
+10  | Output Data        | System           | String(OUT)
+11  | Request Input      | Player, System   | Key Input(IN), success Boolean(OUT)
+12  | Start Objective    | Player, System   | Key Input(IN)
+13  | End Objective      | Player, System   | Key Input(IN)
+
+
+
+
+__Product Use Case (PUC) Table (Generic Game)__
+
+
+__Product Use Case (PUC) Table (Database)__
 
 > The specific requirements should:
 * Be uniquely identifiable.
@@ -179,6 +205,15 @@ Describe the connections between this product and other specific software compon
 ### 3.2 Functional
 <!-- This section specifies the requirements of functional effects that the software-to-be is to have on its environment. -->
 
+ID F-1         | Type: Functional 
+---------------|----
+PUC: N/A       | Originator: Team
+Description    | Move Player  
+Rationale      | Player needs to interact with world.
+Fit Criterion  | 
+Priority       | Very High
+
+
 ### 3.3 Quality of Service
 > This section states additional, quality-related property requirements that the functional effects of the software should present.
 
@@ -204,7 +239,7 @@ Specify the factors required to guarantee a defined availability level for the e
 For example, this could specify the requirement for software to trace processing activity. Such traces are needed for some applications to meet minimum regulatory or financial standards. An audit trace requirement may, for example, state that all changes to a payroll database shall be recorded in a trace file with before and after values.
 -->
 
-ID: 3.4.1      | Type: Non-functional Requirements (Complicance)
+ID: C-1      | Type: Non-functional Requirements (Complicance)
 ---------------|----
 PUC: N/A       | Originator: Team
 Description    | Project will adhere to Unity terms and conditions.
@@ -212,7 +247,7 @@ Rationale      | Required for legal use of software.
 Fit Criterion  | All terms and conditions will be followed.
 Priority       | Very High
 
-ID: 3.4.2      | Type: Non-functional Requirements (Complicance)
+ID: C-2      | Type: Non-functional Requirements (Complicance)
 ---------------|----
 PUC: N/A       | Originator: Team
 Description    | Project will adhere to McMaster's Academic Integrity policy.
@@ -220,7 +255,7 @@ Rationale      | Required to be a student of McMaster University.
 Fit Criterion  | All terms and conditions will be followed.
 Priority       | Very High
 
-ID: 3.4.3      | Type: Non-functional Requirements (Complicance)
+ID: C-3      | Type: Non-functional Requirements (Complicance)
 ---------------|----
 PUC: N/A       | Originator: Team
 Description    | Project will licensed under Creative Commons Attribution 3.0 License.
