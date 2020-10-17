@@ -356,8 +356,6 @@ Describe the connections between this product and other specific software compon
 * Conform to agreed upon syntax, keywords, and terms.
 -->
 
-TODO: MIKE (this is just an example)
-
 ID F-1         | Type: Functional 
 ---------------|----------------------------------------------------------------
 PUC: 1         | Originator: Team
@@ -408,11 +406,91 @@ Priority       | Very High
 
 ID F-6         | Type: Functional 
 ---------------|----------------------------------------------------------------
-PUC: 9,10      | Originator: Team
+PUC: 8,9       | Originator: Team
 Description    | Record the start and end of objectives. How long did the player take and how successful was the player? 
 Rationale      | Since objectives will vary in type and difficulty this is need to contextualize the measurements collected from the player. 
 Constraints    | Framework must coordinate with game objectives of each individual game.
 Priority       | Very High
+
+ID F-7         | Type: Functional 
+---------------|----------------------------------------------------------------
+PUC: 10        | Originator: Team
+Description    | All the player to move around the game world. Allow the game to move the player. 
+Rationale      | Many game types require players are able to move around in the game world.
+Constraints    | Make sure player doesn't go out of bounds.
+Priority       | Very High
+
+ID F-8         | Type: Functional 
+---------------|----------------------------------------------------------------
+PUC: 11,12     | Originator: Team
+Description    | Start and end game.
+Rationale      | Having specific start and end game states provides windows of measurement. Also, lets the player know when the game has started and ended.
+Constraints    | Must have start and end game scenes.
+Priority       | High
+
+ID F-9         | Type: Functional 
+---------------|----------------------------------------------------------------
+PUC: 13        | Originator: Team
+Description    | Move the camera around the game world.
+Rationale      | Many game types require camera to move around. However, mini games often use a fixed camera.
+Constraints    | Make sure camera doesn't go out of bounds.
+Priority       | Low
+
+ID F-10        | Type: Functional 
+---------------|----------------------------------------------------------------
+PUC: 14        | Originator: Team
+Description    | Move the object around the game world.
+Rationale      | Most game types require non player objects to move around the game world.
+Constraints    | Make sure objects doesn't go out of bounds and are properly created and destroyed to not waste memory.
+Priority       | Very High
+
+ID F-11        | Type: Functional 
+---------------|----------------------------------------------------------------
+PUC: 15        | Originator: Team
+Description    | Be able to change game scene.
+Rationale      | Need to be able to change between start scene, game scene, end game scene, settings scene and pause scene.
+Constraints    | Keep scenes to a minimum to avoid over complicated game.
+Priority       | Very High
+
+ID F-12        | Type: Functional 
+---------------|----------------------------------------------------------------
+PUC: 16        | Originator: Team
+Description    | Player has ability to pause game.
+Rationale      | Give the player a break if they need it.
+Constraints    | Make sure to pause game state and timers.
+Priority       | Very High
+
+ID F-13        | Type: Functional 
+---------------|----------------------------------------------------------------
+PUC: 17        | Originator: Team
+Description    | Show player score (how well they are completing objectives) during game play.
+Rationale      | Provides feedback to the player on how well they are doing. This can allow them to make changes in their game play to improve their performance.
+Constraints    | Only show during game play and game over / end scene.
+Priority       | Medium
+
+ID F-13        | Type: Functional 
+---------------|----------------------------------------------------------------
+PUC: 17        | Originator: Team
+Description    | Read measurement data from database.
+Rationale      | Measurement data will need to be reviewed for player analyze after the games are completed.
+Constraints    | Requires data models be created.
+Priority       | Low
+
+ID F-13        | Type: Functional 
+---------------|----------------------------------------------------------------
+PUC: 18        | Originator: Team
+Description    | Write measurement data from database.
+Rationale      | Write player measurement data for one player over multiple games. Useful for tuning measurements between two separate games. 
+Constraints    | Requires data models be created and the ability for each game to write data.
+Priority       | High
+
+ID F-14        | Type: Functional 
+---------------|----------------------------------------------------------------
+PUC: 19        | Originator: Team
+Description    | Delete measurement data from database.
+Rationale      | Makes organizing data easier.
+Constraints    | Make sure data is safe to delete.
+Priority       | Low
 
 ### 3.3 Quality of Service
 > This section states additional, quality-related property requirements that the functional effects of the software should present.
