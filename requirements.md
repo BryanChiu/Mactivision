@@ -181,147 +181,147 @@ PUC | PUC Name           | Actor(s)         | Input / Output
 
 __Individual Product Use Cases__
 
-PUC           | No. 1   Event: Record Input
+PUC No. 1     | Event: Record Input
 --------------|--------------------------------
 Trigger       | The player provides input to the game.
 Preconditions | The game is started. The player is in control.
 Procedure     | 1. Record which input was used. 2. Record input state: up, down or held.
 Outcome       | Store each new input type and state.
 
-PUC           | No. 2  Event: Start Timer
+PUC No. 2     | Event: Start Timer
 --------------|--------------------------------
 Trigger       | Start of game and start of objective.
 Preconditions | The player has started game.
 Procedure     | Set start time to current time.
 Outcome       | Store start time. 
 
-PUC           | No. 3  Event: End Timer
+PUC No. 3     | Event: End Timer
 --------------|--------------------------------
 Trigger       | End of game and objective completion.
 Preconditions | The player has completed objective or exited game.
 Procedure     | Set end time to current time.
 Outcome       | Store end time. 
 
-PUC           | No. 4  Event: Input Sequence
+PUC No. 4     | Event: Input Sequence
 --------------|--------------------------------
 Trigger       | Start of objective.
 Preconditions | Game is started. Player can send inputs.
 Procedure     | Record sequence of player inputs.
 Outcome       | Player completed sequence or not.
 
-PUC           | No. 5  Event: Stage Of Objective
+PUC No. 5     | Event: Stage Of Objective
 --------------|--------------------------------
 Trigger       | Start of objective.
 Preconditions | Player is working on objective.
 Procedure     | Get which stage of the objective the player is on.
 Outcome       | Store objective and stage of objective. 
 
-PUC           | No. 6  Event: Success Rate
+PUC No. 6     | Event: Success Rate
 --------------|--------------------------------
 Trigger       | On predetermined timer tick.
 Preconditions | Game is running. Player is working on objective.
 Procedure     | Get end time and start time of each success. Store time taken (end time - start time).
 Outcome       | Store change rate of success as time taken over game time.
 
-PUC           | No. 7  Event: Change Controls
+PUC No. 7     | Event: Change Controls
 --------------|--------------------------------
 Trigger       | On objective requirement.
 Preconditions | Player is working on objective.
 Procedure     | Change current key mapping to new key mapping
 Outcome       | Player input will perform a different action than before. For example, changing up to down and vice-versa.
 
-PUC           | No. 8  Event: Output Data
+PUC No. 8     | Event: Output Data
 --------------|--------------------------------
 Trigger       | On game exit.
 Preconditions | Player exit's game or game over.
 Procedure     | Collected stored data into a variable for output.
 Outcome       | Output data to long term storage.
 
-PUC           | No. 9  Event: Start Objective
+PUC No. 9     | Event: Start Objective
 --------------|--------------------------------
 Trigger       | On new objective.
 Preconditions | Player has control.
 Procedure     | 1. Start timers. 2. Record Inputs. 3. Record Input Sequence 4. Record Success Rate 5. Monitor Stage of Objective 
 Outcome       | Store data from timers and inputs for specific objective by stage of objective.
 
-PUC           | No. 10 Event: End Objective
+PUC No. 10    | Event: End Objective
 --------------|--------------------------------
 Trigger       | On new objective.
 Preconditions | Game over or player successfully completed last objective.
 Procedure     | 1. Stop timers. 2. Update Success Rate
 Outcome       | Store data from timers and inputs from start of objective to end of objective. Record success rate.
 
-PUC           | No. 11 Event: Move Player
+PUC No. 11    | Event: Move Player
 --------------|--------------------------------
 Trigger       | Player engages movement inputs.
 Preconditions | Game is started and player has control.
 Procedure     | 1. Get player input type. 2. Get input state. 3. Update player coordinates.
 Outcome       | Player moves to new coordinates.
 
-PUC           | No. 12 Event: Start Game
+PUC No. 12    | Event: Start Game
 --------------|--------------------------------
 Trigger       | Player selects start.
 Preconditions | Game is at start game screen.
 Procedure     | Change scene.
 Outcome       | Player leaves start game screen and game begins.
 
-PUC           | No. 13 Event: End Game
+PUC No. 13    | Event: End Game
 --------------|--------------------------------
 Trigger       | Player quits game or game over.
 Preconditions | Game is running.
 Procedure     | Exit game or on game over return to start game screen.
 Outcome       | Player exits the application. 
 
-PUC           | No. 14 Event: Move Camera
+PUC No. 14    | Event: Move Camera
 --------------|--------------------------------
 Trigger       | Player moves camera or camera follows player.
 Preconditions | Game is running.
 Procedure     | Get player input. Set new camera coordinates.
 Outcome       | Camera is moved.
 
-PUC           | No. 15 Event: Move Object
+PUC No. 15    | Event: Move Object
 --------------|--------------------------------
 Trigger       | Game requires object to move or player interacts with object.
 Preconditions | Game is running.
 Procedure     | Set new object coordinates.
 Outcome       | Object is moved.
 
-PUC           | No. 16 Event: Change Scene
+PUC No. 16    | Event: Change Scene
 --------------|--------------------------------
 Trigger       | Game requires scene change.
 Preconditions | Game is running.
 Procedure     | Change current scene to new scene.
 Outcome       | Scene is changed.
 
-PUC           | No. 17 Event: Pause Game
+PUC No. 17    | Event: Pause Game
 --------------|--------------------------------
 Trigger       | Player hits pause input.
 Preconditions | Game is running. Player has control.
 Procedure     | Don't update game state. Toggle pause state.
 Outcome       | Game is paused.
 
-PUC           | No. 18 Event: Show Score
+PUC No. 18    | Event: Show Score
 --------------|--------------------------------
 Trigger       | On player update.
 Preconditions | Game is running. Player has control.
 Procedure     | Overlay score on to screen using a user interface. 
 Outcome       | Play can see their score while playing game.
 
-PUC           | No. 19 Event: Read Data
+PUC No. 19    | Event: Read Data
 --------------|--------------------------------
 Trigger       | Send read query to database.
 Preconditions | Connected to database.
 Procedure     | Create read query based on framework model.
 Outcome       | Display the results from reading the database.
 
-PUC           | No. 20 Event: Write Data
+PUC No. 20    | Event: Write Data
 --------------|--------------------------------
 Trigger       | Send write query to database.
 Preconditions | Connected to database.
 Procedure     | Create write query from framework data.
 Outcome       | Write framework data to database for long term storage.
 
-PUC           | No. 21 Event: Delete Data
+PUC No. 21    | Event: Delete Data
 --------------|--------------------------------
 Trigger       | Send delete query to database.
 Preconditions | Connected to database.
