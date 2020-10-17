@@ -322,7 +322,7 @@ Procedure     | Create delete query from based on framework model.
 Outcome       | Delete data from database.
 
 ### 3.1 External Interfaces
-> This subsection defines all the inputs into and outputs requirements of the software system. Each interface defined may include the following content:
+<!-- > This subsection defines all the inputs into and outputs requirements of the software system. Each interface defined may include the following content:
 * Name of item
 * Source of input or destination of output
 * Valid range, accuracy, and/or tolerance
@@ -333,18 +333,42 @@ Outcome       | Delete data from database.
 * Window formats/organization
 * Data formats
 * Command formats
-* End messages
+* End messages -->
+
+
 
 #### 3.1.1 User interfaces
-Define the software components for which a user interface is needed. Describe the logical characteristics of each interface between the software product and the users. This may include sample screen images, any GUI standards or product family style guides that are to be followed, screen layout constraints, standard buttons and functions (e.g., help) that will appear on every screen, keyboard shortcuts, error message display standards, and so on. Details of the user interface design should be documented in a separate user interface specification.
+<!-- Define the software components for which a user interface is needed. Describe the logical characteristics of each interface between the software product and the users. This may include sample screen images, any GUI standards or product family style guides that are to be followed, screen layout constraints, standard buttons and functions (e.g., help) that will appear on every screen, keyboard shortcuts, error message display standards, and so on. Details of the user interface design should be documented in a separate user interface specification.
 
-Could be further divided into Usability and Convenience requirements.
+Could be further divided into Usability and Convenience requirements. -->
+
+<!-- TODO(dhospital): Add some example images of menu UI and error message UI -->
+
+A user launching any of the minigames in this project should be greeted with a _user ID menu_, followed by a _main menu_ screen. The _user ID menu_ screen will simply contain a text field below a phrase asking the user to enter their _user ID_, with a _Continue_ button below that. This ID is unique to the user and should be given to them prior to them playing the game (More details about this _user ID_ are given in section <sectionNumber> <!-- TODO (dhospital): get the section number this information is in-->). An example of this screen is displayed below:
+![](assets/example_user_id_001.png)
+When a user presses the _Continue_ button, the minigame will establish a connection to the backend, which will confirm that the entered _user ID_ is valid (if not, an error will be displayed). If the _user ID_ is valid, the user will be taken to the _main menu_ screen.
+
+From the _main menu_ screen, users should be able to start the game, and exit the game. The design of this screen should be very simple, with little to no game options, as the minigames are specifically designed to test specific cognitive and motor abilities, so the user should not have an options section on the _main menu_. If there are options for the user, they should be minimal, as to not affect the cognitive and motor abilities being measured. The following on-screen buttons should be included with each minigame, which the user can press using their cursor to navigate through the minigame interface:
+
+Menu Button | Function
+---|---
+Start Game | Starts the minigame for the user. The user should now be able to play the minigame using their controller
+Exit Game | Minigame should exit 
+
+Each minigame will have a unique gameplay user interface and experience, which will be specified in the future when individual minigames are being designed. However, all minigames should share a common _main menu_ interface in terms of design and style. This means all _main menus_ should have similar layouts for any buttons and text displayed in the _main menu_; fonts, text sizes, button and title positions, menu sounds, etc., should be consistent across minigames. An example of a _main menu_ design is displayed below:
+![](assets/example_minigame_main_menu_001.png)
+
+Each minigame will display error messages to the user when various problems occur within the minigame itself, or an error occurs in the backend, which might propagate to the user's display. An example of an error message is displayed below:
+
+![Example Error Message](assets/example_error_001.png)
+
+These error messages should be displayed to the user with a standard style, ie. all error messages should look the same, and should be displayed in the same position in the window, with the same styles and button layouts. Error messages should rarely interrupt gameplay, and if they do, the current game should be paused or stopped, and the data measured from that gameplay experience should be discarded, as an error interrupting gameplay would produce unreliable data.
 
 #### 3.1.2 Hardware interfaces
-Describe the logical and physical characteristics of each interface between the software product and the hardware components of the system. This may include the supported device types, the nature of the data and control interactions between the software and the hardware, and communication protocols to be used.
+<!-- Describe the logical and physical characteristics of each interface between the software product and the hardware components of the system. This may include the supported device types, the nature of the data and control interactions between the software and the hardware, and communication protocols to be used. -->
 
 #### 3.1.3 Software interfaces
-Describe the connections between this product and other specific software components (name and version), including databases, operating systems, tools, libraries, and integrated commercial components. Identify the data items or messages coming into the system and going out and describe the purpose of each. Describe the services needed and the nature of communications. Refer to documents that describe detailed application programming interface protocols. Identify data that will be shared across software components. If the data sharing mechanism must be implemented in a specific way (for example, use of a global data area in a multitasking operating system), specify this as an implementation constraint.
+<!-- Describe the connections between this product and other specific software components (name and version), including databases, operating systems, tools, libraries, and integrated commercial components. Identify the data items or messages coming into the system and going out and describe the purpose of each. Describe the services needed and the nature of communications. Refer to documents that describe detailed application programming interface protocols. Identify data that will be shared across software components. If the data sharing mechanism must be implemented in a specific way (for example, use of a global data area in a multitasking operating system), specify this as an implementation constraint. -->
 
 ### 3.2 Functional
 <!-- This section specifies the requirements of functional effects that the software-to-be is to have on its environment.
