@@ -147,51 +147,193 @@ __Product Use Case (PUC) Table (Measurement Framework)__
 
 PUC | PUC Name           | Actor(s)         | Input / Output
 ----|--------------------|------------------|---------------
-1   | Record Input       | Player           | Key Input(IN)
-2   | Objective Complete | Player, System   | Key Input(IN), Success Boolean(OUT)
-3   | Start Timer        | System           | Time(OUT)
-4   | End Timer          | System           | Time(OUT)
-5   | Input Sequence     | Player, System   | Key Input(IN), Success Boolean(OUT)
-6   | Stage of Objective | Player, System   | Key Input(IN), Stage Int(OUT)
-7   | Success Rate       | System           | Rate Float(OUT)
-8   | Failure Rate       | System           | Rate Float(OUT)
-9   | Change Controls    | System           | 
-10  | Output Data        | System           | String(OUT)
-11  | Request Input      | Player, System   | Key Input(IN), Success Boolean(OUT)
-12  | Start Objective    | Player, System   | Key Input(IN)
-13  | End Objective      | Player, System   | Key Input(IN)
+1   | Record Input       | Player, System   | Key Input(IN)
+2   | Start Timer        | System           | Time(OUT)
+3   | End Timer          | System           | Time(OUT)
+4   | Input Sequence     | Player, System   | Key Input(IN), Success Boolean(OUT)
+5   | Stage of Objective | Player, System   | Key Input(IN), Stage Int(OUT)
+6   | Success Rate       | System           | Rate Float(OUT)
+7   | Change Controls    | System           | 
+8   | Output Data        | System           | String(OUT)
+9   | Start Objective    | Player, System   | Key Input(IN)
+10  | End Objective      | Player, System   | Key Input(IN), Success Boolean(OUT)
 
 __Product Use Case (PUC) Table (Generic Game)__
 
 PUC | PUC Name           | Actor(s)         | Input / Output
 ----|--------------------|------------------|---------------
-14  | Move Player        | Player           | Key Input(IN), Pos Vector3(OUT)
-15  | Start Game         | Player           | Key Input(IN)
-16  | End Game           | Player           | Key Input(IN)
-17  | Move Camera        | Player,System    | Key Input(IN), Pos Vector3(OUT)
-18  | Move Object        | System           | Key Input(IN), Pos Vector3(OUT)
-19  | Change Scene       | System           | Key Input(IN)
-20  | Pause Game         | Player           | Key Input(IN)
-21  | Change Setting     | Player           | Key Input(IN)
-22  | Show Score         | Player,System    | Key Input(IN), Score Float(OUT)
+11  | Move Player        | Player           | Key Input(IN), Pos Vector3(OUT)
+12  | Start Game         | Player           | Key Input(IN)
+13  | End Game           | Player           | Key Input(IN)
+14  | Move Camera        | Player,System    | Key Input(IN), Pos Vector3(OUT)
+15  | Move Object        | System           | Key Input(IN), Pos Vector3(OUT)
+16  | Change Scene       | System           | Key Input(IN)
+17  | Pause Game         | Player           | Key Input(IN)
+18  | Show Score         | Player,System    | Key Input(IN), Score Float(OUT)
 
 __Product Use Case (PUC) Table (Database)__
 
 PUC | PUC Name           | Actor(s)         | Input / Output
 ----|--------------------|------------------|---------------
-23  | Read               | System           | Query String(IN), Results String(OUT)
-24  | Write              | System           | Query String(IN)
-25  | Append             | System           | Query String(IN)
-26  | Modify             | System           | Query String(IN) 
-27  | Delete             | System           | Query String(IN)
+19  | Read Data          | System           | Query String(IN), Results String(OUT)
+20  | Write Data         | System           | Query String(IN)
+21  | Delete Data        | System           | Query String(IN)
 
-> The specific requirements should:
-* Be uniquely identifiable.
-* State the subject of the requirement (e.g., system, software, etc.) and what shall be done.
-* Optionally state the conditions and constraints, if any.
-* Describe every input (stimulus) into the software system, every output (response) from the software system, and all functions performed by the software system in response to an input or in support of an output.
-* Be verifiable (e.g., the requirement realization can be proven to the customer's satisfaction)
-* Conform to agreed upon syntax, keywords, and terms.
+__Individual Product Use Cases__
+
+PUC           | No. 1   Event: Record Input
+--------------|--------------------------------
+Trigger       | The player provides input to the game.
+Preconditions | The game is started. The player is in control.
+Procedure     | 1. Record which input was used. 2. Record input state: up, down or held.
+Outcome       | Store each new input type and state.
+
+PUC           | No. 2  Event: Start Timer
+--------------|--------------------------------
+Trigger       | Start of game and start of objective.
+Preconditions | The player has started game.
+Procedure     | Set start time to current time.
+Outcome       | Store start time. 
+
+PUC           | No. 3  Event: End Timer
+--------------|--------------------------------
+Trigger       | End of game and objective completion.
+Preconditions | The player has completed objective or exited game.
+Procedure     | Set end time to current time.
+Outcome       | Store end time. 
+
+PUC           | No. 4  Event: Input Sequence
+--------------|--------------------------------
+Trigger       | Start of objective.
+Preconditions | Game is started. Player can send inputs.
+Procedure     | Record sequence of player inputs.
+Outcome       | Player completed sequence or not.
+
+PUC           | No. 5  Event: Stage Of Objective
+--------------|--------------------------------
+Trigger       | Start of objective.
+Preconditions | Player is working on objective.
+Procedure     | Get which stage of the objective the player is on.
+Outcome       | Store objective and stage of objective. 
+
+PUC           | No. 6  Event: Success Rate
+--------------|--------------------------------
+Trigger       | On predetermined timer tick.
+Preconditions | Game is running. Player is working on objective.
+Procedure     | Get end time and start time of each success. Store time taken (end time - start time).
+Outcome       | Store change rate of success as time taken over game time.
+
+PUC           | No. 7  Event: Change Controls
+--------------|--------------------------------
+Trigger       | On objective requirement.
+Preconditions | Player is working on objective.
+Procedure     | Change current key mapping to new key mapping
+Outcome       | Player input will perform a different action than before. For example, changing up to down and vice-versa.
+
+PUC           | No. 8  Event: Output Data
+--------------|--------------------------------
+Trigger       | On game exit.
+Preconditions | Player exit's game or game over.
+Procedure     | Collected stored data into a variable for output.
+Outcome       | Output data to long term storage.
+
+PUC           | No. 9  Event: Start Objective
+--------------|--------------------------------
+Trigger       | On new objective.
+Preconditions | Player has control.
+Procedure     | 1. Start timers. 2. Record Inputs. 3. Record Input Sequence 4. Record Success Rate 5. Monitor Stage of Objective 
+Outcome       | Store data from timers and inputs for specific objective by stage of objective.
+
+PUC           | No. 10 Event: End Objective
+--------------|--------------------------------
+Trigger       | On new objective.
+Preconditions | Game over or player successfully completed last objective.
+Procedure     | 1. Stop timers. 2. Update Success Rate
+Outcome       | Store data from timers and inputs from start of objective to end of objective. Record success rate.
+
+PUC           | No. 11 Event: Move Player
+--------------|--------------------------------
+Trigger       | Player engages movement inputs.
+Preconditions | Game is started and player has control.
+Procedure     | 1. Get player input type. 2. Get input state. 3. Update player coordinates.
+Outcome       | Player moves to new coordinates.
+
+PUC           | No. 12 Event: Move Player
+--------------|--------------------------------
+Trigger       | Player engages movement inputs.
+Preconditions | Game is started and player has control.
+Procedure     | 1. Get player input type. 2. Get input state. 3. Update player coordinates.
+Outcome       | Player moves to new coordinates.
+
+PUC           | No. 13 Event: Start Game
+--------------|--------------------------------
+Trigger       | Player selects start.
+Preconditions | Game is at start game screen.
+Procedure     | Change scene.
+Outcome       | Player leaves start game screen and game begins.
+
+PUC           | No. 14 Event: End Game
+--------------|--------------------------------
+Trigger       | Player quits game or game over.
+Preconditions | Game is running.
+Procedure     | Exit game or on game over return to start game screen.
+Outcome       | Player exits the application. 
+
+PUC           | No. 15 Event: Move Camera
+--------------|--------------------------------
+Trigger       | Player moves camera or camera follows player.
+Preconditions | Game is running.
+Procedure     | Get player input. Set new camera coordinates.
+Outcome       | Camera is moved.
+
+PUC           | No. 16 Event: Move Object
+--------------|--------------------------------
+Trigger       | Game requires object to move or player interacts with object.
+Preconditions | Game is running.
+Procedure     | Set new object coordinates.
+Outcome       | Object is moved.
+
+PUC           | No. 17 Event: Change Scene
+--------------|--------------------------------
+Trigger       | Game requires scene change.
+Preconditions | Game is running.
+Procedure     | Change current scene to new scene.
+Outcome       | Scene is changed.
+
+PUC           | No. 18 Event: Pause Game
+--------------|--------------------------------
+Trigger       | Player hits pause input.
+Preconditions | Game is running. Player has control.
+Procedure     | Don't update game state. Toggle pause state.
+Outcome       | Game is paused.
+
+PUC           | No. 19 Event: Show Score
+--------------|--------------------------------
+Trigger       | On player update.
+Preconditions | Game is running. Player has control.
+Procedure     | Overlay score on to screen using a user interface. 
+Outcome       | Play can see their score while playing game.
+
+PUC           | No. 20 Event: Read Data
+--------------|--------------------------------
+Trigger       | Send read query to database.
+Preconditions | Connected to database.
+Procedure     | Create read query based on framework model.
+Outcome       | Display the results from reading the database.
+
+PUC           | No. 21 Event: Write Data
+--------------|--------------------------------
+Trigger       | Send write query to database.
+Preconditions | Connected to database.
+Procedure     | Create write query from framework data.
+Outcome       | Write framework data to database for long term storage.
+
+PUC           | No. 22 Event: Delete Data
+--------------|--------------------------------
+Trigger       | Send delete query to database.
+Preconditions | Connected to database.
+Procedure     | Create delete query from based on framework model.
+Outcome       | Delete data from database.
 
 ### 3.1 External Interfaces
 > This subsection defines all the inputs into and outputs requirements of the software system. Each interface defined may include the following content:
@@ -219,14 +361,24 @@ Describe the logical and physical characteristics of each interface between the 
 Describe the connections between this product and other specific software components (name and version), including databases, operating systems, tools, libraries, and integrated commercial components. Identify the data items or messages coming into the system and going out and describe the purpose of each. Describe the services needed and the nature of communications. Refer to documents that describe detailed application programming interface protocols. Identify data that will be shared across software components. If the data sharing mechanism must be implemented in a specific way (for example, use of a global data area in a multitasking operating system), specify this as an implementation constraint.
 
 ### 3.2 Functional
-<!-- This section specifies the requirements of functional effects that the software-to-be is to have on its environment. -->
+<!-- This section specifies the requirements of functional effects that the software-to-be is to have on its environment.
+ The specific requirements should:
+* Be uniquely identifiable.
+* State the subject of the requirement (e.g., system, software, etc.) and what shall be done.
+* Optionally state the conditions and constraints, if any.
+* Describe every input (stimulus) into the software system, every output (response) from the software system, and all functions performed by the software system in response to an input or in support of an output.
+* Be verifiable (e.g., the requirement realization can be proven to the customer's satisfaction)
+* Conform to agreed upon syntax, keywords, and terms.
+-->
+
+TODO: MIKE (this is just an example)
 
 ID F-1         | Type: Functional 
 ---------------|----
-PUC: N/A       | Originator: Team
-Description    | Move Player  
+PUC: 1         | Originator: Team
+Description    | Record Input  
 Rationale      | Player needs to interact with world.
-Fit Criterion  | 
+Constraints    | 
 Priority       | Very High
 
 
@@ -255,7 +407,7 @@ Specify the factors required to guarantee a defined availability level for the e
 For example, this could specify the requirement for software to trace processing activity. Such traces are needed for some applications to meet minimum regulatory or financial standards. An audit trace requirement may, for example, state that all changes to a payroll database shall be recorded in a trace file with before and after values.
 -->
 
-ID: C-1      | Type: Non-functional Requirements (Complicance)
+ID: C-1      | Type: Non-functional Requirements (Compliance)
 ---------------|----
 PUC: N/A       | Originator: Team
 Description    | Project will adhere to Unity terms and conditions.
@@ -263,7 +415,7 @@ Rationale      | Required for legal use of software.
 Fit Criterion  | All terms and conditions will be followed.
 Priority       | Very High
 
-ID: C-2      | Type: Non-functional Requirements (Complicance)
+ID: C-2      | Type: Non-functional Requirements (Compliance)
 ---------------|----
 PUC: N/A       | Originator: Team
 Description    | Project will adhere to McMaster's Academic Integrity policy.
@@ -271,7 +423,7 @@ Rationale      | Required to be a student of McMaster University.
 Fit Criterion  | All terms and conditions will be followed.
 Priority       | Very High
 
-ID: C-3      | Type: Non-functional Requirements (Complicance)
+ID: C-3      | Type: Non-functional Requirements (Compliance)
 ---------------|----
 PUC: N/A       | Originator: Team
 Description    | Project will licensed under Creative Commons Attribution 3.0 License.
