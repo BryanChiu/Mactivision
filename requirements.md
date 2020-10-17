@@ -156,7 +156,7 @@ PUC | PUC Name           | Actor(s)         | Input / Output
 3   | End Timer          | System           | Time(OUT)
 4   | Input Sequence     | Player, System   | Key Input(IN), Success Boolean(OUT)
 5   | Stage of Objective | Player, System   | Key Input(IN), Stage Int(OUT)
-6   | Change Controls    | System           | 
+6   | Change Controls    | System           | Changed Boolean(OUT)
 7   | Output Data        | System           | String(OUT)
 8   | Start Objective    | Player, System   | Key Input(IN)
 9   | End Objective      | Player, System   | Key Input(IN), Success Boolean(OUT)
@@ -584,7 +584,7 @@ Priority       | High
 
 ID A-1         | Type: Non-Functional (Availability)
 ---------------|----------------------------------------------------------------
-PUC: N\A       | Originator: Team
+PUC: 18,19,20  | Originator: Team
 Description    | Make sure database connection is established during game.
 Rationale      | Database needs to be available in order to write measurement data.
 Constraints    | Number of database connections if multiple games are being tested.
