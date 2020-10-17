@@ -258,77 +258,70 @@ Preconditions | Game is started and player has control.
 Procedure     | 1. Get player input type. 2. Get input state. 3. Update player coordinates.
 Outcome       | Player moves to new coordinates.
 
-PUC           | No. 12 Event: Move Player
---------------|--------------------------------
-Trigger       | Player engages movement inputs.
-Preconditions | Game is started and player has control.
-Procedure     | 1. Get player input type. 2. Get input state. 3. Update player coordinates.
-Outcome       | Player moves to new coordinates.
-
-PUC           | No. 13 Event: Start Game
+PUC           | No. 12 Event: Start Game
 --------------|--------------------------------
 Trigger       | Player selects start.
 Preconditions | Game is at start game screen.
 Procedure     | Change scene.
 Outcome       | Player leaves start game screen and game begins.
 
-PUC           | No. 14 Event: End Game
+PUC           | No. 13 Event: End Game
 --------------|--------------------------------
 Trigger       | Player quits game or game over.
 Preconditions | Game is running.
 Procedure     | Exit game or on game over return to start game screen.
 Outcome       | Player exits the application. 
 
-PUC           | No. 15 Event: Move Camera
+PUC           | No. 14 Event: Move Camera
 --------------|--------------------------------
 Trigger       | Player moves camera or camera follows player.
 Preconditions | Game is running.
 Procedure     | Get player input. Set new camera coordinates.
 Outcome       | Camera is moved.
 
-PUC           | No. 16 Event: Move Object
+PUC           | No. 15 Event: Move Object
 --------------|--------------------------------
 Trigger       | Game requires object to move or player interacts with object.
 Preconditions | Game is running.
 Procedure     | Set new object coordinates.
 Outcome       | Object is moved.
 
-PUC           | No. 17 Event: Change Scene
+PUC           | No. 16 Event: Change Scene
 --------------|--------------------------------
 Trigger       | Game requires scene change.
 Preconditions | Game is running.
 Procedure     | Change current scene to new scene.
 Outcome       | Scene is changed.
 
-PUC           | No. 18 Event: Pause Game
+PUC           | No. 17 Event: Pause Game
 --------------|--------------------------------
 Trigger       | Player hits pause input.
 Preconditions | Game is running. Player has control.
 Procedure     | Don't update game state. Toggle pause state.
 Outcome       | Game is paused.
 
-PUC           | No. 19 Event: Show Score
+PUC           | No. 18 Event: Show Score
 --------------|--------------------------------
 Trigger       | On player update.
 Preconditions | Game is running. Player has control.
 Procedure     | Overlay score on to screen using a user interface. 
 Outcome       | Play can see their score while playing game.
 
-PUC           | No. 20 Event: Read Data
+PUC           | No. 19 Event: Read Data
 --------------|--------------------------------
 Trigger       | Send read query to database.
 Preconditions | Connected to database.
 Procedure     | Create read query based on framework model.
 Outcome       | Display the results from reading the database.
 
-PUC           | No. 21 Event: Write Data
+PUC           | No. 20 Event: Write Data
 --------------|--------------------------------
 Trigger       | Send write query to database.
 Preconditions | Connected to database.
 Procedure     | Create write query from framework data.
 Outcome       | Write framework data to database for long term storage.
 
-PUC           | No. 22 Event: Delete Data
+PUC           | No. 21 Event: Delete Data
 --------------|--------------------------------
 Trigger       | Send delete query to database.
 Preconditions | Connected to database.
@@ -374,7 +367,7 @@ Describe the connections between this product and other specific software compon
 TODO: MIKE (this is just an example)
 
 ID F-1         | Type: Functional 
----------------|----
+---------------|----------------------------------------------------------------
 PUC: 1         | Originator: Team
 Description    | Record Input  
 Rationale      | Player needs to interact with world.
@@ -407,24 +400,24 @@ Specify the factors required to guarantee a defined availability level for the e
 For example, this could specify the requirement for software to trace processing activity. Such traces are needed for some applications to meet minimum regulatory or financial standards. An audit trace requirement may, for example, state that all changes to a payroll database shall be recorded in a trace file with before and after values.
 -->
 
-ID: C-1      | Type: Non-functional Requirements (Compliance)
----------------|----
+ID: C-1        | Type: Non-functional Requirements (Compliance)
+---------------|----------------------------------------------------------------
 PUC: N/A       | Originator: Team
 Description    | Project will adhere to Unity terms and conditions.
 Rationale      | Required for legal use of software.
 Fit Criterion  | All terms and conditions will be followed.
 Priority       | Very High
 
-ID: C-2      | Type: Non-functional Requirements (Compliance)
----------------|----
+ID: C-2        | Type: Non-functional Requirements (Compliance)
+---------------|----------------------------------------------------------------
 PUC: N/A       | Originator: Team
 Description    | Project will adhere to McMaster's Academic Integrity policy.
 Rationale      | Required to be a student of McMaster University.
 Fit Criterion  | All terms and conditions will be followed.
 Priority       | Very High
 
-ID: C-3      | Type: Non-functional Requirements (Compliance)
----------------|----
+ID: C-3        | Type: Non-functional Requirements (Compliance)
+---------------|----------------------------------------------------------------
 PUC: N/A       | Originator: Team
 Description    | Project will licensed under Creative Commons Attribution 3.0 License.
 Rationale      | Required for legal use of software and assets.
