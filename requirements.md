@@ -68,6 +68,9 @@ Identify the product whose software requirements are specified in this document,
 ### 1.4 References
 List any other documents or Web addresses to which this SRS refers. These may include user interface style guides, contracts, standards, system requirements specifications, use case documents, or a vision and scope document. Provide enough information so that the reader could access a copy of each reference, including title, author, version number, date, and source or location.
 
+https://docs.unity3d.com/ScriptReference/Input.html <!-- TODO(dhospital): link to section 3.1.2 -->
+https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API <!-- TODO(dhospital): link to section 3.1.3 -->
+
 ### 1.5 Document Overview
 Describe what the rest of the document contains and how it is organized.
 
@@ -373,6 +376,10 @@ The minigames will will be controlled by the user's controller (keyboard, keyboa
 
 #### 3.1.3 Software interfaces
 <!-- Describe the connections between this product and other specific software components (name and version), including databases, operating systems, tools, libraries, and integrated commercial components. Identify the data items or messages coming into the system and going out and describe the purpose of each. Describe the services needed and the nature of communications. Refer to documents that describe detailed application programming interface protocols. Identify data that will be shared across software components. If the data sharing mechanism must be implemented in a specific way (for example, use of a global data area in a multitasking operating system), specify this as an implementation constraint. -->
+
+The minigames will communicate with the Measurement Framework via websockets using the _Mozilla Websocket API_ <!-- TODO(dhospital): add reference -->. When a user enters their user ID in the minigame, the minigame will establish a websocket connection with the Measurement Framework, which will be running on a dedicated server machine. The minigame and Measurement Framework will communicate via this websocket connection, which allows the minigame to send all gameplay data to the Measurement Framework, which in turn will process the data and save it to its database. The websocket connection will be closed once the user has finished playing the minigame (ie. returning to the _main menu_)and all relevant data has been recorded and transmitted.
+
+The Management Framework is responsible for reading, writing, and deleting data points from the database. The database we will use for this project will be a SQL relational database. Whenever the Measurement Framework is started up, The database will be created if it does not already exist. The Measurement Framework will read and write to the database while it is processing data received over the websocket from a minigame.
 
 ### 3.2 Functional
 <!-- This section specifies the requirements of functional effects that the software-to-be is to have on its environment.
