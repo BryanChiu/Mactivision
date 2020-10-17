@@ -1,4 +1,4 @@
-# Software Requirements Specification
+ Get Knocked Down# Software Requirements Specification
 ## For Mini-game Battery Project
 
 Version 0.1  
@@ -518,19 +518,66 @@ Constraints    | Make sure data is safe to delete.
 Priority       | Low
 
 ### 3.3 Quality of Service
-> This section states additional, quality-related property requirements that the functional effects of the software should present.
+<!-- > This section states additional, quality-related property requirements that the functional effects of the software should present. -->
+
+ID Q-1         | Type: Non-Functional (Quality)
+---------------|----------------------------------------------------------------
+PUC: N\A       | Originator: Team
+Description    | Games are made with a playful and aesthetically pleasing interface.
+Rationale      | Makes the player treat the game more as a game than a test which increases the accuracy of measurements.
+Constraints    | Difficulty to find high quality free assets
+Priority       | High
 
 #### 3.3.1 Performance
-If there are performance requirements for the product under various circumstances, state them here and explain their rationale, to help the developers understand the intent and make suitable design choices. Specify the timing relationships for real time systems. Make such requirements as specific as possible. You may need to state performance requirements for individual functional requirements or features.
+<!-- If there are performance requirements for the product under various circumstances, state them here and explain their rationale, to help the developers understand the intent and make suitable design choices. Specify the timing relationships for real time systems. Make such requirements as specific as possible. You may need to state performance requirements for individual functional requirements or features. -->
+
+ID P-1         | Type: Non-Functional (Performance)
+---------------|----------------------------------------------------------------
+PUC: N\A       | Originator: Team
+Description    | Minimum FPS of 60 at 1080p
+Rationale      | Unstable frame rates or frame rates below 60 negatively effect player performance. Measurements will be inaccurate.
+Constraints    | Amount of graphical effects on screen.
+Priority       | High
+
+ID P-2         | Type: Non-Functional (Performance)
+---------------|----------------------------------------------------------------
+PUC: N\A       | Originator: Team
+Description    | Player input is low latency.
+Rationale      | Latency negatively effect player performance. Measurements will be inaccurate.
+Constraints    | Cannot improve latency if player's hardware / software is at fault.
+Priority       | Low
 
 #### 3.3.2 Security
-Specify any requirements regarding security or privacy issues surrounding use of the product or protection of the data used or created by the product. Define any user identity authentication requirements. Refer to any external policies or regulations containing security issues that affect the product. Define any security or privacy certifications that must be satisfied.
+<!-- Specify any requirements regarding security or privacy issues surrounding use of the product or protection of the data used or created by the product. Define any user identity authentication requirements. Refer to any external policies or regulations containing security issues that affect the product. Define any security or privacy certifications that must be satisfied. -->
+
+ID S-1         | Type: Non-Functional (Security)
+---------------|----------------------------------------------------------------
+PUC: N\A       | Originator: Team
+Description    | Measurement data will tied to specific game or series of games and not to a specific person.
+Rationale      | Lowers complexity project. An invigilator of the game testing can record personal information that would help measure player ability.
+Constraints    | If games are played online through Unity, Unity will have it's own privacy policy. 
+Priority       | Low
 
 #### 3.3.3 Reliability
-Specify the factors required to establish the required reliability of the software system at time of delivery.
+
+ID R-1         | Type: Non-Functional (Reliability)
+---------------|----------------------------------------------------------------
+PUC: N\A       | Originator: Team
+Description    | Player measurements must be reliable
+Rationale      | If measurements aren't reliable the player analyze will be inaccurate. 
+Constraints    | Maintaining reliability over multiple games.
+Priority       | High
 
 #### 3.3.4 Availability
-Specify the factors required to guarantee a defined availability level for the entire system such as checkpoint, recovery, and restart.
+<!-- Specify the factors required to guarantee a defined availability level for the entire system such as checkpoint, recovery, and restart. -->
+
+ID A-1         | Type: Non-Functional (Availability)
+---------------|----------------------------------------------------------------
+PUC: N\A       | Originator: Team
+Description    | Make sure database connection is established during game.
+Rationale      | Database needs to be available in order to write measurement data.
+Constraints    | Number of database connections if multiple games are being tested.
+Priority       | High
 
 ### 3.4 Compliance
 <!-- Specify the requirements derived from existing standards or regulations, including:  
@@ -625,8 +672,3 @@ Apr 8  | Capstone Day Showcase
 
 ## 5. Appendixes
 
-https://unity.com/features/multiplatform
-https://store.unity.com/compare-plans
-https://assetstore.unity.com/top-assets/top-free
-https://unity.com/products/unity-distribution-portal
-https://jrsoftware.org/isinfo.php
