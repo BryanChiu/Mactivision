@@ -152,32 +152,31 @@ PUC | PUC Name           | Actor(s)         | Input / Output
 3   | End Timer          | System           | Time(OUT)
 4   | Input Sequence     | Player, System   | Key Input(IN), Success Boolean(OUT)
 5   | Stage of Objective | Player, System   | Key Input(IN), Stage Int(OUT)
-6   | Success Rate       | System           | Rate Float(OUT)
-7   | Change Controls    | System           | 
-8   | Output Data        | System           | String(OUT)
-9   | Start Objective    | Player, System   | Key Input(IN)
-10  | End Objective      | Player, System   | Key Input(IN), Success Boolean(OUT)
+6   | Change Controls    | System           | 
+7   | Output Data        | System           | String(OUT)
+8   | Start Objective    | Player, System   | Key Input(IN)
+9   | End Objective      | Player, System   | Key Input(IN), Success Boolean(OUT)
 
 __Product Use Case (PUC) Table (Generic Game)__
 
 PUC | PUC Name           | Actor(s)         | Input / Output
 ----|--------------------|------------------|---------------
-11  | Move Player        | Player           | Key Input(IN), Pos Vector3(OUT)
-12  | Start Game         | Player           | Key Input(IN)
-13  | End Game           | Player           | Key Input(IN)
-14  | Move Camera        | Player,System    | Key Input(IN), Pos Vector3(OUT)
-15  | Move Object        | System           | Key Input(IN), Pos Vector3(OUT)
-16  | Change Scene       | System           | Key Input(IN)
-17  | Pause Game         | Player           | Key Input(IN)
-18  | Show Score         | Player,System    | Key Input(IN), Score Float(OUT)
+10  | Move Player        | Player           | Key Input(IN), Pos Vector3(OUT)
+11  | Start Game         | Player           | Key Input(IN)
+12  | End Game           | Player           | Key Input(IN)
+13  | Move Camera        | Player,System    | Key Input(IN), Pos Vector3(OUT)
+14  | Move Object        | System           | Key Input(IN), Pos Vector3(OUT)
+15  | Change Scene       | System           | Key Input(IN)
+16  | Pause Game         | Player           | Key Input(IN)
+17  | Show Score         | Player,System    | Key Input(IN), Score Float(OUT)
 
 __Product Use Case (PUC) Table (Database)__
 
 PUC | PUC Name           | Actor(s)         | Input / Output
 ----|--------------------|------------------|---------------
-19  | Read Data          | System           | Query String(IN), Results String(OUT)
-20  | Write Data         | System           | Query String(IN)
-21  | Delete Data        | System           | Query String(IN)
+18  | Read Data          | System           | Query String(IN), Results String(OUT)
+19  | Write Data         | System           | Query String(IN)
+20  | Delete Data        | System           | Query String(IN)
 
 __Individual Product Use Cases__
 
@@ -216,112 +215,105 @@ Preconditions | Player is working on objective.
 Procedure     | Get which stage of the objective the player is on.
 Outcome       | Store objective and stage of objective. 
 
-PUC No. 6     | Event: Success Rate
---------------|--------------------------------
-Trigger       | On predetermined timer tick.
-Preconditions | Game is running. Player is working on objective.
-Procedure     | Get end time and start time of each success. Store time taken (end time - start time).
-Outcome       | Store change rate of success as time taken over game time.
-
-PUC No. 7     | Event: Change Controls
+PUC No. 6     | Event: Change Controls
 --------------|--------------------------------
 Trigger       | On objective requirement.
 Preconditions | Player is working on objective.
 Procedure     | Change current key mapping to new key mapping
 Outcome       | Player input will perform a different action than before. For example, changing up to down and vice-versa.
 
-PUC No. 8     | Event: Output Data
+PUC No. 7     | Event: Output Data
 --------------|--------------------------------
 Trigger       | On game exit.
 Preconditions | Player exit's game or game over.
 Procedure     | Collected stored data into a variable for output.
 Outcome       | Output data to long term storage.
 
-PUC No. 9     | Event: Start Objective
+PUC No. 8     | Event: Start Objective
 --------------|--------------------------------
 Trigger       | On new objective.
 Preconditions | Player has control.
 Procedure     | 1. Start timers. 2. Record Inputs. 3. Record Input Sequence 4. Record Success Rate 5. Monitor Stage of Objective 
 Outcome       | Store data from timers and inputs for specific objective by stage of objective.
 
-PUC No. 10    | Event: End Objective
+PUC No. 9     | Event: End Objective
 --------------|--------------------------------
 Trigger       | On new objective.
 Preconditions | Game over or player successfully completed last objective.
 Procedure     | 1. Stop timers. 2. Update Success Rate
 Outcome       | Store data from timers and inputs from start of objective to end of objective. Record success rate.
 
-PUC No. 11    | Event: Move Player
+PUC No. 10    | Event: Move Player
 --------------|--------------------------------
 Trigger       | Player engages movement inputs.
 Preconditions | Game is started and player has control.
 Procedure     | 1. Get player input type. 2. Get input state. 3. Update player coordinates.
 Outcome       | Player moves to new coordinates.
 
-PUC No. 12    | Event: Start Game
+PUC No. 11    | Event: Start Game
 --------------|--------------------------------
 Trigger       | Player selects start.
 Preconditions | Game is at start game screen.
 Procedure     | Change scene.
 Outcome       | Player leaves start game screen and game begins.
 
-PUC No. 13    | Event: End Game
+PUC No. 12    | Event: End Game
 --------------|--------------------------------
 Trigger       | Player quits game or game over.
 Preconditions | Game is running.
 Procedure     | Exit game or on game over return to start game screen.
 Outcome       | Player exits the application. 
 
-PUC No. 14    | Event: Move Camera
+PUC No. 13    | Event: Move Camera
 --------------|--------------------------------
 Trigger       | Player moves camera or camera follows player.
 Preconditions | Game is running.
 Procedure     | Get player input. Set new camera coordinates.
 Outcome       | Camera is moved.
 
-PUC No. 15    | Event: Move Object
+PUC No. 14    | Event: Move Object
 --------------|--------------------------------
 Trigger       | Game requires object to move or player interacts with object.
 Preconditions | Game is running.
 Procedure     | Set new object coordinates.
 Outcome       | Object is moved.
 
-PUC No. 16    | Event: Change Scene
+PUC No. 15    | Event: Change Scene
 --------------|--------------------------------
 Trigger       | Game requires scene change.
 Preconditions | Game is running.
 Procedure     | Change current scene to new scene.
 Outcome       | Scene is changed.
 
-PUC No. 17    | Event: Pause Game
+PUC No. 16    | Event: Pause Game
 --------------|--------------------------------
 Trigger       | Player hits pause input.
 Preconditions | Game is running. Player has control.
 Procedure     | Don't update game state. Toggle pause state.
 Outcome       | Game is paused.
 
-PUC No. 18    | Event: Show Score
+PUC No. 17    | Event: Show Score
 --------------|--------------------------------
 Trigger       | On player update.
 Preconditions | Game is running. Player has control.
 Procedure     | Overlay score on to screen using a user interface. 
 Outcome       | Play can see their score while playing game.
 
-PUC No. 19    | Event: Read Data
+PUC No. 18    | Event: Read Data
 --------------|--------------------------------
 Trigger       | Send read query to database.
 Preconditions | Connected to database.
 Procedure     | Create read query based on framework model.
 Outcome       | Display the results from reading the database.
 
-PUC No. 20    | Event: Write Data
+PUC No. 19    | Event: Write Data
 --------------|--------------------------------
 Trigger       | Send write query to database.
 Preconditions | Connected to database.
 Procedure     | Create write query from framework data.
 Outcome       | Write framework data to database for long term storage.
 
-PUC No. 21    | Event: Delete Data
+PUC No. 20    | Event: Delete Data
 --------------|--------------------------------
 Trigger       | Send delete query to database.
 Preconditions | Connected to database.
@@ -369,11 +361,58 @@ TODO: MIKE (this is just an example)
 ID F-1         | Type: Functional 
 ---------------|----------------------------------------------------------------
 PUC: 1         | Originator: Team
-Description    | Record Input  
-Rationale      | Player needs to interact with world.
-Constraints    | 
+Description    | Record input from player.
+Rationale      | In order to measure physical abilities of player, the measurement framework needs to be able to record input and input state.
+Constraints    | The project must support multiple controllers so a controller abstraction will be needed.
 Priority       | Very High
 
+ID F-2         | Type: Functional 
+---------------|----------------------------------------------------------------
+PUC: 2,3       | Originator: Team
+Description    | Objective Timers and Game Timers. 
+Rationale      | Timers are need to measure the cognitive and physical abilities of the player. Measure how fast or slow the player is.
+Constraints    | Framework must coordinate timers with each individual game.
+Priority       | Very High
+
+ID F-3         | Type: Functional 
+---------------|----------------------------------------------------------------
+PUC: 4         | Originator: Team
+Description    | Request the player complete a sequence of inputs. 
+Rationale      | In order to measure the accuracy of the players ability to button mash, alternate inputs and complete input combinations.
+Constraints    | Framework must coordinate input sequence with each individual game.
+Priority       | Very High
+
+ID F-4         | Type: Functional 
+---------------|----------------------------------------------------------------
+PUC: 5         | Originator: Team
+Description    | How close is the player to completing the objective.
+Rationale      | Want to be able to measure how close the player is to completing an objective and record how quickly they complete it and are they improving over time.
+Constraints    | Framework must coordinate with game objectives of each individual game.
+Priority       | Very High
+
+ID F-4         | Type: Functional 
+---------------|----------------------------------------------------------------
+PUC: 6         | Originator: Team
+Description    | Change player controls during game.
+Rationale      | In order to measure the adaptability of the player when controls change or are newly introduced. 
+Constraints    | Framework must coordinate with game control scheme of each individual game.
+Priority       | Medium
+
+ID F-5         | Type: Functional 
+---------------|----------------------------------------------------------------
+PUC: 7         | Originator: Team
+Description    | Output the measurements collected for each game session.
+Rationale      | Required to tune measurement collecting techniques and for overall analyze of player's cognitive and physical abilities.
+Constraints    | Output must be organized enough to be human readable.
+Priority       | Very High
+
+ID F-6         | Type: Functional 
+---------------|----------------------------------------------------------------
+PUC: 9,10      | Originator: Team
+Description    | Record the start and end of objectives. How long did the player take and how successful was the player? 
+Rationale      | Since objectives will vary in type and difficulty this is need to contextualize the measurements collected from the player. 
+Constraints    | Framework must coordinate with game objectives of each individual game.
+Priority       | Very High
 
 ### 3.3 Quality of Service
 > This section states additional, quality-related property requirements that the functional effects of the software should present.
