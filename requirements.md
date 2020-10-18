@@ -15,6 +15,7 @@ Table of Contents
   * 1.3 [Definitions, Acronyms and Abbreviations](#13-definitions-acronyms-and-abbreviations)
   * 1.4 [References](#14-references)
   * 1.5 [Document Overview](#15-document-overview)
+  * 1.6 [Work Scope](#16-work-scope)
 * 2 [Product Overview](#2-product-overview)
   * 2.1 [Product Perspective](#21-product-perspective)
   * 2.2 [Product Functions](#22-product-functions)
@@ -22,6 +23,7 @@ Table of Contents
   * 2.4 [User Characteristics](#24-user-characteristics)
   * 2.5 [Assumptions and Dependencies](#25-assumptions-and-dependencies)
   * 2.6 [Apportioning of Requirements](#26-apportioning-of-requirements)
+  * 2.7 [Stakeholders](#27-stakeholders)
 * 3 [Requirements](#3-requirements)
   * 3.1 [External Interfaces](#31-external-interfaces)
     * 3.1.1 [User Interfaces](#311-user-interfaces)
@@ -93,6 +95,9 @@ https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API <!-- TODO(dhospi
 ### 1.5 Document Overview
 Describe what the rest of the document contains and how it is organized.
 
+### 1.6 Work Scope
+
+
 ## 2. Product Overview
 <!-- > This section should describe the general factors that affect the product and its requirements. This section does not state specific requirements. Instead, it provides a background for those requirements, which are defined in detail in Section 3, and makes them easier to understand. -->
 
@@ -162,6 +167,10 @@ We estimate that the time saved when using premade assets like these will be sub
 <!-- Apportion the software requirements to software elements. For requirements that will require implementation over multiple software elements, or when allocation to a software element is initially undefined, this should be so stated. A cross reference table by function and software element should be used to summarize the apportioning.
 
 Identify requirements that may be delayed until future versions of the system (e.g., blocks and/or increments). -->
+
+### 2.7 Stakeholders
+
+
 
 ## 3. Requirements
 <!-- This section specifies the software product's requirements. Specify all of the software requirements to a level of detail sufficient to enable designers to design a software system to satisfy those requirements, and to enable testers to test that the software system satisfies those requirements. -->
