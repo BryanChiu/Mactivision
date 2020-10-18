@@ -63,6 +63,12 @@ The purpose of the SRS is to specify the functional and non-functional requireme
 ### 1.2 Product Scope
 Identify the product whose software requirements are specified in this document, including the revision or release number. Explain what the product that is covered by this SRS will do, particularly if this SRS describes only part of the system or a single subsystem. Provide a short description of the software being specified and its purpose, including relevant benefits, objectives, and goals. Relate the software to corporate goals or business strategies. If a separate vision and scope document is available, refer to it rather than duplicating its contents here.
 
+The product is a mini-game which is designed To measure a player’s cognitive and motor abilities, The purpose in creating these mini-games is to build profiles of the cognitive and motor abilities of players. These profiles could be used by game designers to make informed decisions surrounding the design of challenges before having to implement them. 
+
+One mini-game will focus on one of the abilities that is determined by Sasha. In order to satisfy it;s purposes, the game will be able to collect and analyse the player data to build profiles of the cognitive and motor abilities of players. These profiles could be used by game designers to make informed decisions surrounding the design of challenges before having to implement them.
+
+(draft)
+
 ### 1.3 Definitions, Acronyms and Abbreviations
 **Unity**
 
