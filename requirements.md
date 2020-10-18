@@ -64,6 +64,17 @@ The purpose of the SRS is to specify the functional and non-functional requireme
 Identify the product whose software requirements are specified in this document, including the revision or release number. Explain what the product that is covered by this SRS will do, particularly if this SRS describes only part of the system or a single subsystem. Provide a short description of the software being specified and its purpose, including relevant benefits, objectives, and goals. Relate the software to corporate goals or business strategies. If a separate vision and scope document is available, refer to it rather than duplicating its contents here.
 
 ### 1.3 Definitions, Acronyms and Abbreviations
+**Unity**
+
+Unity is a cross-platform game engine developed by Unity Technologies
+
+**PC(personal computer)**
+
+A PC is a computer that is used by one person at a time in a business, a school, or at home. It is not usually a portable computer. PC is an abbreviation for 'personal computer'
+
+**Steam**
+
+Steam is a video game digital distribution service by Valve
 
 ### 1.4 References
 List any other documents or Web addresses to which this SRS refers. These may include user interface style guides, contracts, standards, system requirements specifications, use case documents, or a vision and scope document. Provide enough information so that the reader could access a copy of each reference, including title, author, version number, date, and source or location.
