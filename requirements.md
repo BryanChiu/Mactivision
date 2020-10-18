@@ -74,11 +74,24 @@ The objective of this project is to provide help in developing minigames to help
 (draft)
 
 ### 1.3 Definitions, Acronyms and Abbreviations
+
+**Minigame**
+
+In this document, _minigame(s)_ refer to the Unity games that will be designed for users to play, in order to test users and transmit the gameplay data to the backend (Measurement Framework).
+
+**Measurement Framework**
+
+Measurement Framework is the backend that will be created for this project, that the minigames will connect to and send gameplay data.
+
+**Database**
+
+Database in this document refers to the relational database that will be managed by the _Measurement Framework_, and will be used to store all gameplay data collected and processed by the _Measurement Framework_
+
 **Unity**
 
 Unity is a cross-platform game engine developed by Unity Technologies
 
-**PC(personal computer)**
+**PC (personal computer)**
 
 A PC is a computer that is used by one person at a time in a business, a school, or at home. It is not usually a portable computer. PC is an abbreviation for 'personal computer'
 
