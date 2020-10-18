@@ -49,14 +49,12 @@ Table of Contents
 * 5 [Appendixes](#5-appendixes)
 
 ## Revision History
-| Name | Date    | Reason For Changes  | Version   |
-| ---- | ------- | ------------------- | --------- |
-|      |         |                     |           |
-|      |         |                     |           |
-|      |         |                     |           |
+| Name | Date             | Reason For Changes  | Version   |
+| ---- | -------          | ------------------- | --------- |
+| N/A  | October 19, 2020 | First Version       | 1.0.0     |
 
 ## 1. Introduction
-> This section should provide an overview of the entire document
+This section will provide an overview of the entire document.
 
 ### 1.1 Document Purpose
 Describe the purpose of the SRS and its intended audience.
