@@ -65,7 +65,9 @@ Identify the product whose software requirements are specified in this document,
 
 The product is a mini-game which is designed To measure a player’s cognitive and motor abilities, The purpose in creating these mini-games is to build profiles of the cognitive and motor abilities of players. These profiles could be used by game designers to make informed decisions surrounding the design of challenges before having to implement them. 
 
-One mini-game will focus on one of the abilities that is determined by Sasha. In order to satisfy it;s purposes, the game will be able to collect and analyse the player data to build profiles of the cognitive and motor abilities of players. These profiles could be used by game designers to make informed decisions surrounding the design of challenges before having to implement them.
+The mini-game will focus on a small amount of the abilities that is determined by Sasha. In order to satisfy its purposes, the game will be able to collect and analyse the player data to build profiles of the cognitive and motor abilities of players. These profiles could be used by game designers to make informed decisions surrounding the design of challenges before having to implement them.
+
+The objective of this project is to provide help in developing minigames to help Sasha’s project in G-ScalE and also provide an opportunity for to team to use and continue to develop the skills they have obtained in throughout their studies. And also gain an experience in game development process and unity development.
 
 (draft)
 
