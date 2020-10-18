@@ -73,6 +73,10 @@ The objective of this project is to provide help in developing minigames to help
 
 ### 1.3 Definitions, Acronyms and Abbreviations
 
+**Cognitive and Motor Abilities**
+
+There are 46 _Cognitive and Motor Abilities_ which are axiomatic abilities used by a human while playing through challenges in video games. We wish to create minigames which will measure these abilities for a user playing them.
+
 **Minigame**
 
 In this document, _minigame(s)_ refer to the Unity games that will be designed for users to play, in order to test users and transmit the gameplay data to the backend (Measurement Framework).
@@ -84,6 +88,10 @@ Measurement Framework is the backend that will be created for this project, that
 **Database**
 
 Database in this document refers to the relational database that will be managed by the _Measurement Framework_, and will be used to store all gameplay data collected and processed by the _Measurement Framework_
+
+**User Profile**
+
+A user profile is a collection of gameplay data for a given user that has been processed by the Measurement Framework.
 
 **Unity**
 
