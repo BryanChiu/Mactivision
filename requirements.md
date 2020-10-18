@@ -676,7 +676,9 @@ Apr 8  | Capstone Day Showcase
 ![Image of Proof of Concept](https://i.imgur.com/j2X5dEe.png)
 
 ## 4. Verification
-> This section provides the verification approaches and methods planned to qualify the software. The information items for verification are recommended to be given in a parallel manner with the requirement items in Section 3. The purpose of the verification process is to provide objective evidence that a system or system element fulfills its specified requirements and characteristics.
+<!-- > This section provides the verification approaches and methods planned to qualify the software. The information items for verification are recommended to be given in a parallel manner with the requirement items in Section 3. The purpose of the verification process is to provide objective evidence that a system or system element fulfills its specified requirements and characteristics. -->
+
+In order to ensure the set of requirements is correct and complete, we should set 2 groups of inspectors which is external and internal inspectors. For external inspectors, we can set up a gamer role which is responsible for checking the functional requirements for adequacy and completeness from the perspective of a gamer. For internal inspectors, we need quality assurance role to be responsible for the idea of game can meet the specification of project. At last, there will be a implementation inspector for determining the feasibility of implementing the systems and reviewing the non-functional requirements of the system so that they can accurately access the feasibility of implementing a system that satisfies all non-functional requirements.
 
 <!-- TODO: give more guidance, similar to section 3 -->
 <!-- ieee 15288:2015 -->
