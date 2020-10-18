@@ -57,11 +57,11 @@ Table of Contents
 This section will provide an overview of the entire document.
 
 ### 1.1 Document Purpose
-Describe the purpose of the SRS and its intended audience.
+<!-- Describe the purpose of the SRS and its intended audience. -->
 
 The purpose of the SRS is to specify the functional and non-functional requirements of the project. It describe how the software will be developed and lays out the framework that will be followed by our team. The audience of this SRS will be the members of Mactivision, Sasha Soraine and Dr. Jacques Carette.
 ### 1.2 Product Scope
-Identify the product whose software requirements are specified in this document, including the revision or release number. Explain what the product that is covered by this SRS will do, particularly if this SRS describes only part of the system or a single subsystem. Provide a short description of the software being specified and its purpose, including relevant benefits, objectives, and goals. Relate the software to corporate goals or business strategies. If a separate vision and scope document is available, refer to it rather than duplicating its contents here.
+<!-- Identify the product whose software requirements are specified in this document, including the revision or release number. Explain what the product that is covered by this SRS will do, particularly if this SRS describes only part of the system or a single subsystem. Provide a short description of the software being specified and its purpose, including relevant benefits, objectives, and goals. Relate the software to corporate goals or business strategies. If a separate vision and scope document is available, refer to it rather than duplicating its contents here. -->
 
 The product is a mini-game which is designed To measure a player’s cognitive and motor abilities, The purpose in creating these mini-games is to build profiles of the cognitive and motor abilities of players. These profiles could be used by game designers to make informed decisions surrounding the design of challenges before having to implement them. 
 
@@ -98,7 +98,7 @@ A PC is a computer that is used by one person at a time in a business, a school,
 Steam is a video game digital distribution service by Valve
 
 ### 1.4 References
-List any other documents or Web addresses to which this SRS refers. These may include user interface style guides, contracts, standards, system requirements specifications, use case documents, or a vision and scope document. Provide enough information so that the reader could access a copy of each reference, including title, author, version number, date, and source or location.
+<!-- List any other documents or Web addresses to which this SRS refers. These may include user interface style guides, contracts, standards, system requirements specifications, use case documents, or a vision and scope document. Provide enough information so that the reader could access a copy of each reference, including title, author, version number, date, and source or location. -->
 
 https://docs.unity3d.com/ScriptReference/Input.html <!-- TODO(dhospital): link to section 3.1.2 -->
 https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API <!-- TODO(dhospital): link to section 3.1.3 -->
