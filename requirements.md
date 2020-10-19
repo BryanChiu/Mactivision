@@ -166,6 +166,21 @@ User interface and design.
 This document contains the functional and non functional requirements for the Mactivsion Minigame Battery Project, specifically, the tools, methods, and systems required to get the project from the design stage to final version. 
 
 ### 1.6 Work Scope
+
+This project need the following steps to be done:
+
+Deliverables                   | Description
+-------------------------------|----------------------
+Requirements Specification     | Complete SRS document
+Prototype                      | Finish prototype 1.0
+Design                         | Continue designing the product
+Prototype 2.0                  | Finish prototype 2.0
+Internal and External Testing  | Testing and debuging
+Final Version                  | Complete the Finial version of the product
+Internal Demo                  | Do a Demo of the Final version internally 
+Capstone Day Showcase          | Showcase the product on Capstone day
+
+
 **Existing inspirations:**
 
 NdCube. Looking for Love. Super Mario Party. [Nintendo Switch]. (2018)
