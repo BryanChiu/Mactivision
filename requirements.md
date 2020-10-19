@@ -122,7 +122,17 @@ https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API <!-- TODO(dhospi
 Describe what the rest of the document contains and how it is organized.
 
 ### 1.6 Work Scope
+**Existing inspirations:**
 
+NdCube. Looking for Love. Super Mario Party. [Nintendo Switch]. (2018)
+
+Button masher mini game
+
+**Context of work:**
+
+The work will be graded for the 4GP6 capstone course.
+
+The mini game will be used in G-ScalE project after the development.
 
 ## 2. Product Overview
 <!-- > This section should describe the general factors that affect the product and its requirements. This section does not state specific requirements. Instead, it provides a background for those requirements, which are defined in detail in Section 3, and makes them easier to understand. -->
