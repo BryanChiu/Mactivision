@@ -166,7 +166,7 @@ Button masher mini game
 
 **Context of work:**
 
-The work will be graded for the 4GP6 capstone course.
+The work will be graded for the 4ZP6 capstone course.
 
 The mini game will be used in G-ScalE project after the development.
 
