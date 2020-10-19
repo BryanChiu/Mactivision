@@ -114,12 +114,40 @@ A PC is a computer that is used by one person at a time in a business, a school,
 
 Steam is a video game digital distribution service by Valve
 
+**Unity**
+
+Unity is a cross platform game engine with powerful development tools to enable developers to more easily create games.
+
+**WebGL**
+
+A graphics API based on OpenGL ES which allows browsers to render graphics was if they were desktop applications.
+
+**OpenGL**
+
+An open source graphics API which provides cross platform access to the GPU in order to provide applications with hardware accelerated rendering.
+
+**GPU**
+
+A specialized processing unit designed to render graphics.
+
 ### 1.4 References
 <!-- List any other documents or Web addresses to which this SRS refers. These may include user interface style guides, contracts, standards, system requirements specifications, use case documents, or a vision and scope document. Provide enough information so that the reader could access a copy of each reference, including title, author, version number, date, and source or location. -->
 
 [1]: **Unity Engine Input System**: https://docs.unity3d.com/ScriptReference/Input.html
 
 [2]: **Mozilla WebSockets API**: https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API
+
+[3]: **C# Coding Conventions**: https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/inside-a-program/coding-conventions
+
+[4]: **Create Commons License**: https://en.wikipedia.org/wiki/Creative_Commons_licensehttps://en.wikipedia.org/wiki/Creative_Commons_license
+
+[5]: **McMaster Academic Integrity Policy**: https://secretariat.mcmaster.ca/app/uploads/Academic-Integrity-Policy-1-1.pdf
+
+[6]: **Soraine, S and Carette, J. (2020). Mechanical Experience, Competency Profiles, and Jutsu. Journal of Games, Self, and Society. Vol .2. p. 150 – 207.**: https://press.etc.cmu.edu/index.php/product/journal-of-games-self-society-vol-2-issue-1/
+
+[7]: **Soraine, S. (2018). Ooh What's This Button Do?**: https://macsphere.mcmaster.ca/handle/11375/24028 
+
+A graphics API based on OpenGL ES which allows browsers to render graphics was if they were desktop applications.
 
 ### 1.5 Document Overview
 Describe what the rest of the document contains and how it is organized.
