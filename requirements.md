@@ -68,7 +68,7 @@ This section will provide an overview of the entire document.
 ### 1.1 Document Purpose
 <!-- Describe the purpose of the SRS and its intended audience. -->
 
-The purpose of the SRS is to specify the functional and non-functional requirements of the project. It describes how the software will be developed and lays out the road map that will be followed by Mactivision. The SRS will be used internally to help facilitate development during the projects life cycle. It will also because by Sasha Soraine and Dr. Jacques Carette as supervisors of the project. 
+The purpose of the SRS is to specify the functional and non-functional requirements of the project. It describes how the software will be developed and lays out the road map that will be followed by Mactivision. The SRS will be used internally to help facilitate development during the projects life cycle. It will also be used by Sasha Soraine and Dr. Jacques Carette as supervisors of the project. 
 
 ### 1.2 Product Scope
 <!-- Identify the product whose software requirements are specified in this document, including the revision or release number. Explain what the product that is covered by this SRS will do, particularly if this SRS describes only part of the system or a single subsystem. Provide a short description of the software being specified and its purpose, including relevant benefits, objectives, and goals. Relate the software to corporate goals or business strategies. If a separate vision and scope document is available, refer to it rather than duplicating its contents here. -->
