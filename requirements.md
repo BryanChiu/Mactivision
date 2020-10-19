@@ -80,8 +80,6 @@ The mini-game will focus on a small amount of the abilities that is determined b
 
 The objective of this project is to provide help in developing minigames to help Sasha’s project in G-ScalE and also provide an opportunity for to team to use and continue to develop the skills they have obtained in throughout their studies. And also gain an experience in game development process and unity development.
 
-(draft)
-
 ### 1.3 Definitions, Acronyms and Abbreviations
 
 **Cognitive and Motor Abilities**
@@ -111,10 +109,6 @@ These are the users which will be accessing the data from the Measurement Framew
 **User Profile**
 
 A user profile is a collection of gameplay data for a given end user that has been processed by the Measurement Framework.
-
-**Unity**
-
-Unity is a cross-platform game engine developed by Unity Technologies
 
 **PC (personal computer)**
 
@@ -172,21 +166,18 @@ This project need the following steps to be done:
 
 Deliverables                   | Description
 -------------------------------|----------------------
-Requirements Specification     | Complete SRS document
-Prototype                      | Finish prototype 1.0
-Design                         | Continue designing the product
-Prototype 2.0                  | Finish prototype 2.0
-Internal and External Testing  | Testing and debuging
-Final Version                  | Complete the Finial version of the product
-Internal Demo                  | Do a Demo of the Final version internally 
-Capstone Day Showcase          | Showcase the product on Capstone day
+Requirements Specification     | Complete SRS document.
+Prototype                      | Half of the group works on the measurement framework and the other half creates one mini game that showcases the interaction between the player and the game and the game and the framework. Framework group should communicate with members of other group working on ia G-ScalE project.
+Design                         | After reflecting on the good and bad decision from the prototype, redesign prototype using measurement data collected to more accurately measure targeted cognative and physical abilities of that particular game. From this process come up with alternative mini game designs.
+Prototype 2.0                  | Prototype 2 should have increased measurement functionality. The aim for this mini game is for it to be feature complete so it's can be used as a template to accelerate the development of other mini games.  
+Internal and External Testing  | UX testing will be done on the feature complete mini game and there will be a review of it's code quality. Lessons learned will be applied to future mini games.
+Final Version                  | Measurement framework is complete and decoupled from mini games. Multiple feature complete mini games will be finished.
+Internal Demo                  | Externally test the games with friends and family to make sure there are no bugs or glaring omissions.
+Capstone Day Showcase          | Showcase the mini games on Capstone day
 
-
-**Existing inspirations:**
+**Mini Game Inspirations:**
 
 NdCube. Looking for Love. Super Mario Party. [Nintendo Switch]. (2018)
-
-Button masher mini game
 
 **Context of work:**
 
@@ -301,6 +292,7 @@ The stakeholders for this project are:
   * The people who will play the minigames, and will have their _cognitive and motor abilities_ measured and recorded into _player profiles_.
 * **Others**
   * **Mactivsion**: Team of COMP SCI 4ZP6/6ZP6 students, consisting of **Kunyuan Cao**, **Bryan Chiu**, **David Hospital**, **Michael Tee**, and **Sijie Zhou**, who are responsible for designing, implementing, and testing all software outlined in this document.
+
 ## 3. Requirements
 <!-- This section specifies the software product's requirements. Specify all of the software requirements to a level of detail sufficient to enable designers to design a software system to satisfy those requirements, and to enable testers to test that the software system satisfies those requirements. -->
 
