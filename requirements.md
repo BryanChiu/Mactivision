@@ -54,6 +54,8 @@ Table of Contents
     * 3.5.8 [Proof of Concept](#358-proof-of-concept)
 * 4 [Verification](#4-verification)
 * 5 [Appendixes](#5-appendixes)
+  * 5.1 [Appendix A](#51-appendix-a)
+    * 5.1.1 [Cognitive and Motor Abilities](#511-cognitive-and-motor-abilities)
 
 ## Revision History
 | Name | Date             | Reason For Changes  | Version   |
@@ -82,7 +84,7 @@ The objective of this project is to provide help in developing minigames to help
 
 **Cognitive and Motor Abilities**
 
-There are 46 _Cognitive and Motor Abilities_ which are axiomatic abilities used by a human while playing through challenges in video games. We wish to create minigames which will measure these abilities for a user playing them.
+There are 46 _Cognitive and Motor Abilities_ which are axiomatic abilities used by a human while playing through challenges in video games. We wish to create minigames which will measure these abilities for a user playing them. Tables displaying a full list of these abilities can be found in [Section 5.1.1](#511-cognitive-and-motor-abilities)
 
 **Minigame**
 
@@ -790,3 +792,17 @@ In order to ensure the set of requirements is correct and complete, we should se
 
 ## 5. Appendixes
 
+This section will contain useful information regarding the project as a whole, and is presented in a arbitrary order.
+
+### 5.1 Appendix A
+
+#### 5.1.1 Cognitive and Motor Abilities
+
+**Figure A.1: List of Lower Order Cognitive Abilities for Player Model.**
+![](assets/cognitive_abilities.png)
+
+**Figure A.2: Fine Motor Actions Divided by Body Parts.**
+![](assets/fine_motor_actions.png)
+
+**Figure A.3: Gross Motor Actions by Body Part**
+![](assets/gross_motor_actions.png)
