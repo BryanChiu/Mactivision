@@ -131,6 +131,10 @@ An open source graphics API which provides cross platform access to the GPU in o
 
 A specialized processing unit designed to render graphics.
 
+**UX**
+
+User interface and design.
+
 ### 1.4 References
 <!-- List any other documents or Web addresses to which this SRS refers. These may include user interface style guides, contracts, standards, system requirements specifications, use case documents, or a vision and scope document. Provide enough information so that the reader could access a copy of each reference, including title, author, version number, date, and source or location. -->
 
@@ -814,9 +818,56 @@ The proof of concept is also "playable" online by visiting the link below:
 ## 4. Verification
 <!-- > This section provides the verification approaches and methods planned to qualify the software. The information items for verification are recommended to be given in a parallel manner with the requirement items in Section 3. The purpose of the verification process is to provide objective evidence that a system or system element fulfills its specified requirements and characteristics. -->
 
-In order to ensure the set of requirements is correct and complete, we should set 2 groups of inspectors which is external and internal inspectors. For external inspectors, we can set up a gamer role which is responsible for checking the functional requirements for adequacy and completeness from the perspective of a gamer. For internal inspectors, we need quality assurance role to be responsible for the idea of game can meet the specification of project. At last, there will be a implementation inspector for determining the feasibility of implementing the systems and reviewing the non-functional requirements of the system so that they can accurately access the feasibility of implementing a system that satisfies all non-functional requirements.
+<!-- In order to ensure the set of requirements are correct and complete, two groups of inspectors will be created. An external and internal inspector. External inspectors will set up a gamer role which is responsible for checking the functional requirements for adequacy and completeness from the perspective of a gamer. Internal inspectors, we provide a quality assurance role which is responsible for the making sure the project is meeting the specifications. Additionally, there will be a implementation inspector for determining the feasibility of implementing the systems and reviewing the non-functional requirements of the system to accurately access the feasibility of implementing those systems. -->
 
-<!-- TODO: give more guidance, similar to section 3 -->
+ID: V-1        | Type: Non-functional Requirements (Verification)
+---------------|----------------------------------------------------------------
+PUC: N/A       | Originator: Team
+Description    | Design Specialist
+Rationale      | Team member commits to researching Physiology and Psychology works to learn which game designs can be employed improve a game's ability to measure abilities accurately.
+Constraints    | May require more than 1 person.
+Priority       | Very High
+
+ID: V-2        | Type: Non-functional Requirements (Verification)
+---------------|----------------------------------------------------------------
+PUC: N/A       | Originator: Team
+Description    | Game Tester
+Rationale      | Make sure games are functional and without bugs that will interfere with ability measurements.
+Constraints    | Make sure the developers of the each mini game don't just test their own game. Seek an outside perspectives.
+Priority       | Medium
+
+ID: V-3        | Type: Non-functional Requirements (Verification)
+---------------|----------------------------------------------------------------
+PUC: N/A       | Originator: Team
+Description    | UX Design and Aesthetics Critic 
+Rationale      | Make sure the game feels like a game and not like a test. Should be aesthetically pleasing.
+Constraints    | Will require testing from non developers to get higher quality feedback.
+Priority       | Medium
+
+ID: V-4        | Type: Non-functional Requirements (Verification)
+---------------|----------------------------------------------------------------
+PUC: N/A       | Originator: Team
+Description    | Unit Testing
+Rationale      | Facilitates more robust code. Measurement framework is best candidate for unit testing.
+Constraints    | Games are difficult to break down into units.
+Priority       | Low
+
+ID: V-5        | Type: Non-functional Requirements (Verification)
+---------------|----------------------------------------------------------------
+PUC: N/A       | Originator: Team
+Description    | Code Quality
+Rationale      | Make sure each member of the team is adhering to good coding practices and conventions laid out in the specification.
+Constraints    | Some members might have coding styles they are unwilling to change.
+Priority       | Low
+
+ID: V-6        | Type: Non-functional Requirements (Verification)
+---------------|----------------------------------------------------------------
+PUC: N/A       | Originator: Team
+Description    | Implementation Inspector
+Rationale      | To determine the viability of third party products team members may wish to integrate into the project.
+Constraints    | May not be as knowledgeable as other members.
+Priority       | Low
+
 <!-- ieee 15288:2015 -->
 
 ## 5. Appendixes
