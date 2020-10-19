@@ -187,6 +187,33 @@ We estimate that the time saved when using premade assets like these will be sub
 
 Identify requirements that may be delayed until future versions of the system (e.g., blocks and/or increments). -->
 
+There are two software elements that will make up this project: the minigames, and the Measurement Framework (coupled with the database), which when communicating with each other, make up the whole system. The following table shows how functions are split up between the two software elements:
+
+| Function                                            | Software Element      |
+| -----                                               | -----                 |
+| Create database                                     | Measurement Framework |
+| Read/Write to database                              | Measurement Framework |
+| Process gameplay data                               | Measurement Framework |
+| Output data in human readable format                | Measurement Framework |
+| * Provide data in a graphical format                | Measurement Framework |
+| Create user profile                                 | Measurement Framework |
+| Edit user profile                                   | Measurement Framework |
+| Delete user profile                                 | Measurement Framework |
+| Receive and verify connection from minigames        | Measurement Framework |
+| Present a UI/UX to the user                         | Minigames |
+| Establish a connection to the Measurement Framework | Minigames |
+| Read inputs from the current controller             | Minigames |
+| Send gameplay data to the Measurement Framework     | Minigames |
+| Receive errors from the Measurement Framework       | Minigames |
+| Display errors to the end user                      | Minigames |
+| Process the gameplay and rendering logic            | Minigames |
+
+There are some requirements that will be designed and implemented only if there is time at the end of the project life cycle. These include
+* **Output data in a graphical format**
+  * This feature is nice to have, but is not fully necessary for this success of the project. It will be implemented at the end if there is time.
+* **The number of minigames designed/implemented**
+  * The estimated number of minigames to be designed is relatively unknown at this point in time. Depending on how long it takes to design/implement a single minigame, and how much of the code can be reused to build future minigames, this number may vary widely.
+
 ### 2.7 Stakeholders
 
 
