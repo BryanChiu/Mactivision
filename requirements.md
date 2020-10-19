@@ -767,9 +767,18 @@ Apr 5  | Capstone Day Materials
 Apr 8  | Capstone Day Showcase
 
 #### 3.5.8 Proof of Concept
-<!-- TODO: come up with a description -->
+The following is a design mockup of how the mini games will look like during development.
+When the mini game is running there will be an overlay over the screen or off to the side of the game world, which will display all the measurement data. This will be helpful in tuning the measurement collection methods and will be used in refining the mini game to meet specific cognitive and physical measurement goals of that particular mini games.
 
-![Image of Proof of Concept](https://i.imgur.com/j2X5dEe.png)
+![Image of Design MockUp](https://i.imgur.com/j2X5dEe.png)
+
+Below is a proof of concept of the above mock up design. A simple game was created in which the user controls the green square and collects the pink squares. If the player hits a wall they are transported back to the middle of the game world. If the player collects a pink square (food), their food count is increased. The food count represents the player's score. The higher the better. On the left side of the game world an overlay exists displaying some of the measurement data collected during the game. For now, it keeps track of time and number of foods collected and number of times the player has hit the wall. Even from these rudimentary measurements, player analyze can begin. Future iterations of the project will be more feature rich in both game play, presentation and measurement fidelity.  
+
+![Image of Proof of Concept](https://i.imgur.com/ZlmfbVm.png)
+
+The proof of concept is also "playable" online by visiting the link below:
+
+[https://connect.unity.com/mg/other/untitled-34576](https://connect.unity.com/mg/other/untitled-34576)
 
 ## 4. Verification
 <!-- > This section provides the verification approaches and methods planned to qualify the software. The information items for verification are recommended to be given in a parallel manner with the requirement items in Section 3. The purpose of the verification process is to provide objective evidence that a system or system element fulfills its specified requirements and characteristics. -->
