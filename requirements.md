@@ -918,9 +918,15 @@ From [6]: **Soraine, S and Carette, J. (2020). Mechanical Experience, Competency
 
 ![](assets/motor_abilities_for_video_game_controllers.png)
 
+**Figure A.5: Fine and Gross Motor Abilities Used to Interact with Video Games**
+
+From [6]: **Soraine, S and Carette, J. (2020). Mechanical Experience, Competency Profiles, and Jutsu. Journal of Games, Self, and Society. Vol .2. p. 150 – 207.**
+
+![](assets/fine_and_gross_motor_abilities.png)
+
 #### 5.1.2 Project Background
 
-**Excerpt A.5: Project Background**
+**Excerpt A.6: Project Background**
 
 This excerpt was taken from a document given to us (Mactivision) from the client (Sasha Soraine) regarding the basic description of the project.
 
