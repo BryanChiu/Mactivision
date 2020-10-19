@@ -216,8 +216,14 @@ There are some requirements that will be designed and implemented only if there 
 
 ### 2.7 Stakeholders
 
-
-
+The stakeholders for this project are:
+* **The Clients**
+  * **Sasha Soraine**: <!-- TODO: Add stuff here -->
+  * **Dr. Jacques Carette**: <!-- TODO: Add stuff here -->
+* **The End Users**
+  * The people who will play the minigames, and will have their _cognitive and motor abilities_ measured and recorded into _player profiles_.
+* **Others**
+  * **Mactivsion**: Team of COMP SCI 4ZP6/6ZP6 students, consisting of **Kunyuan Cao**, **Bryan Chiu**, **David Hospital**, **Michael Tee**, and **Sijie Zhou**, who are responsible for designing, implementing, and testing all software outlined in this document.
 ## 3. Requirements
 <!-- This section specifies the software product's requirements. Specify all of the software requirements to a level of detail sufficient to enable designers to design a software system to satisfy those requirements, and to enable testers to test that the software system satisfies those requirements. -->
 
