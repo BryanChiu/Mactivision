@@ -54,7 +54,7 @@ Table of Contents
     * 3.5.8 [Proof of Concept](#358-proof-of-concept)
 * 4 [Verification](#4-verification)
 * 5 [Appendixes](#5-appendixes)
-  * 5.1 [Appendix A](#51-appendix-a)
+  * 5.1 [Appendix A: Figures and Excerpts](#51-appendix-a-figures-and-excerpts)
     * 5.1.1 [Cognitive and Motor Abilities](#511-cognitive-and-motor-abilities)
     * 5.1.2 [Project Background](#512-project-background)
 
@@ -896,7 +896,7 @@ Priority       | Low
 
 This section will contain useful information regarding the project as a whole, and is presented in a arbitrary order.
 
-### 5.1 Appendix A
+### 5.1 Appendix A: Figures and Excerpts
 
 #### 5.1.1 Cognitive and Motor Abilities
 
