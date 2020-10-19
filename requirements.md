@@ -54,7 +54,7 @@ Table of Contents
     * 3.5.8 [Proof of Concept](#358-proof-of-concept)
 * 4 [Verification](#4-verification)
 * 5 [Appendixes](#5-appendixes)
-  * 5.1 [Appendix A](#51-appendix-a)
+  * 5.1 [Appendix A: Figures and Excerpts](#51-appendix-a-figures-and-excerpts)
     * 5.1.1 [Cognitive and Motor Abilities](#511-cognitive-and-motor-abilities)
     * 5.1.2 [Project Background](#512-project-background)
 
@@ -164,7 +164,7 @@ This document contains the functional and non functional requirements for the Ma
 
 This project need the following steps to be done:
 
-Deliverables                   | Description
+Work                           | Description
 -------------------------------|----------------------
 Requirements Specification     | Complete SRS document.
 Prototype                      | Half of the group works on the measurement framework and the other half creates one mini game that showcases the interaction between the player and the game and the game and the framework. Framework group should communicate with members of other group working on ia G-ScalE project.
@@ -173,7 +173,7 @@ Prototype 2.0                  | Prototype 2 should have increased measurement f
 Internal and External Testing  | UX testing will be done on the feature complete mini game and there will be a review of it's code quality. Lessons learned will be applied to future mini games.
 Final Version                  | Measurement framework is complete and decoupled from mini games. Multiple feature complete mini games will be finished.
 Internal Demo                  | Externally test the games with friends and family to make sure there are no bugs or glaring omissions.
-Capstone Day Showcase          | Showcase the mini games on Capstone day
+Capstone Day Showcase          | Showcase the mini games on Capstone day.
 
 **Mini Game Inspirations:**
 
@@ -286,8 +286,8 @@ There are some requirements that will be designed and implemented only if there 
 
 The stakeholders for this project are:
 * **The Clients**
-  * **Sasha Soraine**: <!-- TODO: Add stuff here -->
-  * **Dr. Jacques Carette**: <!-- TODO: Add stuff here -->
+  * **Sasha Soraine**: Supervisor of this project
+  * **Dr. Jacques Carette**: Supervisor of this project
 * **The End Users**
   * The people who will play the minigames, and will have their _cognitive and motor abilities_ measured and recorded into _player profiles_.
 * **Others**
@@ -888,7 +888,7 @@ Priority       | Low
 
 This section will contain useful information regarding the project as a whole, and is presented in a arbitrary order.
 
-### 5.1 Appendix A
+### 5.1 Appendix A: Figures and Excerpts
 
 #### 5.1.1 Cognitive and Motor Abilities
 
