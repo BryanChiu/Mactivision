@@ -153,9 +153,9 @@ User interface and design.
 [7]: **Soraine, S. (2018). Ooh What's This Button Do?**: https://macsphere.mcmaster.ca/handle/11375/24028 
 
 ### 1.5 Document Overview
-Describe what the rest of the document contains and how it is organized.
+<!-- Describe what the rest of the document contains and how it is organized. -->
 
-This document contains the functional and non functional requirements for the Mactivsion mini games project, specifically, the tools, methods, and systems required to get the project from the design stage to final version. 
+This document contains the functional and non functional requirements for the Mactivsion Minigame Battery Project, specifically, the tools, methods, and systems required to get the project from the design stage to final version. 
 
 ### 1.6 Work Scope
 **Existing inspirations:**
@@ -173,7 +173,7 @@ The mini game will be used in G-ScalE project after the development.
 ## 2. Product Overview
 <!-- > This section should describe the general factors that affect the product and its requirements. This section does not state specific requirements. Instead, it provides a background for those requirements, which are defined in detail in Section 3, and makes them easier to understand. -->
 
-This section will give an overview of the entire architecture of the system and its requirements, as well as the general factors that will affect the system. Further information regarding the requirements will be defined in detail in Section 3.
+This section will give an overview of the entire architecture of the system and its requirements, as well as the general factors that will affect the system. Further information regarding the requirements will be defined in detail in [Section 3](#3-requirements).
 
 ### 2.1 Product Perspective
 <!-- Describe the context and origin of the product being specified in this SRS. For example, state whether this product is a follow-on member of a product family, a replacement for certain existing systems, or a new, self-contained product. If the SRS defines a component of a larger system, relate the requirements of the larger system to the functionality of this software and identify interfaces between the two. A simple diagram that shows the major components of the overall system, subsystem interconnections, and external interfaces can be helpful. -->
