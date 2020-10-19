@@ -174,10 +174,10 @@ Deliverables                   | Description
 -------------------------------|----------------------
 Requirements Specification     | Complete SRS document
 Prototype                      | Finish prototype 1.0
-Design                         | Continue designing the product
+Design                         | Continue minigame design
 Prototype 2.0                  | Finish prototype 2.0
 Internal and External Testing  | Testing and debuging
-Final Version                  | Complete the Finial version of the product
+Final Version                  | Complete the Final version of the product
 Internal Demo                  | Do a Demo of the Final version internally 
 Capstone Day Showcase          | Showcase the product on Capstone day
 
