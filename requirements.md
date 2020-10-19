@@ -115,8 +115,9 @@ Steam is a video game digital distribution service by Valve
 ### 1.4 References
 <!-- List any other documents or Web addresses to which this SRS refers. These may include user interface style guides, contracts, standards, system requirements specifications, use case documents, or a vision and scope document. Provide enough information so that the reader could access a copy of each reference, including title, author, version number, date, and source or location. -->
 
-https://docs.unity3d.com/ScriptReference/Input.html <!-- TODO(dhospital): link to section 3.1.2 -->
-https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API <!-- TODO(dhospital): link to section 3.1.3 -->
+[1]: **Unity Engine Input System**: https://docs.unity3d.com/ScriptReference/Input.html
+
+[2]: **Mozilla WebSockets API**: https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API
 
 ### 1.5 Document Overview
 Describe what the rest of the document contains and how it is organized.
@@ -442,8 +443,6 @@ Outcome       | Delete data from database.
 
 Could be further divided into Usability and Convenience requirements. -->
 
-<!-- TODO(dhospital): Add some example images of menu UI and error message UI -->
-
 A user launching any of the minigames in this project should be greeted with a _user ID menu_, followed by a _main menu_ screen. The _user ID menu_ screen will simply contain a text field below a phrase asking the user to enter their _user ID_, with a _Continue_ button below that. This ID is unique to the user and should be given to them prior to them playing the game (More details about this _user ID_ are given in section <sectionNumber> <!-- TODO (dhospital): get the section number this information is in-->). An example of this screen is displayed below:
 ![](assets/example_user_id_001.png)
 When a user presses the _Continue_ button, the minigame will establish a connection to the backend, which will confirm that the entered _user ID_ is valid (if not, an error will be displayed). If the _user ID_ is valid, the user will be taken to the _main menu_ screen.
@@ -469,12 +468,12 @@ These error messages should be displayed to the user with a standard style, ie. 
 
 The Measurement framework does not have any hardware interfaces, apart from the physical machine that it is being run on, however that machine will likely only be accessed remotely by admin users who wish to access the Measurement Framework's database.
 
-The minigames will will be controlled by the user's controller (keyboard, keyboard + mouse, game controller, etc.). The minigames will use the _Unity Engine Input System_ <!-- TODO(dhospital): add reference--> respond to keyboard and controller key or button presses, or mouse movements and clicks. This system will abstract away the type of a controller the user is using to play the game so that the minigame code only needs to reference the _action_ the user performs. For example, the _W_ key on the user's keyboard might be used to move the player on screen forward. The _Unity Engine Input System_ will have the _W_ key mapped to the _forward_ action, so the code only needs to listen for the _forward_ action to occur to move the player forward. This allows for other controllers' buttons to be mapped to the same actions, which lets users use different controllers without having to write extra code to allow for those controllers.
+The minigames will will be controlled by the user's controller (keyboard, keyboard + mouse, game controller, etc.). The minigames will use the _Unity Engine Input System_<sup>[1]</sup> respond to keyboard and controller key or button presses, or mouse movements and clicks. This system will abstract away the type of a controller the user is using to play the game so that the minigame code only needs to reference the _action_ the user performs. For example, the _W_ key on the user's keyboard might be used to move the player on screen forward. The _Unity Engine Input System_ will have the _W_ key mapped to the _forward_ action, so the code only needs to listen for the _forward_ action to occur to move the player forward. This allows for other controllers' buttons to be mapped to the same actions, which lets users use different controllers without having to write extra code to allow for those controllers.
 
 #### 3.1.3 Software interfaces
 <!-- Describe the connections between this product and other specific software components (name and version), including databases, operating systems, tools, libraries, and integrated commercial components. Identify the data items or messages coming into the system and going out and describe the purpose of each. Describe the services needed and the nature of communications. Refer to documents that describe detailed application programming interface protocols. Identify data that will be shared across software components. If the data sharing mechanism must be implemented in a specific way (for example, use of a global data area in a multitasking operating system), specify this as an implementation constraint. -->
 
-The minigames will communicate with the Measurement Framework via websockets using the _Mozilla Websocket API_ <!-- TODO(dhospital): add reference -->. When a user enters their user ID in the minigame, the minigame will establish a websocket connection with the Measurement Framework, which will be running on a dedicated server machine. The minigame and Measurement Framework will communicate via this websocket connection, which allows the minigame to send all gameplay data to the Measurement Framework, which in turn will process the data and save it to its database. The websocket connection will be closed once the user has finished playing the minigame (ie. returning to the _main menu_)and all relevant data has been recorded and transmitted.
+The minigames will communicate with the Measurement Framework via websockets using the _Mozilla Websocket API_<sup>[2]</sup>. When a user enters their user ID in the minigame, the minigame will establish a websocket connection with the Measurement Framework, which will be running on a dedicated server machine. The minigame and Measurement Framework will communicate via this websocket connection, which allows the minigame to send all gameplay data to the Measurement Framework, which in turn will process the data and save it to its database. The websocket connection will be closed once the user has finished playing the minigame (ie. returning to the _main menu_)and all relevant data has been recorded and transmitted.
 
 The Management Framework is responsible for reading, writing, and deleting data points from the database. The database we will use for this project will be a SQL relational database. Whenever the Measurement Framework is started up, The database will be created if it does not already exist. The Measurement Framework will read and write to the database while it is processing data received over the websocket from a minigame.
 
