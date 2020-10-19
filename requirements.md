@@ -478,7 +478,7 @@ Outcome       | Delete data from database.
 
 Could be further divided into Usability and Convenience requirements. -->
 
-A user launching any of the minigames in this project should be greeted with a _user ID menu_, followed by a _main menu_ screen. The _user ID menu_ screen will simply contain a text field below a phrase asking the user to enter their _user ID_, with a _Continue_ button below that. This ID is unique to the user and should be given to them prior to them playing the game (More details about this _user ID_ are given in section <sectionNumber> <!-- TODO (dhospital): get the section number this information is in-->). An example of this screen is displayed below:
+A user launching any of the minigames in this project should be greeted with a _user ID menu_, followed by a _main menu_ screen. The _user ID menu_ screen will simply contain a text field below a phrase asking the user to enter their _user ID_, with a _Continue_ button below that. This ID is unique to the user and should be given to them prior to them playing the game. An example of this screen is displayed below:
 ![](assets/example_user_id_001.png)
 When a user presses the _Continue_ button, the minigame will establish a connection to the backend, which will confirm that the entered _user ID_ is valid (if not, an error will be displayed). If the _user ID_ is valid, the user will be taken to the _main menu_ screen.
 
