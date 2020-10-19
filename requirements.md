@@ -1,10 +1,17 @@
- Get Knocked Down# Software Requirements Specification
+Software Requirements Specification
 ## For Mini-game Battery Project
 
-Version 0.1  
-Prepared by <author> 
-<organization>  
-<date created>  
+Version 1.0.0
+Prepared by **Mactivision**
+
+**Team Members**:
+* Kunyuan Cao
+* Bryan Chiu
+* David Hospital
+* Michael Tee
+* Sijie Zhou
+  
+October 19, 2020  
 
 Table of Contents
 =================
