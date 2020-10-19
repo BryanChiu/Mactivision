@@ -900,10 +900,27 @@ This section will contain useful information regarding the project as a whole, a
 #### 5.1.1 Cognitive and Motor Abilities
 
 **Figure A.1: List of Lower Order Cognitive Abilities for Player Model.**
+
 ![](assets/cognitive_abilities.png)
 
 **Figure A.2: Fine Motor Actions Divided by Body Parts.**
+
 ![](assets/fine_motor_actions.png)
 
 **Figure A.3: Gross Motor Actions by Body Part**
+
 ![](assets/gross_motor_actions.png)
+
+**Figure A.4: Motor Abilities for Video Game Controllers Categorized as Fine Motor, Gross Motor, or Both**
+
+From [6]: **Soraine, S and Carette, J. (2020). Mechanical Experience, Competency Profiles, and Jutsu. Journal of Games, Self, and Society. Vol .2. p. 150 – 207.**
+
+![](assets/motor_abilities_for_video_game_controllers.png)
+
+#### 5.1.2 Project Background
+
+**Excerpt A.5: Project Background**
+
+This excerpt was taken from a document given to us (Mactivision) from the client (Sasha Soraine) regarding the basic description of the project.
+
+![](assets/project_background.png)
