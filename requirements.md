@@ -56,6 +56,7 @@ Table of Contents
 * 5 [Appendixes](#5-appendixes)
   * 5.1 [Appendix A](#51-appendix-a)
     * 5.1.1 [Cognitive and Motor Abilities](#511-cognitive-and-motor-abilities)
+    * 5.1.2 [Project Background](#512-project-background)
 
 ## Revision History
 | Name | Date             | Reason For Changes  | Version   |
