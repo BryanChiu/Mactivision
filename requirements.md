@@ -68,13 +68,14 @@ This section will provide an overview of the entire document.
 ### 1.1 Document Purpose
 <!-- Describe the purpose of the SRS and its intended audience. -->
 
-The purpose of the SRS is to specify the functional and non-functional requirements of the project. It describe how the software will be developed and lays out the framework that will be followed by our team. The audience of this SRS will be the members of Mactivision, Sasha Soraine and Dr. Jacques Carette.
+The purpose of the SRS is to specify the functional and non-functional requirements of the project. It describes how the software will be developed and lays out the road map that will be followed by Mactivision. The SRS will be used internally to help facilitate development during the projects life cycle. It will also because by Sasha Soraine and Dr. Jacques Carette as supervisors of the project. 
+
 ### 1.2 Product Scope
 <!-- Identify the product whose software requirements are specified in this document, including the revision or release number. Explain what the product that is covered by this SRS will do, particularly if this SRS describes only part of the system or a single subsystem. Provide a short description of the software being specified and its purpose, including relevant benefits, objectives, and goals. Relate the software to corporate goals or business strategies. If a separate vision and scope document is available, refer to it rather than duplicating its contents here. -->
 
-The product is a mini-game which is designed To measure a player’s cognitive and motor abilities, The purpose in creating these mini-games is to build profiles of the cognitive and motor abilities of players. These profiles could be used by game designers to make informed decisions surrounding the design of challenges before having to implement them. 
+The product is a series of mini-games designed to measure player cognitive and motor abilities. The purpose of these mini-games is to build profiles of the cognitive and motor abilities of players. These profiles could be used by game designers to make informed decisions surrounding the design of challenges before having to implement them. 
 
-The mini-game will focus on a small amount of the abilities that is determined by Sasha. In order to satisfy its purposes, the game will be able to collect and analyse the player data to build profiles of the cognitive and motor abilities of players. These profiles could be used by game designers to make informed decisions surrounding the design of challenges before having to implement them.
+The mini-game will focus on a small amount of the abilities that is determined by the Cognitive and Motor Abilities table (see Appendix 5.1.1). In order to satisfy its purposes, the game will be able to collect and analyze the player data to build profiles of the cognitive and motor abilities of players. These profiles could be used by game designers to make informed decisions surrounding the design of challenges before having to implement them.
 
 The objective of this project is to provide help in developing minigames to help Sasha’s project in G-ScalE and also provide an opportunity for to team to use and continue to develop the skills they have obtained in throughout their studies. And also gain an experience in game development process and unity development.
 
@@ -147,10 +148,10 @@ A specialized processing unit designed to render graphics.
 
 [7]: **Soraine, S. (2018). Ooh What's This Button Do?**: https://macsphere.mcmaster.ca/handle/11375/24028 
 
-A graphics API based on OpenGL ES which allows browsers to render graphics was if they were desktop applications.
-
 ### 1.5 Document Overview
 Describe what the rest of the document contains and how it is organized.
+
+This document contains the functional and non functional requirements for the Mactivsion mini games project, specifically, the tools, methods, and systems required to get the project from the design stage to final version. 
 
 ### 1.6 Work Scope
 **Existing inspirations:**
@@ -491,7 +492,7 @@ Each minigame will display error messages to the user when various problems occu
 
 ![Example Error Message](assets/example_error_001.png)
 
-These error messages should be displayed to the user with a standard style, ie. all error messages should look the same, and should be displayed in the same position in the window, with the same styles and button layouts. Error messages should rarely interrupt gameplay, and if they do, the current game should be paused or stopped, and the data measured from that gameplay experience should be discarded, as an error interrupting gameplay would produce unreliable data.
+These error messages should be displayed to the user with a standard style, i.e., all error messages should look the same, and should be displayed in the same position in the window, with the same styles and button layouts. Error messages should rarely interrupt gameplay, and if they do, the current game should be paused or stopped, and the data measured from that gameplay experience should be discarded, as an error interrupting gameplay would produce unreliable data.
 
 #### 3.1.2 Hardware interfaces
 <!-- Describe the logical and physical characteristics of each interface between the software product and the hardware components of the system. This may include the supported device types, the nature of the data and control interactions between the software and the hardware, and communication protocols to be used. -->
