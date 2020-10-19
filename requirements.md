@@ -479,8 +479,6 @@ Outcome       | Delete data from database.
 * Command formats
 * End messages -->
 
-
-
 #### 3.1.1 User interfaces
 <!-- Define the software components for which a user interface is needed. Describe the logical characteristics of each interface between the software product and the users. This may include sample screen images, any GUI standards or product family style guides that are to be followed, screen layout constraints, standard buttons and functions (e.g., help) that will appear on every screen, keyboard shortcuts, error message display standards, and so on. Details of the user interface design should be documented in a separate user interface specification.
 
@@ -781,9 +779,9 @@ This project does not provide any hardware or controller devices, they must be s
 Unity games are written in C# which is strongly typed to prevent common programming errors. C# is object oriented, which provides modularity.  The .NET standard library reduces complexity and increases maintainability. Debugging C# code can be done with Visual Studio. 
 
 #### 3.5.4 Reusability
-<!-- TODO: come up with a description -->
+Game logic and player cognitive and physical analysis could be reusable in other projects. For example, functionality determining the success or failure rate of the player based on measurements of timers and objective states.
 
-Game logic and player cognitive and physical analysis could be reusable in other projects. Code, which interfaces with Unity, would only be reusable with other Unity projects.
+Unity interface code would only be reusable with other Unity projects.
 
 #### 3.5.5 Portability
 <!-- Specify attributes of software that relate to the ease of porting the software to other host machines and/or operating systems. -->
