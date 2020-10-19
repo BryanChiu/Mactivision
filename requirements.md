@@ -168,7 +168,7 @@ Work                           | Description
 -------------------------------|----------------------
 Requirements Specification     | Complete SRS document.
 Prototype                      | Half of the group works on the measurement framework and the other half creates one mini game that showcases the interaction between the player and the game and the game and the framework. Framework group should communicate with members of other group working on ia G-ScalE project.
-Design                         | After reflecting on the good and bad decision from the prototype, redesign prototype using measurement data collected to more accurately measure targeted cognative and physical abilities of that particular game. From this process come up with alternative mini game designs.
+Design                         | After reflecting on the good and bad decisions from the prototype, redesign prototype using measurement data collected to more accurately measure targeted cognative and physical abilities of that particular game. From this process come up with alternative mini game designs.
 Prototype 2.0                  | Prototype 2 should have increased measurement functionality. The aim for this mini game is for it to be feature complete so it's can be used as a template to accelerate the development of other mini games.  
 Internal and External Testing  | UX testing will be done on the feature complete mini game and there will be a review of it's code quality. Lessons learned will be applied to future mini games.
 Final Version                  | Measurement framework is complete and decoupled from mini games. Multiple feature complete mini games will be finished.
