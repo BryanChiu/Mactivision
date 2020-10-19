@@ -770,11 +770,11 @@ Apr 8  | Capstone Day Showcase
 The following is a design mockup of how the mini games will look like during development.
 When the mini game is running there will be an overlay over the screen or off to the side of the game world, which will display all the measurement data. This will be helpful in tuning the measurement collection methods and will be used in refining the mini game to meet specific cognitive and physical measurement goals of that particular mini games.
 
-![Image of Design MockUp](https://i.imgur.com/j2X5dEe.png)
+![Image of Design MockUp](assets/proof_of_concept_001.png)
 
 Below is a proof of concept of the above mock up design. A simple game was created in which the user controls the green square and collects the pink squares. If the player hits a wall they are transported back to the middle of the game world. If the player collects a pink square (food), their food count is increased. The food count represents the player's score. The higher the better. On the left side of the game world an overlay exists displaying some of the measurement data collected during the game. For now, it keeps track of time and number of foods collected and number of times the player has hit the wall. Even from these rudimentary measurements, player analyze can begin. Future iterations of the project will be more feature rich in both game play, presentation and measurement fidelity.  
 
-![Image of Proof of Concept](https://i.imgur.com/ZlmfbVm.png)
+![Image of Proof of Concept](assets/mike_game_poc_001.png)
 
 The proof of concept is also "playable" online by visiting the link below:
 
