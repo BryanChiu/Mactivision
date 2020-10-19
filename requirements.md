@@ -295,8 +295,8 @@ There are some requirements that will be designed and implemented only if there 
 
 The stakeholders for this project are:
 * **The Clients**
-  * **Sasha Soraine**: <!-- TODO: Add stuff here -->
-  * **Dr. Jacques Carette**: <!-- TODO: Add stuff here -->
+  * **Sasha Soraine**: Supervisor of this project
+  * **Dr. Jacques Carette**: Supervisor of this project
 * **The End Users**
   * The people who will play the minigames, and will have their _cognitive and motor abilities_ measured and recorded into _player profiles_.
 * **Others**
