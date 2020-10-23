@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         Debug.Log("Line from David");    
+        // This should be a conflict
     }
 
     // Update is called once per frame
