@@ -1,0 +1,1 @@
+pandoc -s --webtex -i -t slidy slides.md  -o slides.html
