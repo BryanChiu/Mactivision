@@ -19,5 +19,6 @@ public class Player : MonoBehaviour
     {
         // master test
         anim.SetBool("isRunning", true);
+        // Bryan was here
     }
 }
