@@ -16,5 +16,6 @@ public class Player : MonoBehaviour
     void Update()
     {
         anim.SetBool("isRunning", true);
+        // Bryan was here
     }
 }
