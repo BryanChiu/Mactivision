@@ -9,7 +9,8 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        anim = GetComponent<Animator>();    
+        anim = GetComponent<Animator>();
+        Debug.Log("Line from David");    
     }
 
     // Update is called once per frame
