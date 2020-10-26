@@ -7,6 +7,7 @@ public class InputManager : MonoBehaviour
     List<KeyCode> keysDownArray; // List of keys currently held down (not full history)
     InputRecorder recorder; // input recorder (this will record full history)
     public ChestAnimator chest;
+    int presses = 0;
 
     // Start is called before the first frame update
     void Start()
