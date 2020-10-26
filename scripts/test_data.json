@@ -1,0 +1,58 @@
+{
+	"gameId": "27",
+	"gameVersion": "1.0.2",
+	"sessionId": "c5799982-1796-11eb-adc1-0242ac120002",
+	"playerId": "14351236",
+	"gameStart": "1603722391637",
+	"gameEnd": "1603722402642",
+	"gameResult": "complete",
+	"gameScore": "9",
+	"errorCode": "0",
+	"inputData": [
+        {
+			"eventType": "key down",
+			"eventValue": "C",
+			"timeStamp": "1603722391637"
+		},
+		{
+			"eventType": "key down",
+			"eventValue": "C",
+			"timeStamp": "1603722392145"
+		},
+		{
+			"eventType": "key down",
+			"eventValue": "C",
+			"timeStamp": "1603722393125"
+		},
+		{
+			"eventType": "key down",
+			"eventValue": "C",
+			"timeStamp": "1603722395431"
+		},
+		{
+			"eventType": "key down",
+			"eventValue": "C",
+			"timeStamp": "1603722396112"
+		},
+		{
+			"eventType": "key down",
+			"eventValue": "C",
+			"timeStamp": "1603722397852"
+		},
+		{
+			"eventType": "key down",
+			"eventValue": "C",
+			"timeStamp": "1603722399123"
+		},
+		{
+			"eventType": "key down",
+			"eventValue": "C",
+			"timeStamp": "1603722401214"
+		},
+		{
+			"eventType": "key down",
+			"eventValue": "C",
+			"timeStamp": "1603722403531"
+		}
+	]
+}
