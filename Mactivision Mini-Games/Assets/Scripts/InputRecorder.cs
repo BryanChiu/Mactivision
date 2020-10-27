@@ -23,7 +23,8 @@ public class InputRecorder
     float endTime;
 
     // Constructor
-    public InputRecorder() {
+    public InputRecorder()
+    {
         outputPath = "Logs/" + System.DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss") + ".json";
         writer = new StreamWriter(outputPath, true);
         recording = false;
@@ -33,7 +34,8 @@ public class InputRecorder
 
     // Start the recording
     // Write the start time 
-    public void StartRec() {
+    public void StartRec()
+    {
         if (recording) return;
         writer.WriteLine("{");
         writer.WriteLine("\"Time start\" : \"" + System.DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss") + "\",");
@@ -46,7 +48,8 @@ public class InputRecorder
     // End the recording
     // Write the end time, and write each event
     // End the json structure, close the file
-    public void EndRec() {
+    public void EndRec()
+    {
         if (!recording) return;
         writer.WriteLine("\"Time end\" : \"" + System.DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss") + "\",");
         writer.WriteLine("\"Events\" : ");
@@ -63,13 +66,15 @@ public class InputRecorder
     }
 
     // Add an event to the list
-    public void AddEvent(KeyCode key, bool val) {
+    public void AddEvent(KeyCode key, bool val)
+    {
         if (!recording) return;
         keyEvents.Add((Time.time, key, val));
     }
 
     // Write an event using proper JSON formatting
-    private void LogToFile((float time, KeyCode key, bool val) e) {
+    private void LogToFile((float time, KeyCode key, bool val) e)
+    {
         writer.WriteLine("{ \"TimeStamp\" : " + System.String.Format("{0:0.000}", e.time) + ", \"Key\" : \"" + e.key + "\", \"Value\" : " + e.val.ToString().ToLower() + " },");
     }
 }
