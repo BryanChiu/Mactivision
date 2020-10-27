@@ -1,0 +1,1071 @@
+{
+  "Time start": "2020-10-27 03:18:41",
+  "Time end": "2020-10-27 03:18:53",
+  "Events": [
+    {
+      "TimeStamp": 4.073,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 4.094,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 4.18,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 4.204,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 4.275,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 4.311,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 4.376,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 4.421,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 4.491,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 4.54,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 4.594,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 4.638,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 4.692,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 4.736,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 4.798,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 4.848,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 4.907,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 4.95,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 5.013,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 5.061,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 5.116,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 5.17,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 5.231,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 5.283,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 5.345,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 5.39,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 5.453,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 5.502,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 5.568,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 5.617,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 5.676,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 5.727,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 5.789,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 5.848,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 5.901,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 5.961,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 6.021,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 6.078,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 6.137,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 6.198,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 6.265,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 6.317,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 6.392,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 6.445,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 6.445,
+      "Key": "H",
+      "Value": true
+    },
+    {
+      "TimeStamp": 6.518,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 6.518,
+      "Key": "H",
+      "Value": false
+    },
+    {
+      "TimeStamp": 6.572,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 6.586,
+      "Key": "H",
+      "Value": true
+    },
+    {
+      "TimeStamp": 6.619,
+      "Key": "H",
+      "Value": false
+    },
+    {
+      "TimeStamp": 6.638,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 6.702,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 6.77,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 6.823,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 6.888,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 6.931,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 7.005,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 7.047,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 7.106,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 7.16,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 7.221,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 7.273,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 7.327,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 7.374,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 7.441,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 7.491,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 7.548,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 7.598,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 7.673,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 7.726,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 7.797,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 7.865,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 7.865,
+      "Key": "N",
+      "Value": true
+    },
+    {
+      "TimeStamp": 7.931,
+      "Key": "N",
+      "Value": false
+    },
+    {
+      "TimeStamp": 7.931,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 7.98,
+      "Key": "N",
+      "Value": true
+    },
+    {
+      "TimeStamp": 8.046,
+      "Key": "N",
+      "Value": false
+    },
+    {
+      "TimeStamp": 8.125,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 8.185,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 8.246,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 8.301,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 8.345,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 8.408,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 8.456,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 8.522,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 8.565,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 8.631,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 8.683,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 8.757,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 8.801,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 8.873,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 8.917,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 8.992,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 9.025,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 9.105,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 9.15,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 9.221,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 9.267,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 9.335,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 9.375,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 9.445,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 9.486,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 9.566,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 9.6,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 9.681,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 9.726,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 9.793,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 9.842,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 9.918,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 9.962,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 10.029,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 10.074,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 10.154,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 10.209,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 10.276,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 10.322,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 10.402,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 10.44,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 10.522,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 10.577,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 10.648,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 10.707,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 10.786,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 10.846,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 10.928,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 10.98,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 11.062,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 11.112,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 11.189,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 11.241,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 11.326,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 11.37,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 11.467,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 11.501,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 11.583,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 11.593,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 11.688,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 11.718,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 11.787,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 11.827,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 11.906,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 11.95,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 12.026,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 12.068,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 12.137,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 12.18,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 12.244,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 12.287,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 12.358,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 12.4,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 12.486,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 12.52,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 12.599,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 12.642,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 12.717,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 12.767,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 12.829,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 12.887,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 12.954,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 13.026,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 13.101,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 13.158,
+      "Key": "N",
+      "Value": true
+    },
+    {
+      "TimeStamp": 13.245,
+      "Key": "N",
+      "Value": false
+    },
+    {
+      "TimeStamp": 13.32,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 13.39,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 13.462,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 13.518,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 13.595,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 13.661,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 13.734,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 13.808,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 13.85,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 13.936,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 13.997,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 14.07,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 14.132,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 14.207,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 14.285,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 14.361,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 14.434,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 14.502,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 14.568,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 14.648,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 14.722,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 14.791,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 14.875,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 14.936,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 15.002,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 15.062,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 15.115,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 15.199,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 15.275,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 15.351,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 15.424,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 15.501,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 15.572,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 15.653,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 15.741,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 15.792,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 15.864,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 15.886,
+      "Key": "Y",
+      "Value": true
+    },
+    {
+      "TimeStamp": 15.911,
+      "Key": "Y",
+      "Value": false
+    },
+    {
+      "TimeStamp": 15.936,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 16.013,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 16.08,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 16.16,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 16.232,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 16.333,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 16.408,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 16.499,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 16.581,
+      "Key": "B",
+      "Value": false
+    },
+    {
+      "TimeStamp": 16.671,
+      "Key": "B",
+      "Value": true
+    },
+    {
+      "TimeStamp": 16.763,
+      "Key": "B",
+      "Value": false
+    }
+  ]
+}
