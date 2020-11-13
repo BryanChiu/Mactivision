@@ -460,6 +460,7 @@ window: The game window
 `Start` is called at the beginning of the scene\
 `Update` is called once each game cycle\
 `OnTriggerStay2D` is called when a trigger gameobject is touching another gameobject; it is called before `Update` in the game cycle.
+`destination` are vectors representing position relative to the chest gameobject.
 
 #### Design Decisions
 This module controls the chest and coin animation when the player reaches it.
