@@ -9,10 +9,13 @@ Table of Contents
     * 4.1.1 [Abstract Metric Event Module](#411-abstract-metric-event-module)
     * 4.1.2 [Abstract Metric Module](#412-abstract-metric-module)
   * 4.2 [Minigame Modules](#42-minigame-modules)
-    * 4.2.1 [Digger Level Manager Module](#421-digger-level-manager-module)
-    * 4.2.2 [Player Controller Module](#422-player-controller-module)
-    * 4.2.3 [Ground Breaker Module](#423-ground-breaker-module)
-    * 4.2.4 [Chest Animator Module](#424-chest-animator-module)
+    * 4.2.1 [Digger Modules](#421-digger-modules)
+      * 4.2.1.1 [Digger Level Manager Module](#4211-digger-level-manager-module)
+      * 4.2.1.2 [Player Controller Module](#4212-player-controller-module)
+      * 4.2.1.3 [Ground Breaker Module](#4213-ground-breaker-module)
+      * 4.2.1.4 [Chest Animator Module](#4214-chest-animator-module)
+    * 4.2.2 [Conveyor Modules](#422-conveyor-modules)
+    * 4.2.3 [ThirdGame Modules](#423-thirdgame-modules)
 * 5 [List of Changes to SRS](#5-list-of-changes-to-srs)
 * 6 [Module Relationship Diagram](#6-module-relationship-diagram)
 * 7 [Significant Algorithms/Non-Trivial Invariants](#7-significant-algorithms/non-trivial-invariants)
@@ -226,12 +229,16 @@ This section of the document contains all modules relating to the _Measurement F
 
 This section of the document contains all modules relating to the mini-games. These modules are to be implemented in the Unity environment alongside the _Measurement Framework_ modules.
 
-## 4.2.1 Digger Level Manager Module
+## 4.2.1 Digger Modules
+
+This section of modules are used in the Digger game.
+
+## 4.2.1.1 Digger Level Manager Module
 ### Module inherits MonoBehaviour
 DiggerLevelManager
 
 ### Uses
-[`PlayerController`](#422-player-controller-module), [`GroundBreaker`](#423-ground-breaker-module), [`ChestAnimator`](#424-chest-animator-module), [`ButtonPressingMetric`](#button-pressing-metric-module), [`ButtonPressingEvent`](#button-pressing-event-module), {UnnamedJSONOutputter}, `UnityEngine.Event`, `UnityEngine.KeyCode`, `System.DateTime`
+[`PlayerController`](#4212-player-controller-module), [`GroundBreaker`](#4213-ground-breaker-module), [`ChestAnimator`](#4214-chest-animator-module), [`ButtonPressingMetric`](#button-pressing-metric-module), [`ButtonPressingEvent`](#button-pressing-event-module), {UnnamedJSONOutputter}, `UnityEngine.Event`, `UnityEngine.KeyCode`, `System.DateTime`
 
 ### Syntax
 #### Exported Constants
@@ -254,8 +261,8 @@ None
 window: The game window
 
 #### State Variables
-`player`: [`PlayerController`](#422-player-controller-module)\
-`chest`: [`ChestAnimator`](#424-chest-animator-module)\
+`player`: [`PlayerController`](#4212-player-controller-module)\
+`chest`: [`ChestAnimator`](#4214-chest-animator-module)\
 `bpMetric`: [`ButtonPressingMetric`](#button-pressing-metric-module)\
 `digAmount`: ℕ\
 `digKey`: `KeyCode`\
@@ -305,13 +312,13 @@ This module manages the majority of functionality in the game. It is responsible
    window := The game screen is blurred and a "level complete" text appears. A button appears to go to the next scene (mini-game or main menu) 
 
 `SetDigKeyForGround()`
-- transition: ∀ b:[`GroundBreaker`](#423-ground-breaker-module)| b.`SetDigKey(digKey)`
+- transition: ∀ b:[`GroundBreaker`](#4213-ground-breaker-module)| b.`SetDigKey(digKey)`
 
 `SetDigAmountForGround()`
-- transition: ∀ b:[`GroundBreaker`](#423-ground-breaker-module)| b.`SetHitsToBreak( ⌈digAmount/10⌉ )`
+- transition: ∀ b:[`GroundBreaker`](#4213-ground-breaker-module)| b.`SetHitsToBreak( ⌈digAmount/10⌉ )`
 
 
-## 4.2.2 Player Controller Module
+## 4.2.1.2 Player Controller Module
 ### Module inherits MonoBehaviour
 PlayerController
 
@@ -356,12 +363,12 @@ This module controls the digging action of the player.
 - transition: window := The location of the jackhammer is set to `hammerRest`. A dust sprite is generated in a random position near the jackhammer.
 
 
-## 4.2.3 Ground Breaker Module
+## 4.2.1.3 Ground Breaker Module
 ### Module inherits MonoBehaviour
 GroundBreaker
 
 ### Uses
-[`PlayerController`](#422-player-controller-module), `UnityEngine.KeyCode`, `UnityEngine.Input`, `UnityEngine.Collider2D`
+[`PlayerController`](#4212-player-controller-module), `UnityEngine.KeyCode`, `UnityEngine.Input`, `UnityEngine.Collider2D`
 
 ### Syntax
 #### Exported Constants
@@ -384,7 +391,7 @@ None
 window: The game window
 
 #### State Variables
-`player`: [`PlayerController`](#422-player-controller-module)\
+`player`: [`PlayerController`](#4212-player-controller-module)\
 `digKey`: `KeyCode`\
 `hitsToBreak`: ℕ\
 `hits`: ℕ\
@@ -422,12 +429,12 @@ This module controls the breaking of an individual ground block. By default, eac
 - transition: `hitsToBreak` := `hits`
 
 
-## 4.2.4 Chest Animator Module
+## 4.2.1.4 Chest Animator Module
 ### Module inherits MonoBehaviour
 ChestAnimator
 
 ### Uses
-[`PlayerController`](#422-player-controller-module), `UnityEngine.Collider2D`
+[`PlayerController`](#4212-player-controller-module), `UnityEngine.Collider2D`
 
 ### Syntax
 #### Exported Constants
@@ -448,7 +455,7 @@ None
 window: The game window
 
 #### State Variables
-`player`: [`PlayerController`](#422-player-controller-module)\
+`player`: [`PlayerController`](#4212-player-controller-module)\
 `opened`: 𝔹\
 `coinspeed`: ℝ\
 `destination`: [ℝ, ℝ, ℝ]
@@ -474,6 +481,14 @@ This module controls the chest and coin animation when the player reaches it.
 
 `OnTriggerStay2D(c)`
 - transition: `c.gameObject.name`==`player.gameObject.name` ⇒ `opened` := `true`, window := The chest animates opening.
+
+## 4.2.2 Conveyor Modules
+
+This section of modules are used in the Conveyor game.
+
+## 4.2.3 ThirdGame Modules
+
+This section of modules are used in the ThirdGame game.
 
 # 5. List of Changes to SRS
 
