@@ -19,7 +19,7 @@ Table of Contents
 
 * The SRS document will continue to evolve throughout the life span of this project. It will be updated with changes discovered during the creation of a design document and for each subsequent major deliverable.
 
-TODO: Fill in A, B, C
+TODO(mike): Fill in A, B, C
 
 * There are 46 cognitive and motor abilities available to measure as defined in our SRS.[LINK]. In the design of the three games listed in this document we have specifically targeted A, B, and C. Which abilities each game measures is subject to change as we create the games and test them with players. The measurement modules will help determine whether a game is accurately and meaningfully capturing the targeted abilities. If the game is not capturing the targeted ability in a significant way change must be made to the game or to the measurement module. Additionally, it may be discovered that some abilities are irrevocably linked and must be included in the targeted abilities list. Similarly, some games or measurement modules may be ineffective at measuring a specific ability within the scope of the project, in such as case, those abilities may be removed for the targeted list. These changes are expected to occur during the development of the mini games. In anticipation of this the design the games are kept simple such that they have a minimal number of game elements. Unity allows for these game elements to be module allowing for easy addition or subtraction from a particular game. Even eliminating an entire game design is a possibility. However, the module nature of the game elements will allow for reuse in any new design created as a replacement. This ensures that development of mini games is agility and can easily adapt to new discoveries in relationship between games and player abilities.
 
@@ -92,9 +92,9 @@ TODO(mike): Add links from here to SRS document
 
 * Changed software interface from database to JSON files. [LINK TO 3.1.3]
 
-* Added present data and removed pause screen and score screen from functional requirements. Present data is required to make data collected readable to researchers. Pauser and score screens are unnesscary as discussed with supervisor. [LINK TO 3.2]
+* Added present data and removed pause screen and score screen from functional requirements. Present data is required to make data collected readable to researchers. Pause and score screens are unnecessary as discussed with supervisor. [LINK TO 3.2]
 
-* Removed database connection from Avaiability and added player time. A player must be available to complete a battery in one sitting without breaks. [LINK TO 3.3.4]
+* Removed database connection from Availability and added player time. A player must be available to complete a battery in one sitting without breaks. [LINK TO 3.3.4]
 
 * Added player browsers as installation detail. [LINK OT 3.5.1]
 
