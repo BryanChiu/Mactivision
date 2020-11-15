@@ -9,6 +9,7 @@ Table of Contents
     * 4.1.1 [Abstract Metric Event Module](#411-abstract-metric-event-module)
     * 4.1.2 [Abstract Metric Module](#412-abstract-metric-module)
   * 4.2 [Minigame Modules](#42-minigame-modules)
+    * 4.2.0 [`LevelManager`](#420-abstract-level-manager-module)
     * 4.2.1 [Digger Modules](#421-digger-modules)
       * 4.2.1.1 [Digger Level Manager Module](#4211-digger-level-manager-module)
       * 4.2.1.2 [Player Controller Module](#4212-player-controller-module)
@@ -247,13 +248,64 @@ This section of the document contains all modules relating to the _Measurement F
 
 This section of the document contains all modules relating to the mini-games. These modules are to be implemented in the Unity environment alongside the _Measurement Framework_ modules.
 
+## 4.2.0 Abstract Level Manager Module
+abstract `LevelManager` module inherits MonoBehaviour
+
+### Uses
+None
+
+### Syntax
+#### Exported Constants
+None
+
+#### Exported Types
+None
+
+#### Exported Access Programs
+| Routine Name | In | Out | Exceptions |
+|---|---|---|---|
+| `Setup` ||||
+| `StartLevel` ||||
+| `EndLevel` ||||
+
+### Semantics
+#### Environment Variables
+window: The game window
+
+#### State Variables
+`lvlState`: ℕ\
+`lvlCountDown`: ℝ
+
+#### State Invariant
+`lvlState`∈ {0..2}
+
+#### Assumptions
+None
+
+#### Design Decisions
+This module provides access routines to inherited modules for pre and post-game features. Specifically it starts the scene with a blurred game scene with an introductory text, then a countdown, and a end game text.
+
+#### Access Routine Semantics
+`Setup()`
+- transition: `lvlState`, `lvlCountDown` := 0, 5.0,<br>
+   window := An introductory text is displayed over a blurred game screen
+
+`StartLevel()`
+- transition: `lvlState`==0 ∧ `countDown`<=4 ⇒
+   `countDown` := decrements 1.0/sec,<br>
+   window := Countdown begins, starting at 3.<br>
+   `countDown`<=0 ⇒ `lvlState` := 1, window := Countdown is removed after 0 and game screen is unblurred
+
+`EndLevel()`
+- transition: `lvlState` := 2, window := The game screen is blurred and a "level complete" text appears. A button appears to go to the next scene (mini-game or main menu).
+
+
 ## 4.2.1 Digger Modules
 
 This section of modules are used in the Digger game.
 
 ## 4.2.1.1 Digger Level Manager Module
-### Module inherits MonoBehaviour
-DiggerLevelManager
+`DiggerLevelManager` module inherits [`LevelManager`](#420-abstract-level-manager-module)
 
 ### Uses
 [`PlayerController`](#4212-player-controller-module), [`GroundBreaker`](#4213-ground-breaker-module), [`ChestAnimator`](#4214-chest-animator-module), [`ButtonPressingMetric`](#button-pressing-metric-module), [`ButtonPressingEvent`](#button-pressing-event-module), {UnnamedJSONOutputter}, `UnityEngine.Event`, `UnityEngine.KeyCode`, `System.DateTime`
@@ -279,17 +331,17 @@ None
 window: The game window
 
 #### State Variables
+`bpMetric`: [`ButtonPressingMetric`](#button-pressing-metric-module)\
+`recording`: 𝔹\
 `player`: [`PlayerController`](#4212-player-controller-module)\
 `chest`: [`ChestAnimator`](#4214-chest-animator-module)\
-`bpMetric`: [`ButtonPressingMetric`](#button-pressing-metric-module)\
 `digAmount`: ℕ\
 `digKey`: `KeyCode`\
-`lvlState`: ℕ\
-`lvlCountDown`: ℝ
+`lvlState`: ℕ (inherited from [`LevelManager`](#420-abstract-level-manager-module))\
+`lvlCountDown`: ℝ (inherited from [`LevelManager`](#420-abstract-level-manager-module))
 
 #### State Invariant
 `digAmount`>0\
-`lvlState`∈ {0..2}
 
 #### Assumptions
 `Start` is called at the beginning of the scene.\
@@ -297,38 +349,28 @@ window: The game window
 `OnGUI` is called when a GUI event occurs (keyboard/mouse); it is called after `Update` in the game cycle.
 
 #### Design Decisions
-This module manages the majority of functionality in the game. It is responsible for the pre and post-game features. The `digAmount` is the number of button presses required to finish the level. It rounds up to the nearest 10 (as there are 10 blocks to break in the level). `digAmount` and `digKey` have default values of 100 and the "B" key, but can be changed using the battery setup file. 
+This module manages the majority of functionality in the game. The `digAmount` is the number of button presses required to finish the level. It rounds up to the nearest 10 (as there are 10 blocks to break in the level). `digAmount` and `digKey` have default values of 100 and the "B" key, but can be changed using the battery setup file. 
 
 #### Access Routine Semantics
 `Start()`
-- transition: `bpMetric`, `digAmount`, `digKey`, `lvlState`, `lvlCountDown` := new [`ButtonPressingMetric`](#button-pressing-metric-module), 100, `KeyCode.B`, 0, 5.0 <br> window := An introductory text is displayed over a blurred game screen
+- transition: `bpMetric`, `recording`, `digAmount`, `digKey`, `lvlState`, `lvlCountDown` := new [`ButtonPressingMetric`](#button-pressing-metric-module), `false`, 100, `KeyCode.B`, 0, 5.0 <br> window := An introductory text is displayed over a blurred game screen
 
 `Update()`
-- transition:
+- transition: `lvlState`==1 ⇒
    |||
    |---|---|
-   | `lvlState`==0 ∧ `countDown`<=4 | `StartLevel()` |
-   | `lvlState`==1 ∧ `chest.opened` | `bpMetric.EndRec()`, `lvlState` := 2, `EndLevel()` |
+   | `recording` | `recording` := `true`, `bpMetric.StartRec()`,  |
+   | `chest.opened` | `bpMetric.EndRec()`, `EndLevel()` |
 
 `OnGUI()`
 - transition: `e.isKey` ⇒
    |||
    |---|---|
-   | `lvlState`==0 ∧ `countDown`>4 | `countdown` := 4.0, window := The intro text changes to a countdown starting at 3 |
+   | `lvlState`==0 ∧ `countDown`>4 | `countdown` := 4.0, `StartLevel()` |
    | `lvlState`==1 ∧ `e.keyCode`==`digKey` ∧ press| `bpMetric.AddEvent(new ButtonPressingEvent(DateTime.Now, e.keyCode, true))`, `player.DigDown()` |
    | `lvlState`==1 ∧ `e.keyCode`==`digKey` ∧ release | `bpMetric.AddEvent(new ButtonPressingEvent(DateTime.Now, e.keyCode, false))`, `player.DigUp()` |
 
 #### Local Routine Semantics
-`StartLevel()`
-- transition: `countDown` := decrements 1.0/sec,<br>
-   window := Countdown is removed after 0 and game screen is unblurred,<br>
-   `SetDigKeyForGround()`,<br>
-   `SetDigKAmountForGround()`
-
-`EndLevel()`
-- transition: `{UnnamedJSONOutputter}.AddMetric(bpMetric)`,<br> 
-   window := The game screen is blurred and a "level complete" text appears. A button appears to go to the next scene (mini-game or main menu) 
-
 `SetDigKeyForGround()`
 - transition: ∀ b:[`GroundBreaker`](#4213-ground-breaker-module)| b.`SetDigKey(digKey)`
 
