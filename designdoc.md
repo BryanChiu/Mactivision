@@ -9,7 +9,7 @@ Table of Contents
     * 4.1.1 [Abstract Metric Event Module](#411-abstract-metric-event-module)
     * 4.1.2 [Abstract Metric Module](#412-abstract-metric-module)
   * 4.2 [Minigame Modules](#42-minigame-modules)
-    * 4.2.0 [LevelManager](#420-abstract-level-manager-module)
+    * 4.2.0 [Abstract Level Manager Module](#420-abstract-level-manager-module)
     * 4.2.1 [Digger Modules](#421-digger-modules)
       * 4.2.1.1 [Digger Level Manager Module](#4211-digger-level-manager-module)
       * 4.2.1.2 [Player Controller Module](#4212-player-controller-module)
