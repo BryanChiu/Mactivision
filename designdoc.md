@@ -359,7 +359,7 @@ This module manages the majority of functionality in the game. The `digAmount` i
 - transition: `lvlState`==1 ⇒
    |||
    |---|---|
-   | `recording` | `recording` := `true`, `bpMetric.StartRec()`,  |
+   | ¬`recording` | `recording` := `true`, `bpMetric.StartRec()`,  |
    | `chest.opened` | `bpMetric.EndRec()`, `EndLevel()` |
 
 `OnGUI()`
