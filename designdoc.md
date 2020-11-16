@@ -608,5 +608,5 @@ TODO(mike): Add links from here to SRS document
 * Added player browsers as installation detail. [LINK OT 3.5.1]
 
 # 6. Module Relationship Diagram
-![](ModuleRelationshipDiagram.jpg)
+![](ModuleRelationShip.jpg)
 # 7. Significant Algorithms/Non-Trivial Invariants
