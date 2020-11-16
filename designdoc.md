@@ -551,6 +551,107 @@ This section of modules are used in the Conveyor game.
 
 This section of modules are used in the ThirdGame game.
 
+## 4.3 Battery Module
+
+This section of the document contains all modules relating to the Battery. This module handles the administration of the battery. This includes loading the JSON configuration file, getting player credentials, starting the battery, loading and unloading mini games and ending the battery. 
+
+### Module inherits MonoBehaviour
+Battery 
+
+### Uses
+`UnityEngine.SceneManagement`,
+`Newtonsoft.Json`,
+`System.Collections`,
+`System.IO`
+`System.DateTime`
+
+### Syntax
+
+#### __Exported Constants__
+JSON\_BATTERY\_FILENAME
+
+#### __Exported Types__
+None
+
+#### __Exported Access Programs__
+
+| Routine Name  | IN     | Out  | Exceptions                |
+|---------------|--------|------|---------------------------|
+|`LoadBattery`  | string |      | `FileNotFoundException`   | 
+|`StartBattery` |        |      |                           | 
+|`LoadGame`     | ℕ      | 𝔹    | `SceneCouldNotBeLoaded`   | 
+|`UnloadGame`   | ℕ      | 𝔹    | `SceneCouldNotBeUnloaded` | 
+|`EndBattery`   |        | JSON | `IOException`             |
+|`OnGUI`        |        |      |                           |
+|`Start`        |        |      |                           |
+
+### Semantics
+
+#### Environment Variables
+window: The game window
+
+#### __State Variables__
+`battery`: JSONBattery
+`player_name`: string
+`completed`: 𝔹
+`current_game`: ℕ 
+`start_time`: DateTime 
+`end_time`: DateTime
+
+#### __Assumptions__
+Battery is also a scene in unity. It is the primary scene and will load and unload other scenes (the games). Because Battery is a scene, Unity will automatically construct the object and then call Start(), therefore Start will act as the constructor. The `battery` variable will need to be available for each game as a global. 
+
+#### __Design Decisions__
+Battery was implemented as a scene because of Unity's SceneManager. It allows one scene to control the state (loaded or unloaded) of other scenes.
+
+The `battery` variable is global because each mini game is a scene and scenes do not have constructors from which you can pass variables to.
+
+The Battery module will output a copy of the JSON file used as input with additions of completed status and player name. This allows administrators to change the input file for new batterys will keeping a record of what battery settings were used by that particular player.
+
+#### __Access Routine Semantics__
+
+LoadBattery(filename):
+* transition: battery := loadJSON(filename)
+* output: None
+* exception: FileNotFoundException
+
+Start():
+* transition: completed := false, current\_game := 0, player\_name := ""
+* output: None
+* exception: FileNotFoundException
+
+OnGUI():
+* transition: window := Show battery start screen which allows player to input their name and start the battery by hitting a GUI button. player\_name := input
+* output: None
+* exception: None
+
+StartBattery():
+* transition: current\_game := 1, start\_time := DateTime.Now
+* output: None 
+* exception: None
+
+LoadGame(game):
+* transition: current\_game := game, window := Show loaded scene
+* output: None 
+* exception: SceneCouldNotBeLoaded 
+
+UnloadGame(game):
+* transition: current\_game := 0
+* output: None 
+* exception: SceneCouldNotBeUnloaded 
+
+EndBattery():
+* transition: completed := true, end\_time := DateTime.Now
+* output: JSON 
+* exception: IOException
+
+__Local Functions__
+loadScenes(battery) : ∀ game : battery.games | SceneManager.LoadScene(game, LoadSceneMode.Additive);
+
+loadJSON(filename): JsonConvert.DeserializeObject<JSONBattery>(File.ReadAllText(filename))
+
+writeJSON(filename): File.WriteAllText(filename, JsonConvert.SerializeObject(battery))
+
 # 5. List of Changes to SRS
 
 TODO(mike): Add links from here to SRS document
@@ -610,4 +711,6 @@ TODO(mike): Add links from here to SRS document
 
 # 6. Module Relationship Diagram
 ![](ModuleRelationShip.jpg)
+
 # 7. Significant Algorithms/Non-Trivial Invariants
+
