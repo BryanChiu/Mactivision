@@ -420,7 +420,7 @@ This module controls the digging action of the player.
 `DigUp`
 - transition: window := The location of the jackhammer is set to `hammerJump`.
 
-`DigUp`
+`DigDown`
 - transition: window := The location of the jackhammer is set to `hammerRest`. A dust sprite is generated in a random position near the jackhammer.
 
 
