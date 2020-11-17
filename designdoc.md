@@ -4,8 +4,8 @@ Table of Contents
 * 1 [Anticipated Changes](#1-anticipated-changes)
 * 2 [Unlikely Changes](#2-unlikely-changes)
 * 3 [List of Concepts](#3-list-of-concepts)
-  * 3.1 [Design-time Entities](#3.1-design-time-entities)
-  * 3.2 [Run-time Entities](#3.2-run-time-entities)
+  * 3.1 [Design-time Entities](#31-design-time-entities)
+  * 3.2 [Run-time Entities](#32-run-time-entities)
 * 4 [List of Modules](#4-list-of-modules)
   * 4.1 [Measurement Modules](#41-measurement-modules)
     * 4.1.1 [Abstract Metric Event Module](#411-abstract-metric-event-module)
@@ -453,7 +453,7 @@ This module controls the digging action of the player.
 `DigUp`
 - transition: window := The location of the jackhammer is set to `hammerJump`.
 
-`DigUp`
+`DigDown`
 - transition: window := The location of the jackhammer is set to `hammerRest`. A dust sprite is generated in a random position near the jackhammer.
 
 
