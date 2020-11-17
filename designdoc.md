@@ -6,7 +6,7 @@ Table of Contents
 * 2 [Unlikely Changes](#2-unlikely-changes)
 * 3 [List of Concepts](#3-list-of-concepts)
 * 4 [List of Modules](#4-list-of-modules)
-  * 4.1 [Measurement Framework Modules](#41-measurement-framework-modules)
+  * 4.1 [Measurement Modules](#41-measurement-modules)
     * 4.1.1 [Abstract Metric Event Module](#411-abstract-metric-event-module)
     * 4.1.2 [Abstract Metric Module](#412-abstract-metric-module)
   * 4.2 [Minigame Modules](#42-minigame-modules)
@@ -18,6 +18,7 @@ Table of Contents
       * 4.2.1.4 [Chest Animator Module](#4214-chest-animator-module)
     * 4.2.2 [Conveyor Modules](#422-conveyor-modules)
     * 4.2.3 [ThirdGame Modules](#423-thirdgame-modules)
+    * 4.3 [Battery Module](#43-battery-module)
 * 5 [List of Changes to SRS](#5-list-of-changes-to-srs)
 * 6 [Module Relationship Diagram](#6-module-relationship-diagram)
 * 7 [Significant Algorithms/Non-Trivial Invariants](#7-significant-algorithms/non-trivial-invariants)
@@ -42,7 +43,7 @@ TODO(mike): Fill in A, B, C
 
 * A database may be required to store the data instead of using JSON or other data structures in the long term. However, that is currently outside the scope of this project.
 
-* There is currently no plan to include functionality to handle the scenario where the player stops playing the games during the middle of the battery. The administrator of the battery will have to decide if the data collected so far is sufficient or if the battery should be re administered. Similarly, any software crashes or bugs which halt the execution of the battery or any of the mini games will be unrecoverable. The battery application contains no functionality to recover from these errors only to report them to the user and administrator. All attempts will be made to make the software robust enough for this to be unlikely and for error messages to be helpful to players and administrators so they can make actionable decisions. Thankfully, the duration of the battery should be short enough that a battery restart is possible.
+* There is currently no plan to include functionality to handle the scenario where the player stops playing the games during the middle of the battery. The administrator of the battery will have to decide if the data collected so far is sufficient or if the battery should be re administered. Similarly, any software crashes or bugs which halt the execution of the battery or any of the mini games will be unrecoverable. The battery module contains no functionality to recover from these errors only to report them to the user and administrator. All attempts will be made to make the software robust enough for this to be unlikely and for error messages to be helpful to players and administrators so they can make actionable decisions. Thankfully, the duration of the battery should be short enough that a battery restart is possible.
 
 * A somewhat likely and unlikely change is the player input devices. Because of Covid 19 most of the players will be completing a battery using a browser and a keyboard. The supervisors of the project hope to be able to add more input types in future, however that will mostly be attempted after Mactivision has submitted their final work. Therefore, it is unlikely that keyboard will change before work is completed. However, since the future of the project will likely add new inputs all efforts have been made, now, to accommodate different input devices. Using Unity to abstract player inputs into actions like "left", "right" and "fire 1" instead of "pad-up", "right arrow", "trigger 2" make accommodating different yet similar input devices trivial. Different kinds of input devices like motion controls are mice can't be mapped to the ab
 
@@ -50,9 +51,9 @@ TODO(mike): Fill in A, B, C
 
 # 4. List of Modules
 
-## 4.1 Measurement Framework Modules
+## 4.1 Measurement Modules
 
-This section of the document contains all modules relating to the _Measurement Framework_. These modules are to be implemented alongside the _Minigame_ modules in the Unity environment, and will be accessed by modules in the _Minigame_ set of modules.
+This section of the document contains all modules relating to the _Measurement Modules_. These modules are to be implemented alongside the _Minigame_ modules in the Unity environment, and will be accessed by modules in the _Minigame_ set of modules.
 
 ## 4.1.1 Abstract Metric Event Module
   `abstract AbstractMetricEvent` Module 
@@ -247,7 +248,7 @@ This section of the document contains all modules relating to the _Measurement F
 
 ## 4.2 Minigame Modules
 
-This section of the document contains all modules relating to the mini-games. These modules are to be implemented in the Unity environment alongside the _Measurement Framework_ modules.
+This section of the document contains all modules relating to the mini-games. These modules are to be implemented in the Unity environment alongside the _Measurement_ modules.
 
 ## 4.2.0 Abstract Level Manager Module
 abstract `LevelManager` module inherits MonoBehaviour
@@ -591,12 +592,12 @@ None
 window: The game window
 
 #### __State Variables__
-`battery`: JSONBattery
-`player_name`: string
-`completed`: 𝔹
-`current_game`: ℕ 
-`start_time`: DateTime 
-`end_time`: DateTime
+`battery`: JSONBattery 
+`player_name`: string 
+`completed`: 𝔹 
+`current_game`: ℕ  
+`start_time`: DateTime  
+`end_time`: DateTime 
 
 #### __Assumptions__
 Battery is also a scene in unity. It is the primary scene and will load and unload other scenes (the games). Because Battery is a scene, Unity will automatically construct the object and then call Start(), therefore Start will act as the constructor. The `battery` variable will need to be available for each game as a global. 
@@ -610,47 +611,48 @@ The Battery module will output a copy of the JSON file used as input with additi
 
 #### __Access Routine Semantics__
 
-LoadBattery(filename):
-* transition: battery := loadJSON(filename)
+`LoadBattery(filename)`:
+* transition: `battery` := `loadJSON(filename)`
 * output: None
-* exception: FileNotFoundException
+* exception: `FileNotFoundException`
 
-Start():
-* transition: completed := false, current\_game := 0, player\_name := ""
+`Start()`:
+* transition: `completed` := `false`, `current_game` := `0`, `player_name` := `""`
 * output: None
-* exception: FileNotFoundException
+* exception: `FileNotFoundException`
 
-OnGUI():
-* transition: window := Show battery start screen which allows player to input their name and start the battery by hitting a GUI button. player\_name := input
+`OnGUI()`:
+* transition: `window` := Show battery start screen which allows player to input their name and start the battery by hitting a GUI button. `player_name := input`
 * output: None
 * exception: None
 
-StartBattery():
-* transition: current\_game := 1, start\_time := DateTime.Now
+`StartBattery()`:
+* transition: `current_game` := `1`, `start_time := DateTime.Now`
 * output: None 
 * exception: None
 
-LoadGame(game):
-* transition: current\_game := game, window := Show loaded scene
+`LoadGame(game)`:
+* transition: `current\_game` := `game`, `window` := Show loaded scene
 * output: None 
-* exception: SceneCouldNotBeLoaded 
+* exception: `SceneCouldNotBeLoaded`
 
-UnloadGame(game):
-* transition: current\_game := 0
+`UnloadGame(game)`:
+* transition: `current_game` := `0`
 * output: None 
-* exception: SceneCouldNotBeUnloaded 
+* exception: `SceneCouldNotBeUnloaded` 
 
-EndBattery():
-* transition: completed := true, end\_time := DateTime.Now
-* output: JSON 
-* exception: IOException
+`EndBattery()`:
+* transition: `completed` := `true`, `end_time` := `DateTime.Now`
+* output: `JSON` 
+* exception: `IOException`
 
 __Local Functions__
-loadScenes(battery) : ∀ game : battery.games | SceneManager.LoadScene(game, LoadSceneMode.Additive);
 
-loadJSON(filename): JsonConvert.DeserializeObject<JSONBattery>(File.ReadAllText(filename))
+`loadScenes(battery)`: ∀ game : battery.games | SceneManager.LoadScene(game, LoadSceneMode.Additive);
 
-writeJSON(filename): File.WriteAllText(filename, JsonConvert.SerializeObject(battery))
+`loadJSON(filename)`: JsonConvert.DeserializeObject<JSONBattery>(File.ReadAllText(filename))
+
+`writeJSON(filename)`: File.WriteAllText(filename, JsonConvert.SerializeObject(battery))
 
 # 5. List of Changes to SRS
 
@@ -664,7 +666,7 @@ TODO(mike): Add links from here to SRS document
 
 * Mini-games now have the ability for researchers to make small changes to the game's objectives by altering the game's variables.
 
-* Include details about battery application and JSON data used to setup up the batter test.
+* Include details about battery module and JSON data used to setup up the batter test.
 * Added variable length dictionary of variables to mini games.
 
 * Updated definitions, acronyms and abbreviations [LINK TO 1.3]. Added Battery definition. Removed database definition as it is outside the scope of this project. Updated vocabulary to be more consistent with the rest of the document.
@@ -675,29 +677,29 @@ TODO(mike): Add links from here to SRS document
 
 * Updated the product perspective to better reflect new separation of concerns between different parts of the project. Removed database information. [LINK TO 2.1] 
 
-* Add battery application, data manager, and metric modules to product functions. Remove database information. [LINK TO 2.2] 
+* Add battery module, data manager, and metric modules to product functions. Remove database information. [LINK TO 2.2] 
 
 * Added "Free Platform Game Assets" and "JsonDotNet" as dependencies. The "Free Platform Game Assets" provides a while range of 2d sprites which can be used in a variety of different mini-games. A design goal is to keep the graphics style and avatar of the player similar between different mini-games. The "JsonDotNet" package allows for the transformation of C# objects to JSON objects making it terminal to modify data recorded by the metric modules.  [LINK TO 2.5] 
 
 * Explained that admin users should be able to create a JSON file which describes a new battery. The file will contain the sequence of mini games that appear in the battery as well as variables that will make alterations of the mini games. Admin users should also be able to read and understand the data organized and presented by the Data Manager after a battery is completed. [LINK TO  2.4] 
 
-* Updated the apportioning of requirements to break up "measurement framework" into battery application, metric modules and data manager. Removed database requirements. [LINK TO 2.6]
+* Updated the apportioning of requirements to break up "measurement framework" into battery module, metric modules and data manager. Removed database requirements. [LINK TO 2.6]
 
 * Updated List of Stakeholders. Added McMaster University, TAs, game designers, and researchers/academics to the list of stakeholders. [LINK TO 2.7] 
 
 * Update requirements to match modules in design document. [LINK TO 3]
     * Removed pause game and show score screen. After discussion with supervisor it was determined that these functions were unnecessary.
     * Renamed Database to Data Manager. A database will no longer be used to store data. Instead, a JSON file will be used to store the raw data from which the Data Manager will collect that data and organize and present it. 
-    * Split Measurement Framework into Measurement Modules and Battery Application.
+    * Split Measurement Framework into Measurement Modules and Battery Module.
     * Added requirement that mini game start screen should contain instructions on how to play the game.
 
 * User interface changes [LINK 3.1.1]
     * Removed database as a requirement to the user interface. Instead of recording and validating player identification with a database backend; the user identification will be put in a meta data header in the JSON data for the battery that player is participating in.
-    * Users no longer launch individual games but launch the battery application which puts the users through sequence of mini games. 
+    * Users no longer launch individual games but launch the battery module which puts the users through sequence of mini games. 
     * Mini-game start screens must provide instructions to the player on how to play the game.
     * Removed concept of a main menu. That will now be broken up into the battery start screen and the mini game start screen.
     * Removed main menu example and added start and exit example.
-    * Move error messages from the mini-games to the battery application. 
+    * Move error messages from the mini-games to the battery module. 
 
 * Removed database from hardware interfaces [LINK 3.1.2]
 
