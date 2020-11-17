@@ -1,10 +1,11 @@
-
 Table of Contents
 =================
 * [Revision History](#revision-history)
 * 1 [Anticipated Changes](#1-anticipated-changes)
 * 2 [Unlikely Changes](#2-unlikely-changes)
 * 3 [List of Concepts](#3-list-of-concepts)
+  * 3.1 [Design-time Entities](#3.1-design-time-entities)
+  * 3.2 [Run-time Entities](#3.2-run-time-entities)
 * 4 [List of Modules](#4-list-of-modules)
   * 4.1 [Measurement Modules](#41-measurement-modules)
     * 4.1.1 [Abstract Metric Event Module](#411-abstract-metric-event-module)
@@ -31,11 +32,13 @@ Table of Contents
 
 * The SRS document will continue to evolve throughout the life span of this project. It will be updated with changes discovered during the creation of a design document and for each subsequent major deliverable.
 
-TODO(mike): Fill in A, B, C
-
-* There are 46 cognitive and motor abilities available to measure as defined in our SRS.[LINK]. In the design of the three games listed in this document we have specifically targeted A, B, and C. Which abilities each game measures is subject to change as we create the games and test them with players. The measurement modules will help determine whether a game is accurately and meaningfully capturing the targeted abilities. If the game is not capturing the targeted ability in a significant way change must be made to the game or to the measurement module. Additionally, it may be discovered that some abilities are irrevocably linked and must be included in the targeted abilities list. Similarly, some games or measurement modules may be ineffective at measuring a specific ability within the scope of the project, in such as case, those abilities may be removed for the targeted list. These changes are expected to occur during the development of the mini games. In anticipation of this the design the games are kept simple such that they have a minimal number of game elements. Unity allows for these game elements to be module allowing for easy addition or subtraction from a particular game. Even eliminating an entire game design is a possibility. However, the module nature of the game elements will allow for reuse in any new design created as a replacement. This ensures that development of mini games is agility and can easily adapt to new discoveries in relationship between games and player abilities.
+* There are 46 cognitive and motor abilities available to measure as defined in our [SRS](https://github.com/BryanChiu/Mactivision/wiki/Software-Requirements-Specification). In the design of the three games listed in this document we have specifically targeted Finger Pressing, Divided Attention, and Updating Working Memory. Which abilities each game measures is subject to change as we create the games and test them with players. The measurement modules will help determine whether a game is accurately and meaningfully capturing the targeted abilities. If the game is not capturing the targeted ability in a significant way, change must be made to the game or to the measurement module. Additionally, it may be discovered that some abilities are irrevocably linked and must be included in the targeted abilities list. Similarly, some games or measurement modules may be ineffective at measuring a specific ability within the scope of the project, in such as case, those abilities may be removed from the targeted list. These changes are expected to occur during the development of the mini games. In anticipation of this, the design the games are kept simple such that they have a minimal number of game elements. Unity allows for these game elements to be modular allowing for easy addition or subtraction from a particular game. Even eliminating an entire game design is a possibility. However, the module nature of the game elements will allow for reuse in any new design created as a replacement. This ensures that development of mini games is agile and can easily adapt to new discoveries in relationships between games and player abilities.
 
 * Number of Unity packages will increase as development continues during the project. Thankfully, it easy to add and remove packages using the Unity package manager. Graphical and audio assets can also be managed in this way. This makes distributing the assets easier when sharing the unity project between team members and the final deliverable. It also makes it much easier to track which packages we have used over time, as each package and collection of assets have their on page on the unity store. This is particularly important for keeping track of the licenses of these packages to make sure they can be used in the project now and in the future.
+
+* JSON is currently used to map data to C# objects and these objects are used to send and store data to and from the battery, mini games and measurement modules. The design and structure of these objects will change as more or less data of differing kinds are need to be shared and transported between modules. These objects are trivial to modify in C# which is why it so valuable that a third party Unity package can convert C# objects to JSON and back.
+
+* During the internal and external phase of development the project will go under rigorous testing from the programmers and play testers. Results from testing will likely change the design of the modules to improve code quality, user interface design and game design. 
 
 # 2. Unlikely Changes
 
@@ -45,9 +48,38 @@ TODO(mike): Fill in A, B, C
 
 * There is currently no plan to include functionality to handle the scenario where the player stops playing the games during the middle of the battery. The administrator of the battery will have to decide if the data collected so far is sufficient or if the battery should be re administered. Similarly, any software crashes or bugs which halt the execution of the battery or any of the mini games will be unrecoverable. The battery module contains no functionality to recover from these errors only to report them to the user and administrator. All attempts will be made to make the software robust enough for this to be unlikely and for error messages to be helpful to players and administrators so they can make actionable decisions. Thankfully, the duration of the battery should be short enough that a battery restart is possible.
 
-* A somewhat likely and unlikely change is the player input devices. Because of Covid 19 most of the players will be completing a battery using a browser and a keyboard. The supervisors of the project hope to be able to add more input types in future, however that will mostly be attempted after Mactivision has submitted their final work. Therefore, it is unlikely that keyboard will change before work is completed. However, since the future of the project will likely add new inputs all efforts have been made, now, to accommodate different input devices. Using Unity to abstract player inputs into actions like "left", "right" and "fire 1" instead of "pad-up", "right arrow", "trigger 2" make accommodating different yet similar input devices trivial. Different kinds of input devices like motion controls are mice can't be mapped to the ab
+* An unlikely change is the player input devices. Because of Covid 19 most of the players will be completing a battery using a browser and a keyboard. The supervisors of the project hope to be able to add more input types in future, however that will mostly be attempted after Mactivision has submitted their final work. Therefore, it is unlikely that keyboard will change before work is completed. However, since the future of the project will likely add new inputs all efforts have been made, now, to accommodate different input devices. Using Unity to abstract player inputs into actions like "left", "right" and "fire 1" instead of "pad-up", "right arrow", "trigger 2" make accommodating different yet similar input devices trivial. Different kinds of input devices like motion controls and mice can't be mapped as nicely and will require new modules.
 
 # 3. List of Concepts
+<!-- A list of concepts pertaining to your problem domain, and whether these concepts are design-time entities or run-time entities.
+For example, if 'sorting' was an important item in your problem domain, then 'permutations' would be an important concept too; however, it is extremely unusual for permutations to exist in code, they are a design-time concept in most sorting algorithms. In the same domain, comparison functions are another concept, but needs to exist at run-time (when sorting proper names or addresses, the comparison functions involved are highly non-trivial if one is to respect usual conventions). There will be overlap between these and points 1-2 above.
+
+Design time: a concept that appears in your design but not in your code. 
+Run time: a concept that is clearly present in your code.
+
+For example, most things to do with usability will have concepts that only appear at design time, as "the human" tends not to be reified in code (unless you're doing some funky actor-oriented architecture). Efficiency also tends to have artifacts that only appears outside the code itself.
+-->
+
+## 3.1 Design-time Entities
+
+* The player. The user who is told to complete a battery. The player will be using a device to run the battery and a device to send inputs to the battery. For the purpose of this design document we will assume that the player is using a Web Browser and Keyboard respectively. The player is given the battery by the battery administrator. The player runs the battery and is subjected to a series of mini games. The player completes the mini games by using their Keyboard. After the battery is completed the player can stop. 
+* The administrator. The user who creates the JSON configuration file which contains a sequence of mini-games to test the player with and variables which alter various parameters of the said mini-games. The player and administrator communicate throughout the battery to makes sure the player starts and completes it correctly. The administrator is also responsible for collected data output from the battery after it has concluded. Gathering completed completed, they will run the data through the data manager to organize and present the data to the researchers.
+
+* The researcher. For simplicity, they are separate from administrators, however they will likely assume the same role in practice. Researchers will make decisions based on the information provided by the administrators. These decisions may require altering the JSON configuration file. 
+
+* The browser. Used by players to interact with battery and mini-games. It will be recommended to users to run the battery on the newest version of Chrome. To provide a smooth experience to all browser players a target of 60fps should be maintained at all times. Furthermore, the FPS should be capped. Frame rates should remain constant to prevent hardware performance from affecting player performance measurements. 
+
+* The keyboard. Players of the web based battery will be required to provide their own keyboard. 
+
+* Unity Play. Allows developers to host their web based Unity game online for users to access. Using this provides quick turn around between making modifications to the project and letting to players and testers to try it out. Additionally, administrators can provide a link to the players and those players can complete the battery online with their web browser and keyboard.
+
+## 3.2 Run-time Entities
+
+* The player avatar. A collection sprites and animations that make up the player avatar. The player's movements and actions in game will be done through this avatar. The avatar will remain constant between mini games to provide familiarly to the player allowing the player to more easily adjust to the new games. Consistent game elements between games reduces the noise in player performance measurements. 
+
+* Start and end screens. Each battery and each mini game will contain a start and end screen. The start screen will provide instructions to the player on who to proceed and the end screen will provide notification to the player that the game or battery has ended. 
+
+* Player performance data presentation. Provide graphs and other visual aids to help researcher understand of the data collected after a battery completed. 
 
 # 4. List of Modules
 
@@ -715,4 +747,5 @@ TODO(mike): Add links from here to SRS document
 ![](ModuleRelationShip.jpg)
 
 # 7. Significant Algorithms/Non-Trivial Invariants
+
 
