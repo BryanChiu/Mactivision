@@ -23,6 +23,8 @@ Table of Contents
 * 5 [List of Changes to SRS](#5-list-of-changes-to-srs)
 * 6 [Module Relationship Diagram](#6-module-relationship-diagram)
 * 7 [Significant Algorithms/Non-Trivial Invariants](#7-significant-algorithms/non-trivial-invariants)
+  * 7.1 [Algorithms](#71-algorithms)
+  * 7.2 [Invariants](#72-invariants)
 
 # Revision History
 
@@ -748,4 +750,7 @@ TODO(mike): Add links from here to SRS document
 
 # 7. Significant Algorithms/Non-Trivial Invariants
 
+## 7.1 Algorithms
+
+## 7.2 Invariants
 
