@@ -988,3 +988,20 @@ This section of the document contains all modules relating to the _Measurement M
 ## 7.2 Invariants
 
 # 8. Traceability Matrix
+| Functional Requirements | Module Name |
+| F-8 | Battery Module |
+| F-11 | Abstract Level Manager Module|
+| F-1, F-2, F-3, F-4, F-5, F-6, F-7, F-10, F-13 | Digger Level Manager Module |
+| F-4 | Player Controller Module |
+| F-1, F-10 | Ground Breaker Module |
+| F-11 | Chest Animator Module |
+|  | Feeder Module |
+|  | Rockstaer Module |
+| F-2 | Abstract Metric Event Module |
+| F-1, F-2 | Button Pressing Event Module |
+| F-1, F-2, F-6 | Position Event Module |
+| F-5, F-13 | Memory Choice Event Module |
+| F-5, F-13 | Abstract Metric Module |
+| F-1, F-2 | Button Pressing Metric Module |
+| F-1, F-2, F-6, F-13 | Position Metric Module |
+| F-1, F-2, f-5, F-6, F-13 | Memory Choice Metric Module |
