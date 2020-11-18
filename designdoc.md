@@ -33,6 +33,7 @@ Table of Contents
 * 7 [Significant Algorithms/Non-Trivial Invariants](#7-significant-algorithms/non-trivial-invariants)
   * 7.1 [Algorithms](#71-algorithms)
   * 7.2 [Invariants](#72-invariants)
+* 8 [Traceability Matrix](#8-traceability-matrix)
 
 # Revision History
 
@@ -986,3 +987,4 @@ This section of the document contains all modules relating to the _Measurement M
 
 ## 7.2 Invariants
 
+# 8. Traceability Matrix
