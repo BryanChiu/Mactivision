@@ -12,7 +12,7 @@ Table of Contents
     * 4.2.0 [Abstract Level Manager Module](#420-abstract-level-manager-module)
     * 4.2.1 [Digger Modules](#421-digger-modules)
       * 4.2.1.1 [Digger Level Manager Module](#4211-digger-level-manager-module)
-      * 4.2.1.2 [Player Controller Module](#4212-player-controller-module)
+      * 4.2.1.2 [Digger Player Controller Module](#4212-digger-player-controller-module)
       * 4.2.1.3 [Ground Breaker Module](#4213-ground-breaker-module)
       * 4.2.1.4 [Chest Animator Module](#4214-chest-animator-module)
     * 4.2.2 [Feeder Modules](#422-feeder-modules)
