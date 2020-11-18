@@ -177,9 +177,9 @@ Work                           | Description
 Requirements Specification     | Complete SRS document.
 Prototype                      | Half of the group works on the metric modules and the other half creates one mini game that showcases the interaction between the player and the game and the game and the data manager. 
 Design Battery Module          | Battery administrates the battery of mini games.
-Design Mini Game 1             | Button mashing game. Measure single button key presses. Create a game objective that requires mashing. Choose which assets to use.
-Design Mini Game 2             | Reverse spotlight game. Steering . Create a game objective that requires not exiting the spotlight while it moves around. Choose which assets to use
-Design Mini Game 3             | Feed the monster game. Measure memory updating in working memory. Create a game objective that requires an NPC to choose which food they want to eat, player has to remember and feed them. Choose which assets to use
+Design Mini Game 1             | Digger game. Measure finger button key presses. Create a game objective that requires mashing. Choose which assets to use.
+Design Mini Game 2             | Feeder game. Measure updating working memory. Create a game objective that requires an NPC to choose which food they want to eat, player has to remember and feed them. Choose which assets to use
+Design Mini Game 3             | Rockstar game. Measures divided attention. Create a game objective that requires the player put on a good show while interacting with technical problems that could ruin it. Choose which assets to use.
 Design Metric Modules          | Create metric modules that games can use the measure the specific abilities they wish to record.
 Design Data Manager            | Take data created from battery and organize it for use for researchers. 
 Design Document                | After reflecting on the good and bad decisions from the prototype, redesign prototype using data collected to more accurately measure targeted cognitive and physical abilities of that particular game. Formalize a list of design decisions for games 2, 3 the battery module, metric modules and data manager. 
