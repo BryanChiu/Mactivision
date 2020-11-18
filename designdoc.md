@@ -989,6 +989,7 @@ This section of the document contains all modules relating to the _Measurement M
 
 # 8. Traceability Matrix
 | Functional Requirements | Module Name |
+|-------------------------|--------------------|
 | F-8 | Battery Module |
 | F-11 | Abstract Level Manager Module|
 | F-1, F-2, F-3, F-4, F-5, F-6, F-7, F-10, F-13 | Digger Level Manager Module |
