@@ -9,7 +9,13 @@ Table of Contents
 * 4 [List of Modules](#4-list-of-modules)
   * 4.1 [Measurement Modules](#41-measurement-modules)
     * 4.1.1 [Abstract Metric Event Module](#411-abstract-metric-event-module)
+      * 4.1.1.1 [Button Pressing Event Module](#4111-button-pressing-event-module)
+      * 4.1.1.2 [Position Event Module](#4112-position-event-module)
+      * 4.1.1.3 [Memory Choice Event Module](#4113-memory-choice-event-module)
     * 4.1.2 [Abstract Metric Module](#412-abstract-metric-module)
+      * 4.1.2.1 [Button Pressing Metric Module](#4121-button-pressing-metric-module)
+      * 4.1.2.2 [Position Metric Module](#4122-position-metric-module)
+      * 4.1.2.3 [Memory Choice Metric Module](#4123-memory-choice-metric-module)
   * 4.2 [Minigame Modules](#42-minigame-modules)
     * 4.2.0 [Abstract Level Manager Module](#420-abstract-level-manager-module)
     * 4.2.1 [Digger Modules](#421-digger-modules)
@@ -119,7 +125,7 @@ This section of the document contains all modules relating to the _Measurement M
   * transition: none
   * output: _out_ := eventTime
   * exception: none
-## Button Pressing Event Module
+## 4.1.1.1 Button Pressing Event Module
   `ButtonPressingEvent` Module inherits [`AbstractMetricEvent`](#411-abstract-metric-event-module)
   ### Uses
   * [`AbstractMetricEvent`](#411-abstract-metric-event-module)
@@ -168,7 +174,7 @@ This section of the document contains all modules relating to the _Measurement M
   * output: _output_ := keyCode
   * exception: none
 
-## Position Event Module
+## 4.1.1.2 Position Event Module
   `PositionEvent` Module inherits [`AbstractMetricEvent`](#411-abstract-metric-event-module)
   ### Uses
   * [`AbstractMetricEvent`](#411-abstract-metric-event-module)
@@ -210,7 +216,7 @@ This section of the document contains all modules relating to the _Measurement M
   * output: _out_ := positions
   * exception: none
 
-## Memory Choice Event Module
+## 4.1.1.3 Memory Choice Event Module
   `MemoryChoiceEvent` Module inherits [`AbstractMetricEvent`](#411-abstract-metric-event-module)
   ### Uses
   * [`AbstractMetricEvent`](#411-abstract-metric-event-module)
@@ -273,10 +279,216 @@ This section of the document contains all modules relating to the _Measurement M
   * exception: none
 
 ## 4.1.2 Abstract Metric Module
-## Button Pressing Metric Module
-## Position Metric Module
-## Memory Choice Metric Module
+  `abstract AbstractMetric`
+  ### Uses
+  * `AbstractMetricEvent`
+  * `Newtonsoft.Json`
+  ### Syntax
+  #### **Exported Constants**
+  None
+  #### **Exported Types**
+  None
+  #### **Exported Access Programs**
+  |Routine Name|In |Out |Exceptions |
+  |---|---|---|---|
+  |`AbstractMetric`||`AbstractMetric`||
+  |`startRecording`||||
+  |`finishRecording`||||
+  |`recordEvent`|`AbstractMetricEvent`|||
+  |`abstract getJSON`||JSON||
+  ### Semantics
+  #### **State Variables**
+  * `isRecording: 𝔹`
+  * `eventList:` seq of `AbstractMetricEvent`
+  #### **Assumptions**
+  * The constructor `AbstractMetric()` is called before any other access routines are called for that object, and is also called before any other access routines from objects of children classes of `AbstractMetric`.
+  #### **Design Decision**
+  This module is for the class `AbstractMetric`, which is a parent class of many _metrics_, ie. `ButtonPressingMetric`, `PositionMetric`, etc. This class has a method `recordEvent` which will take some subclass of `AbstractMetricEvent` as input. Each time an event is passed to the metric, it will append it to `eventList`. 
+  
+  The `abstract` method `getJSON` will also be implemented by all child classes, and will be used to deliver all data recorded by `recordEvent` as JSON to the caller. This will be used by the `MetricWriter` module to output all game data as a JSON file. 
 
+  `startRecording` and `stopRecording` are to toggle a `AbstractMetric` object's `isRecording` state, which will allow for recording of events while `true`, and allow outputting of JSON when it is false.
+  #### **Access Routine Semantics**
+  `AbstractMetric()`
+  * transition: `isRecording`, `eventList` = `false`, `<>`
+  * output: _out_ := _self_
+  * exception: none
+
+  `startRecording()`
+  * transition: `isRecording` = `true`
+  * output: none
+  * exception: none
+
+  `stopRecording()`
+  * transition: `isRecording` = `false`
+  * output: none
+  * exception: none
+
+  `recordEvent(e)`
+  * transition: _if_ (`isRecording`) _then_ `eventList = eventList||<e>` _else_ none
+  * output: none
+  * exception: none
+
+  `abstract getJSON()`
+  * _This method is to be implemented by all children classes_
+  
+## 4.1.2.1 Button Pressing Metric Module
+  `ButtonPressingMetric` extends `AbstractMetric`
+  ### Uses
+  * `AbstractMetric`
+  * `ButtonPressingEvent`
+  * `Newtonsoft.Json`
+  ### Syntax
+  #### **Exported Constants**
+  None
+  #### **Exported Types**
+  None
+  #### **Exported Access Programs**
+  |Routine Name|In |Out |Exceptions |
+  |---|---|---|---|
+  |`ButtonPressingMetric`||`ButtonPressingMetric`||
+  |`startRecording`||||
+  |`finishRecording`||||
+  |`recordEvent`|`ButtonPressingEvent`|||
+  |`getJSON`||JSON||
+  ### Semantics
+  #### **State Variables**
+  * `isRecording: 𝔹` (inherited from `AbstractMetric`)
+  * `eventList`: seq of `ButtonPressingEvent` (inherited from `AbstractMetric`)
+  #### **Assumptions**
+  * The constructor `ButtonPressingMetric()` is called before any other access routines are called for that object. `ButtonPressingMetric()` will invoke the `AbstractMetric()` (inherited from `AbstractMetric`) before any other statements are executed.
+  #### **Design Decision**
+  This class is a subclass of `AbstractMetric`, and is used to record `ButtonPressingEvent` objects passed from a _Level Manager_. when `getJson()` is invoked, it will return a JSON object containing all the data stored in `eventList`, as well as the name of this _Metric_.
+  #### **Access Routine Semantics**
+  `ButtonPressingMetric(keys)`
+  * transition: `gameObjectKeys` := `keys`
+  * output: _out_ := _self_
+  * exception: none
+
+  `startRecording()` (inherited from `AbstractMetric`)
+  * transition: `isRecording` = `true`
+  * output: none
+  * exception: none
+
+  `stopRecording()` (inherited from `AbstractMetric`)
+  * transition: `isRecording` = `false`
+  * output: none
+  * exception: none
+
+  `recordEvent(e)` (inherited from `AbstractMetric`)
+  * transition: _if_ (`isRecording`) _then_ `eventList = eventList||<e>` _else_ none
+  * output: none
+  * exception: none
+
+  `getJSON()`
+  * transition: none
+  * output: _out_ := JSON parsed from `eventList`
+  * exception: none
+## 4.1.2.2 Position Metric Module
+  `PositionMetric` extends `AbstractMetric`
+  ### Uses
+  * `AbstractMetric`
+  * `PositionEvent`
+  * `Newtonsoft.Json`
+  ### Syntax
+  #### **Exported Constants**
+  None
+  #### **Exported Types**
+  None
+  #### **Exported Access Programs**
+  |Routine Name|In |Out |Exceptions |
+  |---|---|---|---|
+  |`PositionMetric`|seq of `string`|`PositionMetric`||
+  |`startRecording`||||
+  |`finishRecording`||||
+  |`recordEvent`|`PositionEvent`|||
+  |`getJSON`||JSON||
+  ### Semantics
+  #### **State Variables**
+  * `isRecording: 𝔹` (inherited from `AbstractMetric`)
+  * `eventList`: seq of `PositionEvent` (inherited from `AbstractMetric`)
+  * `gameObjectKeys:` seq of `string`
+  #### **Assumptions**
+  * The constructor `PositionMetric(`seq of `string)` is called before any other access routines are called for that object. `PositionMetric(`seq of `string)` will invoke the `AbstractMetric()` (inherited from `AbstractMetric`) before any other statements are executed.
+  #### **Design Decision**
+  This class is a subclass of `AbstractMetric`, and is used to record `PositionEvent` objects passed from a _Level Manager_. `PositionEvent` objects records a sequence of labeled _Vectors_ which correspond to positions of game objects in the _minigame_. When `getJson()` is invoked, it will return a JSON object containing all the data stored in `eventList`, as well as the name of this _Metric_, and the names of the objects being recorded.
+  #### **Access Routine Semantics**
+  `ButtonPressingMetric()`
+  * transition: none
+  * output: _out_ := _self_
+  * exception: none
+
+  `startRecording()` (inherited from `AbstractMetric`)
+  * transition: `isRecording` = `true`
+  * output: none
+  * exception: none
+
+  `stopRecording()` (inherited from `AbstractMetric`)
+  * transition: `isRecording` = `false`
+  * output: none
+  * exception: none
+
+  `recordEvent(e)` (inherited from `AbstractMetric`)
+  * transition: _if_ (`isRecording`) _then_ `eventList = eventList||<e>` _else_ none
+  * output: none
+  * exception: none
+
+  `getJSON()`
+  * transition: none
+  * output: _out_ := JSON parsed from `eventList`
+  * exception: none
+## 4.1.2.3 Memory Choice Metric Module
+  `MemoryChoiceMetric` extends `AbstractMetric`
+  ### Uses
+  * `AbstractMetric`
+  * `PositionEvent`
+  * `Newtonsoft.Json`
+  ### Syntax
+  #### **Exported Constants**
+  None
+  #### **Exported Types**
+  None
+  #### **Exported Access Programs**
+  |Routine Name|In |Out |Exceptions |
+  |---|---|---|---|
+  |`MemoryChoiceMetric`||`MemoryChoiceMetric`||
+  |`startRecording`||||
+  |`finishRecording`||||
+  |`recordEvent`|`MemoryChoiceEvent`|||
+  |`getJSON`||JSON||
+  ### Semantics
+  #### **State Variables**
+  * `isRecording: 𝔹` (inherited from `AbstractMetric`)
+  * `eventList`: seq of `MemoryChoiceEvent` (inherited from `AbstractMetric`)
+  #### **Assumptions**
+  * The constructor `MemoryChoiceMetric()` is called before any other access routines are called for that object. `PositionMetric(`seq of `string)` will invoke the `AbstractMetric()` (inherited from `AbstractMetric`) before any other statements are executed.
+  #### **Design Decision**
+  This class is a subclass of `AbstractMetric`, and is used to record `PositionEvent` objects passed from a _Level Manager_. `PositionEvent` objects records a sequence of labeled _Vectors_ which correspond to positions of game objects in the _minigame_. When `getJson()` is invoked, it will return a JSON object containing all the data stored in `eventList`, as well as the name of this _Metric_, and the names of the objects being recorded.
+  #### **Access Routine Semantics**
+  `ButtonPressingMetric()`
+  * transition: none
+  * output: _out_ := _self_
+  * exception: none
+
+  `startRecording()` (inherited from `AbstractMetric`)
+  * transition: `isRecording` = `true`
+  * output: none
+  * exception: none
+
+  `stopRecording()` (inherited from `AbstractMetric`)
+  * transition: `isRecording` = `false`
+  * output: none
+  * exception: none
+
+  `recordEvent(e)` (inherited from `AbstractMetric`)
+  * transition: _if_ (`isRecording`) _then_ `eventList = eventList||<e>` _else_ none
+  * output: none
+  * exception: none
+
+  `getJSON()`
+  * transition: none
+  * output: _out_ := JSON parsed from `eventList`
+  * exception: none
 
 ## 4.2 Minigame Modules
 
