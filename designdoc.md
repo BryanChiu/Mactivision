@@ -7,9 +7,7 @@ Table of Contents
   * 3.1 [Design-time Entities](#31-design-time-entities)
   * 3.2 [Run-time Entities](#32-run-time-entities)
 * 4 [List of Modules](#4-list-of-modules)
-  * 4.1 [Measurement Modules](#41-measurement-modules)
-    * 4.1.1 [Abstract Metric Event Module](#411-abstract-metric-event-module)
-    * 4.1.2 [Abstract Metric Module](#412-abstract-metric-module)
+  * 4.1 [Battery Module](#41-battery-module)
   * 4.2 [Minigame Modules](#42-minigame-modules)
     * 4.2.0 [Abstract Level Manager Module](#420-abstract-level-manager-module)
     * 4.2.1 [Digger Modules](#421-digger-modules)
@@ -19,7 +17,15 @@ Table of Contents
       * 4.2.1.4 [Chest Animator Module](#4214-chest-animator-module)
     * 4.2.2 [Conveyor Modules](#422-conveyor-modules)
     * 4.2.3 [ThirdGame Modules](#423-thirdgame-modules)
-  * 4.3 [Battery Module](#43-battery-module)
+  * 4.3 [Measurement Modules](#43-measurement-modules)
+    * 4.3.1 [Abstract Metric Event Module](#431-abstract-metric-event-module)
+      * 4.3.1.1 [Button Pressing Event Module](#4311-button-pressing-event-module)
+      * 4.3.1.2 [Position Event Module](#4312-position-event-module)
+      * 4.3.1.3 [Memory Choice Event Module](#4313-memory-choice-event-module)
+    * 4.3.2 [Abstract Metric Module](#432-abstract-metric-module)
+      * 4.3.2.1 [Button Pressing Metric Module](#4321-button-pressing-metric-module)
+      * 4.3.2.2 [Position Metric Module](#4322-position-metric-module)
+      * 4.3.2.3 [Memory Choice Metric Module](#4323-memory-choice-metric-module)
 * 5 [List of Changes to SRS](#5-list-of-changes-to-srs)
     * 5.1 [Change Rationale](#51-change_rationale)
     * 5.2 [Revision Control Diff](#52-revision-control-diff)
@@ -27,6 +33,7 @@ Table of Contents
 * 7 [Significant Algorithms/Non-Trivial Invariants](#7-significant-algorithms/non-trivial-invariants)
   * 7.1 [Algorithms](#71-algorithms)
   * 7.2 [Invariants](#72-invariants)
+* 8 [Traceability Matrix](#8-traceability-matrix)
 
 # Revision History
 
@@ -84,200 +91,107 @@ Table of Contents
 
 # 4. List of Modules
 
-## 4.1 Measurement Modules
+## 4.1 Battery Module
 
-This section of the document contains all modules relating to the _Measurement Modules_. These modules are to be implemented alongside the _Minigame_ modules in the Unity environment, and will be accessed by modules in the _Minigame_ set of modules.
+This section of the document contains all modules relating to the Battery. This module handles the administration of the battery. This includes loading the JSON configuration file, getting player credentials, starting the battery, loading and unloading mini games and ending the battery. 
 
-## 4.1.1 Abstract Metric Event Module
-  `abstract AbstractMetricEvent` Module 
-  ### Uses
-  * `System.DateTime`
-  ### Syntax
-  #### **Exported Constants**
-  None
-  #### **Exported Types**
-  None
-  #### **Exported Access Programs**
-  |Routine Name|In |Out |Exceptions |
-  |---|---|---|---|
-  |`AbstractMetricEvent`|`DateTime`|`AbstractMetricEvent`||
-  |`getEventTime`||`DateTime`||
+### Module inherits MonoBehaviour
+Battery 
 
-  ### Semantics
-  #### **State Variables**
-  * `eventTime: DateTime`
-  #### **Assumptions**
-  * The constructor `AbstractMetricEvent(DateTime)` is called before any other access routines are called for that object.
-  #### **Design Decision**
-  This module is to represent an abstract class for all _Metric Events_. Every _Metric Event_ at least has a time stamp (`eventTime`) in which the event occurred.
-  #### **Access Routine Semantics**
-  `AbstractMetricEvent(et)`
-  * transition: eventTime = et
-  * output: _out_ := _self_
-  * exception: none
+### Uses
+`UnityEngine.SceneManagement`,
+`Newtonsoft.Json`,
+`System.Collections`,
+`System.IO`
+`System.DateTime`
 
-  `getEventTime()`
-  * transition: none
-  * output: _out_ := eventTime
-  * exception: none
-## Button Pressing Event Module
-  `ButtonPressingEvent` Module inherits [`AbstractMetricEvent`](#411-abstract-metric-event-module)
-  ### Uses
-  * [`AbstractMetricEvent`](#411-abstract-metric-event-module)
-  * `System.DateTime`
-  * `UnityEngine.KeyCode`
-  ### Syntax
-  #### **Exported Constants**
-  None
-  #### **Exported Types**
-  None
-  #### **Exported Access Programs**
-  |Routine Name|In |Out |Exceptions |
-  |---|---|---|---|
-  |`ButtonPressingEvent`|`DateTime`, `KeyCode`, `𝔹`|`ButtonPressingEvent`||
-  |`getEventTime`||`DateTime`||
-  |`getKeyCode`||`KeyCode`||
-  |`isKeyDown`||`𝔹`||
+### Syntax
 
-  ### Semantics
-  #### **State Variables**
-  * `eventTime: DateTime` (inherited from `AbstractMetricEvent`)
-  * `keyCode: KeyCode`
-  * `keyDown: 𝔹` 
-  #### **Assumptions**
-  * The constructor `ButtonPressingEvent(DateTime,KeyCode, 𝔹)` is called before any other access routines are called for that object.
-  #### **Design Decision**
-  This module represents the `ButtonPressingEvent` class which can be instantiated by a _Minigame_ to store data relating to a single _Button Pressing Metric Event_. This object should be passed to a _Button Pressing Metric_ object ([`ButtonPressingMetric`](#button-pressing-metric-module)) for consumption. Every _Button Pressing Metric Event_ has a time stamp (`eventTime`) in which the event occurred, a key code (`keyCode`) representing the keyboard key which was pressed, and a key value (`keyDown`), representing if the key is pressed down or not (`true` indicated the key is pressed down).
-  #### **Access Routine Semantics**
-  `ButtonPressingEvent(et, kc, kd)`
-  * transition: eventTime, keyCode, keyDown = et, kc, kd
-  * output: _out_ := _self_
-  * exception: none
+#### __Exported Constants__
+JSON\_BATTERY\_FILENAME
 
-  `getEventTime()` (inherited from `AbstractMetricEvent`)
-  * transition: none
-  * output: _out_ := eventTime
-  * exception: none
+#### __Exported Types__
+None
 
-  `getKeyCode()`
-  * transition: none
-  * output: _out_ := keyCode
-  * exception: none
+#### __Exported Access Programs__
 
-  `getKeyDown()`
-  * transition: none
-  * output: _output_ := keyCode
-  * exception: none
+| Routine Name  | IN     | Out  | Exceptions                |
+|---------------|--------|------|---------------------------|
+|`LoadBattery`  | string |      | `FileNotFoundException`   | 
+|`StartBattery` |        |      |                           | 
+|`LoadGame`     | ℕ      | 𝔹    | `SceneCouldNotBeLoaded`   | 
+|`UnloadGame`   | ℕ      | 𝔹    | `SceneCouldNotBeUnloaded` | 
+|`EndBattery`   |        | JSON | `IOException`             |
+|`OnGUI`        |        |      |                           |
+|`Start`        |        |      |                           |
 
-## Position Event Module
-  `PositionEvent` Module inherits [`AbstractMetricEvent`](#411-abstract-metric-event-module)
-  ### Uses
-  * [`AbstractMetricEvent`](#411-abstract-metric-event-module)
-  * `System.DateTime`
-  * `UnityEngine.Vector2`
-  ### Syntax
-  #### **Exported Constants**
-  None
-  #### **Exported Types**
-  None
-  #### **Exported Access Programs**
-  |Routine Name|In |Out |Exceptions |
-  |---|---|---|---|
-  |`PositionEvent`|`DateTime`, seq of `Vector2`|`PositionEvent`||
-  |`getEventTime`||`DateTime`||
-  |`getPositions`||seq of `Vector2`||
+### Semantics
 
-  ### Semantics
-  #### **State Variables**
-  * `eventTime: DateTime` (inherited from `AbstractMetricEvent`)
-  * `positions: `seq of `Vector2`
-  #### **Assumptions**
-  * The constructor `PositionEvent(DateTime,`seq of `Vector2)` is called before any other access routines are called for that object.
-  #### **Design Decision**
-  This module represents the `PositionEvent` class which can be instantiated by a _Minigame_ to store data relating to a single _Position Metric Event_. This object should be passed to a _Position Metric_ object ([`PositionMetric`](#position-metric-module)) for consumption. Every _Position Metric Event_ has a time stamp (`eventTime`) in which the event occurred, and an array of vector (`Vector2`) objects representing the positions of objects in the game. The names/ids of these objects are stored in the ([`PositionMetric`](#position-metric-module)) which will consume these events.
-  #### **Access Routine Semantics**
-  `PositionMetric(et, pos)`
-  * transition: eventTime, positions = et, pos
-  * output: _out_ := _self_
-  * exception: none
+#### Environment Variables
+window: The game window
 
-  `getEventTime()` (inherited from `AbstractMetricEvent`)
-  * transition: none
-  * output: _out_ := eventTime
-  * exception: none
+#### __State Variables__
+`battery`: JSONBattery 
+`player_name`: string 
+`completed`: 𝔹 
+`current_game`: ℕ  
+`start_time`: DateTime  
+`end_time`: DateTime 
 
-  `getPositions()`
-  * transition: none
-  * output: _out_ := positions
-  * exception: none
+#### __Assumptions__
+Battery is also a scene in unity. It is the primary scene and will load and unload other scenes (the games). Because Battery is a scene, Unity will automatically construct the object and then call Start(), therefore Start will act as the constructor. The `battery` variable will need to be available for each game as a global. 
 
-## Memory Choice Event Module
-  `MemoryChoiceEvent` Module inherits [`AbstractMetricEvent`](#411-abstract-metric-event-module)
-  ### Uses
-  * [`AbstractMetricEvent`](#411-abstract-metric-event-module)
-  * `System.DateTime`
-  ### Syntax
-  #### **Exported Constants**
-  None
-  #### **Exported Types**
-  None
-  #### **Exported Access Programs**
-  |Routine Name|In |Out |Exceptions |
-  |---|---|---|---|
-  |`MemoryChoiceEvent`|`DateTime`, seq of `string`, `string`, `𝔹`, `TimeSpan`|`MemoryChoiceEvent`||
-  |`getEventTime`||`DateTime`||
-  |`getObjectsSet`||seq of `string`||
-  |`getObject`||`string`||
-  |`getChoice`||`𝔹`||
-  |`getChoiceTime`||`DateTime`||
+#### __Design Decisions__
+Battery was implemented as a scene because of Unity's SceneManager. It allows one scene to control the state (loaded or unloaded) of other scenes.
 
-  ### Semantics
-  #### **State Variables**
-  * `eventTime: DateTime` (inherited from `AbstractMetricEvent`)
-  * `objectsSet:` seq of `string`
-  * `object: string`
-  * `choice: 𝔹`
-  * `choiceTime: DateTime`
-  #### **Assumptions**
-  * The constructor `MemoryChoiceEvent(DateTime,`seq of `string, string, 𝔹, TimeSpan)` is called before any other access routines are called for that object.
-  #### **Design Decision**
-  This module represents the `MemoryChoiceEvent` class which can be instantiated by a _Minigame_ to store data relating to a single _Memory Choice Event_. This object should be passed to a _Memory Choice Metric_ object ([`MemoryChoiceMetric`](#memory-choice-metric-module)) for consumption. Every _Memory Choice Event_ has a time stamp (`eventTime`) in which the event occurred, and an array of strings (`objectsSet`) representing the set of objects which should be answered `true`: ie., if `object` is a member of `objectsSet`, `choice` should be `true` if the user guesses correctly; `false` if the user guesses incorrectly. `choiceTime` is the timestamp the user made the choice, and `eventTime` is the timestamp the choice was presented to the user. If you subtract the two, the result is the time it took for the user to make the choice.
-  #### **Access Routine Semantics**
-  `MemoryChoiceEvent(et, os, o, c, ct)`
-  * transition: `eventTime`, `objectsSet`, `object`, `choice`, `choiceTime` = `et`, `os`, `o`, `c`, `ct` 
-  * output: _out_ := _self_
-  * exception: none
+The `battery` variable is global because each mini game is a scene and scenes do not have constructors from which you can pass variables to.
 
-  `getEventTime()` (inherited from `AbstractMetricEvent`)
-  * transition: none
-  * output: _out_ := `eventTime`
-  * exception: none
+The Battery module will output a copy of the JSON file used as input with additions of completed status and player name. This allows administrators to change the input file for new batterys will keeping a record of what battery settings were used by that particular player.
 
-  `getObjectsSet()`
-  * transition: none
-  * output: _out_ := `objectsSet`
-  * exception: none
+#### __Access Routine Semantics__
 
-  `getObject()`
-  * transition: none
-  * output: _out_ := `object`
-  * exception: none
+`LoadBattery(filename)`:
+* transition: `battery` := `loadJSON(filename)`
+* output: None
+* exception: `FileNotFoundException`
 
-  `getChoice()`
-  * transition: none
-  * output: _out_ := `choice`
-  * exception: none
+`Start()`:
+* transition: `completed` := `false`, `current_game` := `0`, `player_name` := `""`
+* output: None
+* exception: `FileNotFoundException`
 
-  `getChoiceTime()`
-  * transition: none
-  * output: _out_ := `choiceTime`
-  * exception: none
+`OnGUI()`:
+* transition: `window` := Show battery start screen which allows player to input their name and start the battery by hitting a GUI button. `player_name := input`
+* output: None
+* exception: None
 
-## 4.1.2 Abstract Metric Module
-## Button Pressing Metric Module
-## Position Metric Module
-## Memory Choice Metric Module
+`StartBattery()`:
+* transition: `current_game` := `1`, `start_time := DateTime.Now`
+* output: None 
+* exception: None
 
+`LoadGame(game)`:
+* transition: `current\_game` := `game`, `window` := Show loaded scene
+* output: None 
+* exception: `SceneCouldNotBeLoaded`
+
+`UnloadGame(game)`:
+* transition: `current_game` := `0`
+* output: None 
+* exception: `SceneCouldNotBeUnloaded` 
+
+`EndBattery()`:
+* transition: `completed` := `true`, `end_time` := `DateTime.Now`
+* output: `JSON` 
+* exception: `IOException`
+
+__Local Functions__
+
+`loadScenes(battery)`: ∀ game : battery.games | SceneManager.LoadScene(game, LoadSceneMode.Additive);
+
+`loadJSON(filename)`: JsonConvert.DeserializeObject<JSONBattery>(File.ReadAllText(filename))
+
+`writeJSON(filename)`: File.WriteAllText(filename, JsonConvert.SerializeObject(battery))
 
 ## 4.2 Minigame Modules
 
@@ -343,7 +257,7 @@ This section of modules are used in the Digger game.
 `DiggerLevelManager` module inherits [`LevelManager`](#420-abstract-level-manager-module)
 
 ### Uses
-[`PlayerController`](#4212-player-controller-module), [`GroundBreaker`](#4213-ground-breaker-module), [`ChestAnimator`](#4214-chest-animator-module), [`ButtonPressingMetric`](#button-pressing-metric-module), [`ButtonPressingEvent`](#button-pressing-event-module), {UnnamedJSONOutputter}, `UnityEngine.Event`, `UnityEngine.KeyCode`, `System.DateTime`
+[`PlayerController`](#4212-player-controller-module), [`GroundBreaker`](#4213-ground-breaker-module), [`ChestAnimator`](#4214-chest-animator-module), [`ButtonPressingMetric`](#4321-button-pressing-metric-module), [`ButtonPressingEvent`](#4311-button-pressing-event-module), {UnnamedJSONOutputter}, `UnityEngine.Event`, `UnityEngine.KeyCode`, `System.DateTime`
 
 ### Syntax
 #### Exported Constants
@@ -366,7 +280,7 @@ None
 window: The game window
 
 #### State Variables
-`bpMetric`: [`ButtonPressingMetric`](#button-pressing-metric-module)\
+`bpMetric`: [`ButtonPressingMetric`](#4321-button-pressing-metric-module)\
 `recording`: 𝔹\
 `player`: [`PlayerController`](#4212-player-controller-module)\
 `chest`: [`ChestAnimator`](#4214-chest-animator-module)\
@@ -388,7 +302,7 @@ This module manages the majority of functionality in the game. The `digAmount` i
 
 #### Access Routine Semantics
 `Start()`
-- transition: `bpMetric`, `recording`, `digAmount`, `digKey`, `lvlState`, `lvlCountDown` := new [`ButtonPressingMetric`](#button-pressing-metric-module), `false`, 100, `KeyCode.B`, 0, 5.0 <br> window := An introductory text is displayed over a blurred game screen
+- transition: `bpMetric`, `recording`, `digAmount`, `digKey`, `lvlState`, `lvlCountDown` := new [`ButtonPressingMetric`](#4321-button-pressing-metric-module), `false`, 100, `KeyCode.B`, 0, 5.0 <br> window := An introductory text is displayed over a blurred game screen
 
 `Update()`
 - transition: `lvlState`==1 ⇒
@@ -585,107 +499,407 @@ This section of modules are used in the Conveyor game.
 
 This section of modules are used in the ThirdGame game.
 
-## 4.3 Battery Module
+## 4.3 Measurement Modules
 
-This section of the document contains all modules relating to the Battery. This module handles the administration of the battery. This includes loading the JSON configuration file, getting player credentials, starting the battery, loading and unloading mini games and ending the battery. 
+This section of the document contains all modules relating to the _Measurement Modules_. These modules are to be implemented alongside the _Minigame_ modules in the Unity environment, and will be accessed by modules in the _Minigame_ set of modules.
 
-### Module inherits MonoBehaviour
-Battery 
+## 4.3.1 Abstract Metric Event Module
+  `abstract AbstractMetricEvent` Module 
+  ### Uses
+  * `System.DateTime`
+  ### Syntax
+  #### **Exported Constants**
+  None
+  #### **Exported Types**
+  None
+  #### **Exported Access Programs**
+  |Routine Name|In |Out |Exceptions |
+  |---|---|---|---|
+  |`AbstractMetricEvent`|`DateTime`|`AbstractMetricEvent`||
+  |`getEventTime`||`DateTime`||
 
-### Uses
-`UnityEngine.SceneManagement`,
-`Newtonsoft.Json`,
-`System.Collections`,
-`System.IO`
-`System.DateTime`
+  ### Semantics
+  #### **State Variables**
+  * `eventTime: DateTime`
+  #### **Assumptions**
+  * The constructor `AbstractMetricEvent(DateTime)` is called before any other access routines are called for that object.
+  #### **Design Decision**
+  This module is to represent an abstract class for all _Metric Events_. Every _Metric Event_ at least has a time stamp (`eventTime`) in which the event occurred.
+  #### **Access Routine Semantics**
+  `AbstractMetricEvent(et)`
+  * transition: eventTime = et
+  * output: _out_ := _self_
+  * exception: none
 
-### Syntax
+  `getEventTime()`
+  * transition: none
+  * output: _out_ := eventTime
+  * exception: none
+## 4.3.1.1 Button Pressing Event Module
+  `ButtonPressingEvent` Module inherits [`AbstractMetricEvent`](#431-abstract-metric-event-module)
+  ### Uses
+  * [`AbstractMetricEvent`](#431-abstract-metric-event-module)
+  * `System.DateTime`
+  * `UnityEngine.KeyCode`
+  ### Syntax
+  #### **Exported Constants**
+  None
+  #### **Exported Types**
+  None
+  #### **Exported Access Programs**
+  |Routine Name|In |Out |Exceptions |
+  |---|---|---|---|
+  |`ButtonPressingEvent`|`DateTime`, `KeyCode`, `𝔹`|`ButtonPressingEvent`||
+  |`getEventTime`||`DateTime`||
+  |`getKeyCode`||`KeyCode`||
+  |`isKeyDown`||`𝔹`||
 
-#### __Exported Constants__
-JSON\_BATTERY\_FILENAME
+  ### Semantics
+  #### **State Variables**
+  * `eventTime: DateTime` (inherited from `AbstractMetricEvent`)
+  * `keyCode: KeyCode`
+  * `keyDown: 𝔹` 
+  #### **Assumptions**
+  * The constructor `ButtonPressingEvent(DateTime,KeyCode, 𝔹)` is called before any other access routines are called for that object.
+  #### **Design Decision**
+  This module represents the [`ButtonPressingEvent`](#4311-button-pressing-event-module) class which can be instantiated by a _Minigame_ to store data relating to a single _Button Pressing Metric Event_. This object should be passed to a _Button Pressing Metric_ object ([`ButtonPressingMetric`](#4321-button-pressing-metric-module)) for consumption. Every _Button Pressing Metric Event_ has a time stamp (`eventTime`) in which the event occurred, a key code (`keyCode`) representing the keyboard key which was pressed, and a key value (`keyDown`), representing if the key is pressed down or not (`true` indicated the key is pressed down).
+  #### **Access Routine Semantics**
+  `ButtonPressingEvent(et, kc, kd)`
+  * transition: eventTime, keyCode, keyDown = et, kc, kd
+  * output: _out_ := _self_
+  * exception: none
 
-#### __Exported Types__
-None
+  `getEventTime()` (inherited from `AbstractMetricEvent`)
+  * transition: none
+  * output: _out_ := eventTime
+  * exception: none
 
-#### __Exported Access Programs__
+  `getKeyCode()`
+  * transition: none
+  * output: _out_ := keyCode
+  * exception: none
 
-| Routine Name  | IN     | Out  | Exceptions                |
-|---------------|--------|------|---------------------------|
-|`LoadBattery`  | string |      | `FileNotFoundException`   | 
-|`StartBattery` |        |      |                           | 
-|`LoadGame`     | ℕ      | 𝔹    | `SceneCouldNotBeLoaded`   | 
-|`UnloadGame`   | ℕ      | 𝔹    | `SceneCouldNotBeUnloaded` | 
-|`EndBattery`   |        | JSON | `IOException`             |
-|`OnGUI`        |        |      |                           |
-|`Start`        |        |      |                           |
+  `getKeyDown()`
+  * transition: none
+  * output: _output_ := keyCode
+  * exception: none
 
-### Semantics
+## 4.3.1.2 Position Event Module
+  `PositionEvent` Module inherits [`AbstractMetricEvent`](#431-abstract-metric-event-module)
+  ### Uses
+  * [`AbstractMetricEvent`](#431-abstract-metric-event-module)
+  * `System.DateTime`
+  * `UnityEngine.Vector2`
+  ### Syntax
+  #### **Exported Constants**
+  None
+  #### **Exported Types**
+  None
+  #### **Exported Access Programs**
+  |Routine Name|In |Out |Exceptions |
+  |---|---|---|---|
+  |`PositionEvent`|`DateTime`, seq of `Vector2`|`PositionEvent`||
+  |`getEventTime`||`DateTime`||
+  |`getPositions`||seq of `Vector2`||
 
-#### Environment Variables
-window: The game window
+  ### Semantics
+  #### **State Variables**
+  * `eventTime: DateTime` (inherited from `AbstractMetricEvent`)
+  * `positions: `seq of `Vector2`
+  #### **Assumptions**
+  * The constructor `PositionEvent(DateTime,`seq of `Vector2)` is called before any other access routines are called for that object.
+  #### **Design Decision**
+  This module represents the `PositionEvent` class which can be instantiated by a _Minigame_ to store data relating to a single _Position Metric Event_. This object should be passed to a _Position Metric_ object ([`PositionMetric`](#4322-position-metric-module)) for consumption. Every _Position Metric Event_ has a time stamp (`eventTime`) in which the event occurred, and an array of vector (`Vector2`) objects representing the positions of objects in the game. The names/ids of these objects are stored in the ([`PositionMetric`](#4322-position-metric-module)) which will consume these events.
+  #### **Access Routine Semantics**
+  `PositionMetric(et, pos)`
+  * transition: eventTime, positions = et, pos
+  * output: _out_ := _self_
+  * exception: none
 
-#### __State Variables__
-`battery`: JSONBattery 
-`player_name`: string 
-`completed`: 𝔹 
-`current_game`: ℕ  
-`start_time`: DateTime  
-`end_time`: DateTime 
+  `getEventTime()` (inherited from `AbstractMetricEvent`)
+  * transition: none
+  * output: _out_ := eventTime
+  * exception: none
 
-#### __Assumptions__
-Battery is also a scene in unity. It is the primary scene and will load and unload other scenes (the games). Because Battery is a scene, Unity will automatically construct the object and then call Start(), therefore Start will act as the constructor. The `battery` variable will need to be available for each game as a global. 
+  `getPositions()`
+  * transition: none
+  * output: _out_ := positions
+  * exception: none
 
-#### __Design Decisions__
-Battery was implemented as a scene because of Unity's SceneManager. It allows one scene to control the state (loaded or unloaded) of other scenes.
+## 4.3.1.3 Memory Choice Event Module
+  `MemoryChoiceEvent` Module inherits [`AbstractMetricEvent`](#431-abstract-metric-event-module)
+  ### Uses
+  * [`AbstractMetricEvent`](#431-abstract-metric-event-module)
+  * `System.DateTime`
+  ### Syntax
+  #### **Exported Constants**
+  None
+  #### **Exported Types**
+  None
+  #### **Exported Access Programs**
+  |Routine Name|In |Out |Exceptions |
+  |---|---|---|---|
+  |`MemoryChoiceEvent`|`DateTime`, seq of `string`, `string`, `𝔹`, `TimeSpan`|`MemoryChoiceEvent`||
+  |`getEventTime`||`DateTime`||
+  |`getObjectsSet`||seq of `string`||
+  |`getObject`||`string`||
+  |`getChoice`||`𝔹`||
+  |`getChoiceTime`||`DateTime`||
 
-The `battery` variable is global because each mini game is a scene and scenes do not have constructors from which you can pass variables to.
+  ### Semantics
+  #### **State Variables**
+  * `eventTime: DateTime` (inherited from `AbstractMetricEvent`)
+  * `objectsSet:` seq of `string`
+  * `object: string`
+  * `choice: 𝔹`
+  * `choiceTime: DateTime`
+  #### **Assumptions**
+  * The constructor `MemoryChoiceEvent(DateTime,`seq of `string, string, 𝔹, TimeSpan)` is called before any other access routines are called for that object.
+  #### **Design Decision**
+  This module represents the `MemoryChoiceEvent` class which can be instantiated by a _Minigame_ to store data relating to a single _Memory Choice Event_. This object should be passed to a _Memory Choice Metric_ object ([`MemoryChoiceMetric`](#memory-choice-metric-module)) for consumption. Every _Memory Choice Event_ has a time stamp (`eventTime`) in which the event occurred, and an array of strings (`objectsSet`) representing the set of objects which should be answered `true`: ie., if `object` is a member of `objectsSet`, `choice` should be `true` if the user guesses correctly; `false` if the user guesses incorrectly. `choiceTime` is the timestamp the user made the choice, and `eventTime` is the timestamp the choice was presented to the user. If you subtract the two, the result is the time it took for the user to make the choice.
+  #### **Access Routine Semantics**
+  `MemoryChoiceEvent(et, os, o, c, ct)`
+  * transition: `eventTime`, `objectsSet`, `object`, `choice`, `choiceTime` = `et`, `os`, `o`, `c`, `ct` 
+  * output: _out_ := _self_
+  * exception: none
 
-The Battery module will output a copy of the JSON file used as input with additions of completed status and player name. This allows administrators to change the input file for new batterys will keeping a record of what battery settings were used by that particular player.
+  `getEventTime()` (inherited from `AbstractMetricEvent`)
+  * transition: none
+  * output: _out_ := `eventTime`
+  * exception: none
 
-#### __Access Routine Semantics__
+  `getObjectsSet()`
+  * transition: none
+  * output: _out_ := `objectsSet`
+  * exception: none
 
-`LoadBattery(filename)`:
-* transition: `battery` := `loadJSON(filename)`
-* output: None
-* exception: `FileNotFoundException`
+  `getObject()`
+  * transition: none
+  * output: _out_ := `object`
+  * exception: none
 
-`Start()`:
-* transition: `completed` := `false`, `current_game` := `0`, `player_name` := `""`
-* output: None
-* exception: `FileNotFoundException`
+  `getChoice()`
+  * transition: none
+  * output: _out_ := `choice`
+  * exception: none
 
-`OnGUI()`:
-* transition: `window` := Show battery start screen which allows player to input their name and start the battery by hitting a GUI button. `player_name := input`
-* output: None
-* exception: None
+  `getChoiceTime()`
+  * transition: none
+  * output: _out_ := `choiceTime`
+  * exception: none
 
-`StartBattery()`:
-* transition: `current_game` := `1`, `start_time := DateTime.Now`
-* output: None 
-* exception: None
+## 4.3.2 Abstract Metric Module
+  `abstract AbstractMetric`
+  ### Uses
+  * `AbstractMetricEvent`
+  * `Newtonsoft.Json`
+  ### Syntax
+  #### **Exported Constants**
+  None
+  #### **Exported Types**
+  None
+  #### **Exported Access Programs**
+  |Routine Name|In |Out |Exceptions |
+  |---|---|---|---|
+  |`AbstractMetric`||`AbstractMetric`||
+  |`startRecording`||||
+  |`finishRecording`||||
+  |`recordEvent`|`AbstractMetricEvent`|||
+  |`abstract getJSON`||JSON||
+  ### Semantics
+  #### **State Variables**
+  * `isRecording: 𝔹`
+  * `eventList:` seq of `AbstractMetricEvent`
+  #### **Assumptions**
+  * The constructor `AbstractMetric()` is called before any other access routines are called for that object, and is also called before any other access routines from objects of children classes of `AbstractMetric`.
+  #### **Design Decision**
+  This module is for the class `AbstractMetric`, which is a parent class of many _metrics_, ie. `ButtonPressingMetric`, `PositionMetric`, etc. This class has a method `recordEvent` which will take some subclass of `AbstractMetricEvent` as input. Each time an event is passed to the metric, it will append it to `eventList`. 
+  
+  The `abstract` method `getJSON` will also be implemented by all child classes, and will be used to deliver all data recorded by `recordEvent` as JSON to the caller. This will be used by the `MetricWriter` module to output all game data as a JSON file. 
 
-`LoadGame(game)`:
-* transition: `current\_game` := `game`, `window` := Show loaded scene
-* output: None 
-* exception: `SceneCouldNotBeLoaded`
+  `startRecording` and `stopRecording` are to toggle a `AbstractMetric` object's `isRecording` state, which will allow for recording of events while `true`, and allow outputting of JSON when it is false.
+  #### **Access Routine Semantics**
+  `AbstractMetric()`
+  * transition: `isRecording`, `eventList` = `false`, `<>`
+  * output: _out_ := _self_
+  * exception: none
 
-`UnloadGame(game)`:
-* transition: `current_game` := `0`
-* output: None 
-* exception: `SceneCouldNotBeUnloaded` 
+  `startRecording()`
+  * transition: `isRecording` = `true`
+  * output: none
+  * exception: none
 
-`EndBattery()`:
-* transition: `completed` := `true`, `end_time` := `DateTime.Now`
-* output: `JSON` 
-* exception: `IOException`
+  `stopRecording()`
+  * transition: `isRecording` = `false`
+  * output: none
+  * exception: none
 
-__Local Functions__
+  `recordEvent(e)`
+  * transition: _if_ (`isRecording`) _then_ `eventList = eventList||<e>` _else_ none
+  * output: none
+  * exception: none
 
-`loadScenes(battery)`: ∀ game : battery.games | SceneManager.LoadScene(game, LoadSceneMode.Additive);
+  `abstract getJSON()`
+  * _This method is to be implemented by all children classes_
+  
+## 4.3.2.1 Button Pressing Metric Module
+  `ButtonPressingMetric` extends `AbstractMetric`
+  ### Uses
+  * `AbstractMetric`
+  * `ButtonPressingEvent`
+  * `Newtonsoft.Json`
+  ### Syntax
+  #### **Exported Constants**
+  None
+  #### **Exported Types**
+  None
+  #### **Exported Access Programs**
+  |Routine Name|In |Out |Exceptions |
+  |---|---|---|---|
+  |`ButtonPressingMetric`||`ButtonPressingMetric`||
+  |`startRecording`||||
+  |`finishRecording`||||
+  |`recordEvent`|`ButtonPressingEvent`|||
+  |`getJSON`||JSON||
+  ### Semantics
+  #### **State Variables**
+  * `isRecording: 𝔹` (inherited from `AbstractMetric`)
+  * `eventList`: seq of `ButtonPressingEvent` (inherited from `AbstractMetric`)
+  #### **Assumptions**
+  * The constructor `ButtonPressingMetric()` is called before any other access routines are called for that object. `ButtonPressingMetric()` will invoke the `AbstractMetric()` (inherited from `AbstractMetric`) before any other statements are executed.
+  #### **Design Decision**
+  This class is a subclass of `AbstractMetric`, and is used to record `ButtonPressingEvent` objects passed from a _Level Manager_. when `getJson()` is invoked, it will return a JSON object containing all the data stored in `eventList`, as well as the name of this _Metric_.
+  #### **Access Routine Semantics**
+  `ButtonPressingMetric(keys)`
+  * transition: `gameObjectKeys` := `keys`
+  * output: _out_ := _self_
+  * exception: none
 
-`loadJSON(filename)`: JsonConvert.DeserializeObject<JSONBattery>(File.ReadAllText(filename))
+  `startRecording()` (inherited from `AbstractMetric`)
+  * transition: `isRecording` = `true`
+  * output: none
+  * exception: none
 
-`writeJSON(filename)`: File.WriteAllText(filename, JsonConvert.SerializeObject(battery))
+  `stopRecording()` (inherited from `AbstractMetric`)
+  * transition: `isRecording` = `false`
+  * output: none
+  * exception: none
+
+  `recordEvent(e)` (inherited from `AbstractMetric`)
+  * transition: _if_ (`isRecording`) _then_ `eventList = eventList||<e>` _else_ none
+  * output: none
+  * exception: none
+
+  `getJSON()`
+  * transition: none
+  * output: _out_ := JSON parsed from `eventList`
+  * exception: none
+## 4.3.2.2 Position Metric Module
+  `PositionMetric` extends `AbstractMetric`
+  ### Uses
+  * `AbstractMetric`
+  * `PositionEvent`
+  * `Newtonsoft.Json`
+  ### Syntax
+  #### **Exported Constants**
+  None
+  #### **Exported Types**
+  None
+  #### **Exported Access Programs**
+  |Routine Name|In |Out |Exceptions |
+  |---|---|---|---|
+  |`PositionMetric`|seq of `string`|`PositionMetric`||
+  |`startRecording`||||
+  |`finishRecording`||||
+  |`recordEvent`|`PositionEvent`|||
+  |`getJSON`||JSON||
+  ### Semantics
+  #### **State Variables**
+  * `isRecording: 𝔹` (inherited from `AbstractMetric`)
+  * `eventList`: seq of `PositionEvent` (inherited from `AbstractMetric`)
+  * `gameObjectKeys:` seq of `string`
+  #### **Assumptions**
+  * The constructor `PositionMetric(`seq of `string)` is called before any other access routines are called for that object. `PositionMetric(`seq of `string)` will invoke the `AbstractMetric()` (inherited from `AbstractMetric`) before any other statements are executed.
+  #### **Design Decision**
+  This class is a subclass of `AbstractMetric`, and is used to record `PositionEvent` objects passed from a _Level Manager_. `PositionEvent` objects records a sequence of labeled _Vectors_ which correspond to positions of game objects in the _minigame_. When `getJson()` is invoked, it will return a JSON object containing all the data stored in `eventList`, as well as the name of this _Metric_, and the names of the objects being recorded.
+  #### **Access Routine Semantics**
+  `ButtonPressingMetric()`
+  * transition: none
+  * output: _out_ := _self_
+  * exception: none
+
+  `startRecording()` (inherited from `AbstractMetric`)
+  * transition: `isRecording` = `true`
+  * output: none
+  * exception: none
+
+  `stopRecording()` (inherited from `AbstractMetric`)
+  * transition: `isRecording` = `false`
+  * output: none
+  * exception: none
+
+  `recordEvent(e)` (inherited from `AbstractMetric`)
+  * transition: _if_ (`isRecording`) _then_ `eventList = eventList||<e>` _else_ none
+  * output: none
+  * exception: none
+
+  `getJSON()`
+  * transition: none
+  * output: _out_ := JSON parsed from `eventList`
+  * exception: none
+## 4.3.2.3 Memory Choice Metric Module
+  `MemoryChoiceMetric` extends `AbstractMetric`
+  ### Uses
+  * `AbstractMetric`
+  * `PositionEvent`
+  * `Newtonsoft.Json`
+  ### Syntax
+  #### **Exported Constants**
+  None
+  #### **Exported Types**
+  None
+  #### **Exported Access Programs**
+  |Routine Name|In |Out |Exceptions |
+  |---|---|---|---|
+  |`MemoryChoiceMetric`||`MemoryChoiceMetric`||
+  |`startRecording`||||
+  |`finishRecording`||||
+  |`recordEvent`|`MemoryChoiceEvent`|||
+  |`getJSON`||JSON||
+  ### Semantics
+  #### **State Variables**
+  * `isRecording: 𝔹` (inherited from `AbstractMetric`)
+  * `eventList`: seq of `MemoryChoiceEvent` (inherited from `AbstractMetric`)
+  #### **Assumptions**
+  * The constructor `MemoryChoiceMetric()` is called before any other access routines are called for that object. `PositionMetric(`seq of `string)` will invoke the `AbstractMetric()` (inherited from `AbstractMetric`) before any other statements are executed.
+  #### **Design Decision**
+  This class is a subclass of `AbstractMetric`, and is used to record `PositionEvent` objects passed from a _Level Manager_. `PositionEvent` objects records a sequence of labeled _Vectors_ which correspond to positions of game objects in the _minigame_. When `getJson()` is invoked, it will return a JSON object containing all the data stored in `eventList`, as well as the name of this _Metric_, and the names of the objects being recorded.
+  #### **Access Routine Semantics**
+  `ButtonPressingMetric()`
+  * transition: none
+  * output: _out_ := _self_
+  * exception: none
+
+  `startRecording()` (inherited from `AbstractMetric`)
+  * transition: `isRecording` = `true`
+  * output: none
+  * exception: none
+
+  `stopRecording()` (inherited from `AbstractMetric`)
+  * transition: `isRecording` = `false`
+  * output: none
+  * exception: none
+
+  `recordEvent(e)` (inherited from `AbstractMetric`)
+  * transition: _if_ (`isRecording`) _then_ `eventList = eventList||<e>` _else_ none
+  * output: none
+  * exception: none
+
+  `getJSON()`
+  * transition: none
+  * output: _out_ := JSON parsed from `eventList`
+  * exception: none
+
 
 # 5. List of Changes to SRS
 
@@ -758,5 +972,24 @@ __Local Functions__
 
 ## 7.2 Invariants
 
+# 8. Traceability Matrix
+| Functional Requirements | Module Name |
+|-------------------------|--------------------|
+| F-8 | Battery Module |
+| F-11 | Abstract Level Manager Module|
+| F-1, F-2, F-3, F-4, F-5, F-6, F-7, F-10, F-13 | Digger Level Manager Module |
+| F-4 | Player Controller Module |
+| F-1, F-10 | Ground Breaker Module |
+| F-11 | Chest Animator Module |
+|  | Feeder Module |
+|  | Rockstaer Module |
+| F-2 | Abstract Metric Event Module |
+| F-1, F-2 | Button Pressing Event Module |
+| F-1, F-2, F-6 | Position Event Module |
+| F-5, F-13 | Memory Choice Event Module |
+| F-5, F-13 | Abstract Metric Module |
+| F-1, F-2 | Button Pressing Metric Module |
+| F-1, F-2, F-6, F-13 | Position Metric Module |
+| F-1, F-2, F-5, F-6, F-13 | Memory Choice Metric Module |
 
 
