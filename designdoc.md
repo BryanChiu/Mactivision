@@ -276,7 +276,7 @@ This section of modules are used in the Digger game. In this mini-game, the play
 `DiggerLevelManager` module inherits [`LevelManager`](#420-abstract-level-manager-module)
 
 ### Uses
-[`DiggerPlayerController`](#4212-feeder-player-controller-module), [`GroundBreaker`](#4213-ground-breaker-module), [`ChestAnimator`](#4214-chest-animator-module), [`ButtonPressingMetric`](#button-pressing-metric-module), [`ButtonPressingEvent`](#button-pressing-event-module), {UnnamedJSONOutputter}, `UnityEngine.Event`, `UnityEngine.KeyCode`, `System.DateTime`
+[`DiggerPlayerController`](#4212-digger-player-controller-module), [`GroundBreaker`](#4213-ground-breaker-module), [`ChestAnimator`](#4214-chest-animator-module), [`ButtonPressingMetric`](#button-pressing-metric-module), [`ButtonPressingEvent`](#button-pressing-event-module), {UnnamedJSONOutputter}, `UnityEngine.Event`, `UnityEngine.KeyCode`, `System.DateTime`
 
 ### Syntax
 #### Exported Constants
@@ -301,7 +301,7 @@ window: The game window
 #### State Variables
 `bpMetric`: [`ButtonPressingMetric`](#4321-button-pressing-metric-module)\
 `recording`: `𝔹`\
-`player`: [`DiggerPlayerController`](#4212-feeder-player-controller-module)\
+`player`: [`DiggerPlayerController`](#4212-digger-player-controller-module)\
 `chest`: [`ChestAnimator`](#4214-chest-animator-module)\
 `digAmount`: `ℕ`\
 `digKey`: `KeyCode`\
