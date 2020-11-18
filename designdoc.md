@@ -25,6 +25,8 @@ Table of Contents
     * 5.2 [Revision Control Diff](#52-revision-control-diff)
 * 6 [Module Relationship Diagram](#6-module-relationship-diagram)
 * 7 [Significant Algorithms/Non-Trivial Invariants](#7-significant-algorithms/non-trivial-invariants)
+  * 7.1 [Algorithms](#71-algorithms)
+  * 7.2 [Invariants](#72-invariants)
 
 # Revision History
 
@@ -767,4 +769,7 @@ __Local Functions__
 
 # 7. Significant Algorithms/Non-Trivial Invariants
 
+## 7.1 Algorithms
+
+## 7.2 Invariants
 
