@@ -988,6 +988,28 @@ This section of the document contains all modules relating to the _Measurement M
 ## 7.2 Invariants
 
 # 8. Traceability Matrix
+Table #1 Functional requirements and descriptions.
+| ID | Description |
+|----|-------------|
+| F-1 | Record input from player. |
+| F-2 | Objective Timers and Game Timers. |
+| F-3 | Request the player complete a sequence of inputs. |
+| F-4 | How close is the player to completing the objective. |
+|| Change player controls during game. |
+| F-5 | Output the measurements collected for each game session. |
+| F-6 | Record the start and end of objectives. How long did the player take and how successful was the player? |
+| F-7 | All the player to move around the game world. Allow the game to move the player. |
+| F-8 | Start and end game. |
+| F-9 | Move the camera around the game world. |
+| F-10 | Move the object around the game world. |
+| F-11 | Be able to change game scene. |
+| F-12 | Player has ability to pause game. |
+| F-13 | Show player score (how well they are completing objectives) during game play. |
+|| Read measurement data from database. |
+|| Write measurement data from database. |
+| F-14 | Delete measurement data from database. |
+
+Table #2 Traceability Matrix between functional requirements and modules
 | Functional Requirements | Module Name |
 |-------------------------|--------------------|
 | F-8 | Battery Module |
