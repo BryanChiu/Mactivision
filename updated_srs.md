@@ -53,10 +53,11 @@ Table of Contents
     * 5.1.2 [Project Background](#512-project-background)
 
 ## Revision History
-| Name | Date              | Reason For Changes            | Version   |
-| ---- | ----------------- | ----------------------------- | --------- |
-| N/A  | October 19, 2020  | First Version                 | 1.0.0     |
-| Mike | November 12, 2020 | Updates from design document  | 1.1.0     |
+| Name | Date              | Reason For Changes                | Version   |
+| ---- | ----------------- | --------------------------------- | --------- |
+| N/A  | October 19, 2020  | First Version                     | 1.0.0     |
+| Mike | November 12, 2020 | Updates from design document      | 1.1.0     |
+| Mike | November 18, 2020 | More updates from design document | 1.2.0     |
 
 ## 1. Introduction
 This section will provide an overview of the entire document.
@@ -175,20 +176,20 @@ Work                           | Description
 -------------------------------|----------------------
 Requirements Specification     | Complete SRS document.
 Prototype                      | Half of the group works on the metric modules and the other half creates one mini game that showcases the interaction between the player and the game and the game and the data manager. 
-Design Battery Application     | Battery administrates the battery of mini games.
+Design Battery Module          | Battery administrates the battery of mini games.
 Design Mini Game 1             | Button mashing game. Measure single button key presses. Create a game objective that requires mashing. Choose which assets to use.
 Design Mini Game 2             | Reverse spotlight game. Steering . Create a game objective that requires not exiting the spotlight while it moves around. Choose which assets to use
 Design Mini Game 3             | Feed the monster game. Measure memory updating in working memory. Create a game objective that requires an NPC to choose which food they want to eat, player has to remember and feed them. Choose which assets to use
-Design Metric Modules     | Create metric modules that games can use the measure the specific abilities they wish to record.
+Design Metric Modules          | Create metric modules that games can use the measure the specific abilities they wish to record.
 Design Data Manager            | Take data created from battery and organize it for use for researchers. 
-Design Document                | After reflecting on the good and bad decisions from the prototype, redesign prototype using data collected to more accurately measure targeted cognitive and physical abilities of that particular game. Formalize a list of design decisions for games 2, 3 the battery application, metric modules and data manager. 
+Design Document                | After reflecting on the good and bad decisions from the prototype, redesign prototype using data collected to more accurately measure targeted cognitive and physical abilities of that particular game. Formalize a list of design decisions for games 2, 3 the battery module, metric modules and data manager. 
 Create Mini Game 1             | Mostly complete from prototype 1. Make any refinements needed.
 Create Mini Game 2             | Make a prototype game 2 from design document.
 Create Mini Game 3             | Make a prototype game 3 from design document.
 Create Metric Modules          | Create sufficient metric modules in order to capture the basic requirements from game 1, 2, and 3.
-Create Battery Application     | Battery application should be able to load a new battery and run game 1, 2, 3 in sequence, end battery and output recorded data.
+Create Battery Module          | Battery module should be able to load a new battery and run game 1, 2, 3 in sequence, end battery and output recorded data.
 Create Data Manager            | Implement data manger from design.
-Prototype 2.0                  | Prototype 2.0 should be able to run a battery application, run the three games, have each game output meaningful player ability performance data, end the battery and then the data manager should be able to present that data in a meaningful way. 
+Prototype 2.0                  | Prototype 2.0 should be able to run a battery module, run the three games, have each game output meaningful player ability performance data, end the battery and then the data manager should be able to present that data in a meaningful way. 
 Internal and External Testing  | UX testing will be done on the feature complete mini game and there will be a review of its code quality. Test whether players can complete a battery and understand how to play each mini game and can successfully do so. Attempt to see if the data collected matches with the tester's perceived performance of their abilities.
 Polish Games Elements          | Add bells and whistles to the games to make them feel more like games and less like tests.
 Extra Time                     | If time allows create more mini games and or create better data visualization.
@@ -214,7 +215,7 @@ This section will give an overview of the entire architecture of the system and 
 ### 2.1 Product Perspective
 <!-- Describe the context and origin of the product being specified in this SRS. For example, state whether this product is a follow-on member of a product family, a replacement for certain existing systems, or a new, self-contained product. If the SRS defines a component of a larger system, relate the requirements of the larger system to the functionality of this software and identify interfaces between the two. A simple diagram that shows the major components of the overall system, subsystem interconnections, and external interfaces can be helpful. -->
 
-This system will consist of four parts: a set of mini-games, a battery application, a set of metric modules and a data manager. The battery application will initialize a series of mini-games for the player to play. Each mini-game will communicate with the metric modules while an end user plays the mini-game, in order to record information from the game. Recorded data will be given to the data manager.
+This system will consist of four parts: a set of mini-games, a battery module, a set of metric modules and a data manager. The battery module will initialize a series of mini-games for the player to play. Each mini-game will communicate with the metric modules while an end user plays the mini-game, in order to record information from the game. Recorded data will be given to the data manager.
 
 Each mini-game will be built using the Unity engine and each will be designed to measure a relatively small, specific subset of cognitive and motor abilities. The user input in these mini-games will mostly be restricted to keyboard input, as keyboards are widely available to most users, however input abstraction in the Unity engine will be made use of in order to switch between input types for most mini-games.
 
@@ -225,7 +226,7 @@ The data manager will organize data about specific mini-games, such as which cog
 ### 2.2 Product Functions
 <!-- Summarize the major functions the product must perform or must let the user perform. Details will be provided in Section 3, so only a high level summary (such as a bullet list) is needed here. Organize the functions to make them understandable to any reader of the SRS. A picture of the major groups of related requirements and how they relate, such as a top level data flow diagram or object class diagram, is often effective. -->
 
-__Battery Application__
+__Battery Module__
 * During initialization, allow battery administrators to define the sequence of mini games to be used in the battery.
 * During initialization, allow the administrators to pass variables to the mini games to customize functionality of those games.
 * Start battery
@@ -293,14 +294,14 @@ We estimate that the time saved when using pre-made assets like these will be su
 
 Identify requirements that may be delayed until future versions of the system (e.g., blocks and/or increments). -->
 
-There are four software elements that will make up this project: the mini-games, battery application, the metric modules and data manager. The following table shows how functions are split up between the two software elements:
+There are four software elements that will make up this project: the mini-games, battery module, the metric modules and data manager. The following table shows how functions are split up between the two software elements:
 
 | Function                                            | Software Element      |
 | --------------------------------------------------- | --------------------- |
-| Create user profile                                 | Battery Application   |
-| Create new battery                                  | Battery Application   |
-| Start / end battery                                 | Battery Application   |
-| Load / unload mini-games                            | Battery Application   |
+| Create user profile                                 | Battery Module        |
+| Create new battery                                  | Battery Module        |
+| Start / end battery                                 | Battery Module        |
+| Load / unload mini-games                            | Battery Module        |
 | Present game instructions to the user               | Mini-game             |
 | Initialize metric modules                           | Mini-game             |
 | Record inputs from the controller                   | Metric Module         |
@@ -330,159 +331,202 @@ The stakeholders for this project are:
 ## 3. Requirements
 <!-- This section specifies the software product's requirements. Specify all of the software requirements to a level of detail sufficient to enable designers to design a software system to satisfy those requirements, and to enable testers to test that the software system satisfies those requirements. -->
 
-TODO (mike): UPDATE REQUIREMENTS AS WE FINALIZE THE MODULES.
-
 __Product Use Case (PUC) Table (Generic Measurement Module)__
-
 PUC | PUC Name           | Actor(s)         | Input / Output
 ----|--------------------|------------------|---------------
-1   | Record Input       | Player, System   | Key Input(IN)
-2   | Start Timer        | System           | Time(OUT)
-3   | End Timer          | System           | Time(OUT)
-4   | Input Sequence     | Player, System   | Key Input(IN), Success Boolean(OUT)
-5   | Stage of Objective | Player, System   | Key Input(IN), Stage Int(OUT)
-6   | Change Controls    | System           | Changed Boolean(OUT)
-7   | Output Data        | System           | String(OUT)
-8   | Start Objective    | Player, System   | Key Input(IN)
-9   | End Objective      | Player, System   | Key Input(IN), Success Boolean(OUT)
+1   | Metric Event       | System           | DateTime Input(IN)
+2   | Event Time         | System           | Time(OUT)
+3   | Button Event       | Player, System   | Key Input(IN) 
+4   | Position Event     | Player, System   | Vector3(IN) 
+5   | Memory Event       | Player, System   | Choice(IN)
 
 __Product Use Case (PUC) Table (Generic Game)__
-
 PUC | PUC Name           | Actor(s)         | Input / Output
 ----|--------------------|------------------|---------------
-10  | Move Player        | Player           | Key Input(IN), Pos Vector3(OUT)
-11  | Start Game         | Player           | Key Input(IN)
-12  | End Game           | Player           | Key Input(IN)
-13  | Move Camera        | Player, System   | Key Input(IN), Pos Vector3(OUT)
-14  | Move Object        | System           | Key Input(IN), Pos Vector3(OUT)
+6  | Move Player        | Player           | Key Input(IN), Pos Vector3(OUT)
+7  | Start Screen       | Player           | Key Input(IN)
+8  | End Screen         | Player           | Key Input(IN)
+9  | Move Camera        | Player, System   | Key Input(IN), Pos Vector3(OUT)
+10 | Move Entity        | System           | Key Input(IN), Pos Vector3(OUT)
+11 | Animate Sprite     | Player, System   | Sprites EntityList(IN), Animation Entity(OUT)
+12 | Switch Animation   | Player, System   | Event(IN), Animation Entity(OUT)
+13 | Get Event          | System           | Unity Event(OUT)
+14 | Create Entity      | System           | Game Entity(IN)
+15 | Destroy Entity     | System           | Game Entity(IN)
+16 | Set Physics        | System           | Game Entity(IN)
+17 | Modify Game State  | System           | State Object(IN), State Object(OUT)
 
-__Product Use Case (PUC) Table (Battery Application)__
+__Product Use Case (PUC) Table (Battery Module)__
 PUC | PUC Name           | Actor(s)         | Input / Output
 ----|--------------------|------------------|---------------
-15  | Change Scene       | System           | Key Input(IN)
+18  | Start Battery      | System           | Configuration Data JSON(IN)
+19  | Start Mini-game    | System           | Game Order Int(IN)
+20  | End Mini-game      | System           | Game Data JSON(OUT)
+21  | End Battery        | System           | Battery Data JSON(OUT)
 
 __Product Use Case (PUC) Table (Data Manager)__
-
 PUC | PUC Name           | Actor(s)         | Input / Output
 ----|--------------------|------------------|---------------
-16  | Read Data          | System           | In String(IN), Success Bool(OUT)
-17  | Present Data       | System           | Query String(IN) 
+22  | Read Data          | System           | In String(IN), Success Bool(OUT)
+23  | Present Data       | System           | Query String(IN) 
 
 __Individual Product Use Cases__
 
-PUC No. 1     | Event: Record Input
+PUC No. 1     | Event: Metric Event
 --------------|--------------------------------
-Trigger       | The player provides input to the game.
-Preconditions | The game is started. The player is in control.
-Procedure     | 1. Record which input was used. 2. Record input state: up, down or held.
-Outcome       | Store each new input type and state.
+Trigger       | Start of measurement recording.
+Preconditions | A mini-game has started.
+Procedure     | Records start date and time for the current mini-game.
+Outcome       | Store start date and time. 
 
-PUC No. 2     | Event: Start Timer
+PUC No. 2     | Event: Event Time
 --------------|--------------------------------
-Trigger       | Start of game and start of objective.
-Preconditions | The player has started game.
-Procedure     | Set start time to current time.
-Outcome       | Store start time. 
+Trigger       | Mini-game calls event time.
+Preconditions | A mini-game is running.
+Procedure     | Records the current time.
+Outcome       | New time is added to a list of times.
 
-PUC No. 3     | Event: End Timer
+PUC No. 3     | Event: Button Event
 --------------|--------------------------------
-Trigger       | End of game and objective completion.
-Preconditions | The player has completed objective or exited game.
-Procedure     | Set end time to current time.
-Outcome       | Store end time. 
+Trigger       | Mini-game calls button event.
+Preconditions | A mini-game is running.
+Procedure     | Records the state of a button. Up or down.
+Outcome       | Button state is added to a list of buttons states.
 
-PUC No. 4     | Event: Input Sequence
+PUC No. 4     | Event: Position Event
 --------------|--------------------------------
-Trigger       | Start of objective.
-Preconditions | Game is started. Player can send inputs.
-Procedure     | Record sequence of player inputs.
-Outcome       | Player completed sequence or not.
+Trigger       | Mini-game calls position event.
+Preconditions | A mini-game is running.
+Procedure     | Records the current position of entity.
+Outcome       | Position added to a list of positions for that entity.
 
-PUC No. 5     | Event: Stage Of Objective
+PUC No. 5     | Event: Memory Event
 --------------|--------------------------------
-Trigger       | Start of objective.
-Preconditions | Player is working on objective.
-Procedure     | Get which stage of the objective the player is on.
-Outcome       | Store objective and stage of objective. 
+Trigger       | Mini-game calls memory event.
+Preconditions | A mini-game is running.
+Procedure     | Records expected outcome and actual outcome from a mini-game objective.
+Outcome       | Expected outcome and actual outcomes is added to a list of outcomes.
 
-PUC No. 6     | Event: Change Controls
+PUC No. 6     | Event: Move Player
 --------------|--------------------------------
-Trigger       | On objective requirement.
-Preconditions | Player is working on objective.
-Procedure     | Change current key mapping to new key mapping
-Outcome       | Player input will perform a different action than before. For example, changing up to down and vice-versa.
-
-PUC No. 7     | Event: Output Data
---------------|--------------------------------
-Trigger       | On game exit.
-Preconditions | Player exit's game or game over.
-Procedure     | Collected stored data into a variable for output.
-Outcome       | Output data to long term storage.
-
-PUC No. 8     | Event: Start Objective
---------------|--------------------------------
-Trigger       | On new objective.
-Preconditions | Player has control.
-Procedure     | 1. Start timers. 2. Record Inputs. 3. Record Input Sequence 4. Record Success Rate 5. Monitor Stage of Objective 
-Outcome       | Store data from timers and inputs for specific objective by stage of objective.
-
-PUC No. 9     | Event: End Objective
---------------|--------------------------------
-Trigger       | On new objective.
-Preconditions | Game over or player successfully completed last objective.
-Procedure     | 1. Stop timers. 2. Update Success Rate
-Outcome       | Store data from timers and inputs from start of objective to end of objective. Record success rate.
-
-PUC No. 10    | Event: Move Player
---------------|--------------------------------
-Trigger       | Player engages movement inputs.
-Preconditions | Game is started and player has control.
-Procedure     | 1. Get player input type. 2. Get input state. 3. Update player coordinates.
+Trigger       | Player input or mini-game call.
+Preconditions | A mini-game is running.
+Procedure     | Update player position in game world.
 Outcome       | Player moves to new coordinates.
 
-PUC No. 11    | Event: Start Game
+PUC No. 7     | Event: Start Screen
 --------------|--------------------------------
-Trigger       | Player selects start.
-Preconditions | Game is at start game screen.
-Procedure     | Change scene.
-Outcome       | Player leaves start game screen and game begins. Start game screen must contain instructions on how to play the game.
+Trigger       | A mini-game is started.
+Preconditions | Battery is running.
+Procedure     | Player reads instructions and when ready starts the mini-game.
+Outcome       | Mini-game is started and measurements begin recording.
 
-PUC No. 12    | Event: End Game
+PUC No. 8     | Event: End Screen
 --------------|--------------------------------
-Trigger       | Player quits game or game over.
-Preconditions | Game is running.
-Procedure     | Exit game or on game over return to start game screen.
-Outcome       | Player exits the mini game. 
+Trigger       | A mini-game is finished.
+Preconditions | Battery is running.
+Procedure     | Player is told the mini game has ended. Tell battery to go to next mini-game.
+Outcome       | Current mini-game is stopped and measurements stop recording. Next mini-game.
 
-PUC No. 13    | Event: Move Camera
+PUC No. 9     | Event: Move Camera
 --------------|--------------------------------
 Trigger       | Player moves camera or camera follows player.
-Preconditions | Game is running.
+Preconditions | A mini-game is running.
 Procedure     | Get player input. Set new camera coordinates.
 Outcome       | Camera is moved.
 
-PUC No. 14    | Event: Move Object
+PUC No. 10    | Event: Move Entity
 --------------|--------------------------------
-Trigger       | Game requires object to move or player interacts with object.
-Preconditions | Game is running.
-Procedure     | Set new object coordinates.
-Outcome       | Object is moved.
+Trigger       | A mini-game requires entity to move or player interacts with entity.
+Preconditions | A mini-game is running.
+Procedure     | Set new entity coordinates.
+Outcome       | Entity is moved.
 
-PUC No. 15    | Event: Change Scene
+PUC No. 11    | Event: Animate Sprite
 --------------|--------------------------------
-Trigger       | Game requires scene change.
-Preconditions | Game is running.
-Procedure     | Change current scene to new scene.
-Outcome       | Scene is changed.
+Trigger       | A mini-game calls animate sprite.
+Preconditions | A mini-game is running.
+Procedure     | Display sprites in a sequence in order to evoke the appearance that the entity is animated.
+Outcome       | Sprite animation appears on screen.
 
-PUC No. 16    | Event: Read Data
+PUC No. 12    | Event: Switch Animation
+--------------|--------------------------------
+Trigger       | A mini-game calls switch animation.
+Preconditions | A mini-game is running.
+Procedure     | A sequence of sprites is switched to another sequence of sprites.
+Outcome       | Sprite animation changes from one to another.
+
+PUC No. 13    | Event: Get Event
+--------------|--------------------------------
+Trigger       | A mini-game listens for events.
+Preconditions | A mini-game is running.
+Procedure     | A mini-game asks unity for if any new events have been made. Most common event will be player input. 
+Outcome       | A new event occurs.
+
+PUC No. 14    | Event: Create Entity
+--------------|--------------------------------
+Trigger       | A mini-game calls create entity.
+Preconditions | A mini-game is running.
+Procedure     | A mini-game creates a new entity and adds it to the game world.
+Outcome       | A new entity is created. Update game world.
+
+PUC No. 15    | Event: Destroy Entity
+--------------|--------------------------------
+Trigger       | A mini-game calls destroy entity.
+Preconditions | A mini-game is running.
+Procedure     | A mini-game destroys an entity and removes it from the game world.
+Outcome       | An entity is destroyed. Update game world.
+
+PUC No. 16    | Event: Set Physics
+--------------|--------------------------------
+Trigger       | A mini-game calls set physics.
+Preconditions | A mini-game is running.
+Procedure     | A mini-game applies physics to a game entity. Most common will be Unity's Collider2D.
+Outcome       | An entity now has physics.
+
+PUC No. 17    | Event: Modify Game State
+--------------|--------------------------------
+Trigger       | A mini-game updates game state variables.
+Preconditions | A mini-game is running.
+Procedure     | As the player interacts with the game world the game state must be updated to make sure the rendering of the game world reflects that interaction.
+Outcome       | A game state is changed. Update game world.
+
+PUC No. 18    | Event: Start Battery
+--------------|--------------------------------
+Trigger       | Start Unity Application
+Preconditions | Battery can load configuration data.
+Procedure     | Load configuration file. Apply configuration to battery. Get player identification. Wait for player to start.
+Outcome       | Battery Starts. Player is asked for identification and to start battery.
+
+PUC No. 19    | Event: Start Mini-game
+--------------|--------------------------------
+Trigger       | Battery is started.
+Preconditions | Battery is running. No mini-games are running.
+Procedure     | A list of mini-games is created from the configuration file. Given a game on the list, the battery will load that game.  
+Outcome       | A mini-game is loaded and started.
+
+PUC No. 20    | Event: End Mini-game
+--------------|--------------------------------
+Trigger       | A mini-game is completed.
+Preconditions | Battery is running
+Procedure     | Unload completed mini-game.
+Outcome       | A mini-game is unloaded.
+
+PUC No. 21    | Event: End Battery
+--------------|--------------------------------
+Trigger       | Battery runs out of mini-games.
+Preconditions | Battery is running.
+Procedure     | Output JSON file with player name, configuration file and results of the battery. Player is prompted to close application.
+Outcome       | JSON file is created. Application is closed.
+
+PUC No. 22    | Event: Read Data
 --------------|--------------------------------
 Trigger       | Select JSON file to read.
 Preconditions | Data Manager is running
 Procedure     | Launch Data Manager, select JSON file to read.
 Outcome       | Parses JSON file and either succeeds or fails with a message.
 
-PUC No. 17    | Event: Present Data
+PUC No. 23    | Event: Present Data
 --------------|--------------------------------
 Trigger       | Select present data
 Preconditions | Data Manager is running. JSON is file is read.
@@ -510,7 +554,7 @@ Could be further divided into Usability and Convenience requirements. -->
 
 A user launching any of the mini-games in this project should be greeted with a _user ID menu_, followed by a _main menu_ screen. The _user ID menu_ screen will simply contain a text field below a phrase asking the user to enter their _user ID_, with a _Continue_ button below that. This ID is unique to the user and should be given to them prior to them playing the game. An example of this screen is displayed below:
 ![](https://github.com/BryanChiu/Mactivision/blob/master/Requirements%20Specification/assets/example_user_id_001.png)
-When a user presses the _Continue_ button, the battery application will record
+When a user presses the _Continue_ button, the battery module will record
 the user id, and provide the user with the first mini game.
 
 Each mini game will provide instructions on how to play the games. Users should be able to start the game, and exit the game. The design of this screen should be very simple, with little to no game options, as the mini-games are specifically designed to test specific cognitive and motor abilities, so the user should not a complex menu. If there are options for the user, they should be minimal, as to not affect the cognitive and motor abilities being measured. The following on-screen buttons should be included with each mini-game, which the user can press using their cursor to navigate through the mini-game interface:
@@ -518,15 +562,16 @@ Each mini game will provide instructions on how to play the games. Users should 
 Menu Button | Function
 ---|---
 Start Game | Starts the mini-game for the user. The user should now be able to play the mini-game using their input device. Instructions on how to play the game are shown during this period.
-Exit Game | mini-game should exit and the battery application will start the next mini game if one exists.
+Exit Game | mini-game should exit and the battery module will start the next mini game if one exists.
 
-Each mini-game will have a unique gameplay user interface and experience, which will be specified in the future when individual mini-games are being designed. However, all mini-games should share a common start and exit interface in terms of design and style. These interfaces will have similar layouts for any buttons and text; fonts, text sizes, button and title positions, audio, etc., should be consistent across mini-games. An example of a _main menu_ design is displayed below:
+Each mini-game will have a unique gameplay user interface and experience, which will be specified in the future when individual mini-games are being designed. However, all mini-games should share a common start and exit interface in terms of design and style. These interfaces will have similar layouts for any buttons and text; fonts, text sizes, button and title positions, audio, etc., should be consistent across mini-games. 
 
-TODO(Mike): Add start and exit screen examples from digger games. Remove main menu image.
+<!--TODO(Mike): Add start and exit screen examples from digger games. Remove main menu image. 
 
 ![](https://github.com/BryanChiu/Mactivision/blob/master/Requirements%20Specification/assets/example_mini-game_main_menu_001.png)
+-->
 
-Mini games should not show error messages to the user if the game encounters an error during play. If a mini games fails it should fail silently, record the failure in the JSON file for that particular battery and the battery should attempt to start the next mini game in the sequence. If the battery application fails let the let the user know so they can relay that information to the administrator. The administrator can make the decision as to whether the battery must be restarted or the data collected so far is sufficient.
+Mini games should not show error messages to the user if the game encounters an error during play. If a mini games fails it should fail silently, record the failure in the JSON file for that particular battery and the battery should attempt to start the next mini game in the sequence. If the battery module fails let the let the user know so they can relay that information to the administrator. The administrator can make the decision as to whether the battery must be restarted or the data collected so far is sufficient.
 
 ![Example Error Message](https://github.com/BryanChiu/Mactivision/blob/master/Requirements%20Specification/assets/example_error_001.png)
 
@@ -555,7 +600,7 @@ Administrators will interface with the Data Manager which will be used to parse 
 
 ID F-1         | Type: Functional 
 ---------------|----------------------------------------------------------------
-PUC: 1         | Originator: Team
+PUC: 3         | Originator: Team
 Description    | Record input from player.
 Rationale      | In order to measure physical abilities of player, the metric modules need to be able to record input and input states
 Constraints    | The project must support multiple controllers so a controller abstraction will be needed.
@@ -563,7 +608,7 @@ Priority       | Very High
 
 ID F-2         | Type: Functional 
 ---------------|----------------------------------------------------------------
-PUC: 2,3       | Originator: Team
+PUC: 1,2       | Originator: Team
 Description    | Objective Timers and Game Timers. 
 Rationale      | Timers are need to measure the cognitive and physical abilities of the player. Measure how fast or slow the player is.
 Constraints    | Metric modules must coordinate timers with each individual game.
@@ -571,7 +616,7 @@ Priority       | Very High
 
 ID F-3         | Type: Functional 
 ---------------|----------------------------------------------------------------
-PUC: 4         | Originator: Team
+PUC: 5         | Originator: Team
 Description    | Request the player complete a sequence of inputs. 
 Rationale      | In order to measure the accuracy of the players ability to button mash, alternate inputs and complete input combinations.
 Constraints    | Metric modules must coordinate input sequence with each individual game.
@@ -579,7 +624,7 @@ Priority       | Very High
 
 ID F-4         | Type: Functional 
 ---------------|----------------------------------------------------------------
-PUC: 5         | Originator: Team
+PUC: 2,3,4,5   | Originator: Team
 Description    | How close is the player to completing the objective.
 Rationale      | Want to be able to measure how close the player is to completing an objective and record how quickly they complete it and are they improving over time.
 Constraints    | Metric modules must coordinate with game objectives of each individual game.
@@ -587,7 +632,7 @@ Priority       | Very High
 
 ID F-4         | Type: Functional 
 ---------------|----------------------------------------------------------------
-PUC: 6         | Originator: Team
+PUC: 18        | Originator: Team
 Description    | Change player controls during game.
 Rationale      | In order to measure the adaptability of the player when controls change or are newly introduced. 
 Constraints    | Metric modules must coordinate with game control scheme of each individual game.
@@ -595,7 +640,7 @@ Priority       | Medium
 
 ID F-5         | Type: Functional 
 ---------------|----------------------------------------------------------------
-PUC: 7         | Originator: Team
+PUC: 20,21     | Originator: Team
 Description    | Output the measurements collected for each game session.
 Rationale      | Required to tune measurement collecting techniques and for overall analyze of player's cognitive and physical abilities.
 Constraints    | Output must be organized enough to be human readable.
@@ -603,7 +648,7 @@ Priority       | Very High
 
 ID F-6         | Type: Functional 
 ---------------|----------------------------------------------------------------
-PUC: 8,9       | Originator: Team
+PUC: 1,2       | Originator: Team
 Description    | Record the start and end of objectives. How long did the player take and how successful was the player? 
 Rationale      | Since objectives will vary in type and difficulty this is need to contextualize the measurements collected from the player. 
 Constraints    | Metric modules must coordinate with game objectives of each individual game.
@@ -611,7 +656,7 @@ Priority       | Very High
 
 ID F-7         | Type: Functional 
 ---------------|----------------------------------------------------------------
-PUC: 10        | Originator: Team
+PUC: 6         | Originator: Team
 Description    | All the player to move around the game world. Allow the game to move the player. 
 Rationale      | Many game types require players are able to move around in the game world.
 Constraints    | Make sure player doesn't go out of bounds.
@@ -619,7 +664,7 @@ Priority       | Very High
 
 ID F-8         | Type: Functional 
 ---------------|----------------------------------------------------------------
-PUC: 11,12     | Originator: Team
+PUC: 7,8       | Originator: Team
 Description    | Start and end game.
 Rationale      | Having specific start and end game states provides windows of measurement. Also, lets the player know when the game has started and ended.
 Constraints    | Must have start and end game scenes.
@@ -627,7 +672,7 @@ Priority       | High
 
 ID F-9         | Type: Functional 
 ---------------|----------------------------------------------------------------
-PUC: 13        | Originator: Team
+PUC: 9         | Originator: Team
 Description    | Move the camera around the game world.
 Rationale      | Many game types require camera to move around. However, mini games often use a fixed camera.
 Constraints    | Make sure camera doesn't go out of bounds.
@@ -635,7 +680,7 @@ Priority       | Low
 
 ID F-10        | Type: Functional 
 ---------------|----------------------------------------------------------------
-PUC: 14        | Originator: Team
+PUC: 10        | Originator: Team
 Description    | Move the object around the game world.
 Rationale      | Most game types require non player objects to move around the game world.
 Constraints    | Make sure objects doesn't go out of bounds and are properly created and destroyed to not waste memory.
@@ -643,15 +688,15 @@ Priority       | Very High
 
 ID F-11        | Type: Functional 
 ---------------|----------------------------------------------------------------
-PUC: 15        | Originator: Team
+PUC: 19,20     | Originator: Team
 Description    | Be able to change game scene.
 Rationale      | Need to be able to change between start scene, game scene, end game scene, settings scene and pause scene.
 Constraints    | Keep scenes to a minimum to avoid over complicated game.
 Priority       | Very High
 
-ID F-13        | Type: Functional 
+ID F-12        | Type: Functional 
 ---------------|----------------------------------------------------------------
-PUC: 16        | Originator: Team
+PUC: 22        | Originator: Team
 Description    | Read measurement data from JSON files.
 Rationale      | Measurement data will need to be reviewed for player analyze after the games are completed.
 Constraints    | Requires data models be created.
@@ -659,11 +704,35 @@ Priority       | Medium
 
 ID F-13        | Type: Functional 
 ---------------|----------------------------------------------------------------
-PUC: 17        | Originator: Team
+PUC: 23        | Originator: Team
 Description    | Present data 
-Rationale      | Metric modules will collect data into large JSON files. These files will be hard for users to read. Present data should organize and present data in a readable way. 
-Constraints    | Requires parsing JSON whiles and determines how to present different data for each metric module.
+Rationale      | Metric modules will collect data into JSON files. These files will be hard for users to read. Present data should organize and present data in a readable way. 
+Constraints    | Requires parsing JSON files and determining how to present different data for each metric module.
 Priority       | High
+
+ID F-14        | Type: Functional 
+---------------|----------------------------------------------------------------
+PUC: 10,14,15  | Originator: Team
+Description    | Entity Manager
+Rationale      | Game entities must be created, destroyed, and updated.   
+Constraints    | Must work with in the constraints of Unity API.
+Priority       | Very High
+
+ID F-14        | Type: Functional 
+---------------|----------------------------------------------------------------
+PUC: 11,12     | Originator: Team
+Description    | Animation Manager
+Rationale      | Allow for animations to exist within the game.
+Constraints    | Must work with in the constraints of Unity API. Animations requires many more assets to act as key frames.
+Priority       | Very High
+
+ID F-15        | Type: Functional 
+---------------|----------------------------------------------------------------
+PUC: 16        | Originator: Team
+Description    | Physics Manager
+Rationale      | In order to have gravity and collision detects there must exist a way to give game entities physics.
+Constraints    | Must work with in the constraints of Unity API. 3D physics is complicated and should be avoided.
+Priority       | Very High
 
 ### 3.3 Quality of Service
 <!-- > This section states additional, quality-related property requirements that the functional effects of the software should present. -->
