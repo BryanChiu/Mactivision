@@ -1005,4 +1005,4 @@ This section of the document contains all modules relating to the _Measurement M
 | F-5, F-13 | Abstract Metric Module |
 | F-1, F-2 | Button Pressing Metric Module |
 | F-1, F-2, F-6, F-13 | Position Metric Module |
-| F-1, F-2, f-5, F-6, F-13 | Memory Choice Metric Module |
+| F-1, F-2, F-5, F-6, F-13 | Memory Choice Metric Module |
