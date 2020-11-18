@@ -232,6 +232,7 @@ None
 |---|---|---|---|
 | `Setup` ||||
 | `StartLevel` ||||
+| `CountDown` ||||
 | `EndLevel` ||||
 
 ### Semantics
@@ -239,11 +240,10 @@ None
 window: The game window
 
 #### State Variables
-`lvlState`: ℕ\
-`lvlCountDown`: ℝ
+`lvlState`: `ℕ`
 
 #### State Invariant
-`lvlState`∈ {0..2}
+`lvlState`∈ {0..3}
 
 #### Assumptions
 None
@@ -253,28 +253,28 @@ This module provides access routines to inherited modules for pre and post-game 
 
 #### Access Routine Semantics
 `Setup()`
-- transition: `lvlState`, `lvlCountDown` := 0, 5.0,<br>
+- transition: `lvlState`:= 0,<br>
    window := An introductory text is displayed over a blurred game screen
 
 `StartLevel()`
-- transition: `lvlState`==0 ∧ `countDown`<=4 ⇒
-   `countDown` := decrements 1.0/sec,<br>
-   window := Countdown begins, starting at 3.<br>
-   `countDown`<=0 ⇒ `lvlState` := 1, window := Countdown is removed after 0 and game screen is unblurred
+- transition: `lvlState` := 1. `CountDown()`
+
+`CountDown()`
+- transition: window := Countdown appears in the middle of the screen and starting at 3. After 0, the countdown is removed and the game screen unblurred.<br>`lvlState` := 2
 
 `EndLevel()`
-- transition: `lvlState` := 2, window := The game screen is blurred and a "level complete" text appears. A button appears to go to the next scene (mini-game or main menu).
+- transition: `lvlState` := 3.<br> window := The game screen is blurred and a "level complete" text appears. A button appears to go to the next scene (mini-game or main menu).
 
 
 ## 4.2.1 Digger Modules
 
-This section of modules are used in the Digger game.
+This section of modules are used in the Digger game. In this mini-game, the player repeatedly presses a key to dig down towards treasure.
 
 ## 4.2.1.1 Digger Level Manager Module
 `DiggerLevelManager` module inherits [`LevelManager`](#420-abstract-level-manager-module)
 
 ### Uses
-[`PlayerController`](#4212-player-controller-module), [`GroundBreaker`](#4213-ground-breaker-module), [`ChestAnimator`](#4214-chest-animator-module), [`ButtonPressingMetric`](#4321-button-pressing-metric-module), [`ButtonPressingEvent`](#4311-button-pressing-event-module), {UnnamedJSONOutputter}, `UnityEngine.Event`, `UnityEngine.KeyCode`, `System.DateTime`
+[`DiggerPlayerController`](#4212-feeder-player-controller-module), [`GroundBreaker`](#4213-ground-breaker-module), [`ChestAnimator`](#4214-chest-animator-module), [`ButtonPressingMetric`](#button-pressing-metric-module), [`ButtonPressingEvent`](#button-pressing-event-module), {UnnamedJSONOutputter}, `UnityEngine.Event`, `UnityEngine.KeyCode`, `System.DateTime`
 
 ### Syntax
 #### Exported Constants
@@ -298,43 +298,50 @@ window: The game window
 
 #### State Variables
 `bpMetric`: [`ButtonPressingMetric`](#4321-button-pressing-metric-module)\
-`recording`: 𝔹\
-`player`: [`PlayerController`](#4212-player-controller-module)\
+`recording`: `𝔹`\
+`player`: [`DiggerPlayerController`](#4212-feeder-player-controller-module)\
 `chest`: [`ChestAnimator`](#4214-chest-animator-module)\
-`digAmount`: ℕ\
+`digAmount`: `ℕ`\
 `digKey`: `KeyCode`\
-`lvlState`: ℕ (inherited from [`LevelManager`](#420-abstract-level-manager-module))\
-`lvlCountDown`: ℝ (inherited from [`LevelManager`](#420-abstract-level-manager-module))
+`lvlState`: `ℕ` (inherited from [`LevelManager`](#420-abstract-level-manager-module))
 
 #### State Invariant
-`digAmount`>0\
+None
 
 #### Assumptions
 `Start` is called at the beginning of the scene.\
 `Update` is called once each game cycle.\
-`OnGUI` is called when a GUI event occurs (keyboard/mouse); it is called after `Update` in the game cycle.
+`OnGUI` is called when a GUI event occurs (keyboard/mouse); it is called after `Update` in the game cycle.\
+`digAmount`>0
 
 #### Design Decisions
-This module manages the majority of functionality in the game. The `digAmount` is the number of button presses required to finish the level. It rounds up to the nearest 10 (as there are 10 blocks to break in the level). `digAmount` and `digKey` have default values of 100 and the "B" key, but can be changed using the battery setup file. 
+This module manages the majority of functionality in the game. The `digAmount` is the number of button presses required to finish the level. It rounds up to the nearest 10 (as there are 10 blocks to break in the level). `digAmount` and `digKey` have default values but can be changed using the battery setup file. 
 
 #### Access Routine Semantics
 `Start()`
-- transition: `bpMetric`, `recording`, `digAmount`, `digKey`, `lvlState`, `lvlCountDown` := new [`ButtonPressingMetric`](#4321-button-pressing-metric-module), `false`, 100, `KeyCode.B`, 0, 5.0 <br> window := An introductory text is displayed over a blurred game screen
+- transition: `Setup()`(inherited from [`LevelManager`](#420-abstract-level-manager-module)).
+   ||:=|
+   |---|---|
+   |`bpMetric`|new [`ButtonPressingMetric()`](#4321-button-pressing-metric-module)|
+   |`recording`|`false`|
+   |`digAmount`|100|
+   |`digKey`|`KeyCode.B`|
+   |window|An introductory text is displayed over a blurred game screen|
 
 `Update()`
-- transition: `lvlState`==1 ⇒
-   |||
+- transition: `lvlState`==2 ⇒
+   ||⇒|
    |---|---|
-   | ¬`recording` | `recording` := `true`, `bpMetric.StartRec()`,  |
-   | `chest.opened` | `bpMetric.EndRec()`, `EndLevel()` |
+   | ¬`recording` | `recording` := `true`. `bpMetric.StartRec()`. `SetDigKeyForGround()`. `SetDigAmountForGround()`|
+   | `chest.opened` | `bpMetric.EndRec()`. `EndLevel()`(inherited from [`LevelManager`](#420-abstract-level-manager-module)) |
 
 `OnGUI()`
 - transition: `e.isKey` ⇒
-   |||
+   ||⇒|
    |---|---|
-   | `lvlState`==0 ∧ `countDown`>4 | `countdown` := 4.0, `StartLevel()` |
-   | `lvlState`==1 ∧ `e.keyCode`==`digKey` ∧ press| `bpMetric.AddEvent(new ButtonPressingEvent(DateTime.Now, e.keyCode, true))`, `player.DigDown()` |
-   | `lvlState`==1 ∧ `e.keyCode`==`digKey` ∧ release | `bpMetric.AddEvent(new ButtonPressingEvent(DateTime.Now, e.keyCode, false))`, `player.DigUp()` |
+   | `lvlState`==0 | `StartLevel()`(inherited from [`LevelManager`](#420-abstract-level-manager-module)) |
+   | `lvlState`==2 ∧ `e.keyCode`==`digKey` ∧ press| `bpMetric.AddEvent(new ButtonPressingEvent(DateTime.Now, e.keyCode, true))`. `player.DigDown()` |
+   | `lvlState`==2 ∧ `e.keyCode`==`digKey` ∧ release | `bpMetric.AddEvent(new ButtonPressingEvent(DateTime.Now, e.keyCode, false))`. `player.DigUp()` |
 
 #### Local Routine Semantics
 `SetDigKeyForGround()`
@@ -345,8 +352,7 @@ This module manages the majority of functionality in the game. The `digAmount` i
 
 
 ## 4.2.1.2 Player Controller Module
-### Module inherits MonoBehaviour
-PlayerController
+`PlayerController` inherits MonoBehaviour
 
 ### Uses
 None
@@ -369,8 +375,8 @@ None
 window: The game window
 
 #### State Variables
-`hammerRest`: [ℝ, ℝ, ℝ]\
-`hammerJump`: [ℝ, ℝ, ℝ]
+`hammerRest`: seq of `ℝ`\
+`hammerJump`: seq of `ℝ`
 
 #### State Invariant
 None
@@ -390,11 +396,10 @@ This module controls the digging action of the player.
 
 
 ## 4.2.1.3 Ground Breaker Module
-### Module inherits MonoBehaviour
-GroundBreaker
+`GroundBreaker` inherits MonoBehaviour
 
 ### Uses
-[`PlayerController`](#4212-player-controller-module), `UnityEngine.KeyCode`, `UnityEngine.Input`, `UnityEngine.Collider2D`
+[`DiggerPlayerController`](#4212-digger-player-controller-module), `UnityEngine.KeyCode`, `UnityEngine.Input`, `UnityEngine.Collider2D`
 
 ### Syntax
 #### Exported Constants
@@ -410,21 +415,21 @@ None
 | `Update` ||||
 | `OnTriggerStay2D` | `Collider2D` |||
 | `SetDigKey` | `KeyCode` |||
-| `SetHitsToBreak` | ℕ |||
+| `SetHitsToBreak` | `ℕ` |||
 
 ### Semantics
 #### Environment Variables
 window: The game window
 
 #### State Variables
-`player`: [`PlayerController`](#4212-player-controller-module)\
+`player`: [`DiggerPlayerController`](#4212-digger-player-controller-module)\
 `digKey`: `KeyCode`\
-`hitsToBreak`: ℕ\
-`hits`: ℕ\
-`touching`: 𝔹
+`hitsToBreak`: `ℕ`\
+`hits`: `ℕ`\
+`touching`: `𝔹`
 
 #### State Invariant
-`hitsToBreak`>0
+`hits`<`hitsToBreak`
 
 #### Assumptions
 `Start` is called at the beginning of the scene\
@@ -440,7 +445,7 @@ This module controls the breaking of an individual ground block. By default, eac
 
 `Update()`
 - transition: `touching` ∧ `Input.GetKeyDown(digKey)` ⇒
-   |||
+   ||⇒|
    |---|---|
    | `hits`<`hitsToBreak`-1 | window := Progress the break animation of this block. |
    | `hits`==`hitsToBreak`-1 | window := Remove this block from the scene. The player falls down to the next block/platform. |
@@ -456,11 +461,10 @@ This module controls the breaking of an individual ground block. By default, eac
 
 
 ## 4.2.1.4 Chest Animator Module
-### Module inherits MonoBehaviour
-ChestAnimator
+`ChestAnimator` inherits MonoBehaviour
 
 ### Uses
-[`PlayerController`](#4212-player-controller-module), `UnityEngine.Collider2D`
+[`DiggerPlayerController`](#4212-digger-player-controller-module), `UnityEngine.Collider2D`
 
 ### Syntax
 #### Exported Constants
@@ -481,13 +485,13 @@ None
 window: The game window
 
 #### State Variables
-`player`: [`PlayerController`](#4212-player-controller-module)\
-`opened`: 𝔹\
-`coinspeed`: ℝ\
-`destination`: [ℝ, ℝ, ℝ]
+`player`: [`DiggerPlayerController`](#4212-digger-player-controller-module)\
+`opened`: `𝔹`\
+`coinspeed`: `ℝ`\
+`destination`: seq of `ℝ`
 
 #### State Invariant
-`hitsToBreak`>0
+None
 
 #### Assumptions
 `Start` is called at the beginning of the scene\
@@ -506,13 +510,172 @@ This module controls the chest and coin animation when the player reaches it.
 - transition: `opened` ⇒ window := The coin moves toward `destination`.
 
 `OnTriggerStay2D(c)`
-- transition: `c.gameObject.name`==`player.gameObject.name` ⇒ `opened` := `true`, window := The chest animates opening.
+- transition: `c.gameObject.name`==`player.gameObject.name` ⇒ <br>`opened` := `true`. window := The chest animates opening.
 
-## 4.2.2 Conveyor Modules
+## 4.2.2 Feeder Modules
 
-This section of modules are used in the Conveyor game.
+This section of modules are used in the Feeder game. In this mini-game, the player has to feed a monster. The foods the monster likes and dislikes change overtime, and the player must remember these changes and correctly feed or discard food being dispensed.
 
-## 4.2.3 ThirdGame Modules
+## 4.2.2.1 Feeder Level Manager Module
+`FeederLevelManager` module inherits [`LevelManager`](#420-abstract-level-manager-module)
+
+### Uses
+[`FoodDispenser`](#4222-food-dispenser-module), [`MemoryChoiceMetric`](#4323-memory-choice-metric-module), [`MemoryChoiceEvent`](#4313-memory-choice-event-module), {UnnamedJSONOutputter}, `UnityEngine.Event`, `UnityEngine.KeyCode`, `System.DateTime`
+
+### Syntax
+#### Exported Constants
+None
+
+#### Exported Types
+None
+
+#### Exported Access Programs
+| Routine Name | In | Out | Exceptions |
+|---|---|---|---|
+| `Start` ||||
+| `Update` ||||
+| `OnGUI` ||||
+
+### Semantics
+#### Environment Variables
+`eventTime`: `DateTime`\
+`e`: `Event`\
+window: The game window
+
+#### State Variables
+`mcMetric`: [`MemoryChoiceMetric`](#4323-memory-choice-metric-module)\
+`recording`: `𝔹`\
+`seed`: `ℕ`\
+`totalFoods`: `ℕ`\
+`changeFreq`: `ℕ`\
+`goodKey`: `KeyCode`\
+`badKey`: `KeyCode`\
+`maxGameTime`: `ℕ`\
+`elapsedGameTime`: `ℝ`\
+`dispenser`: [`FoodDispenser`](#4222-food-dispenser-module)\
+`currentFood`: `string`
+`lvlState`: `ℕ` (inherited from [`LevelManager`](#420-abstract-level-manager-module))\
+
+#### State Invariant
+None
+
+#### Assumptions
+`Start` is called at the beginning of the scene.\
+`Update` is called once each game cycle.\
+`OnGUI` is called when a GUI event occurs (keyboard/mouse); it is called after `Update` in the game cycle.\
+`totalFoods`>1\
+`changeFreq`>0
+
+#### Design Decisions
+This module manages the majority of functionality in the game. `totalFoods` is the size of the set of foods available (minimum of two foods). `changeFreq` is the average number of food dispensed between (dis)liked food changes. `totalFoods`, `changeFreq`, `goodKey`, `badKey`, and `maxGameTime` have default values but can be changed using the battery setup file. An optional seed can be provided to run the same sequence of foods.
+
+#### Access Routine Semantics
+`Start()`
+- transition: `Setup()`(inherited from [`LevelManager`](#420-abstract-level-manager-module)).
+   ||:=|
+   |---|---|
+   |`mcMetric`|new [`MemoryChoiceMetric()`](#4323-memory-choice-metric-module)|
+   |`recording`|`false`|
+   |`totalFoods`|4|
+   |`changeFreq`|3|
+   |`goodKey`|`KeyCode.DownArrow`|
+   |`badKey`|`KeyCode.UpArrow`|
+   |`maxGameTime`|120|
+   |`elapsedGameTime`|0|
+   |window|An introductory text is displayed over a blurred game screen|
+   
+   `dispenser.SetDispenser(totalFoods, changeFreq)`. `currentFood` := `dispenser.GetCurrent()`
+
+`Update()`
+- transition: `lvlState`==1 ⇒
+   |||
+   |---|---|
+   | ¬`recording` | `recording` := `true`. `mcMetric.StartRec()` |
+   | `elaspedGameTime`>`maxGameTime` | `mcMetric.EndRec()`. `EndLevel()`
+
+`OnGUI()`
+- transition: `e.isKey` ⇒
+   |||
+   |---|---|
+   | `lvlState`==0 | `StartLevel()`(inherited from [`LevelManager`](#420-abstract-level-manager-module)). `dispense.DispenseNext()` |
+   | `lvlState`==1 ∧ `e.keyCode`==`goodKey`| `mcMetric.AddEvent(new MemoryChoiceEvent(dispenser.getChoiceStartTime(), dispenser.MakeChoice(true), dispenser.GetCurrent(), true, DateTime.Now))`. `dispenser.DispenseNext()`|
+   | `lvlState`==1 ∧ `e.keyCode`==`badKey`| `mcMetric.AddEvent(new MemoryChoiceEvent(dispenser.getChoiceStartTime(), dispenser.MakeChoice(false), dispenser.GetCurrent(), false, DateTime.Now))`. `dispenser.DispenseNext()`|
+
+
+## 4.2.2.2 Food Dispenser Module
+`FoodDispenser` module inherits Monobehaviour
+
+### Uses
+`System.DateTime`, `System.Random`
+
+### Syntax
+#### Exported Constants
+None
+
+#### Exported Types
+None
+
+#### Exported Access Programs
+| Routine Name | In | Out | Exceptions |
+|---|---|---|---|
+| `SetDispenser` |`ℕ`, `ℕ`|||
+| `DispenseNext` ||`string`||
+| `MakeChoice` |𝔹|seq of `string`||
+| `GetCurrent` ||`string`||
+| `GetChoiceStartTime` ||`DateTime`||
+
+### Semantics
+#### Environment Variables
+window: The game window
+
+#### State Variables
+`allFoods`: seq of `string`\
+`gameFoods`: seq of `string`\
+`goodFoods`: seq of `string`\
+`changeFreq`: `ℕ`\
+`currentFood`: `string`\
+`choiceStartTime`: `DateTime`\
+`rand`: `Random`
+
+#### State Invariant
+`gameFoods` ⊆ `allFoods`\
+`goodFoods` ⊆ `gameFoods`\
+`currentFood` ∈ `gameFoods`
+
+#### Assumptions
+`allFoods` is already set from within Unity\
+`SetDispenser` is called in Feeder Level Manager module's `Start()`\
+`Update` is called once each game cycle.
+
+#### Design Decisions
+This module manages the game's available foods and dispensing of foods. It  `allFoods` are all the food items available in the implementation of the game. `gameFoods` are the food items being used in the current game. `goodFoods` are the current set of food items the monster likes. 
+
+#### Access Routine Semantics
+`setDispenser(tf, cf)`
+- transition: `gameFoods` ⊆ `allFoods` ∧ |`gameFoods`|==`tf`. `goodFoods` ⊆ `gameFoods`. `currentFood` := `gameFoods[rand.NextInt(|gameFoods|)]`. `changeFreq` := `cf`.
+
+`DispenseNext()`
+- transition: `UpdateFoods()`. `currentFood` := `gameFoods[rand.NextInt(|gameFoods|)]`.<br>
+   window := If a change in foods occur, a graphic appears showing this change. The graphic disappears after some time and the next food item is dispensed.<br>
+   `choiceStartTime` := `DateTime.Now`
+   
+`MakeChoice(choice)`
+- transition: window := The food gets pushed into the monster's mouth if `choice` and into the trash if ¬`choice`. Monster reacts according to decision.
+- output: *out* := `gameFoods`
+
+`GetCurrent()`
+- output: *out* := `currentFood`
+
+`GetChoiceStartTime()`
+- output: *out* := `choiceStartTime`
+
+
+#### Local Routine Semantics
+`UpdateFoods()`
+- transition: `rand.NextDouble()` < 1/`changeFreq` ⇒ add/remove a food item to/from `gameFoods`
+
+
+## 4.2.3 Rockstar Modules
 
 This section of modules are used in the ThirdGame game.
 
