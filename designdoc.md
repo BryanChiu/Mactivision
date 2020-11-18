@@ -15,7 +15,7 @@ Table of Contents
       * 4.2.1.2 [Player Controller Module](#4212-player-controller-module)
       * 4.2.1.3 [Ground Breaker Module](#4213-ground-breaker-module)
       * 4.2.1.4 [Chest Animator Module](#4214-chest-animator-module)
-    * 4.2.2 [Feeder Modules](#422-conveyor-modules)
+    * 4.2.2 [Feeder Modules](#422-feeder-modules)
       * 4.2.2.1 [Feeder Level Manager Module](#4221-feeder-level-manager-module)
       * 4.2.2.2 [Food Dispenser Module](#4222-food-dispenser-module)
     * 4.2.3 [Rockstar Modules](#423-thirdgame-modules)
