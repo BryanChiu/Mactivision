@@ -22,10 +22,12 @@ Table of Contents
       * 4.3.1.1 [Button Pressing Event Module](#4311-button-pressing-event-module)
       * 4.3.1.2 [Position Event Module](#4312-position-event-module)
       * 4.3.1.3 [Memory Choice Event Module](#4313-memory-choice-event-module)
+      * 4.3.1.4 [Linear Variable Event Module](#4314-linear-variable-event-module)
     * 4.3.2 [Abstract Metric Module](#432-abstract-metric-module)
       * 4.3.2.1 [Button Pressing Metric Module](#4321-button-pressing-metric-module)
       * 4.3.2.2 [Position Metric Module](#4322-position-metric-module)
       * 4.3.2.3 [Memory Choice Metric Module](#4323-memory-choice-metric-module)
+      * 4.3.2.4 [Linear Variable Metric Module](#4324-linear-variable-metric-module)
 * 5 [List of Changes to SRS](#5-list-of-changes-to-srs)
     * 5.1 [Change Rationale](#51-change_rationale)
     * 5.2 [Revision Control Diff](#52-revision-control-diff)
@@ -654,7 +656,7 @@ This section of the document contains all modules relating to the _Measurement M
   #### **Exported Access Programs**
   |Routine Name|In |Out |Exceptions |
   |---|---|---|---|
-  |`MemoryChoiceEvent`|`DateTime`, seq of `string`, `string`, `𝔹`, `TimeSpan`|`MemoryChoiceEvent`||
+  |`MemoryChoiceEvent`|`DateTime`, seq of `string`, `string`, `𝔹`, `DateTime`|`MemoryChoiceEvent`||
   |`getEventTime`||`DateTime`||
   |`getObjectsSet`||seq of `string`||
   |`getObject`||`string`||
@@ -669,7 +671,7 @@ This section of the document contains all modules relating to the _Measurement M
   * `choice: 𝔹`
   * `choiceTime: DateTime`
   #### **Assumptions**
-  * The constructor `MemoryChoiceEvent(DateTime,`seq of `string, string, 𝔹, TimeSpan)` is called before any other access routines are called for that object.
+  * The constructor `MemoryChoiceEvent(DateTime,`seq of `string, string, 𝔹, DateTime)` is called before any other access routines are called for that object.
   #### **Design Decision**
   This module represents the `MemoryChoiceEvent` class which can be instantiated by a _Minigame_ to store data relating to a single _Memory Choice Event_. This object should be passed to a _Memory Choice Metric_ object ([`MemoryChoiceMetric`](#memory-choice-metric-module)) for consumption. Every _Memory Choice Event_ has a time stamp (`eventTime`) in which the event occurred, and an array of strings (`objectsSet`) representing the set of objects which should be answered `true`: ie., if `object` is a member of `objectsSet`, `choice` should be `true` if the user guesses correctly; `false` if the user guesses incorrectly. `choiceTime` is the timestamp the user made the choice, and `eventTime` is the timestamp the choice was presented to the user. If you subtract the two, the result is the time it took for the user to make the choice.
   #### **Access Routine Semantics**
@@ -701,6 +703,61 @@ This section of the document contains all modules relating to the _Measurement M
   `getChoiceTime()`
   * transition: none
   * output: _out_ := `choiceTime`
+  * exception: none
+
+## 4.3.1.4 Linear Variable Event Module
+`LinearVariableEvent` Module inherits [`AbstractMetricEvent`](#431-abstract-metric-event-module)
+  ### Uses
+  * [`AbstractMetricEvent`](#431-abstract-metric-event-module)
+  * `System.DateTime`
+  ### Syntax
+  #### **Exported Constants**
+  None
+  #### **Exported Types**
+  None
+  #### **Exported Access Programs**
+  |Routine Name|In |Out |Exceptions |
+  |---|---|---|---|
+  |`LinearVariableEvent`|`DateTime`, `ℝ`, `ℝ`, `ℕ`|`LinearVariableEvent`||
+  |`getEventTime`||`DateTime`||
+  |`getCurrentValue`||`ℝ`||
+  |`getValueChange`||`ℝ`||
+  |`getReasonIndex`||`ℕ`||
+
+  ### Semantics
+  #### **State Variables**
+  * `eventTime: DateTime` (inherited from `AbstractMetricEvent`)
+  * `currentValue: ℝ`
+  * `valueChange: ℝ`
+  * `reasonIndex: ℕ`
+  #### **Assumptions**
+  * The constructor `LinearVariableEvent(DateTime, ℝ, ℝ, ℕ)` is called before any other access routines are called for that object.
+  #### **Design Decision**
+  This module is for the class `LinearVariableEvent`, which contains the data for each _event_ passed to `LinearVariableMetric#recordEvent()`. This data contains the _event time_, _current value_ (which is the value after the change), _value change_ (change in value since last event), and _index of reason_ (the reason for the change in the event. Index refers to the position in the array of _reasons_ stored in `LinearVariableMetric`).
+  #### **Access Routine Semantics**
+  `LinearVariableEvent(et, cv, vc, ri)`
+  * transition: `eventTime`, `currentValue`, `valueChange`, `reasonIndex` = `et`, `cv`, `vc`, `ri` 
+  * output: _out_ := _self_
+  * exception: none
+
+  `getEventTime()` (inherited from `AbstractMetricEvent`)
+  * transition: none
+  * output: _out_ := `eventTime`
+  * exception: none
+
+  `getCurrentValue()`
+  * transition: none
+  * output: _out_ := `currentValue`
+  * exception: none
+
+  `getValueChange()`
+  * transition: none
+  * output: _out_ := `valueChange`
+  * exception: none
+
+  `getReasonIndex()`
+  * transition: none
+  * output: _out_ := `reasonIndex`
   * exception: none
 
 ## 4.3.2 Abstract Metric Module
@@ -886,7 +943,7 @@ This section of the document contains all modules relating to the _Measurement M
   * `isRecording: 𝔹` (inherited from `AbstractMetric`)
   * `eventList`: seq of `MemoryChoiceEvent` (inherited from `AbstractMetric`)
   #### **Assumptions**
-  * The constructor `MemoryChoiceMetric()` is called before any other access routines are called for that object. `PositionMetric(`seq of `string)` will invoke the `AbstractMetric()` (inherited from `AbstractMetric`) before any other statements are executed.
+  * The constructor `MemoryChoiceMetric()` is called before any other access routines are called for that object. `MemoryChoiceMetric()` will invoke the `AbstractMetric()` (inherited from `AbstractMetric`) before any other statements are executed.
   #### **Design Decision**
   This class is a subclass of `AbstractMetric`, and is used to record `PositionEvent` objects passed from a _Level Manager_. `PositionEvent` objects records a sequence of labeled _Vectors_ which correspond to positions of game objects in the _minigame_. When `getJson()` is invoked, it will return a JSON object containing all the data stored in `eventList`, as well as the name of this _Metric_, and the names of the objects being recorded.
   #### **Access Routine Semantics**
@@ -915,6 +972,62 @@ This section of the document contains all modules relating to the _Measurement M
   * output: _out_ := JSON parsed from `eventList`
   * exception: none
 
+## 4.3.2.4 Linear Variable Metric Module
+  `LinearVariableMetric` extends `AbstractMetric`
+  ### Uses
+  * `AbstractMetric`
+  * `LinearVariableEvent`
+  * `Newtonsoft.Json`
+  ### Syntax
+  #### **Exported Constants**
+  None
+  #### **Exported Types**
+  None
+  #### **Exported Access Programs**
+  |Routine Name|In |Out |Exceptions |
+  |---|---|---|---|
+  |`LinearVariableMetric`|`ℝ`, `R`, `R`, seq of `string`|`LinearVariableMetric`||
+  |`startRecording`||||
+  |`finishRecording`||||
+  |`recordEvent`|`LinearVariableEvent`|||
+  |`getJSON`||JSON||
+  ### Semantics
+  #### **State Variables**
+  * `minValue: ℝ`
+  * `maxValue: ℝ`
+  * `intialValue: ℝ`
+  * `reasons:` seq of `string`
+  * `isRecording: 𝔹` (inherited from `AbstractMetric`)
+  * `eventList`: seq of `LinearVariableEvent` (inherited from `AbstractMetric`)
+  #### **Assumptions**
+  * The constructor `LinearVariableMetric(ℝ, ℝ, ℝ, `seq of `string)` is called before any other access routines are called for that object. `LinearVariableMetric(ℝ, ℝ, ℝ, `seq of `string)` will invoke the `AbstractMetric()` (inherited from `AbstractMetric`) before any other statements are executed.
+  #### **Design Decision**
+  This class is a subclass of `AbstractMetric`, and is used to record `LinearVariableEvent` objects passed from a _Level Manager_. When `getJson()` is invoked, it will return a JSON object containing all the data stored in `eventList`, as well as the name of this _Metric_, and the minimum, maximum, and initial values, as well as the sequence of _reasons_ of this metric.
+  #### **Access Routine Semantics**
+  `LinearVariableMetric(min, max, init, rs)`
+  * transition: `minValue`, `maxValue`, `initialValue`, `reaons` := `min`, `max`, `init`, `rs`
+  * output: _out_ := _self_
+  * exception: none
+
+  `startRecording()` (inherited from `AbstractMetric`)
+  * transition: `isRecording` = `true`
+  * output: none
+  * exception: none
+
+  `stopRecording()` (inherited from `AbstractMetric`)
+  * transition: `isRecording` = `false`
+  * output: none
+  * exception: none
+
+  `recordEvent(e)` (inherited from `AbstractMetric`)
+  * transition: _if_ (`isRecording`) _then_ `eventList = eventList||<e>` _else_ none
+  * output: none
+  * exception: none
+
+  `getJSON()`
+  * transition: none
+  * output: _out_ := JSON parsed from `eventList`, `minValue`, `maxValue`, `initialValue`, and `reasons`
+  * exception: none
 
 # 5. List of Changes to SRS
 
