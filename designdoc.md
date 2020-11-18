@@ -21,6 +21,8 @@ Table of Contents
     * 4.2.3 [ThirdGame Modules](#423-thirdgame-modules)
     * 4.3 [Battery Module](#43-battery-module)
 * 5 [List of Changes to SRS](#5-list-of-changes-to-srs)
+    * 5.1 [Change Rationale](#51-change_rationale)
+    * 5.2 [Revision Control Diff](#52-revision-control-diff)
 * 6 [Module Relationship Diagram](#6-module-relationship-diagram)
 * 7 [Significant Algorithms/Non-Trivial Invariants](#7-significant-algorithms/non-trivial-invariants)
 
@@ -40,15 +42,21 @@ Table of Contents
 
 * During the internal and external phase of development the project will go under rigorous testing from the programmers and play testers. Results from testing will likely change the design of the modules to improve code quality, user interface design and game design. 
 
+* Duration of the mini-games will change. Currently, the target length is 30-60 seconds per mini-game, however that time will change depends on the game and what player ability the game is measuring.
+
+* End condition of the mini-games will change. An end condition is a win condition that simply allows the player to move on. It does not matter if the player "wins" or not. In general, the end condition will be time, but other conditions may exist depending on the mini-game. For example, if they player is told to collect or remove X things and they do so under the time allotted. 
+
 # 2. Unlikely Changes
 
-* JSON data structure is used as input to initialize the battery and as output for measurement data. This may change to another format, for example YAML or XML in future. This change depends on the needs of the researchers administrating the battery. As the data manager manages convert JSON files into a presentable manner it unlikely for research will want a change in data formats.  
+* JSON data structure is used as input to initialize the battery and as output for measurement data. This may change to another format, for example YAML or XML in future. This change depends on the needs of the researchers administrating the battery. Because the data manager manages convert JSON files into a presentable manner, it unlikely that researchers will want a change in data formats.  
 
 * A database may be required to store the data instead of using JSON or other data structures in the long term. However, that is currently outside the scope of this project.
 
 * There is currently no plan to include functionality to handle the scenario where the player stops playing the games during the middle of the battery. The administrator of the battery will have to decide if the data collected so far is sufficient or if the battery should be re administered. Similarly, any software crashes or bugs which halt the execution of the battery or any of the mini games will be unrecoverable. The battery module contains no functionality to recover from these errors only to report them to the user and administrator. All attempts will be made to make the software robust enough for this to be unlikely and for error messages to be helpful to players and administrators so they can make actionable decisions. Thankfully, the duration of the battery should be short enough that a battery restart is possible.
 
-* An unlikely change is the player input devices. Because of Covid 19 most of the players will be completing a battery using a browser and a keyboard. The supervisors of the project hope to be able to add more input types in future, however that will mostly be attempted after Mactivision has submitted their final work. Therefore, it is unlikely that keyboard will change before work is completed. However, since the future of the project will likely add new inputs all efforts have been made, now, to accommodate different input devices. Using Unity to abstract player inputs into actions like "left", "right" and "fire 1" instead of "pad-up", "right arrow", "trigger 2" make accommodating different yet similar input devices trivial. Different kinds of input devices like motion controls and mice can't be mapped as nicely and will require new modules.
+* An unlikely change is the player input devices. Because of Covid-19 most of the players will be completing a battery using a browser and a keyboard. The supervisors of the project hope to be able to add more input types in future, however that will mostly be attempted after Mactivision has submitted their final work. Therefore, it is unlikely that keyboard will change before work is completed. However, since the future of the project will likely add new inputs all efforts have been made, now, to accommodate different input devices. Using Unity to abstract player inputs into actions like "left", "right" and "fire 1" instead of "pad-up", "right arrow", "trigger 2" make accommodating different yet similar input devices trivial. Different kinds of input devices like motion controls and mice can't be mapped as nicely and will require new modules.
+
+* While sound effects will be included in mini-games to help with gamification, music which might continue throughout a mini-game will not be included.
 
 # 3. List of Concepts
 <!-- A list of concepts pertaining to your problem domain, and whether these concepts are design-time entities or run-time entities.
@@ -60,10 +68,10 @@ Run time: a concept that is clearly present in your code.
 For example, most things to do with usability will have concepts that only appear at design time, as "the human" tends not to be reified in code (unless you're doing some funky actor-oriented architecture). Efficiency also tends to have artifacts that only appears outside the code itself.
 -->
 
-## 3.1 Design-time Entities
+## 3.1 Design-time Entities  
 
 * The player. The user who is told to complete a battery. The player will be using a device to run the battery and a device to send inputs to the battery. For the purpose of this design document we will assume that the player is using a Web Browser and Keyboard respectively. The player is given the battery by the battery administrator. The player runs the battery and is subjected to a series of mini games. The player completes the mini games by using their Keyboard. After the battery is completed the player can stop. 
-* The administrator. The user who creates the JSON configuration file which contains a sequence of mini-games to test the player with and variables which alter various parameters of the said mini-games. The player and administrator communicate throughout the battery to makes sure the player starts and completes it correctly. The administrator is also responsible for collected data output from the battery after it has concluded. Gathering completed completed, they will run the data through the data manager to organize and present the data to the researchers.
+* The administrator. The user who creates the JSON configuration file. This file contains a sequence of mini-games to test the player with and variables which alter various parameters of said mini-games. The player and administrator communicate throughout the battery to makes sure the player starts and completes it correctly. The administrator is also responsible for collected data output from the battery after it has concluded. Gathering completed completed, they will run the data through the data manager to organize and present the data to the researchers.
 
 * The researcher. For simplicity, they are separate from administrators, however they will likely assume the same role in practice. Researchers will make decisions based on the information provided by the administrators. These decisions may require altering the JSON configuration file. 
 
@@ -71,7 +79,7 @@ For example, most things to do with usability will have concepts that only appea
 
 * The keyboard. Players of the web based battery will be required to provide their own keyboard. 
 
-* Unity Play. Allows developers to host their web based Unity game online for users to access. Using this provides quick turn around between making modifications to the project and letting to players and testers to try it out. Additionally, administrators can provide a link to the players and those players can complete the battery online with their web browser and keyboard.
+* Unity servers. Unity Play allows developers to host their web based Unity game online for users to access. Using this provides quick turn around between making modifications to the project and letting to players and testers to try it out. Additionally, administrators can provide a link to the players and those players can complete the battery online with their web browser and keyboard.
 
 ## 3.2 Run-time Entities
 
@@ -80,6 +88,12 @@ For example, most things to do with usability will have concepts that only appea
 * Start and end screens. Each battery and each mini game will contain a start and end screen. The start screen will provide instructions to the player on who to proceed and the end screen will provide notification to the player that the game or battery has ended. 
 
 * Player performance data presentation. Provide graphs and other visual aids to help researcher understand of the data collected after a battery completed. 
+
+* Game Entities. Entities which exist in side the mini-game which the player can interact with to complete the objective of the mini-game.
+
+* In game Timers. For our initial game designs there will be no in game timers. However, while researching other mini-games, we found that many mini-games do include an  in game timer, so it should be considered for future mini-game designs.
+
+* Audio Entities. Sound effects will be used in game to help with the gamification for the mini-games so they feel like games and not tests.
 
 # 4. List of Modules
 
@@ -688,44 +702,47 @@ __Local Functions__
 
 # 5. List of Changes to SRS
 
-TODO(mike): Add links from here to SRS document
+## 5.1 Change Rationale
 
-* Fixed general spelling and grammar mistakes that in the original SRS document.
+* Fixed general spelling and grammar mistakes that in the original [SRS document](https://github.com/BryanChiu/Mactivision/wiki/Software-Requirements-Specification).
 
-* Added more specifics to the product / work scope. Added more information about the battery manager, the measurement modules and data manager. [LINK TO 1.2]
+* Added more specifics to the [product scope](https://github.com/BryanChiu/Mactivision/wiki/Software-Requirements-Specification#12-product-scope). Added more information about the battery module, the measurement modules and data manager.
 
 * Update the mini-game description to how long a player should be playing a game.
 
 * Mini-games now have the ability for researchers to make small changes to the game's objectives by altering the game's variables.
 
 * Include details about battery module and JSON data used to setup up the batter test.
+
 * Added variable length dictionary of variables to mini games.
 
-* Updated definitions, acronyms and abbreviations [LINK TO 1.3]. Added Battery definition. Removed database definition as it is outside the scope of this project. Updated vocabulary to be more consistent with the rest of the document.
+* Updated [definitions, acronyms and abbreviations](https://github.com/BryanChiu/Mactivision/wiki/Software-Requirements-Specification#13-definitions-acronyms-and-abbreviations). Added Battery definition. Removed database definition as it is outside the scope of this project. Updated vocabulary to be more consistent with the rest of the document.
 
-* Updated references to include new research documents, websites and textbooks. [LINK TO 1.4]
+* Updated [references](https://github.com/BryanChiu/Mactivision/wiki/Software-Requirements-Specification#14-references) to include new research documents, websites and textbooks.
 
-* Updated Work Scope to provide more detail. Added work scope for three mini games, the battery module and measurement modules. Improved description of testing strategies. [LINK TO 1.6]
+* Updated [Work Scope](https://github.com/BryanChiu/Mactivision/wiki/Software-Requirements-Specification#16-work-scope) to provide more detail. Added work scope for three mini games, the battery module and measurement modules. Improved description of testing strategies.
 
-* Updated the product perspective to better reflect new separation of concerns between different parts of the project. Removed database information. [LINK TO 2.1] 
+* Updated the [product perspective](https://github.com/BryanChiu/Mactivision/wiki/Software-Requirements-Specification#21-product-perspective) to better reflect new separation of concerns between different parts of the project. Removed database information. 
 
-* Add battery module, data manager, and metric modules to product functions. Remove database information. [LINK TO 2.2] 
+* Add battery module, data manager, and metric modules to [product functions](https://github.com/BryanChiu/Mactivision/wiki/Software-Requirements-Specification#22-product-functions). Remove database information.
 
-* Added "Free Platform Game Assets" and "JsonDotNet" as dependencies. The "Free Platform Game Assets" provides a while range of 2d sprites which can be used in a variety of different mini-games. A design goal is to keep the graphics style and avatar of the player similar between different mini-games. The "JsonDotNet" package allows for the transformation of C# objects to JSON objects making it terminal to modify data recorded by the metric modules.  [LINK TO 2.5] 
+* Added "Free Platform Game Assets" and "JsonDotNet" as [dependencies](https://github.com/BryanChiu/Mactivision/wiki/Software-Requirements-Specification#25-assumptions-and-dependencies). The "Free Platform Game Assets" provides a while range of 2d sprites which can be used in a variety of different mini-games. A design goal is to keep the graphics style and avatar of the player similar between different mini-games. The "JsonDotNet" package allows for the transformation of C# objects to JSON objects making it terminal to modify data recorded by the metric modules. 
 
-* Explained that admin users should be able to create a JSON file which describes a new battery. The file will contain the sequence of mini games that appear in the battery as well as variables that will make alterations of the mini games. Admin users should also be able to read and understand the data organized and presented by the Data Manager after a battery is completed. [LINK TO  2.4] 
+* Explained in [user characteristics](https://github.com/BryanChiu/Mactivision/wiki/Software-Requirements-Specification#24-user-characteristics) that admin users should be able to create a JSON file which provides configuration to a new battery. The file will contain the sequence of mini games that appear in the battery as well as variables that will make alterations of the mini games. Admin users should also be able to read and understand the data organized and presented by the Data Manager after a battery is completed. 
 
-* Updated the apportioning of requirements to break up "measurement framework" into battery module, metric modules and data manager. Removed database requirements. [LINK TO 2.6]
+* Updated the [apportioning of requirements](https://github.com/BryanChiu/Mactivision/wiki/Software-Requirements-Specification#26-apportioning-of-requirements) to break up "measurement framework" into battery module, metric modules and data manager. Removed database requirements.
 
-* Updated List of Stakeholders. Added McMaster University, TAs, game designers, and researchers/academics to the list of stakeholders. [LINK TO 2.7] 
+* Updated List of [Stakeholders](https://github.com/BryanChiu/Mactivision/wiki/Software-Requirements-Specification#27-stakeholders). Added McMaster University, TAs, game designers, and researchers/academics to the list of stakeholders.
 
-* Update requirements to match modules in design document. [LINK TO 3]
+* Update [requirements](https://github.com/BryanChiu/Mactivision/wiki/Software-Requirements-Specification#3-requirements) to match modules in design document.
     * Removed pause game and show score screen. After discussion with supervisor it was determined that these functions were unnecessary.
     * Renamed Database to Data Manager. A database will no longer be used to store data. Instead, a JSON file will be used to store the raw data from which the Data Manager will collect that data and organize and present it. 
     * Split Measurement Framework into Measurement Modules and Battery Module.
     * Added requirement that mini game start screen should contain instructions on how to play the game.
+    * Added measurement events which capture player performance data.
+    * Added physics, animation and entity requirements.
 
-* User interface changes [LINK 3.1.1]
+* [User interface](https://github.com/BryanChiu/Mactivision/wiki/Software-Requirements-Specification#311-user-interfaces) changes
     * Removed database as a requirement to the user interface. Instead of recording and validating player identification with a database backend; the user identification will be put in a meta data header in the JSON data for the battery that player is participating in.
     * Users no longer launch individual games but launch the battery module which puts the users through sequence of mini games. 
     * Mini-game start screens must provide instructions to the player on how to play the game.
@@ -733,15 +750,17 @@ TODO(mike): Add links from here to SRS document
     * Removed main menu example and added start and exit example.
     * Move error messages from the mini-games to the battery module. 
 
-* Removed database from hardware interfaces [LINK 3.1.2]
+* Removed database from [hardware interfaces](https://github.com/BryanChiu/Mactivision/wiki/Software-Requirements-Specification#312-hardware-interfaces).
 
-* Changed software interface from database to JSON files. [LINK TO 3.1.3]
+* Changed [software interface](https://github.com/BryanChiu/Mactivision/wiki/Software-Requirements-Specification#313-software-interfaces) from database to JSON files.
 
-* Added present data and removed pause screen and score screen from functional requirements. Present data is required to make data collected readable to researchers. Pause and score screens are unnecessary as discussed with supervisor. [LINK TO 3.2]
+* Added "present data" and removed pause screen and score screen from [functional requirements](https://github.com/BryanChiu/Mactivision/wiki/Software-Requirements-Specification#32-functional). "Present data" is required to make data collected readable to researchers. Pause and score screens are unnecessary as discussed with supervisor. Added physics manager, entity manager and animation manager to functional requirements.
 
-* Removed database connection from Availability and added player time. A player must be available to complete a battery in one sitting without breaks. [LINK TO 3.3.4]
+* Removed database connection from [availability](https://github.com/BryanChiu/Mactivision/wiki/Software-Requirements-Specification#334-availability) and added player time. A player must be available to complete a battery in one sitting without breaks.
 
-* Added player browsers as installation detail. [LINK OT 3.5.1]
+* Added player browsers as [installation](https://github.com/BryanChiu/Mactivision/wiki/Software-Requirements-Specification#351-installation) detail.
+
+## 5.2 Revision Control Diff
 
 # 6. Module Relationship Diagram
 ![](ModuleRelationShip.jpg)
