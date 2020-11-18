@@ -988,7 +988,7 @@ This section of the document contains all modules relating to the _Measurement M
 ## 7.2 Invariants
 
 # 8. Traceability Matrix
-Table #1 Functional requirements and descriptions.
+Table #1 Functional requirements and descriptions from https://github.com/BryanChiu/Mactivision/blob/master/Requirements%20Specification/requirements.md
 | ID | Description |
 |----|-------------|
 | F-1 | Record input from player. |
