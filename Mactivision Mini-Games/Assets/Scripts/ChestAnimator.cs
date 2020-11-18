@@ -12,7 +12,6 @@ public class ChestAnimator : MonoBehaviour
     Animator animator;
     AudioSource sound;
 
-
     // Start is called before the first frame update
     void Start()
     {

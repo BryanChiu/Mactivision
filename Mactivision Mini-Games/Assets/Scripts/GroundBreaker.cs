@@ -6,9 +6,9 @@ public class GroundBreaker : MonoBehaviour
 {
     public GameObject player;
     public Sprite[] breakAnimation;
-    string digKey;
+    KeyCode digKey;
 
-    const int MAX_HITS = 9;
+    public int hitsToBreak = 10;
     int hits;
     bool touching;
 
@@ -17,8 +17,6 @@ public class GroundBreaker : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        digKey = player.GetComponent<PlayerController>().digKey;
-
         hits = 0;
         touching = false;
 
@@ -35,11 +33,19 @@ public class GroundBreaker : MonoBehaviour
     void Update()
     {
         if (touching && Input.GetKeyDown(digKey)) {
-            if (hits==MAX_HITS) {
-                gameObject.SetActive(false);
+            if (hits<hitsToBreak-1) {
+                spriteRender.sprite = breakAnimation[Mathf.FloorToInt((++hits/(float)hitsToBreak)*10)];
             } else {
-                spriteRender.sprite = breakAnimation[++hits];
+                gameObject.SetActive(false);
             }
         }
+    }
+
+    public void SetDigKey(KeyCode key) {
+        digKey = key;
+    }
+
+    public void SetHitsToBreak(int hits) {
+        hitsToBreak = hits;
     }
 }

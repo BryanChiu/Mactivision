@@ -4,65 +4,78 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Rendering.PostProcessing;
 
-public class LevelManager : MonoBehaviour
+public abstract class LevelManager : MonoBehaviour
 {
-    public ChestAnimator chest;
     public PostProcessVolume postprocess;
     public Text intro;
     public Text outro;
-    
-    List<KeyCode> keysDownArray; // List of keys currently held down (not full history)
-    InputRecorder recorder; // input recorder (this will record full history)
+    public Text countDownText;
 
-    int lvlState;
+    public float countDown;
+    public string countDown0Text = "Start!";
+    public int lvlState; // 0: intro screne; 1: countdown; 2: gameplay; 3: game end
 
     // Start is called before the first frame update
     void Start()
     {
-        keysDownArray = new List<KeyCode>();
-        recorder = new InputRecorder();
-
-        outro.enabled = false;
-        lvlState = 0;
-        ChangeBlur(2f);
+        //Setup();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (lvlState==0 && Input.GetKeyDown("b")) {
-            recorder.StartRec();
-            lvlState++;
-            ChangeBlur(10f);
-            intro.enabled = false;
-        }
-        if (lvlState==1 && chest.opened) {
-            recorder.EndRec();
-            lvlState++;
-            Invoke("LevelComplete", 5);
-        }
+        //LvlMngr();
     }
 
-    // Handles GUI events (keyboard, mouse, etc events)
-    void OnGUI()
+    // must be added to Update() method of subclasses
+    public void LvlMngr()
     {
-        Event e = Event.current;
-        if (e.isKey && e.keyCode!=KeyCode.None) {
-            // When a keyboard key is initially pressed down, add it to list
-            // We don't want to record when a key is HELD down
-            if (e.type == EventType.KeyDown && !keysDownArray.Contains(e.keyCode)) {
-                keysDownArray.Add(e.keyCode);
-                recorder.AddEvent(e.keyCode, true);
-            // Remove key from list
-            } else if (e.type == EventType.KeyUp) {
-                keysDownArray.Remove(e.keyCode);
-                recorder.AddEvent(e.keyCode, false);
+        CountDown();
+    }
+
+    // must be added to Start() method of subclasses
+    public void Setup()
+    {
+        lvlState = 0;
+        countDown = 5f;
+        ChangeBlur(2f);
+        intro.enabled = true;
+        countDownText.enabled = false;
+        outro.enabled = false;
+    }
+
+    public void StartLevel()
+    {
+        lvlState = 1;
+        countDown = 4f;
+        intro.enabled = false;
+        countDownText.enabled = true;
+    }
+
+    public void EndLevel()
+    {
+        lvlState = 3;
+        Invoke("PauseAndEnd", 5);
+    }
+
+    void CountDown()
+    {
+        if (lvlState==1 && countDown<=4) {
+            if (countDown<=0) {
+                lvlState = 2;
+                countDownText.enabled = false;
+                ChangeBlur(10f);
+            } else if (countDown<=1) {
+                countDown -= Time.deltaTime;
+                countDownText.text = countDown0Text;
+            } else if (countDown<=4) {
+                countDown -= Time.deltaTime;
+                countDownText.text = Mathf.FloorToInt(countDown).ToString();
             }
         }
     }
 
-    void LevelComplete()
-    {
+    void PauseAndEnd() {
         ChangeBlur(2f);
         outro.enabled = true;
     }
