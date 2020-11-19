@@ -1487,39 +1487,25 @@ None
 #### **Exported Access Programs**
 |Routine Name|In |Out |Exceptions |
 |---|---|---|---|
-|`MetricJSONWriter`|seq of `AbstractMetric`|`MetricJSONWriter`||
-|`onGameStart`|`DateTime`|||
-|`onGameEnd`|`DateTime`|||
-|`logMetrics`|`string`|||
+|`MetricJSONWriter`|`string`, `DateTime`|`MetricJSONWriter`||
+|`logMetrics`|`string`, `DateTime`, seq of `AbstractMetric`|||
 ### Semantics
 #### **State Variables**
 * `gameName: string`
-* `metrics:` seq of `AbstractMetric`
 * `gameStartTime: DateTime`
-* `gameEndTime: DateTime`
 #### **Assumptions**
 * The constructor `MetricJSONWriter(`seq of `AbstractJSONMetric)` is called before any other access routines are called for that object.
 #### **Design Decision**
-This module represents the class `MetricJSONWriter`. It will be instantiated by _Level Manager_ classes, and will be passed a list of _Metrics_ in its constructor, `MetricJSONWriter(`seq of `AbstractMetric)`. The method `onGameStart(DateTime)` should be called at the start of the _minigame_, and `onGameEnd(DateTime)` should be called at the end of the _minigame_. The method `logMetrics(fileName: string)` takes a file name, and will call the `getJSON()` method on each _Metric_ in `metrics`, and stitch together the result, before writing to the file specified at `fileName`.
+This module represents the class `MetricJSONWriter`. It will be instantiated by _Level Manager_ classes. `MetricJSONWriter(string, DateTime)`. The method `logMetrics(fileName: string, DateTime, `seq of `AbstractMetric)` takes a file name, game end time, and list of _metrics_ and will call the `getJSON()` method on each _Metric_ in `metrics`, and stitch together the result, before writing to the file specified at `fileName`.
 
 `CannotWriteToFileException` is an exception that is caused when `logMetrics` is not able to write to the file given by `fileName: string` method input. This can be caused by lack of permission to write to that location or if an empty string is provided, etc. Details of the specific reason will be provided in the exception output log.
 #### **Access Routine Semantics**
-`MetricJSONWriter(gn, ms)`
-* transition: `gameName`, `metrics` := `gn`, `ms`
+`MetricJSONWriter(gn, gst)`
+* transition: `gameName`, `gameStartTime` := `gn`, `gst`
 * output: _out_ := _self_
 * exceptions: none
 
-`onGameStart(gst)`
-* transition: `(*m ∈ metrics | m.startRecording())`, `gameStartTime` = `gst`
-* output: _out_ := none
-* exceptions: none
-
-`onGameStop(gst)`
-* transition: `(*m ∈ metrics | m.stopRecording())`, `gameStopTime` = `gst`
-* output: _out_ := none
-* exceptions: none
-
-`logMetrics(fileName)`
+`logMetrics(fileName, et, metrics)`
 * transition: none
 * output: _out_ := none
 * exceptions: `CannotWriteToFileException`
