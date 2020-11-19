@@ -1287,6 +1287,7 @@ Table #1 Functional requirements and descriptions from https://github.com/BryanC
 
 Table #2 Traceability Matrix between functional requirements and modules
 | Functional Requirements | Module Name |
+|-------------------------|-------------|
 | F-8 | Battery Module |
 | F-11 | Abstract Level Manager Module|
 | F-1, F-2, F-3, F-4, F-5, F-6, F-7, F-10, F-14 | Digger Level Manager Module |
