@@ -60,8 +60,12 @@ Table of Contents
 * 6 [List of Changes to SRS](#6-list-of-changes-to-srs)
 * 7 [Module Relationship Diagram](#7-module-relationship-diagram)
 * 8 [Significant Algorithms/Non-Trivial Invariants](#8-significant-algorithms/non-trivial-invariants)
-  * 8.1 [Algorithms](#81-algorithms)
-  * 8.2 [Invariants](#82-invariants)
+  * 8.1 [Game Designs](#81-game-designs)
+     * 8.1.1 [Digger Game](#811-digger-game)
+     * 8.1.2 [Digger Game](#812-feeder-game)
+     * 8.1.3 [Digger Game](#813-rockstar-game)
+  * 8.2 [Algorithms](#81-algorithms)
+  * 8.3 [Invariants](#82-invariants)
 
 # Revision History
 
@@ -1718,7 +1722,7 @@ Table #2 Traceability Matrix between functional requirements and modules
 
 # 6. List of Changes to SRS
 
-Many changes have been made to the SRS document in response to the creation of Prototype 1 and the Design Document. The differences between the old and current SRS can be seen HERE (TODO: ADD LINK). The rationale for those changes are listed below: 
+Many changes have been made to the SRS document in response to the creation of Prototype 1 and the Design Document. The differences between the old and current SRS can be seen on [Github](https://github.com/BryanChiu/Mactivision/wiki/Software-Requirements-Specification/_compare/9243662cdd16baadb5c3984e38be185e775037fd...2323677d865f906bd6c4a7137f4d94bedda3e632). The rationale for those changes are listed below: 
 
 | Number | Change 	                                | Rationale | SRS Link                 |
 |--------|------------------------------------------|-----------|--------------------------|
@@ -1755,12 +1759,21 @@ Many changes have been made to the SRS document in response to the creation of P
 
 # 8. Significant Design
 
-## 8.1 Significant Algorithms
-1. Sorting algorithm
-The sorting algorithm are used to sort out different entities, to make a list or other form of date to be in a better order.
-2. Selecting algorithm
-The selection algorithms are used to find out certain data base on some conditions.
-3. recr
-## 8.2 Non-Trivia Invariants
+## 8.1 Game Designs
 
-player_name: The name of the player, it will not ne changed through the run.
+### 8.1.1 Digger Game 
+
+The digger game measures finger pressing ability. The player avatar is directed to dig downwards by mashing a button as quickly as they can. Once the player reaches the treasure the game is over. The button pressing event module records all the button input by the user, the state of those inputs and the time each button was pressed.
+
+### 8.1.2 Feeder Game
+
+The feeder game measures updating working memory ability. The player avatar will be asked to feed a monster some food. The food the monster likes and dislikes changes over time. The player must remember these changes and correctly feed or discard the food they are given to feed the monster with. The memory choice event module will record whether the player correctly remembers to feed the monster the food it wants.
+
+### 8.1.3 Rockstar Game
+
+The rockstar game measures divided attention ability. The player avatar will be asked to be a rockstar who is performing onstage for a crowd. A spot light will be moving around the stage during the performance. The player has to stay in the spot light so the fans can see the player perform. At the same time a gauge will measure the excitement levels of the crowd. If the crowd gets too excited the player has to calm the audience down. When the crowd gets bored the player has to excite them with fireworks. The goal is to keep the crowd just excited enough by staying in the spotlight and calming or exciting the crowd when needed. The position event module will be used to record the player position and the spotlight position. The linear variable metric event module used to record the fluctuations of the crowd gauge.
+
+## 8.2 Significant Algorithms
+
+## 8.3 Non-Trivia Invariants
+
