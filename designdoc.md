@@ -10,20 +10,24 @@ Table of Contents
     * 4.2.0 [Abstract Level Manager Module](#420-abstract-level-manager-module)
     * 4.2.1 [Digger Modules](#421-digger-modules)
       * 4.2.1.1 [Digger Level Manager Module](#4211-digger-level-manager-module)
-      * 4.2.1.2 [Player Controller Module](#4212-player-controller-module)
+      * 4.2.1.2 [Digger Player Controller Module](#4212-digger-player-controller-module)
       * 4.2.1.3 [Ground Breaker Module](#4213-ground-breaker-module)
       * 4.2.1.4 [Chest Animator Module](#4214-chest-animator-module)
-    * 4.2.2 [Conveyor Modules](#422-conveyor-modules)
-    * 4.2.3 [ThirdGame Modules](#423-thirdgame-modules)
+    * 4.2.2 [Feeder Modules](#422-feeder-modules)
+      * 4.2.2.1 [Feeder Level Manager Module](#4221-feeder-level-manager-module)
+      * 4.2.2.2 [Food Dispenser Module](#4222-food-dispenser-module)
+    * 4.2.3 [Rockstar Modules](#423-thirdgame-modules)
   * 4.3 [Measurement Modules](#43-measurement-modules)
     * 4.3.1 [Abstract Metric Event Module](#431-abstract-metric-event-module)
       * 4.3.1.1 [Button Pressing Event Module](#4311-button-pressing-event-module)
       * 4.3.1.2 [Position Event Module](#4312-position-event-module)
       * 4.3.1.3 [Memory Choice Event Module](#4313-memory-choice-event-module)
+      * 4.3.1.4 [Linear Variable Event Module](#4314-linear-variable-event-module)
     * 4.3.2 [Abstract Metric Module](#432-abstract-metric-module)
       * 4.3.2.1 [Button Pressing Metric Module](#4321-button-pressing-metric-module)
       * 4.3.2.2 [Position Metric Module](#4322-position-metric-module)
       * 4.3.2.3 [Memory Choice Metric Module](#4323-memory-choice-metric-module)
+      * 4.3.2.4 [Linear Variable Metric Module](#4324-linear-variable-metric-module)
 * 5 [List of Changes to SRS](#5-list-of-changes-to-srs)
 * 6 [Module Relationship Diagram](#6-module-relationship-diagram)
 * 7 [Significant Algorithms/Non-Trivial Invariants](#7-significant-algorithms/non-trivial-invariants)
@@ -201,6 +205,7 @@ None
 |---|---|---|---|
 | `Setup` ||||
 | `StartLevel` ||||
+| `CountDown` ||||
 | `EndLevel` ||||
 
 ### Semantics
@@ -208,11 +213,10 @@ None
 window: The game window
 
 #### State Variables
-`lvlState`: ℕ\
-`lvlCountDown`: ℝ
+`lvlState`: `ℕ`
 
 #### State Invariant
-`lvlState`∈ {0..2}
+`lvlState`∈ {0..3}
 
 #### Assumptions
 None
@@ -222,28 +226,28 @@ This module provides access routines to inherited modules for pre and post-game 
 
 #### Access Routine Semantics
 `Setup()`
-- transition: `lvlState`, `lvlCountDown` := 0, 5.0,<br>
+- transition: `lvlState`:= 0,<br>
    window := An introductory text is displayed over a blurred game screen
 
 `StartLevel()`
-- transition: `lvlState`==0 ∧ `countDown`<=4 ⇒
-   `countDown` := decrements 1.0/sec,<br>
-   window := Countdown begins, starting at 3.<br>
-   `countDown`<=0 ⇒ `lvlState` := 1, window := Countdown is removed after 0 and game screen is unblurred
+- transition: `lvlState` := 1. `CountDown()`
+
+`CountDown()`
+- transition: window := Countdown appears in the middle of the screen and starting at 3. After 0, the countdown is removed and the game screen unblurred.<br>`lvlState` := 2
 
 `EndLevel()`
-- transition: `lvlState` := 2, window := The game screen is blurred and a "level complete" text appears. A button appears to go to the next scene (mini-game or main menu).
+- transition: `lvlState` := 3.<br> window := The game screen is blurred and a "level complete" text appears. A button appears to go to the next scene (mini-game or main menu).
 
 
 ## 4.2.1 Digger Modules
 
-This section of modules are used in the Digger game.
+This section of modules are used in the Digger game. In this mini-game, the player repeatedly presses a key to dig down towards treasure.
 
 ## 4.2.1.1 Digger Level Manager Module
 `DiggerLevelManager` module inherits [`LevelManager`](#420-abstract-level-manager-module)
 
 ### Uses
-[`PlayerController`](#4212-player-controller-module), [`GroundBreaker`](#4213-ground-breaker-module), [`ChestAnimator`](#4214-chest-animator-module), [`ButtonPressingMetric`](#4321-button-pressing-metric-module), [`ButtonPressingEvent`](#4311-button-pressing-event-module), {UnnamedJSONOutputter}, `UnityEngine.Event`, `UnityEngine.KeyCode`, `System.DateTime`
+[`DiggerPlayerController`](#4212-digger-player-controller-module), [`GroundBreaker`](#4213-ground-breaker-module), [`ChestAnimator`](#4214-chest-animator-module), [`ButtonPressingMetric`](#4321-button-pressing-metric-module), [`ButtonPressingEvent`](#4311-button-pressing-event-module), {UnnamedJSONOutputter}, `UnityEngine.Event`, `UnityEngine.KeyCode`, `System.DateTime`
 
 ### Syntax
 #### Exported Constants
@@ -267,43 +271,50 @@ window: The game window
 
 #### State Variables
 `bpMetric`: [`ButtonPressingMetric`](#4321-button-pressing-metric-module)\
-`recording`: 𝔹\
-`player`: [`PlayerController`](#4212-player-controller-module)\
+`recording`: `𝔹`\
+`player`: [`DiggerPlayerController`](#4212-digger-player-controller-module)\
 `chest`: [`ChestAnimator`](#4214-chest-animator-module)\
-`digAmount`: ℕ\
+`digAmount`: `ℕ`\
 `digKey`: `KeyCode`\
-`lvlState`: ℕ (inherited from [`LevelManager`](#420-abstract-level-manager-module))\
-`lvlCountDown`: ℝ (inherited from [`LevelManager`](#420-abstract-level-manager-module))
+`lvlState`: `ℕ` (inherited from [`LevelManager`](#420-abstract-level-manager-module))
 
 #### State Invariant
-`digAmount`>0\
+None
 
 #### Assumptions
 `Start` is called at the beginning of the scene.\
 `Update` is called once each game cycle.\
-`OnGUI` is called when a GUI event occurs (keyboard/mouse); it is called after `Update` in the game cycle.
+`OnGUI` is called when a GUI event occurs (keyboard/mouse); it is called after `Update` in the game cycle.\
+`digAmount`>0
 
 #### Design Decisions
-This module manages the majority of functionality in the game. The `digAmount` is the number of button presses required to finish the level. It rounds up to the nearest 10 (as there are 10 blocks to break in the level). `digAmount` and `digKey` have default values of 100 and the "B" key, but can be changed using the battery setup file. 
+This module manages the majority of functionality in the game. The `digAmount` is the number of button presses required to finish the level. It rounds up to the nearest 10 (as there are 10 blocks to break in the level). `digAmount` and `digKey` have default values but can be changed using the battery setup file. 
 
 #### Access Routine Semantics
 `Start()`
-- transition: `bpMetric`, `recording`, `digAmount`, `digKey`, `lvlState`, `lvlCountDown` := new [`ButtonPressingMetric`](#4321-button-pressing-metric-module), `false`, 100, `KeyCode.B`, 0, 5.0 <br> window := An introductory text is displayed over a blurred game screen
+- transition: `Setup()`(inherited from [`LevelManager`](#420-abstract-level-manager-module)).
+   ||:=|
+   |---|---|
+   |`bpMetric`|new [`ButtonPressingMetric()`](#4321-button-pressing-metric-module)|
+   |`recording`|`false`|
+   |`digAmount`|100|
+   |`digKey`|`KeyCode.B`|
+   |window|An introductory text is displayed over a blurred game screen|
 
 `Update()`
-- transition: `lvlState`==1 ⇒
-   |||
+- transition: `lvlState`==2 ⇒
+   ||⇒|
    |---|---|
-   | ¬`recording` | `recording` := `true`, `bpMetric.StartRec()`,  |
-   | `chest.opened` | `bpMetric.EndRec()`, `EndLevel()` |
+   | ¬`recording` | `recording` := `true`. `bpMetric.StartRec()`. `SetDigKeyForGround()`. `SetDigAmountForGround()`|
+   | `chest.opened` | `bpMetric.EndRec()`. `EndLevel()`(inherited from [`LevelManager`](#420-abstract-level-manager-module)) |
 
 `OnGUI()`
 - transition: `e.isKey` ⇒
-   |||
+   ||⇒|
    |---|---|
-   | `lvlState`==0 ∧ `countDown`>4 | `countdown` := 4.0, `StartLevel()` |
-   | `lvlState`==1 ∧ `e.keyCode`==`digKey` ∧ press| `bpMetric.AddEvent(new ButtonPressingEvent(DateTime.Now, e.keyCode, true))`, `player.DigDown()` |
-   | `lvlState`==1 ∧ `e.keyCode`==`digKey` ∧ release | `bpMetric.AddEvent(new ButtonPressingEvent(DateTime.Now, e.keyCode, false))`, `player.DigUp()` |
+   | `lvlState`==0 | `StartLevel()`(inherited from [`LevelManager`](#420-abstract-level-manager-module)) |
+   | `lvlState`==2 ∧ `e.keyCode`==`digKey` ∧ press| `bpMetric.AddEvent(new ButtonPressingEvent(DateTime.Now, e.keyCode, true))`. `player.DigDown()` |
+   | `lvlState`==2 ∧ `e.keyCode`==`digKey` ∧ release | `bpMetric.AddEvent(new ButtonPressingEvent(DateTime.Now, e.keyCode, false))`. `player.DigUp()` |
 
 #### Local Routine Semantics
 `SetDigKeyForGround()`
@@ -313,9 +324,8 @@ This module manages the majority of functionality in the game. The `digAmount` i
 - transition: ∀ b:[`GroundBreaker`](#4213-ground-breaker-module)| b.`SetHitsToBreak( ⌈digAmount/10⌉ )`
 
 
-## 4.2.1.2 Player Controller Module
-### Module inherits MonoBehaviour
-PlayerController
+## 4.2.1.2 Digger Player Controller Module
+`DiggerPlayerController` inherits MonoBehaviour
 
 ### Uses
 None
@@ -338,8 +348,8 @@ None
 window: The game window
 
 #### State Variables
-`hammerRest`: [ℝ, ℝ, ℝ]\
-`hammerJump`: [ℝ, ℝ, ℝ]
+`hammerRest`: seq of `ℝ`\
+`hammerJump`: seq of `ℝ`
 
 #### State Invariant
 None
@@ -359,11 +369,10 @@ This module controls the digging action of the player.
 
 
 ## 4.2.1.3 Ground Breaker Module
-### Module inherits MonoBehaviour
-GroundBreaker
+`GroundBreaker` inherits MonoBehaviour
 
 ### Uses
-[`PlayerController`](#4212-player-controller-module), `UnityEngine.KeyCode`, `UnityEngine.Input`, `UnityEngine.Collider2D`
+[`DiggerPlayerController`](#4212-digger-player-controller-module), `UnityEngine.KeyCode`, `UnityEngine.Input`, `UnityEngine.Collider2D`
 
 ### Syntax
 #### Exported Constants
@@ -379,21 +388,21 @@ None
 | `Update` ||||
 | `OnTriggerStay2D` | `Collider2D` |||
 | `SetDigKey` | `KeyCode` |||
-| `SetHitsToBreak` | ℕ |||
+| `SetHitsToBreak` | `ℕ` |||
 
 ### Semantics
 #### Environment Variables
 window: The game window
 
 #### State Variables
-`player`: [`PlayerController`](#4212-player-controller-module)\
+`player`: [`DiggerPlayerController`](#4212-digger-player-controller-module)\
 `digKey`: `KeyCode`\
-`hitsToBreak`: ℕ\
-`hits`: ℕ\
-`touching`: 𝔹
+`hitsToBreak`: `ℕ`\
+`hits`: `ℕ`\
+`touching`: `𝔹`
 
 #### State Invariant
-`hitsToBreak`>0
+`hits`<`hitsToBreak`
 
 #### Assumptions
 `Start` is called at the beginning of the scene\
@@ -409,7 +418,7 @@ This module controls the breaking of an individual ground block. By default, eac
 
 `Update()`
 - transition: `touching` ∧ `Input.GetKeyDown(digKey)` ⇒
-   |||
+   ||⇒|
    |---|---|
    | `hits`<`hitsToBreak`-1 | window := Progress the break animation of this block. |
    | `hits`==`hitsToBreak`-1 | window := Remove this block from the scene. The player falls down to the next block/platform. |
@@ -425,11 +434,10 @@ This module controls the breaking of an individual ground block. By default, eac
 
 
 ## 4.2.1.4 Chest Animator Module
-### Module inherits MonoBehaviour
-ChestAnimator
+`ChestAnimator` inherits MonoBehaviour
 
 ### Uses
-[`PlayerController`](#4212-player-controller-module), `UnityEngine.Collider2D`
+[`DiggerPlayerController`](#4212-digger-player-controller-module), `UnityEngine.Collider2D`
 
 ### Syntax
 #### Exported Constants
@@ -450,13 +458,13 @@ None
 window: The game window
 
 #### State Variables
-`player`: [`PlayerController`](#4212-player-controller-module)\
-`opened`: 𝔹\
-`coinspeed`: ℝ\
-`destination`: [ℝ, ℝ, ℝ]
+`player`: [`DiggerPlayerController`](#4212-digger-player-controller-module)\
+`opened`: `𝔹`\
+`coinspeed`: `ℝ`\
+`destination`: seq of `ℝ`
 
 #### State Invariant
-`hitsToBreak`>0
+None
 
 #### Assumptions
 `Start` is called at the beginning of the scene\
@@ -475,13 +483,172 @@ This module controls the chest and coin animation when the player reaches it.
 - transition: `opened` ⇒ window := The coin moves toward `destination`.
 
 `OnTriggerStay2D(c)`
-- transition: `c.gameObject.name`==`player.gameObject.name` ⇒ `opened` := `true`, window := The chest animates opening.
+- transition: `c.gameObject.name`==`player.gameObject.name` ⇒ <br>`opened` := `true`. window := The chest animates opening.
 
-## 4.2.2 Conveyor Modules
+## 4.2.2 Feeder Modules
 
-This section of modules are used in the Conveyor game.
+This section of modules are used in the Feeder game. In this mini-game, the player has to feed a monster. The foods the monster likes and dislikes change overtime, and the player must remember these changes and correctly feed or discard food being dispensed.
 
-## 4.2.3 ThirdGame Modules
+## 4.2.2.1 Feeder Level Manager Module
+`FeederLevelManager` module inherits [`LevelManager`](#420-abstract-level-manager-module)
+
+### Uses
+[`FoodDispenser`](#4222-food-dispenser-module), [`MemoryChoiceMetric`](#4323-memory-choice-metric-module), [`MemoryChoiceEvent`](#4313-memory-choice-event-module), {UnnamedJSONOutputter}, `UnityEngine.Event`, `UnityEngine.KeyCode`, `System.DateTime`
+
+### Syntax
+#### Exported Constants
+None
+
+#### Exported Types
+None
+
+#### Exported Access Programs
+| Routine Name | In | Out | Exceptions |
+|---|---|---|---|
+| `Start` ||||
+| `Update` ||||
+| `OnGUI` ||||
+
+### Semantics
+#### Environment Variables
+`eventTime`: `DateTime`\
+`e`: `Event`\
+window: The game window
+
+#### State Variables
+`mcMetric`: [`MemoryChoiceMetric`](#4323-memory-choice-metric-module)\
+`recording`: `𝔹`\
+`seed`: `ℕ`\
+`totalFoods`: `ℕ`\
+`changeFreq`: `ℕ`\
+`goodKey`: `KeyCode`\
+`badKey`: `KeyCode`\
+`maxGameTime`: `ℕ`\
+`elapsedGameTime`: `ℝ`\
+`dispenser`: [`FoodDispenser`](#4222-food-dispenser-module)\
+`currentFood`: `string`
+`lvlState`: `ℕ` (inherited from [`LevelManager`](#420-abstract-level-manager-module))\
+
+#### State Invariant
+None
+
+#### Assumptions
+`Start` is called at the beginning of the scene.\
+`Update` is called once each game cycle.\
+`OnGUI` is called when a GUI event occurs (keyboard/mouse); it is called after `Update` in the game cycle.\
+`totalFoods`>1\
+`changeFreq`>0
+
+#### Design Decisions
+This module manages the majority of functionality in the game. `totalFoods` is the size of the set of foods available (minimum of two foods). `changeFreq` is the average number of food dispensed between (dis)liked food changes. `totalFoods`, `changeFreq`, `goodKey`, `badKey`, and `maxGameTime` have default values but can be changed using the battery setup file. An optional seed can be provided to run the same sequence of foods.
+
+#### Access Routine Semantics
+`Start()`
+- transition: `Setup()`(inherited from [`LevelManager`](#420-abstract-level-manager-module)).
+   ||:=|
+   |---|---|
+   |`mcMetric`|new [`MemoryChoiceMetric()`](#4323-memory-choice-metric-module)|
+   |`recording`|`false`|
+   |`totalFoods`|4|
+   |`changeFreq`|3|
+   |`goodKey`|`KeyCode.DownArrow`|
+   |`badKey`|`KeyCode.UpArrow`|
+   |`maxGameTime`|120|
+   |`elapsedGameTime`|0|
+   |window|An introductory text is displayed over a blurred game screen|
+   
+   `dispenser.SetDispenser(totalFoods, changeFreq)`. `currentFood` := `dispenser.GetCurrent()`
+
+`Update()`
+- transition: `lvlState`==1 ⇒
+   |||
+   |---|---|
+   | ¬`recording` | `recording` := `true`. `mcMetric.StartRec()` |
+   | `elaspedGameTime`>`maxGameTime` | `mcMetric.EndRec()`. `EndLevel()`
+
+`OnGUI()`
+- transition: `e.isKey` ⇒
+   |||
+   |---|---|
+   | `lvlState`==0 | `StartLevel()`(inherited from [`LevelManager`](#420-abstract-level-manager-module)). `dispense.DispenseNext()` |
+   | `lvlState`==1 ∧ `e.keyCode`==`goodKey`| `mcMetric.AddEvent(new MemoryChoiceEvent(dispenser.getChoiceStartTime(), dispenser.MakeChoice(true), dispenser.GetCurrent(), true, DateTime.Now))`. `dispenser.DispenseNext()`|
+   | `lvlState`==1 ∧ `e.keyCode`==`badKey`| `mcMetric.AddEvent(new MemoryChoiceEvent(dispenser.getChoiceStartTime(), dispenser.MakeChoice(false), dispenser.GetCurrent(), false, DateTime.Now))`. `dispenser.DispenseNext()`|
+
+
+## 4.2.2.2 Food Dispenser Module
+`FoodDispenser` module inherits Monobehaviour
+
+### Uses
+`System.DateTime`, `System.Random`
+
+### Syntax
+#### Exported Constants
+None
+
+#### Exported Types
+None
+
+#### Exported Access Programs
+| Routine Name | In | Out | Exceptions |
+|---|---|---|---|
+| `SetDispenser` |`ℕ`, `ℕ`|||
+| `DispenseNext` ||`string`||
+| `MakeChoice` |𝔹|seq of `string`||
+| `GetCurrent` ||`string`||
+| `GetChoiceStartTime` ||`DateTime`||
+
+### Semantics
+#### Environment Variables
+window: The game window
+
+#### State Variables
+`allFoods`: seq of `string`\
+`gameFoods`: seq of `string`\
+`goodFoods`: seq of `string`\
+`changeFreq`: `ℕ`\
+`currentFood`: `string`\
+`choiceStartTime`: `DateTime`\
+`rand`: `Random`
+
+#### State Invariant
+`gameFoods` ⊆ `allFoods`\
+`goodFoods` ⊆ `gameFoods`\
+`currentFood` ∈ `gameFoods`
+
+#### Assumptions
+`allFoods` is already set from within Unity\
+`SetDispenser` is called in Feeder Level Manager module's `Start()`\
+`Update` is called once each game cycle.
+
+#### Design Decisions
+This module manages the game's available foods and dispensing of foods. It  `allFoods` are all the food items available in the implementation of the game. `gameFoods` are the food items being used in the current game. `goodFoods` are the current set of food items the monster likes. 
+
+#### Access Routine Semantics
+`setDispenser(tf, cf)`
+- transition: `gameFoods` ⊆ `allFoods` ∧ |`gameFoods`|==`tf`. `goodFoods` ⊆ `gameFoods`. `currentFood` := `gameFoods[rand.NextInt(|gameFoods|)]`. `changeFreq` := `cf`.
+
+`DispenseNext()`
+- transition: `UpdateFoods()`. `currentFood` := `gameFoods[rand.NextInt(|gameFoods|)]`.<br>
+   window := If a change in foods occur, a graphic appears showing this change. The graphic disappears after some time and the next food item is dispensed.<br>
+   `choiceStartTime` := `DateTime.Now`
+   
+`MakeChoice(choice)`
+- transition: window := The food gets pushed into the monster's mouth if `choice` and into the trash if ¬`choice`. Monster reacts according to decision.
+- output: *out* := `gameFoods`
+
+`GetCurrent()`
+- output: *out* := `currentFood`
+
+`GetChoiceStartTime()`
+- output: *out* := `choiceStartTime`
+
+
+#### Local Routine Semantics
+`UpdateFoods()`
+- transition: `rand.NextDouble()` < 1/`changeFreq` ⇒ add/remove a food item to/from `gameFoods`
+
+
+## 4.2.3 Rockstar Modules
 
 This section of modules are used in the ThirdGame game.
 
@@ -625,7 +792,7 @@ This section of the document contains all modules relating to the _Measurement M
   #### **Exported Access Programs**
   |Routine Name|In |Out |Exceptions |
   |---|---|---|---|
-  |`MemoryChoiceEvent`|`DateTime`, seq of `string`, `string`, `𝔹`, `TimeSpan`|`MemoryChoiceEvent`||
+  |`MemoryChoiceEvent`|`DateTime`, seq of `string`, `string`, `𝔹`, `DateTime`|`MemoryChoiceEvent`||
   |`getEventTime`||`DateTime`||
   |`getObjectsSet`||seq of `string`||
   |`getObject`||`string`||
@@ -640,7 +807,7 @@ This section of the document contains all modules relating to the _Measurement M
   * `choice: 𝔹`
   * `choiceTime: DateTime`
   #### **Assumptions**
-  * The constructor `MemoryChoiceEvent(DateTime,`seq of `string, string, 𝔹, TimeSpan)` is called before any other access routines are called for that object.
+  * The constructor `MemoryChoiceEvent(DateTime,`seq of `string, string, 𝔹, DateTime)` is called before any other access routines are called for that object.
   #### **Design Decision**
   This module represents the `MemoryChoiceEvent` class which can be instantiated by a _Minigame_ to store data relating to a single _Memory Choice Event_. This object should be passed to a _Memory Choice Metric_ object ([`MemoryChoiceMetric`](#memory-choice-metric-module)) for consumption. Every _Memory Choice Event_ has a time stamp (`eventTime`) in which the event occurred, and an array of strings (`objectsSet`) representing the set of objects which should be answered `true`: ie., if `object` is a member of `objectsSet`, `choice` should be `true` if the user guesses correctly; `false` if the user guesses incorrectly. `choiceTime` is the timestamp the user made the choice, and `eventTime` is the timestamp the choice was presented to the user. If you subtract the two, the result is the time it took for the user to make the choice.
   #### **Access Routine Semantics**
@@ -672,6 +839,61 @@ This section of the document contains all modules relating to the _Measurement M
   `getChoiceTime()`
   * transition: none
   * output: _out_ := `choiceTime`
+  * exception: none
+
+## 4.3.1.4 Linear Variable Event Module
+`LinearVariableEvent` Module inherits [`AbstractMetricEvent`](#431-abstract-metric-event-module)
+  ### Uses
+  * [`AbstractMetricEvent`](#431-abstract-metric-event-module)
+  * `System.DateTime`
+  ### Syntax
+  #### **Exported Constants**
+  None
+  #### **Exported Types**
+  None
+  #### **Exported Access Programs**
+  |Routine Name|In |Out |Exceptions |
+  |---|---|---|---|
+  |`LinearVariableEvent`|`DateTime`, `ℝ`, `ℝ`, `ℕ`|`LinearVariableEvent`||
+  |`getEventTime`||`DateTime`||
+  |`getCurrentValue`||`ℝ`||
+  |`getValueChange`||`ℝ`||
+  |`getReasonIndex`||`ℕ`||
+
+  ### Semantics
+  #### **State Variables**
+  * `eventTime: DateTime` (inherited from `AbstractMetricEvent`)
+  * `currentValue: ℝ`
+  * `valueChange: ℝ`
+  * `reasonIndex: ℕ`
+  #### **Assumptions**
+  * The constructor `LinearVariableEvent(DateTime, ℝ, ℝ, ℕ)` is called before any other access routines are called for that object.
+  #### **Design Decision**
+  This module is for the class `LinearVariableEvent`, which contains the data for each _event_ passed to `LinearVariableMetric#recordEvent()`. This data contains the _event time_, _current value_ (which is the value after the change), _value change_ (change in value since last event), and _index of reason_ (the reason for the change in the event. Index refers to the position in the array of _reasons_ stored in `LinearVariableMetric`).
+  #### **Access Routine Semantics**
+  `LinearVariableEvent(et, cv, vc, ri)`
+  * transition: `eventTime`, `currentValue`, `valueChange`, `reasonIndex` = `et`, `cv`, `vc`, `ri` 
+  * output: _out_ := _self_
+  * exception: none
+
+  `getEventTime()` (inherited from `AbstractMetricEvent`)
+  * transition: none
+  * output: _out_ := `eventTime`
+  * exception: none
+
+  `getCurrentValue()`
+  * transition: none
+  * output: _out_ := `currentValue`
+  * exception: none
+
+  `getValueChange()`
+  * transition: none
+  * output: _out_ := `valueChange`
+  * exception: none
+
+  `getReasonIndex()`
+  * transition: none
+  * output: _out_ := `reasonIndex`
   * exception: none
 
 ## 4.3.2 Abstract Metric Module
@@ -857,7 +1079,7 @@ This section of the document contains all modules relating to the _Measurement M
   * `isRecording: 𝔹` (inherited from `AbstractMetric`)
   * `eventList`: seq of `MemoryChoiceEvent` (inherited from `AbstractMetric`)
   #### **Assumptions**
-  * The constructor `MemoryChoiceMetric()` is called before any other access routines are called for that object. `PositionMetric(`seq of `string)` will invoke the `AbstractMetric()` (inherited from `AbstractMetric`) before any other statements are executed.
+  * The constructor `MemoryChoiceMetric()` is called before any other access routines are called for that object. `MemoryChoiceMetric()` will invoke the `AbstractMetric()` (inherited from `AbstractMetric`) before any other statements are executed.
   #### **Design Decision**
   This class is a subclass of `AbstractMetric`, and is used to record `PositionEvent` objects passed from a _Level Manager_. `PositionEvent` objects records a sequence of labeled _Vectors_ which correspond to positions of game objects in the _minigame_. When `getJson()` is invoked, it will return a JSON object containing all the data stored in `eventList`, as well as the name of this _Metric_, and the names of the objects being recorded.
   #### **Access Routine Semantics**
@@ -886,8 +1108,64 @@ This section of the document contains all modules relating to the _Measurement M
   * output: _out_ := JSON parsed from `eventList`
   * exception: none
 
+## 4.3.2.4 Linear Variable Metric Module
+  `LinearVariableMetric` extends `AbstractMetric`
+  ### Uses
+  * `AbstractMetric`
+  * `LinearVariableEvent`
+  * `Newtonsoft.Json`
+  ### Syntax
+  #### **Exported Constants**
+  None
+  #### **Exported Types**
+  None
+  #### **Exported Access Programs**
+  |Routine Name|In |Out |Exceptions |
+  |---|---|---|---|
+  |`LinearVariableMetric`|`ℝ`, `R`, `R`, seq of `string`|`LinearVariableMetric`||
+  |`startRecording`||||
+  |`finishRecording`||||
+  |`recordEvent`|`LinearVariableEvent`|||
+  |`getJSON`||JSON||
+  ### Semantics
+  #### **State Variables**
+  * `minValue: ℝ`
+  * `maxValue: ℝ`
+  * `intialValue: ℝ`
+  * `reasons:` seq of `string`
+  * `isRecording: 𝔹` (inherited from `AbstractMetric`)
+  * `eventList`: seq of `LinearVariableEvent` (inherited from `AbstractMetric`)
+  #### **Assumptions**
+  * The constructor `LinearVariableMetric(ℝ, ℝ, ℝ, `seq of `string)` is called before any other access routines are called for that object. `LinearVariableMetric(ℝ, ℝ, ℝ, `seq of `string)` will invoke the `AbstractMetric()` (inherited from `AbstractMetric`) before any other statements are executed.
+  #### **Design Decision**
+  This class is a subclass of `AbstractMetric`, and is used to record `LinearVariableEvent` objects passed from a _Level Manager_. When `getJson()` is invoked, it will return a JSON object containing all the data stored in `eventList`, as well as the name of this _Metric_, and the minimum, maximum, and initial values, as well as the sequence of _reasons_ of this metric.
+  #### **Access Routine Semantics**
+  `LinearVariableMetric(min, max, init, rs)`
+  * transition: `minValue`, `maxValue`, `initialValue`, `reaons` := `min`, `max`, `init`, `rs`
+  * output: _out_ := _self_
+  * exception: none
 
-# 5. List of Changes to SRS 
+  `startRecording()` (inherited from `AbstractMetric`)
+  * transition: `isRecording` = `true`
+  * output: none
+  * exception: none
+
+  `stopRecording()` (inherited from `AbstractMetric`)
+  * transition: `isRecording` = `false`
+  * output: none
+  * exception: none
+
+  `recordEvent(e)` (inherited from `AbstractMetric`)
+  * transition: _if_ (`isRecording`) _then_ `eventList = eventList||<e>` _else_ none
+  * output: none
+  * exception: none
+
+  `getJSON()`
+  * transition: none
+  * output: _out_ := JSON parsed from `eventList`, `minValue`, `maxValue`, `initialValue`, and `reasons`
+  * exception: none
+
+# 5. List of Changes to SRS
 
 Many changes have been made to the SRS document in response to the creation of Prototype 1 and the Design Document. The differences between the old and current SRS can be seen HERE (TODO: ADD LINK). The rationale for those changes are listed below: 
 
@@ -932,6 +1210,28 @@ Many changes have been made to the SRS document in response to the creation of P
 ## 7.2 Invariants
 
 # 8. Traceability Matrix
+Table #1 Functional requirements and descriptions from https://github.com/BryanChiu/Mactivision/blob/master/Requirements%20Specification/requirements.md
+| ID | Description |
+|----|-------------|
+| F-1 | Record input from player. |
+| F-2 | Objective Timers and Game Timers. |
+| F-3 | Request the player complete a sequence of inputs. |
+| F-4 | How close is the player to completing the objective. |
+|| Change player controls during game. |
+| F-5 | Output the measurements collected for each game session. |
+| F-6 | Record the start and end of objectives. How long did the player take and how successful was the player? |
+| F-7 | All the player to move around the game world. Allow the game to move the player. |
+| F-8 | Start and end game. |
+| F-9 | Move the camera around the game world. |
+| F-10 | Move the object around the game world. |
+| F-11 | Be able to change game scene. |
+| F-12 | Player has ability to pause game. |
+| F-13 | Show player score (how well they are completing objectives) during game play. |
+|| Read measurement data from database. |
+|| Write measurement data from database. |
+| F-14 | Delete measurement data from database. |
+
+Table #2 Traceability Matrix between functional requirements and modules
 | Functional Requirements | Module Name |
 |-------------------------|--------------------|
 | F-8 | Battery Module |
@@ -946,9 +1246,11 @@ Many changes have been made to the SRS document in response to the creation of P
 | F-1, F-2 | Button Pressing Event Module |
 | F-1, F-2, F-6 | Position Event Module |
 | F-5, F-13 | Memory Choice Event Module |
+| F-1, F-5, F-13 | Linear Variable Event Module |
 | F-5, F-13 | Abstract Metric Module |
 | F-1, F-2 | Button Pressing Metric Module |
 | F-1, F-2, F-6, F-13 | Position Metric Module |
 | F-1, F-2, F-5, F-6, F-13 | Memory Choice Metric Module |
+| F-13 | Linear Variable Metric Module |
 
 
