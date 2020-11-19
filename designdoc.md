@@ -33,6 +33,10 @@ Table of Contents
       * 4.2.2.1 [Feeder Level Manager Module](#4221-feeder-level-manager-module)
       * 4.2.2.2 [Food Dispenser Module](#4222-food-dispenser-module)
     * 4.2.3 [Rockstar Modules](#423-thirdgame-modules)
+      * 4.2.3.1 [Rockstar Level Manager Module](#4231-rockstar-level-manager-module)
+      * 4.2.3.2 [Spotlight Module](#4232-spotlight-module)
+      * 4.2.3.3 [Rockstar Module](#4233-rockstar-module)
+      * 4.2.3.4 [Meter Module](#4234-meter-module)
   * 4.3 [Measurement Modules](#43-measurement-modules)
     * 4.3.1 [Abstract Metric Event Module](#431-abstract-metric-event-module)
       * 4.3.1.1 [Button Pressing Event Module](#4311-button-pressing-event-module)
@@ -236,6 +240,7 @@ None
 window: The game window
 
 #### State Variables
+`sessionID`: `string`\
 `lvlState`: `ℕ`
 
 #### State Invariant
@@ -245,7 +250,7 @@ window: The game window
 None
 
 #### Design Decisions
-This module provides access routines to inherited modules for pre and post-game features. Specifically it starts the scene with a blurred game scene with an introductory text, then a countdown, and a end game text.
+This module provides access routines to inherited modules for pre and post-game features. Specifically it starts the scene with a blurred game scene with an introductory text, then a countdown, and a end game text. `sessionID` is provided by [`Battery Module`](#41-battery-module).
 
 #### Access Routine Semantics
 `Setup()`
@@ -270,7 +275,7 @@ This section of modules are used in the Digger game. In this mini-game, the play
 `DiggerLevelManager` module inherits [`LevelManager`](#420-abstract-level-manager-module)
 
 ### Uses
-[`DiggerPlayerController`](#4212-digger-player-controller-module), [`GroundBreaker`](#4213-ground-breaker-module), [`ChestAnimator`](#4214-chest-animator-module), [`ButtonPressingMetric`](#4321-button-pressing-metric-module), [`ButtonPressingEvent`](#4311-button-pressing-event-module), {UnnamedJSONOutputter}, `UnityEngine.Event`, `UnityEngine.KeyCode`, `System.DateTime`
+[`DiggerPlayerController`](#4212-feeder-player-controller-module), [`GroundBreaker`](#4213-ground-breaker-module), [`ChestAnimator`](#4214-chest-animator-module), [`ButtonPressingMetric`](#button-pressing-metric-module), [`ButtonPressingEvent`](#button-pressing-event-module), [`MetricJSONWriter`](#), `UnityEngine.Event`, `UnityEngine.KeyCode`, `System.DateTime`
 
 ### Syntax
 #### Exported Constants
@@ -295,7 +300,7 @@ window: The game window
 #### State Variables
 `bpMetric`: [`ButtonPressingMetric`](#4321-button-pressing-metric-module)\
 `recording`: `𝔹`\
-`player`: [`DiggerPlayerController`](#4212-digger-player-controller-module)\
+`player`: [`DiggerPlayerController`](#4212-feeder-player-controller-module)\
 `chest`: [`ChestAnimator`](#4214-chest-animator-module)\
 `digAmount`: `ℕ`\
 `digKey`: `KeyCode`\
@@ -311,7 +316,7 @@ None
 `digAmount`>0
 
 #### Design Decisions
-This module manages the majority of functionality in the game. The `digAmount` is the number of button presses required to finish the level. It rounds up to the nearest 10 (as there are 10 blocks to break in the level). `digAmount` and `digKey` have default values but can be changed using the battery setup file. 
+This module manages the majority of functionality in the game. The `digAmount` is the number of button presses required to finish the level. It rounds up to the nearest 10 (as there are 10 blocks to break in the level). `digAmount` and `digKey` have default values but can be changed using [`Battery Module`](#41-battery-module). 
 
 #### Access Routine Semantics
 `Start()`
@@ -328,16 +333,16 @@ This module manages the majority of functionality in the game. The `digAmount` i
 - transition: `lvlState`==2 ⇒
    ||⇒|
    |---|---|
-   | ¬`recording` | `recording` := `true`. `bpMetric.StartRec()`. `SetDigKeyForGround()`. `SetDigAmountForGround()`|
-   | `chest.opened` | `bpMetric.EndRec()`. `EndLevel()`(inherited from [`LevelManager`](#420-abstract-level-manager-module)) |
+   | ¬`recording` | `recording` := `true`. `bpMetric.startRecording()`. `SetDigKeyForGround()`. `SetDigAmountForGround()`|
+   | `chest.opened` | `bpMetric.finishRecording()`. `EndLevel()`(inherited from [`LevelManager`](#420-abstract-level-manager-module)) |
 
 `OnGUI()`
 - transition: `e.isKey` ⇒
    ||⇒|
    |---|---|
    | `lvlState`==0 | `StartLevel()`(inherited from [`LevelManager`](#420-abstract-level-manager-module)) |
-   | `lvlState`==2 ∧ `e.keyCode`==`digKey` ∧ press| `bpMetric.AddEvent(new ButtonPressingEvent(DateTime.Now, e.keyCode, true))`. `player.DigDown()` |
-   | `lvlState`==2 ∧ `e.keyCode`==`digKey` ∧ release | `bpMetric.AddEvent(new ButtonPressingEvent(DateTime.Now, e.keyCode, false))`. `player.DigUp()` |
+   | `lvlState`==2 ∧ `e.keyCode`==`digKey` ∧ press| `bpMetric.recordEvent(new ButtonPressingEvent(DateTime.Now, e.keyCode, true))`. `player.DigDown()` |
+   | `lvlState`==2 ∧ `e.keyCode`==`digKey` ∧ release | `bpMetric.recordEvent(new ButtonPressingEvent(DateTime.Now, e.keyCode, false))`. `player.DigUp()` |
 
 #### Local Routine Semantics
 `SetDigKeyForGround()`
@@ -347,11 +352,11 @@ This module manages the majority of functionality in the game. The `digAmount` i
 - transition: ∀ b:[`GroundBreaker`](#4213-ground-breaker-module)| b.`SetHitsToBreak( ⌈digAmount/10⌉ )`
 
 
-## 4.2.1.2 Digger Player Controller Module
-`DiggerPlayerController` inherits MonoBehaviour
+## 4.2.1.2 Player Controller Module
+`PlayerController` inherits MonoBehaviour
 
 ### Uses
-None
+`UnityEngine.Vector2`
 
 ### Syntax
 #### Exported Constants
@@ -371,8 +376,8 @@ None
 window: The game window
 
 #### State Variables
-`hammerRest`: seq of `ℝ`\
-`hammerJump`: seq of `ℝ`
+`hammerRest`: `Vector2`\
+`hammerJump`: `Vector2`
 
 #### State Invariant
 None
@@ -455,12 +460,11 @@ This module controls the breaking of an individual ground block. By default, eac
 `SetHitsToBreak(hits)`
 - transition: `hitsToBreak` := `hits`
 
-
 ## 4.2.1.4 Chest Animator Module
 `ChestAnimator` inherits MonoBehaviour
 
 ### Uses
-[`DiggerPlayerController`](#4212-digger-player-controller-module), `UnityEngine.Collider2D`
+[`DiggerPlayerController`](#4212-digger-player-controller-module), `UnityEngine.Collider2D`, `UnityEngine.Vector2`
 
 ### Syntax
 #### Exported Constants
@@ -484,7 +488,7 @@ window: The game window
 `player`: [`DiggerPlayerController`](#4212-digger-player-controller-module)\
 `opened`: `𝔹`\
 `coinspeed`: `ℝ`\
-`destination`: seq of `ℝ`
+`destination`: `Vector2`
 
 #### State Invariant
 None
@@ -508,6 +512,7 @@ This module controls the chest and coin animation when the player reaches it.
 `OnTriggerStay2D(c)`
 - transition: `c.gameObject.name`==`player.gameObject.name` ⇒ <br>`opened` := `true`. window := The chest animates opening.
 
+
 ## 4.2.2 Feeder Modules
 
 This section of modules are used in the Feeder game. In this mini-game, the player has to feed a monster. The foods the monster likes and dislikes change overtime, and the player must remember these changes and correctly feed or discard food being dispensed.
@@ -516,7 +521,7 @@ This section of modules are used in the Feeder game. In this mini-game, the play
 `FeederLevelManager` module inherits [`LevelManager`](#420-abstract-level-manager-module)
 
 ### Uses
-[`FoodDispenser`](#4222-food-dispenser-module), [`MemoryChoiceMetric`](#4323-memory-choice-metric-module), [`MemoryChoiceEvent`](#4313-memory-choice-event-module), {UnnamedJSONOutputter}, `UnityEngine.Event`, `UnityEngine.KeyCode`, `System.DateTime`
+[`FoodDispenser`](#4222-food-dispenser-module), [`MemoryChoiceMetric`](#4323-memory-choice-metric-module), [`MemoryChoiceEvent`](#4313-memory-choice-event-module), [`MetricJSONWriter`](#), `UnityEngine.Event`, `UnityEngine.KeyCode`, `System.DateTime`
 
 ### Syntax
 #### Exported Constants
@@ -549,7 +554,6 @@ window: The game window
 `maxGameTime`: `ℕ`\
 `elapsedGameTime`: `ℝ`\
 `dispenser`: [`FoodDispenser`](#4222-food-dispenser-module)\
-`currentFood`: `string`
 `lvlState`: `ℕ` (inherited from [`LevelManager`](#420-abstract-level-manager-module))\
 
 #### State Invariant
@@ -563,7 +567,7 @@ None
 `changeFreq`>0
 
 #### Design Decisions
-This module manages the majority of functionality in the game. `totalFoods` is the size of the set of foods available (minimum of two foods). `changeFreq` is the average number of food dispensed between (dis)liked food changes. `totalFoods`, `changeFreq`, `goodKey`, `badKey`, and `maxGameTime` have default values but can be changed using the battery setup file. An optional seed can be provided to run the same sequence of foods.
+This module manages the majority of functionality in the game. `totalFoods` is the size of the set of foods available (minimum of two foods). `changeFreq` is the average number of food dispensed between (dis)liked food changes. `totalFoods`, `changeFreq`, `goodKey`, `badKey`, and `maxGameTime` have default values but can be changed using [`Battery Module`](#41-battery-module). An optional seed can be provided by [`Battery Module`](#41-battery-module) to run the same sequence of foods.
 
 #### Access Routine Semantics
 `Start()`
@@ -580,22 +584,22 @@ This module manages the majority of functionality in the game. `totalFoods` is t
    |`elapsedGameTime`|0|
    |window|An introductory text is displayed over a blurred game screen|
    
-   `dispenser.SetDispenser(totalFoods, changeFreq)`. `currentFood` := `dispenser.GetCurrent()`
+   `dispenser.Init(totalFoods, changeFreq)`
 
 `Update()`
 - transition: `lvlState`==1 ⇒
-   |||
+   ||⇒|
    |---|---|
-   | ¬`recording` | `recording` := `true`. `mcMetric.StartRec()` |
-   | `elaspedGameTime`>`maxGameTime` | `mcMetric.EndRec()`. `EndLevel()`
+   | ¬`recording` | `recording` := `true`. `mcMetric.startRecording()` |
+   | `elaspedGameTime`>`maxGameTime` | `mcMetric.finishRecording()`. `EndLevel()`
 
 `OnGUI()`
 - transition: `e.isKey` ⇒
-   |||
+   ||⇒|
    |---|---|
    | `lvlState`==0 | `StartLevel()`(inherited from [`LevelManager`](#420-abstract-level-manager-module)). `dispense.DispenseNext()` |
-   | `lvlState`==1 ∧ `e.keyCode`==`goodKey`| `mcMetric.AddEvent(new MemoryChoiceEvent(dispenser.getChoiceStartTime(), dispenser.MakeChoice(true), dispenser.GetCurrent(), true, DateTime.Now))`. `dispenser.DispenseNext()`|
-   | `lvlState`==1 ∧ `e.keyCode`==`badKey`| `mcMetric.AddEvent(new MemoryChoiceEvent(dispenser.getChoiceStartTime(), dispenser.MakeChoice(false), dispenser.GetCurrent(), false, DateTime.Now))`. `dispenser.DispenseNext()`|
+   | `lvlState`==1 ∧ `e.keyCode`==`goodKey`| `mcMetric.recordEvent(new MemoryChoiceEvent(dispenser.getChoiceStartTime(), dispenser.MakeChoice(true), dispenser.GetCurrent(), true, DateTime.Now))`. `dispenser.DispenseNext()`|
+   | `lvlState`==1 ∧ `e.keyCode`==`badKey`| `mcMetric.recordEvent(new MemoryChoiceEvent(dispenser.getChoiceStartTime(), dispenser.MakeChoice(false), dispenser.GetCurrent(), false, DateTime.Now))`. `dispenser.DispenseNext()`|
 
 
 ## 4.2.2.2 Food Dispenser Module
@@ -614,9 +618,9 @@ None
 #### Exported Access Programs
 | Routine Name | In | Out | Exceptions |
 |---|---|---|---|
-| `SetDispenser` |`ℕ`, `ℕ`|||
+| `Init` |`ℕ`, `ℕ`|||
 | `DispenseNext` ||`string`||
-| `MakeChoice` |𝔹|seq of `string`||
+| `MakeChoice` |`𝔹`|seq of `string`||
 | `GetCurrent` ||`string`||
 | `GetChoiceStartTime` ||`DateTime`||
 
@@ -640,14 +644,14 @@ window: The game window
 
 #### Assumptions
 `allFoods` is already set from within Unity\
-`SetDispenser` is called in Feeder Level Manager module's `Start()`\
+`Init` is called in Feeder Level Manager module's `Start()`\
 `Update` is called once each game cycle.
 
 #### Design Decisions
 This module manages the game's available foods and dispensing of foods. It  `allFoods` are all the food items available in the implementation of the game. `gameFoods` are the food items being used in the current game. `goodFoods` are the current set of food items the monster likes. 
 
 #### Access Routine Semantics
-`setDispenser(tf, cf)`
+`Init(tf, cf)`
 - transition: `gameFoods` ⊆ `allFoods` ∧ |`gameFoods`|==`tf`. `goodFoods` ⊆ `gameFoods`. `currentFood` := `gameFoods[rand.NextInt(|gameFoods|)]`. `changeFreq` := `cf`.
 
 `DispenseNext()`
@@ -665,7 +669,6 @@ This module manages the game's available foods and dispensing of foods. It  `all
 `GetChoiceStartTime()`
 - output: *out* := `choiceStartTime`
 
-
 #### Local Routine Semantics
 `UpdateFoods()`
 - transition: `rand.NextDouble()` < 1/`changeFreq` ⇒ add/remove a food item to/from `gameFoods`
@@ -673,7 +676,288 @@ This module manages the game's available foods and dispensing of foods. It  `all
 
 ## 4.2.3 Rockstar Modules
 
-This section of modules are used in the ThirdGame game.
+This section of modules are used in the Rockstar game. In this mini-game, the player is helping a rockstar performing onstage for a crowd. The player has to follow the rockstar with the spotlight, and keep the excitement levels of the crowd up, without them getting too wild. 
+
+## 4.2.3.1 Rockstar Level Manager Module
+`RockstarLevelManager` module inherits [`LevelManager`](#420-abstract-level-manager-module)
+
+### Uses
+[`Spotlight`](#4222-spotlight-module), [`Rockstar`](#4223-rockstar-module), [`Meter`](#4224-meter-module), [`PositionMetric`](#4322-position-metric-module), [`PositionEvent`](#4312-position-event-module), [`LinearVariableMetric`](#4324-linear-variable-metric-module), [`LinearVariableEvent`](#4314-linear-variable-event-module), [`MetricJSONWriter`](#), `UnityEngine.Event`, `UnityEngine.KeyCode`, `System.DateTime`
+
+### Syntax
+#### Exported Constants
+None
+
+#### Exported Types
+None
+
+#### Exported Access Programs
+| Routine Name | In | Out | Exceptions |
+|---|---|---|---|
+| `Start` ||||
+| `Update` ||||
+| `OnGUI` ||||
+
+### Semantics
+#### Environment Variables
+`eventTime`: `DateTime`\
+`e`: `Event`\
+window: The game window
+
+#### State Variables
+`pMetric`: [`PositionMetric`](#4322-position-metric-module)\
+`lvMetric`: [`LinearVariableMetric`](#4324-linear-variable-metric-module)\
+`recording`: `𝔹`\
+`seed`: `ℕ`\
+`rockstarChangeFreq`: `ℝ`\
+`rockstarVel`: `ℝ`\
+`lightVel`: `ℝ`\
+`meterChangeFreq`: `ℝ`\
+`meterMinVel`: `ℝ`\
+`meterMaxVel`: `ℝ`\
+`meterUpVel`: `ℝ`\
+`leftKey`: `KeyCode`\
+`rightKey`: `KeyCode`\
+`upKey`: `KeyCode`\
+`maxGameTime`: `ℕ`\
+`elapsedGameTime`: `ℝ`\
+`spotlight`: [`Spotlight`](#4222-spotlight-module)\
+`rockstar`: [`Rockstar`](#4223-rockstar-module)\
+`meter`: [`Meter`](#4224-meter-module)\
+`lvlState`: `ℕ` (inherited from [`LevelManager`](#420-abstract-level-manager-module))
+
+#### State Invariant
+None
+
+#### Assumptions
+`Start` is called at the beginning of the scene.\
+`Update` is called once each game cycle.\
+`OnGUI` is called when a GUI event occurs (keyboard/mouse); it is called after `Update` in the game cycle.\
+`lightVel`>=`rockstarVel`\
+`meterUpVel`>=`meterMaxVel`
+
+#### Design Decisions
+This module manages the majority of functionality in the game. `rockstarChangeFreq` is average frequency (seconds) the rockstar changes destinations. `rockstarVel` is the speed the rockstar moves. `lightVel` is the speed the spotlight moves. `meterChangeFreq` is average frequency (seconds) the meter changes velocity. `meterMinVel` and `meterMaxVel` are the minimum and maximum speed the meter drops. `meterUpVel` is the speed the meter is raised. The mentioned variables and `leftKey`, `rightKey`, `upKey`, and `maxGameTime` have default values but can be changed using [`Battery Module`](#41-battery-module). An optional seed can be provided to run the same sequence of foods.
+
+#### Access Routine Semantics
+`Start()`
+- transition: `Setup()`(inherited from [`LevelManager`](#420-abstract-level-manager-module)).
+   ||:=|
+   |---|---|
+   |`pMetric`|new [`PositionMetric(["rockstar", "spotlight"])`](#4322-position-metric-module)|
+   |`lvMetric`|new [`LinearVariableMetric(0.0, 100.0, 75.0, ["gameDrop", "playerRaise"])`](#4324-linear-variable-metric-module)|
+   |`recording`|`false`|
+   |`rockstarChangeFreq`|5.0|
+   |`rockstarVel`|2.5|
+   |`lightVel`|2.75|
+   |`meterChangeFreq`|2.0|
+   |`meterMinVel`|5.0|
+   |`meterMaxVel`|25.0|
+   |`meterUpVel`|30.0|
+   |`leftKey`|`KeyCode.LeftArrow`|
+   |`rightKey`|`KeyCode.RightArrow`|
+   |`upKey`|`KeyCode.UpArrow`|
+   |`maxGameTime`|120|
+   |`elapsedGameTime`|0|
+   |window|An introductory text is displayed over a blurred game screen|
+   
+   `spotlight.Init(lightVel)`. `rockstar.Init(rockstarChangeFreq, rockstarVel)`. `meter.Init(meterChangeFreq, meterMinVel, meterMaxVel, meterUpVel,)`
+
+`Update()`
+- transition: `lvlState`==1 ⇒
+   ||⇒|
+   |---|---|
+   | ¬`recording` | `recording` := `true`. `pMetric.startRecording()`. `lvMetric.startRecording()` |
+   | `recording` | `pMetric.recordEvent(new PositionEvent(DateTime.Now, [rockstar.GetPosition(), spotlight.GetPosition()]))`.<br>`lvMetric.recordEvent(new LinearVariable(DateTime.Now, meter.Drop(), meter.GetVelocity(), 0))` |
+   | `elaspedGameTime`>`maxGameTime` | `pMetric.finishRecording()`. `lvMetric.finishRecording()`. `EndLevel()`
+
+`OnGUI()`
+- transition: `e.isKey` ⇒
+   ||⇒|
+   |---|---|
+   | `lvlState`==0 | `StartLevel()`(inherited from [`LevelManager`](#420-abstract-level-manager-module)). |
+   | `lvlState`==1 ∧ `e.keyCode`==`leftKey`| `spotlight.Move(false)`|
+   | `lvlState`==1 ∧ `e.keyCode`==`rightKey`| `spotlight.Move(true)`|
+   | `lvlState`==1 ∧ `e.keyCode`==`upKey`| `lvMetric.recordEvent(new LinearVariable(DateTime.Now, meter.Raise(), meterUpVel, 1))`|
+   
+
+## 4.2.2.2 Spotlight Module
+`Spotlight` module inherits Monobehaviour
+
+### Uses
+`UnityEngine.Vector2`, `UnityEngine.Time`
+
+### Syntax
+#### Exported Constants
+None
+
+#### Exported Types
+None
+
+#### Exported Access Programs
+| Routine Name | In | Out | Exceptions |
+|---|---|---|---|
+| `Init` |`ℝ`|||
+| `Update` ||||
+| `Move` |`𝔹`|||
+| `GetPosition` ||`Vector2`||
+
+### Semantics
+#### Environment Variables
+window: The game window
+
+#### State Variables
+`position`: `ℝ`\
+`lightVel`: `ℝ`
+
+#### State Invariant
+None
+
+#### Assumptions
+None
+
+#### Design Decisions
+This module manages the spotlight. It is moved by the player and displays the spotlight to the window.
+
+#### Access Routine Semantics
+`Init(v)`
+- transition: `lightVel`, `position` := `v`, 0.0
+
+`Update()`
+- transition: window := The spotlight is at `position`.
+
+`Move(right)`
+- transition: `position` :=
+   ||⇒|
+   |---|---|
+   | `right`| `position` + `lightVel`*`Time.deltaTime`|
+   | ¬`right`| `position` - `lightVel`*`Time.deltaTime`|
+   
+`GetPostition()`
+- output: *out* := `new Vector2(position, 0)`
+
+## 4.2.2.3 Rockstar Module
+`Rockstar` module inherits Monobehaviour
+
+### Uses
+`UnityEngine.Vector2`, `UnityEngine.Time`, `System.Random`
+
+### Syntax
+#### Exported Constants
+None
+
+#### Exported Types
+None
+
+#### Exported Access Programs
+| Routine Name | In | Out | Exceptions |
+|---|---|---|---|
+| `Init` |`ℝ`, `ℝ`|||
+| `Update` ||||
+| `Move` ||||
+| `GetPosition` ||`Vector2`||
+
+### Semantics
+#### Environment Variables
+window: The game window
+
+#### State Variables
+`changeFreq`: `ℝ`\
+`velocity`: `ℝ`\
+`position`: `ℝ`\
+`destination`: `ℝ`\
+`rand`: `Random`
+
+#### State Invariant
+None
+
+#### Assumptions
+None
+
+#### Design Decisions
+This module manages the rockstar. It moves on its own and displays the rockstar to the window.
+
+#### Access Routine Semantics
+`Init(cf, v)`
+- transition: `changeFreq`, `velocity`, `position` := `cf`, `v`, 0.0
+
+`Update()`
+- transition: `rand.NextDouble()` < (1/`changeFreq`*`Time.deltaTime`) ⇒ `destination` := random position.<br>
+   window := The rockstar is at `position`. `Move()`
+
+`Move()`
+- transition: `position` := 
+   ||⇒|
+   |---|---|
+   | `destination`>`position`| `position` + `velocity`*`Time.deltaTime`|
+   | `destination`<`position`| `position` - `velocity`*`Time.deltaTime`|
+   | `destination`==`position`| `position`|
+   
+`GetPostition()`
+- output: *out* := `new Vector2(position, 0)`
+
+## 4.2.2.4 Meter Module
+`Meter` module inherits Monobehaviour
+
+### Uses
+`UnityEngine.Vector2`, `UnityEngine.Time`, `UnityEngine.Random`, `System.Random`
+
+### Syntax
+#### Exported Constants
+None
+
+#### Exported Types
+None
+
+#### Exported Access Programs
+| Routine Name | In | Out | Exceptions |
+|---|---|---|---|
+| `Init` |`ℝ`, `ℝ`, `ℝ`, `ℝ`|||
+| `Update` ||||
+| `Drop` ||`ℝ`||
+| `Raise` ||`ℝ`||
+
+### Semantics
+#### Environment Variables
+window: The game window
+
+#### State Variables
+`changeFreq`: `ℝ`\
+`minVel`: `ℝ`\
+`maxVel`: `ℝ`\
+`upVel`: `ℝ`\
+`velocity`: `ℝ`\
+`level`: `ℝ`\
+`maxLvl`: `ℝ`\
+`rand`: `Random`
+
+#### State Invariant
+`level` < `maxLvl`
+
+#### Assumptions
+None
+
+#### Design Decisions
+This module manages the meter. It's value constantly drops at a rate between `meterMinVel` and `meterMaxVel`. The player can raise the value.
+
+#### Access Routine Semantics
+`Init(cf, min, max, up)`
+- transition: `changeFreq`, `minVel`, `maxVel`, `upVel`, `velocity`, `level`, `maxLvl` := `cf`, `min`, `max`, `up`, `Random.Range(min, max)`, 75.0, 100.0
+
+`Update()`
+- transition: `rand.NextDouble()` < (1/`changeFreq`*`Time.deltaTime`) ⇒ `velocity` := `Random.Range(min, max)`.<br>window := The graphical meter is shown corresponding to `level`.
+
+`Drop()`
+- transition: `level` := `level` - `velocity`*`Time.deltaTime`.
+- output: *out* := `level`
+
+`Raise()`
+- transition: `level` := `level` + `upVel`*`Time.deltaTime`. window := Fireworks shoot out somewhere randomly
+- output: *out* := `level`
+
+`GetVelocity()`
+- output: *out* := `velocity`
+
 
 ## 4.3 Measurement Modules
 
