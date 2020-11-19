@@ -1558,7 +1558,10 @@ Table #2 Traceability Matrix between functional requirements and modules
 | F-12, F-16 | Chest Animator Module |
 | F-1, F-2, F-3, F-4, F-5, F-6, F-7, F-8, F-11, F-15 | Feeder Level Manager Module |
 | F-2, F-15 | Food Dispenser Module |
-|  | Rockstar Module |
+| F-1, F-2, F-3, F-4, F-5, F-6, F-7, F-10, F-14, F-16 | Rockstar Level Manager Module |
+| F-10 | Spotlight Module |
+| F-1, F-5, F-7, F-15 | Rockstar Module |
+| F-16 | Meter Module |
 | F-2 | Abstract Metric Event Module |
 | F-1, F-2 | Button Pressing Event Module |
 | F-1, F-2, F-7 | Position Event Module |
