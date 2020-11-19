@@ -781,7 +781,7 @@ This module manages the majority of functionality in the game. `rockstarChangeFr
    | `lvlState`==1 ∧ `e.keyCode`==`upKey`| `lvMetric.recordEvent(new LinearVariable(DateTime.Now, meter.Raise(), meterUpVel, 1))`|
    
 
-## 4.2.2.2 Spotlight Module
+## 4.2.3.2 Spotlight Module
 `Spotlight` module inherits Monobehaviour
 
 ### Uses
@@ -836,7 +836,7 @@ This module manages the spotlight. It is moved by the player and displays the sp
 `GetPostition()`
 - output: *out* := `new Vector2(position, 0)`
 
-## 4.2.2.3 Rockstar Module
+## 4.2.3.3 Rockstar Module
 `Rockstar` module inherits Monobehaviour
 
 ### Uses
@@ -896,7 +896,7 @@ This module manages the rockstar. It moves on its own and displays the rockstar 
 `GetPostition()`
 - output: *out* := `new Vector2(position, 0)`
 
-## 4.2.2.4 Meter Module
+## 4.2.3.4 Meter Module
 `Meter` module inherits Monobehaviour
 
 ### Uses
