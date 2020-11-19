@@ -566,14 +566,19 @@ Exit Game | mini-game should exit and the battery module will start the next min
 
 Each mini-game will have a unique gameplay user interface and experience, which will be specified in the future when individual mini-games are being designed. However, all mini-games should share a common start and exit interface in terms of design and style. These interfaces will have similar layouts for any buttons and text; fonts, text sizes, button and title positions, audio, etc., should be consistent across mini-games. 
 
-<!--TODO(Mike): Add start and exit screen examples from digger games. Remove main menu image. 
+![Start Screen](https://github.com/BryanChiu/Mactivision/blob/master/Requirements%20Specification/assets/interface_example_of_start_screen.png)
 
-![](https://github.com/BryanChiu/Mactivision/blob/master/Requirements%20Specification/assets/example_mini-game_main_menu_001.png)
--->
+![End Screen](https://github.com/BryanChiu/Mactivision/blob/master/Requirements%20Specification/assets/interface_example_of_end_screen.png)
 
 Mini games should not show error messages to the user if the game encounters an error during play. If a mini games fails it should fail silently, record the failure in the JSON file for that particular battery and the battery should attempt to start the next mini game in the sequence. If the battery module fails let the let the user know so they can relay that information to the administrator. The administrator can make the decision as to whether the battery must be restarted or the data collected so far is sufficient.
 
 ![Example Error Message](https://github.com/BryanChiu/Mactivision/blob/master/Requirements%20Specification/assets/example_error_001.png)
+
+The data manager will be used to organize and present recorded player ability data from a completed battery. This data should be presented in such a way that it is readable and understandable. An example below:
+
+<!-- TODO(Mike): Add screen shots of graph -->
+
+![Data Presentation](https://github.com/BryanChiu/Mactivision/blob/master/Requirements%20Specification/assets/interface_example_data_presentation.png)
 
 #### 3.1.2 Hardware interfaces
 <!-- Describe the logical and physical characteristics of each interface between the software product and the hardware components of the system. This may include the supported device types, the nature of the data and control interactions between the software and the hardware, and communication protocols to be used. -->
