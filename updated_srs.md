@@ -588,7 +588,7 @@ Rationale      | Want to be able to measure how close the player is to completin
 Constraints    | Metric modules must coordinate with game objectives of each individual game.
 Priority       | Very High
 
-ID F-4         | Type: Functional 
+ID F-5         | Type: Functional 
 ---------------|----------------------------------------------------------------
 PUC: 18        | Originator: Team
 Description    | Change player controls during game.
@@ -596,7 +596,7 @@ Rationale      | In order to measure the adaptability of the player when control
 Constraints    | Metric modules must coordinate with game control scheme of each individual game.
 Priority       | Medium
 
-ID F-5         | Type: Functional 
+ID F-6         | Type: Functional 
 ---------------|----------------------------------------------------------------
 PUC: 20,21     | Originator: Team
 Description    | Output the measurements collected for each game session.
@@ -604,7 +604,7 @@ Rationale      | Required to tune measurement collecting techniques and for over
 Constraints    | Output must be organized enough to be human readable.
 Priority       | Very High
 
-ID F-6         | Type: Functional 
+ID F-7         | Type: Functional 
 ---------------|----------------------------------------------------------------
 PUC: 1,2       | Originator: Team
 Description    | Record the start and end of objectives. How long did the player take and how successful was the player? 
@@ -612,7 +612,7 @@ Rationale      | Since objectives will vary in type and difficulty this is need 
 Constraints    | Metric modules must coordinate with game objectives of each individual game.
 Priority       | Very High
 
-ID F-7         | Type: Functional 
+ID F-8         | Type: Functional 
 ---------------|----------------------------------------------------------------
 PUC: 6         | Originator: Team
 Description    | All the player to move around the game world. Allow the game to move the player. 
@@ -620,7 +620,7 @@ Rationale      | Many game types require players are able to move around in the 
 Constraints    | Make sure player doesn't go out of bounds.
 Priority       | Very High
 
-ID F-8         | Type: Functional 
+ID F-9         | Type: Functional 
 ---------------|----------------------------------------------------------------
 PUC: 7,8       | Originator: Team
 Description    | Start and end game.
@@ -628,7 +628,7 @@ Rationale      | Having specific start and end game states provides windows of m
 Constraints    | Must have start and end game scenes.
 Priority       | High
 
-ID F-9         | Type: Functional 
+ID F-10         | Type: Functional 
 ---------------|----------------------------------------------------------------
 PUC: 9         | Originator: Team
 Description    | Move the camera around the game world.
@@ -636,7 +636,7 @@ Rationale      | Many game types require camera to move around. However, mini ga
 Constraints    | Make sure camera doesn't go out of bounds.
 Priority       | Low
 
-ID F-10        | Type: Functional 
+ID F-11        | Type: Functional 
 ---------------|----------------------------------------------------------------
 PUC: 10        | Originator: Team
 Description    | Move the object around the game world.
@@ -644,7 +644,7 @@ Rationale      | Most game types require non player objects to move around the g
 Constraints    | Make sure objects doesn't go out of bounds and are properly created and destroyed to not waste memory.
 Priority       | Very High
 
-ID F-11        | Type: Functional 
+ID F-12        | Type: Functional 
 ---------------|----------------------------------------------------------------
 PUC: 19,20     | Originator: Team
 Description    | Be able to change game scene.
@@ -652,7 +652,7 @@ Rationale      | Need to be able to change between start scene, game scene, end 
 Constraints    | Keep scenes to a minimum to avoid over complicated game.
 Priority       | Very High
 
-ID F-12        | Type: Functional 
+ID F-13        | Type: Functional 
 ---------------|----------------------------------------------------------------
 PUC: 22        | Originator: Team
 Description    | Read measurement data from JSON files.
@@ -660,7 +660,7 @@ Rationale      | Measurement data will need to be reviewed for player analyze af
 Constraints    | Requires data models be created.
 Priority       | Medium
 
-ID F-13        | Type: Functional 
+ID F-14        | Type: Functional 
 ---------------|----------------------------------------------------------------
 PUC: 23        | Originator: Team
 Description    | Present data 
@@ -668,7 +668,7 @@ Rationale      | Metric modules will collect data into JSON files. These files w
 Constraints    | Requires parsing JSON files and determining how to present different data for each metric module.
 Priority       | High
 
-ID F-14        | Type: Functional 
+ID F-15        | Type: Functional 
 ---------------|----------------------------------------------------------------
 PUC: 10,14,15  | Originator: Team
 Description    | Entity Manager
@@ -676,7 +676,7 @@ Rationale      | Game entities must be created, destroyed, and updated.
 Constraints    | Must work with in the constraints of Unity API.
 Priority       | Very High
 
-ID F-15        | Type: Functional 
+ID F-16        | Type: Functional 
 ---------------|----------------------------------------------------------------
 PUC: 11,12     | Originator: Team
 Description    | Animation Manager
@@ -684,7 +684,7 @@ Rationale      | Allow for animations to exist within the game.
 Constraints    | Must work with in the constraints of Unity API. Animations requires many more assets to act as key frames.
 Priority       | Very High
 
-ID F-16        | Type: Functional 
+ID F-17        | Type: Functional 
 ---------------|----------------------------------------------------------------
 PUC: 16        | Originator: Team
 Description    | Physics Manager
