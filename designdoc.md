@@ -682,7 +682,7 @@ This section of modules are used in the Rockstar game. In this mini-game, the pl
 `RockstarLevelManager` module inherits [`LevelManager`](#420-abstract-level-manager-module)
 
 ### Uses
-[`Spotlight`](#4222-spotlight-module), [`Rockstar`](#4223-rockstar-module), [`Meter`](#4224-meter-module), [`PositionMetric`](#4322-position-metric-module), [`PositionEvent`](#4312-position-event-module), [`LinearVariableMetric`](#4324-linear-variable-metric-module), [`LinearVariableEvent`](#4314-linear-variable-event-module), [`MetricJSONWriter`](#), `UnityEngine.Event`, `UnityEngine.KeyCode`, `System.DateTime`
+[`Spotlight`](#4232-spotlight-module), [`Rockstar`](#4233-rockstar-module), [`Meter`](#4234-meter-module), [`PositionMetric`](#4322-position-metric-module), [`PositionEvent`](#4312-position-event-module), [`LinearVariableMetric`](#4324-linear-variable-metric-module), [`LinearVariableEvent`](#4314-linear-variable-event-module), [`MetricJSONWriter`](#), `UnityEngine.Event`, `UnityEngine.KeyCode`, `System.DateTime`
 
 ### Syntax
 #### Exported Constants
@@ -721,9 +721,9 @@ window: The game window
 `upKey`: `KeyCode`\
 `maxGameTime`: `ℕ`\
 `elapsedGameTime`: `ℝ`\
-`spotlight`: [`Spotlight`](#4222-spotlight-module)\
-`rockstar`: [`Rockstar`](#4223-rockstar-module)\
-`meter`: [`Meter`](#4224-meter-module)\
+`spotlight`: [`Spotlight`](#4232-spotlight-module)\
+`rockstar`: [`Rockstar`](#4233-rockstar-module)\
+`meter`: [`Meter`](#4234-meter-module)\
 `lvlState`: `ℕ` (inherited from [`LevelManager`](#420-abstract-level-manager-module))
 
 #### State Invariant
