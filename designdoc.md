@@ -62,10 +62,9 @@ Table of Contents
 * 8 [Significant Algorithms/Non-Trivial Invariants](#8-significant-algorithms/non-trivial-invariants)
   * 8.1 [Game Designs](#81-game-designs)
      * 8.1.1 [Digger Game](#811-digger-game)
-     * 8.1.2 [Digger Game](#812-feeder-game)
-     * 8.1.3 [Digger Game](#813-rockstar-game)
+     * 8.1.2 [Feeder Game](#812-feeder-game)
+     * 8.1.3 [Rockstar Game](#813-rockstar-game)
   * 8.2 [Algorithms](#81-algorithms)
-  * 8.3 [Invariants](#82-invariants)
 
 # Revision History
 
@@ -1795,5 +1794,4 @@ The rockstar game measures divided attention ability. The player avatar will be 
 
 ## 8.2 Significant Algorithms
 
-## 8.3 Non-Trivia Invariants
 
