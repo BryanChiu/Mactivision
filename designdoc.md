@@ -65,6 +65,8 @@ Table of Contents
 
 # 3. List of Concepts
 
+This is the table of the list of concepts and definations related to the design:
+
 | Number | Concept       | Definition | Type |  SRS Link |
 |--------|---------------|------------|------|-----------|
 | C1     | The player    | The user who is told to complete a battery. The player will be using a device to run the battery and a device to send inputs to the battery. For the purpose of this design document we will assume that the player is using a Web Browser and Keyboard respectively. The player is given the battery by the battery administrator. The player runs the battery and is subjected to a series of mini games. The player completes the mini games by using their Keyboard. After the battery is completed the player can stop. | Design Time | [Product Scope](https://github.com/BryanChiu/Mactivision/wiki/Software-Requirements-Specification#12-product-scope). |
