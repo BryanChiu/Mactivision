@@ -1257,11 +1257,11 @@ Many changes have been made to the SRS document in response to the creation of P
 # 6. Module Relationship Diagram
 ![](ModuleRelationShip.jpg)
 
-# 7. Significant Algorithms/Non-Trivial Invariants
+# 7. Significant Design
 
-## 7.1 Algorithms
+## 7.1 Significant Algorithms
 
-## 7.2 Invariants
+## 7.2 Non-Trivia Invariants
 
 # 8. Traceability Matrix
 Table #1 Functional requirements and descriptions from https://github.com/BryanChiu/Mactivision/blob/master/Requirements%20Specification/requirements.md
