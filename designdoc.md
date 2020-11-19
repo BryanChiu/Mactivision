@@ -49,6 +49,13 @@ Table of Contents
       * 4.3.2.3 [Memory Choice Metric Module](#4323-memory-choice-metric-module)
       * 4.3.2.4 [Linear Variable Metric Module](#4324-linear-variable-metric-module)
     * 4.3.3 [Metric JSON Writer Module](#433-metric-json-writer-module)
+  * 4.4 [Post-Processing Modules](#44-post-processing-modules)
+    * 4.4.1 [JSON Loader Module](#441-json-loader-module)
+    * 4.4.2 [Profile Parser Module](#442-profile-parser-module)
+    * 4.4.3 [Game Performance Modules](#443-game-performance-modules)
+      * 4.4.3.1 [Digger Performance Module](#4431-digger-performance-module)
+      * 4.4.3.2 [Feeder Performance Module](#4432-feeder-performance-module)
+      * 4.4.3.3 [Rockstar Performance Module](#4433-rockstar-performance-module)
 * 5 [Traceability Matrix](#5-traceability-matrix)
 * 6 [List of Changes to SRS](#6-list-of-changes-to-srs)
 * 7 [Module Relationship Diagram](#7-module-relationship-diagram)
@@ -1513,22 +1520,145 @@ This module represents the class `MetricJSONWriter`. It will be instantiated by 
 
 ## 4.4 Post-Processing Modules
 
-This section outlines all modules for processing the JSON data output from the [Measurement Modules](#43-measurement-modules) section. [MetaJSON]
+This section outlines all modules for processing the JSON data output from the [Measurement Modules](#43-measurement-modules) section.
 
 ## 4.4.1 JSON Loader Module
+`singleton JSONLoader`
+### Uses
+None
+### Syntax
+#### **Exported Constants**
+None
+#### **Exported Types**
+* `FileNotFoundException`
+* `InvalidDataException`
+#### **Exported Access Programs**
+|Routine Name|In |Out |Exceptions |
+|---|---|---|---|
+|`LoadMetaJSON`|`string`|`JSON`|`FileNotFoundException`, `InvalidDataException`|
+|`LoadGameJSON`|`string`|`JSON`|`FileNotFoundException`, `InvalidDataException`|
+### Semantics
+#### **State Variables**
+None
+#### **Assumptions**
+None
+#### **Design Decision**
+This module represents a singleton class `JSONLoaderModule` which exposes two methods, `LoadMetaJSON(fileName: string)` which reads a _meta file_ and creates a dictionary represented by JSON of the contents of the file, and `LoadGameJSON(fileName: string)` which reads a _game file_ and creates a dictionary represented by JSON of the contents of the file. 
+#### **Access Routine Semantics**
+`LoadMetaJSON(fileName)`
+* transition: none
+* output: _out_ := `JSON` constructed from data in `fileName`
+* exceptions: if file at `fileName` doesn't exist := `FileNotFoundException`, if data in file at `fileName` is invalid := `InvalidDataException`
+
+`LoadGameJSON(fileName)`
+* transition: none
+* output: _out_ := `JSON` constructed from data in `fileName`
+* exceptions: if file at `fileName` doesn't exist := `FileNotFoundException`, if data in file at `fileName` is invalid := `InvalidDataException`
 
 ## 4.4.2 Profile Parser Module
-
+`singleton ProfileParser`
+### Uses
+* [`JSONLoader`](#441-json-loader-module)
+### Syntax
+#### **Exported Constants**
+None
+#### **Exported Types**
+None
+#### **Exported Access Programs**
+|Routine Name|In |Out |Exceptions |
+|---|---|---|---|
+|`ParseBattery`|`string`, `string`|||
+### Semantics
+#### **State Variables**
+None
+#### **Assumptions**
+None
+#### **Design Decision**
+This module is the entry point for the Post-Processing Modules. It is run as a seperate program in a terminal. It will take two filenames as input, one for the input file to the program, and one for where the program will output to. This module is responsible for overseeing the calculations of all other post-processing modules; it will use `JSONLoader` to read all the JSON files, and then it will decide which game modules to call to calculate scores for the data, and output those scores to a JSON file.
+#### **Access Routine Semantics**
+`ParseBattery(inputFile, outputFile)`
+* transition: none
+* output: _file output_ := `JSON` at `outputFile`
+* exception: none
 ## 4.4.3 Game Performance Modules
 
 This section outlines all modules for calculating the performance of a user in a specific game, based on the JSON output of the [Measurement Modules](#43-measurement-modules) section.
 
 ## 4.4.3.1 Digger Performance Module
-
+`singleton DiggerPerformance`
+### Uses
+None
+### Syntax
+#### **Exported Constants**
+None
+#### **Exported Types**
+None
+#### **Exported Access Programs**
+|Routine Name|In |Out |Exceptions |
+|---|---|---|---|
+|`CalculateScores`|`JSON`|`JSON`||
+### Semantics
+#### **State Variables**
+None
+#### **Assumptions**
+None
+#### **Design Decision**
+This module calculates scores based on the _Digger Minigame_ data entered in `CalculateScores`. It does this using algorithms defined in {ALGORITHM LINK}
+#### **Access Routine Semantics**
+`CalculateScores(data)`
+* transition: none
+* output: `JSON`
+* exception: none
 ## 4.4.3.2 Feeder Performance Module
-
+`singleton FeederPerformance`
+### Uses
+None
+### Syntax
+#### **Exported Constants**
+None
+#### **Exported Types**
+None
+#### **Exported Access Programs**
+|Routine Name|In |Out |Exceptions |
+|---|---|---|---|
+|`CalculateScores`|`JSON`|`JSON`||
+### Semantics
+#### **State Variables**
+None
+#### **Assumptions**
+None
+#### **Design Decision**
+This module calculates scores based on the _Feeder Minigame_ data entered in `CalculateScores`. It does this using algorithms defined in {ALGORITHM LINK}
+#### **Access Routine Semantics**
+`CalculateScores(data)`
+* transition: none
+* output: `JSON`
+* exception: none
 ## 4.4.3.3 Rockstar Performance Module
-
+`singleton RockstarPerformance`
+### Uses
+None
+### Syntax
+#### **Exported Constants**
+None
+#### **Exported Types**
+None
+#### **Exported Access Programs**
+|Routine Name|In |Out |Exceptions |
+|---|---|---|---|
+|`CalculateScores`|`JSON`|`JSON`||
+### Semantics
+#### **State Variables**
+None
+#### **Assumptions**
+None
+#### **Design Decision**
+This module calculates scores based on the _Rockstar Minigame_ data entered in `CalculateScores`. It does this using algorithms defined in {ALGORITHM LINK}
+#### **Access Routine Semantics**
+`CalculateScores(data)`
+* transition: none
+* output: `JSON`
+* exception: none
 # 5. List of Changes to SRS
 
 # 5. Traceability Matrix
