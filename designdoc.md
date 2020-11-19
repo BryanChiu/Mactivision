@@ -45,12 +45,12 @@ Table of Contents
       * 4.3.2.3 [Memory Choice Metric Module](#4323-memory-choice-metric-module)
       * 4.3.2.4 [Linear Variable Metric Module](#4324-linear-variable-metric-module)
     * 4.3.3 [Metric JSON Writer Module](#433-metric-json-writer-module)
-* 5 [List of Changes to SRS](#5-list-of-changes-to-srs)
-* 6 [Module Relationship Diagram](#6-module-relationship-diagram)
-* 7 [Significant Algorithms/Non-Trivial Invariants](#7-significant-algorithms/non-trivial-invariants)
-  * 7.1 [Algorithms](#71-algorithms)
-  * 7.2 [Invariants](#72-invariants)
-* 8 [Traceability Matrix](#8-traceability-matrix)
+* 5 [Traceability Matrix](#5-traceability-matrix)
+* 6 [List of Changes to SRS](#6-list-of-changes-to-srs)
+* 7 [Module Relationship Diagram](#7-module-relationship-diagram)
+* 8 [Significant Algorithms/Non-Trivial Invariants](#8-significant-algorithms/non-trivial-invariants)
+  * 8.1 [Algorithms](#81-algorithms)
+  * 8.2 [Invariants](#82-invariants)
 
 # Revision History
 
@@ -1239,7 +1239,53 @@ This module represents the class `MetricJSONWriter`. It will be instantiated by 
 * transition: none
 * output: _out_ := none
 * exceptions: `CannotWriteToFileException`
-# 5. List of Changes to SRS
+
+# 5. Traceability Matrix
+
+Table #1 Functional requirements and descriptions from [SRS](https://github.com/BryanChiu/Mactivision/wiki/Software-Requirements-Specification#32-functional)
+| ID | Description |
+|----|-------------|
+| F-1 | Record input from player. |
+| F-2 | Objective Timers and Game Timers. |
+| F-3 | Request the player complete a sequence of inputs. |
+| F-4 | How close is the player to completing the objective. |
+| F-5 | Change player controls during game. |
+| F-6 | Output the measurements collected for each game session. |
+| F-7 | Record the start and end of objectives. How long did the player take and how successful was the player? |
+| F-8 | All the player to move around the game world. Allow the game to move the player. |
+| F-9 | Start and end game. |
+| F-10 | Move the camera around the game world. |
+| F-11 | Move the object around the game world. |
+| F-12 | Be able to change game scene. |
+| F-13 | Read measurement data from JSON files. |
+| F-14 | Present data. |
+| F-15 | Entity Manager. |
+| F-16 | Animation Manager. |
+| F-17 | Physics Manager. |
+
+Table #2 Traceability Matrix between functional requirements and modules
+| Functional Requirements | Module Name |
+|-------------------------|-------------|
+| F-9 | Battery Module |
+| F-12 | Abstract Level Manager Module|
+| F-1, F-2, F-3, F-4, F-5, F-6, F-7, F-8, F-11, F-15 | Digger Level Manager Module |
+| F-5 | Player Controller Module |
+| F-1, F-11, F-15 | Ground Breaker Module |
+| F-12, F-16 | Chest Animator Module |
+| F-1, F-2, F-3, F-4, F-5, F-6, F-7, F-8, F-11, F-15 | Feeder Level Manager Module |
+| F-2, F-15 | Food Dispenser Module |
+|  | Rockstar Module |
+| F-2 | Abstract Metric Event Module |
+| F-1, F-2 | Button Pressing Event Module |
+| F-1, F-2, F-7 | Position Event Module |
+| F-1, F-6 | Memory Choice Event Module |
+| F-6, F-13, F-14 | Abstract Metric Module |
+| F-1, F-13 | Button Pressing Metric Module |
+| F-1, F-2, F-7, F-13 | Position Metric Module |
+| F-1, F-2, f-6, F-7, F-13 | Memory Choice Metric Module |
+| F-13 | Metric JSON Writer Module |
+
+# 6. List of Changes to SRS
 
 Many changes have been made to the SRS document in response to the creation of Prototype 1 and the Design Document. The differences between the old and current SRS can be seen HERE (TODO: ADD LINK). The rationale for those changes are listed below: 
 
@@ -1273,57 +1319,12 @@ Many changes have been made to the SRS document in response to the creation of P
 | 26     | Added browsers to installation           | Most players will be using browsers to play mini-games during COVID-19. | [Installation](https://github.com/BryanChiu/Mactivision/wiki/Software-Requirements-Specification#351-installation) |
 | 27     | Added Data Manager interface            | Now that data manager is no longer a database it requires it's own interface. | [User Interface](https://github.com/BryanChiu/Mactivision/wiki/Software-Requirements-Specification#311-user-interfaces) |
 
-
-# 6. Module Relationship Diagram
+# 7. Module Relationship Diagram
 ![](ModuleRelationShip.jpg)
 
-# 7. Significant Design
+# 8. Significant Design
 
-## 7.1 Significant Algorithms
+## 8.1 Significant Algorithms
 
-## 7.2 Non-Trivia Invariants
-
-# 8. Traceability Matrix
-Table #1 Functional requirements and descriptions from https://github.com/BryanChiu/Mactivision/blob/master/updated_srs.md#32-functional
-| ID | Description |
-|----|-------------|
-| F-1 | Record input from player. |
-| F-2 | Objective Timers and Game Timers. |
-| F-3 | Request the player complete a sequence of inputs. |
-| F-4 | How close is the player to completing the objective. |
-|| Change player controls during game. |
-| F-5 | Output the measurements collected for each game session. |
-| F-6 | Record the start and end of objectives. How long did the player take and how successful was the player? |
-| F-7 | All the player to move around the game world. Allow the game to move the player. |
-| F-8 | Start and end game. |
-| F-9 | Move the camera around the game world. |
-| F-10 | Move the object around the game world. |
-| F-11 | Be able to change game scene. |
-| F-12 | Read measurement data from JSON files. |
-| F-13 | Present data. |
-| F-14 | Entity Manager. |
-| F-15 | Animation Manager. |
-| F-16 | Physics Manager. |
-
-Table #2 Traceability Matrix between functional requirements and modules
-| Functional Requirements | Module Name |
-|-------------------------|-------------|
-| F-8 | Battery Module |
-| F-11 | Abstract Level Manager Module|
-| F-1, F-2, F-3, F-4, F-5, F-6, F-7, F-10, F-14 | Digger Level Manager Module |
-| F-4 | Player Controller Module |
-| F-1, F-10, F-14 | Ground Breaker Module |
-| F-11, F-15 | Chest Animator Module |
-| F-1, F-2, F-3, F-4, F-5, F-6, F-7, F-10,F-14 | Feeder Level Manager Module |
-| F-2, F-14 | Food Dispenser Module |
-|  | Rockstaer Module |
-| F-2 | Abstract Metric Event Module |
-| F-1, F-2 | Button Pressing Event Module |
-| F-1, F-2, F-6 | Position Event Module |
-| F-1, F-5 | Memory Choice Event Module |
-| F-5, F-12, F-13 | Abstract Metric Module |
-| F-1, F-12 | Button Pressing Metric Module |
-| F-1, F-2, F-6, F-12 | Position Metric Module |
-| F-1, F-2, f-5, F-6, F-12 | Memory Choice Metric Module |
-| F-12 | Metric JSON Writer Module |
+## 8.2 Non-Trivia Invariants
 
