@@ -1790,7 +1790,6 @@ The rockstar game measures divided attention ability. The player avatar will be 
 The sorting algorithm are used to sort out different entities, to make a list or other form of date to be in a better order.
 2. Selecting algorithm
 The selection algorithms are used to find out certain data base on some conditions.
-3. recr
 
 ## 8.2.1 Post-Processing Algorithms
 ## 8.2.1.1 Digger: Average Pressing Speed 
