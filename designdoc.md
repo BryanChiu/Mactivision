@@ -32,7 +32,7 @@ Table of Contents
     * 4.2.2 [Feeder Modules](#422-feeder-modules)
       * 4.2.2.1 [Feeder Level Manager Module](#4221-feeder-level-manager-module)
       * 4.2.2.2 [Food Dispenser Module](#4222-food-dispenser-module)
-    * 4.2.3 [Rockstar Modules](#423-thirdgame-modules)
+    * 4.2.3 [Rockstar Modules](#423-rockstar-modules)
       * 4.2.3.1 [Rockstar Level Manager Module](#4231-rockstar-level-manager-module)
       * 4.2.3.2 [Spotlight Module](#4232-spotlight-module)
       * 4.2.3.3 [Rockstar Module](#4233-rockstar-module)
@@ -682,7 +682,7 @@ This section of modules are used in the Rockstar game. In this mini-game, the pl
 `RockstarLevelManager` module inherits [`LevelManager`](#420-abstract-level-manager-module)
 
 ### Uses
-[`Spotlight`](#4222-spotlight-module), [`Rockstar`](#4223-rockstar-module), [`Meter`](#4224-meter-module), [`PositionMetric`](#4322-position-metric-module), [`PositionEvent`](#4312-position-event-module), [`LinearVariableMetric`](#4324-linear-variable-metric-module), [`LinearVariableEvent`](#4314-linear-variable-event-module), [`MetricJSONWriter`](#), `UnityEngine.Event`, `UnityEngine.KeyCode`, `System.DateTime`
+[`Spotlight`](#4232-spotlight-module), [`Rockstar`](#4233-rockstar-module), [`Meter`](#4234-meter-module), [`PositionMetric`](#4322-position-metric-module), [`PositionEvent`](#4312-position-event-module), [`LinearVariableMetric`](#4324-linear-variable-metric-module), [`LinearVariableEvent`](#4314-linear-variable-event-module), [`MetricJSONWriter`](#), `UnityEngine.Event`, `UnityEngine.KeyCode`, `System.DateTime`
 
 ### Syntax
 #### Exported Constants
@@ -721,9 +721,9 @@ window: The game window
 `upKey`: `KeyCode`\
 `maxGameTime`: `ℕ`\
 `elapsedGameTime`: `ℝ`\
-`spotlight`: [`Spotlight`](#4222-spotlight-module)\
-`rockstar`: [`Rockstar`](#4223-rockstar-module)\
-`meter`: [`Meter`](#4224-meter-module)\
+`spotlight`: [`Spotlight`](#4232-spotlight-module)\
+`rockstar`: [`Rockstar`](#4233-rockstar-module)\
+`meter`: [`Meter`](#4234-meter-module)\
 `lvlState`: `ℕ` (inherited from [`LevelManager`](#420-abstract-level-manager-module))
 
 #### State Invariant
@@ -781,7 +781,7 @@ This module manages the majority of functionality in the game. `rockstarChangeFr
    | `lvlState`==1 ∧ `e.keyCode`==`upKey`| `lvMetric.recordEvent(new LinearVariable(DateTime.Now, meter.Raise(), meterUpVel, 1))`|
    
 
-## 4.2.2.2 Spotlight Module
+## 4.2.3.2 Spotlight Module
 `Spotlight` module inherits Monobehaviour
 
 ### Uses
@@ -836,7 +836,7 @@ This module manages the spotlight. It is moved by the player and displays the sp
 `GetPostition()`
 - output: *out* := `new Vector2(position, 0)`
 
-## 4.2.2.3 Rockstar Module
+## 4.2.3.3 Rockstar Module
 `Rockstar` module inherits Monobehaviour
 
 ### Uses
@@ -896,7 +896,7 @@ This module manages the rockstar. It moves on its own and displays the rockstar 
 `GetPostition()`
 - output: *out* := `new Vector2(position, 0)`
 
-## 4.2.2.4 Meter Module
+## 4.2.3.4 Meter Module
 `Meter` module inherits Monobehaviour
 
 ### Uses
@@ -1565,7 +1565,10 @@ Table #2 Traceability Matrix between functional requirements and modules
 | F-12, F-16 | Chest Animator Module |
 | F-1, F-2, F-3, F-4, F-5, F-6, F-7, F-8, F-11, F-15 | Feeder Level Manager Module |
 | F-2, F-15 | Food Dispenser Module |
-|  | Rockstar Module |
+| F-1, F-2, F-3, F-4, F-5, F-6, F-7, F-10, F-14, F-16 | Rockstar Level Manager Module |
+| F-10 | Spotlight Module |
+| F-1, F-5, F-7, F-15 | Rockstar Module |
+| F-16 | Meter Module |
 | F-2 | Abstract Metric Event Module |
 | F-1, F-2 | Button Pressing Event Module |
 | F-1, F-2, F-7 | Position Event Module |
@@ -1617,8 +1620,10 @@ Many changes have been made to the SRS document in response to the creation of P
 
 ## 8.1 Significant Algorithms
 1. Sorting algorithm
-The sorting algorithm are used to sort out different entities.
+The sorting algorithm are used to sort out different entities, to make a list or other form of date to be in a better order.
 2. Selecting algorithm
-The selection algorithms are used to find out certain data.
+The selection algorithms are used to find out certain data base on some conditions.
+3. recr
 ## 8.2 Non-Trivia Invariants
 
+player_name: The name of the player, it will not ne changed through the run.
