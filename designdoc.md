@@ -28,6 +28,7 @@ Table of Contents
       * 4.3.2.2 [Position Metric Module](#4322-position-metric-module)
       * 4.3.2.3 [Memory Choice Metric Module](#4323-memory-choice-metric-module)
       * 4.3.2.4 [Linear Variable Metric Module](#4324-linear-variable-metric-module)
+    * 4.3.3 [Metric JSON Writer Module](#433-metric-json-writer-module)
 * 5 [List of Changes to SRS](#5-list-of-changes-to-srs)
 * 6 [Module Relationship Diagram](#6-module-relationship-diagram)
 * 7 [Significant Algorithms/Non-Trivial Invariants](#7-significant-algorithms/non-trivial-invariants)
@@ -1165,6 +1166,57 @@ This section of the document contains all modules relating to the _Measurement M
   * output: _out_ := JSON parsed from `eventList`, `minValue`, `maxValue`, `initialValue`, and `reasons`
   * exception: none
 
+## 4.3.3 Metric JSON Writer Module
+`MetricJSONWriter`
+### Uses
+  * [`AbstractMetric`](#432-abstract-metric-module)
+  * [`AbstractMetricEvent`](#431-abstract-metric-event-module)
+  * `Newtonsoft.Json`
+  * `System.DateTime`
+### Syntax
+#### **Exported Constants**
+None
+#### **Exported Types**
+* `CannotWriteToFileException`
+#### **Exported Access Programs**
+|Routine Name|In |Out |Exceptions |
+|---|---|---|---|
+|`MetricJSONWriter`|seq of `AbstractMetric`|`MetricJSONWriter`||
+|`onGameStart`|`DateTime`|||
+|`onGameEnd`|`DateTime`|||
+|`logMetrics`|`string`|||
+### Semantics
+#### **State Variables**
+* `gameName: string`
+* `metrics:` seq of `AbstractMetric`
+* `gameStartTime: DateTime`
+* `gameEndTime: DateTime`
+#### **Assumptions**
+* The constructor `MetricJSONWriter(`seq of `AbstractJSONMetric)` is called before any other access routines are called for that object.
+#### **Design Decision**
+This module represents the class `MetricJSONWriter`. It will be instantiated by _Level Manager_ classes, and will be passed a list of _Metrics_ in its constructor, `MetricJSONWriter(`seq of `AbstractMetric)`. The method `onGameStart(DateTime)` should be called at the start of the _minigame_, and `onGameEnd(DateTime)` should be called at the end of the _minigame_. The method `logMetrics(fileName: string)` takes a file name, and will call the `getJSON()` method on each _Metric_ in `metrics`, and stitch together the result, before writing to the file specified at `fileName`.
+
+`CannotWriteToFileException` is an exception that is caused when `logMetrics` is not able to write to the file given by `fileName: string` method input. This can be caused by lack of permission to write to that location or if an empty string is provided, etc. Details of the specific reason will be provided in the exception output log.
+#### **Access Routine Semantics**
+`MetricJSONWriter(gn, ms)`
+* transition: `gameName`, `metrics` := `gn`, `ms`
+* output: _out_ := _self_
+* exceptions: none
+
+`onGameStart(gst)`
+* transition: `(*m ∈ metrics | m.startRecording())`, `gameStartTime` = `gst`
+* output: _out_ := none
+* exceptions: none
+
+`onGameStop(gst)`
+* transition: `(*m ∈ metrics | m.stopRecording())`, `gameStopTime` = `gst`
+* output: _out_ := none
+* exceptions: none
+
+`logMetrics(fileName)`
+* transition: none
+* output: _out_ := none
+* exceptions: `CannotWriteToFileException`
 # 5. List of Changes to SRS
 
 Many changes have been made to the SRS document in response to the creation of Prototype 1 and the Design Document. The differences between the old and current SRS can be seen HERE (TODO: ADD LINK). The rationale for those changes are listed below: 
