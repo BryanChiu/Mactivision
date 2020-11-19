@@ -899,7 +899,7 @@ This section of the document contains all modules relating to the _Measurement M
 ## 4.3.2 Abstract Metric Module
   `abstract AbstractMetric`
   ### Uses
-  * `AbstractMetricEvent`
+  * [`AbstractMetricEvent`](#431-abstract-metric-event-module)
   * `Newtonsoft.Json`
   ### Syntax
   #### **Exported Constants**
@@ -953,7 +953,7 @@ This section of the document contains all modules relating to the _Measurement M
 ## 4.3.2.1 Button Pressing Metric Module
   `ButtonPressingMetric` extends `AbstractMetric`
   ### Uses
-  * `AbstractMetric`
+  * [`AbstractMetric`](#432-abstract-metric-module)
   * `ButtonPressingEvent`
   * `Newtonsoft.Json`
   ### Syntax
@@ -1005,7 +1005,7 @@ This section of the document contains all modules relating to the _Measurement M
 ## 4.3.2.2 Position Metric Module
   `PositionMetric` extends `AbstractMetric`
   ### Uses
-  * `AbstractMetric`
+  * [`AbstractMetric`](#432-abstract-metric-module)
   * `PositionEvent`
   * `Newtonsoft.Json`
   ### Syntax
@@ -1058,7 +1058,7 @@ This section of the document contains all modules relating to the _Measurement M
 ## 4.3.2.3 Memory Choice Metric Module
   `MemoryChoiceMetric` extends `AbstractMetric`
   ### Uses
-  * `AbstractMetric`
+  * [`AbstractMetric`](#432-abstract-metric-module)
   * `PositionEvent`
   * `Newtonsoft.Json`
   ### Syntax
@@ -1111,7 +1111,7 @@ This section of the document contains all modules relating to the _Measurement M
 ## 4.3.2.4 Linear Variable Metric Module
   `LinearVariableMetric` extends `AbstractMetric`
   ### Uses
-  * `AbstractMetric`
+  * [`AbstractMetric`](#432-abstract-metric-module)
   * `LinearVariableEvent`
   * `Newtonsoft.Json`
   ### Syntax
