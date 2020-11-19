@@ -1264,7 +1264,7 @@ Many changes have been made to the SRS document in response to the creation of P
 ## 7.2 Non-Trivia Invariants
 
 # 8. Traceability Matrix
-Table #1 Functional requirements and descriptions from https://github.com/BryanChiu/Mactivision/blob/master/Requirements%20Specification/requirements.md
+Table #1 Functional requirements and descriptions from https://github.com/BryanChiu/Mactivision/blob/master/updated_srs.md#32-functional
 | ID | Description |
 |----|-------------|
 | F-1 | Record input from player. |
@@ -1279,11 +1279,11 @@ Table #1 Functional requirements and descriptions from https://github.com/BryanC
 | F-9 | Move the camera around the game world. |
 | F-10 | Move the object around the game world. |
 | F-11 | Be able to change game scene. |
-| F-12 | Player has ability to pause game. |
-| F-13 | Show player score (how well they are completing objectives) during game play. |
-|| Read measurement data from database. |
-|| Write measurement data from database. |
-| F-14 | Delete measurement data from database. |
+| F-12 | Read measurement data from JSON files. |
+| F-13 | Present data. |
+| F-14 | Entity Manager. |
+| F-15 | Animation Manager. |
+| F-16 | Physics Manager. |
 
 Table #2 Traceability Matrix between functional requirements and modules
 | Functional Requirements | Module Name |
