@@ -49,6 +49,13 @@ Table of Contents
       * 4.3.2.3 [Memory Choice Metric Module](#4323-memory-choice-metric-module)
       * 4.3.2.4 [Linear Variable Metric Module](#4324-linear-variable-metric-module)
     * 4.3.3 [Metric JSON Writer Module](#433-metric-json-writer-module)
+  * 4.4 [Post-Processing Modules](#44-post-processing-modules)
+    * 4.4.1 [JSON Loader Module](#441-json-loader-module)
+    * 4.4.2 [Profile Parser Module](#442-profile-parser-module)
+    * 4.4.3 [Game Performance Modules](#443-game-performance-modules)
+      * 4.4.3.1 [Digger Performance Module](#4431-digger-performance-module)
+      * 4.4.3.2 [Feeder Performance Module](#4432-feeder-performance-module)
+      * 4.4.3.3 [Rockstar Performance Module](#4433-rockstar-performance-module)
 * 5 [Traceability Matrix](#5-traceability-matrix)
 * 6 [List of Changes to SRS](#6-list-of-changes-to-srs)
 * 7 [Module Relationship Diagram](#7-module-relationship-diagram)
@@ -279,7 +286,7 @@ This section of modules are used in the Digger game. In this mini-game, the play
 `DiggerLevelManager` module inherits [`LevelManager`](#420-abstract-level-manager-module)
 
 ### Uses
-[`DiggerPlayerController`](#4212-feeder-player-controller-module), [`GroundBreaker`](#4213-ground-breaker-module), [`ChestAnimator`](#4214-chest-animator-module), [`ButtonPressingMetric`](#button-pressing-metric-module), [`ButtonPressingEvent`](#button-pressing-event-module), [`MetricJSONWriter`](#), `UnityEngine.Event`, `UnityEngine.KeyCode`, `System.DateTime`
+[`DiggerPlayerController`](#4212-feeder-player-controller-module), [`GroundBreaker`](#4213-ground-breaker-module), [`ChestAnimator`](#4214-chest-animator-module), [`ButtonPressingMetric`](#button-pressing-metric-module), [`ButtonPressingEvent`](#button-pressing-event-module), [`MetricJSONWriter`](#433-metric-json-writer-module), `UnityEngine.Event`, `UnityEngine.KeyCode`, `System.DateTime`
 
 ### Syntax
 #### Exported Constants
@@ -302,6 +309,7 @@ None
 window: The game window
 
 #### State Variables
+`metricWriter`: [`MetricJSONWriter`](#433-metric-json-writer-module)\
 `bpMetric`: [`ButtonPressingMetric`](#4321-button-pressing-metric-module)\
 `recording`: `𝔹`\
 `player`: [`DiggerPlayerController`](#4212-feeder-player-controller-module)\
@@ -327,6 +335,7 @@ This module manages the majority of functionality in the game. The `digAmount` i
 - transition: `Setup()`(inherited from [`LevelManager`](#420-abstract-level-manager-module)).
    ||:=|
    |---|---|
+   |`metricWriter`|new [`MetricJSONWriter("Digger", DateTime.Now)`](#433-metric-json-writer-module)|
    |`bpMetric`|new [`ButtonPressingMetric()`](#4321-button-pressing-metric-module)|
    |`recording`|`false`|
    |`digAmount`|100|
@@ -338,7 +347,7 @@ This module manages the majority of functionality in the game. The `digAmount` i
    ||⇒|
    |---|---|
    | ¬`recording` | `recording` := `true`. `bpMetric.startRecording()`. `SetDigKeyForGround()`. `SetDigAmountForGround()`|
-   | `chest.opened` | `bpMetric.finishRecording()`. `EndLevel()`(inherited from [`LevelManager`](#420-abstract-level-manager-module)) |
+   | `chest.opened` | `bpMetric.finishRecording()`. `EndLevel()`(inherited from [`LevelManager`](#420-abstract-level-manager-module)).<br>`metricWriter.logMetrics("digger_{DateTime.Now.ToString()}.JSON", DateTime.Now, [bpMetric])` |
 
 `OnGUI()`
 - transition: `e.isKey` ⇒
@@ -525,7 +534,7 @@ This section of modules are used in the Feeder game. In this mini-game, the play
 `FeederLevelManager` module inherits [`LevelManager`](#420-abstract-level-manager-module)
 
 ### Uses
-[`FoodDispenser`](#4222-food-dispenser-module), [`MemoryChoiceMetric`](#4323-memory-choice-metric-module), [`MemoryChoiceEvent`](#4313-memory-choice-event-module), [`MetricJSONWriter`](#), `UnityEngine.Event`, `UnityEngine.KeyCode`, `System.DateTime`
+[`FoodDispenser`](#4222-food-dispenser-module), [`MemoryChoiceMetric`](#4323-memory-choice-metric-module), [`MemoryChoiceEvent`](#4313-memory-choice-event-module), [`MetricJSONWriter`](#433-metric-json-writer-module), `UnityEngine.Event`, `UnityEngine.KeyCode`, `System.DateTime`
 
 ### Syntax
 #### Exported Constants
@@ -548,6 +557,7 @@ None
 window: The game window
 
 #### State Variables
+`metricWriter`: [`MetricJSONWriter`](#433-metric-json-writer-module)\
 `mcMetric`: [`MemoryChoiceMetric`](#4323-memory-choice-metric-module)\
 `recording`: `𝔹`\
 `seed`: `ℕ`\
@@ -578,6 +588,7 @@ This module manages the majority of functionality in the game. `totalFoods` is t
 - transition: `Setup()`(inherited from [`LevelManager`](#420-abstract-level-manager-module)).
    ||:=|
    |---|---|
+   |`metricWriter`|new [`MetricJSONWriter("Feeder", DateTime.Now)`](#433-metric-json-writer-module)|
    |`mcMetric`|new [`MemoryChoiceMetric()`](#4323-memory-choice-metric-module)|
    |`recording`|`false`|
    |`totalFoods`|4|
@@ -595,7 +606,7 @@ This module manages the majority of functionality in the game. `totalFoods` is t
    ||⇒|
    |---|---|
    | ¬`recording` | `recording` := `true`. `mcMetric.startRecording()` |
-   | `elaspedGameTime`>`maxGameTime` | `mcMetric.finishRecording()`. `EndLevel()`
+   | `elaspedGameTime`>`maxGameTime` | `mcMetric.finishRecording()`. `EndLevel()`.<br>`metricWriter.logMetrics("feeder_{DateTime.Now.ToString()}.JSON", DateTime.Now, [mcMetric])`
 
 `OnGUI()`
 - transition: `e.isKey` ⇒
@@ -686,7 +697,7 @@ This section of modules are used in the Rockstar game. In this mini-game, the pl
 `RockstarLevelManager` module inherits [`LevelManager`](#420-abstract-level-manager-module)
 
 ### Uses
-[`Spotlight`](#4232-spotlight-module), [`Rockstar`](#4233-rockstar-module), [`Meter`](#4234-meter-module), [`PositionMetric`](#4322-position-metric-module), [`PositionEvent`](#4312-position-event-module), [`LinearVariableMetric`](#4324-linear-variable-metric-module), [`LinearVariableEvent`](#4314-linear-variable-event-module), [`MetricJSONWriter`](#), `UnityEngine.Event`, `UnityEngine.KeyCode`, `System.DateTime`
+[`Spotlight`](#4222-spotlight-module), [`Rockstar`](#4223-rockstar-module), [`Meter`](#4224-meter-module), [`PositionMetric`](#4322-position-metric-module), [`PositionEvent`](#4312-position-event-module), [`LinearVariableMetric`](#4324-linear-variable-metric-module), [`LinearVariableEvent`](#4314-linear-variable-event-module), [`MetricJSONWriter`](#433-metric-json-writer-module), `UnityEngine.Event`, `UnityEngine.KeyCode`, `System.DateTime`
 
 ### Syntax
 #### Exported Constants
@@ -709,6 +720,7 @@ None
 window: The game window
 
 #### State Variables
+`metricWriter`: [`MetricJSONWriter`](#433-metric-json-writer-module)\
 `pMetric`: [`PositionMetric`](#4322-position-metric-module)\
 `lvMetric`: [`LinearVariableMetric`](#4324-linear-variable-metric-module)\
 `recording`: `𝔹`\
@@ -725,9 +737,9 @@ window: The game window
 `upKey`: `KeyCode`\
 `maxGameTime`: `ℕ`\
 `elapsedGameTime`: `ℝ`\
-`spotlight`: [`Spotlight`](#4232-spotlight-module)\
-`rockstar`: [`Rockstar`](#4233-rockstar-module)\
-`meter`: [`Meter`](#4234-meter-module)\
+`spotlight`: [`Spotlight`](#4222-spotlight-module)\
+`rockstar`: [`Rockstar`](#4223-rockstar-module)\
+`meter`: [`Meter`](#4224-meter-module)\
 `lvlState`: `ℕ` (inherited from [`LevelManager`](#420-abstract-level-manager-module))
 
 #### State Invariant
@@ -748,6 +760,7 @@ This module manages the majority of functionality in the game. `rockstarChangeFr
 - transition: `Setup()`(inherited from [`LevelManager`](#420-abstract-level-manager-module)).
    ||:=|
    |---|---|
+   |`metricWriter`|new [`MetricJSONWriter("Rockstar", DateTime.Now)`](#433-metric-json-writer-module)|
    |`pMetric`|new [`PositionMetric(["rockstar", "spotlight"])`](#4322-position-metric-module)|
    |`lvMetric`|new [`LinearVariableMetric(0.0, 100.0, 75.0, ["gameDrop", "playerRaise"])`](#4324-linear-variable-metric-module)|
    |`recording`|`false`|
@@ -773,7 +786,7 @@ This module manages the majority of functionality in the game. `rockstarChangeFr
    |---|---|
    | ¬`recording` | `recording` := `true`. `pMetric.startRecording()`. `lvMetric.startRecording()` |
    | `recording` | `pMetric.recordEvent(new PositionEvent(DateTime.Now, [rockstar.GetPosition(), spotlight.GetPosition()]))`.<br>`lvMetric.recordEvent(new LinearVariable(DateTime.Now, meter.Drop(), meter.GetVelocity(), 0))` |
-   | `elaspedGameTime`>`maxGameTime` | `pMetric.finishRecording()`. `lvMetric.finishRecording()`. `EndLevel()`
+   | `elaspedGameTime`>`maxGameTime` | `pMetric.finishRecording()`. `lvMetric.finishRecording()`. `EndLevel()`.<br>`metricWriter.logMetrics("rockstar_{DateTime.Now.ToString()}.JSON", DateTime.Now, [pMetric, lvMetric])`
 
 `OnGUI()`
 - transition: `e.isKey` ⇒
@@ -785,7 +798,7 @@ This module manages the majority of functionality in the game. `rockstarChangeFr
    | `lvlState`==1 ∧ `e.keyCode`==`upKey`| `lvMetric.recordEvent(new LinearVariable(DateTime.Now, meter.Raise(), meterUpVel, 1))`|
    
 
-## 4.2.3.2 Spotlight Module
+## 4.2.2.2 Spotlight Module
 `Spotlight` module inherits Monobehaviour
 
 ### Uses
@@ -840,7 +853,7 @@ This module manages the spotlight. It is moved by the player and displays the sp
 `GetPostition()`
 - output: *out* := `new Vector2(position, 0)`
 
-## 4.2.3.3 Rockstar Module
+## 4.2.2.3 Rockstar Module
 `Rockstar` module inherits Monobehaviour
 
 ### Uses
@@ -887,7 +900,8 @@ This module manages the rockstar. It moves on its own and displays the rockstar 
 
 `Update()`
 - transition: `rand.NextDouble()` < (1/`changeFreq`*`Time.deltaTime`) ⇒ `destination` := random position.<br>
-   window := The rockstar is at `position`. `Move()`
+   window := The rockstar is at `position`.
+   `Move()`
 
 `Move()`
 - transition: `position` := 
@@ -900,7 +914,7 @@ This module manages the rockstar. It moves on its own and displays the rockstar 
 `GetPostition()`
 - output: *out* := `new Vector2(position, 0)`
 
-## 4.2.3.4 Meter Module
+## 4.2.2.4 Meter Module
 `Meter` module inherits Monobehaviour
 
 ### Uses
@@ -1517,22 +1531,145 @@ This module represents the class `MetricJSONWriter`. It will be instantiated by 
 
 ## 4.4 Post-Processing Modules
 
-This section outlines all modules for processing the JSON data output from the [Measurement Modules](#43-measurement-modules) section. [MetaJSON]
+This section outlines all modules for processing the JSON data output from the [Measurement Modules](#43-measurement-modules) section.
 
 ## 4.4.1 JSON Loader Module
+`singleton JSONLoader`
+### Uses
+None
+### Syntax
+#### **Exported Constants**
+None
+#### **Exported Types**
+* `FileNotFoundException`
+* `InvalidDataException`
+#### **Exported Access Programs**
+|Routine Name|In |Out |Exceptions |
+|---|---|---|---|
+|`LoadMetaJSON`|`string`|`JSON`|`FileNotFoundException`, `InvalidDataException`|
+|`LoadGameJSON`|`string`|`JSON`|`FileNotFoundException`, `InvalidDataException`|
+### Semantics
+#### **State Variables**
+None
+#### **Assumptions**
+None
+#### **Design Decision**
+This module represents a singleton class `JSONLoaderModule` which exposes two methods, `LoadMetaJSON(fileName: string)` which reads a _meta file_ and creates a dictionary represented by JSON of the contents of the file, and `LoadGameJSON(fileName: string)` which reads a _game file_ and creates a dictionary represented by JSON of the contents of the file. 
+#### **Access Routine Semantics**
+`LoadMetaJSON(fileName)`
+* transition: none
+* output: _out_ := `JSON` constructed from data in `fileName`
+* exceptions: if file at `fileName` doesn't exist := `FileNotFoundException`, if data in file at `fileName` is invalid := `InvalidDataException`
+
+`LoadGameJSON(fileName)`
+* transition: none
+* output: _out_ := `JSON` constructed from data in `fileName`
+* exceptions: if file at `fileName` doesn't exist := `FileNotFoundException`, if data in file at `fileName` is invalid := `InvalidDataException`
 
 ## 4.4.2 Profile Parser Module
-
+`singleton ProfileParser`
+### Uses
+* [`JSONLoader`](#441-json-loader-module)
+### Syntax
+#### **Exported Constants**
+None
+#### **Exported Types**
+None
+#### **Exported Access Programs**
+|Routine Name|In |Out |Exceptions |
+|---|---|---|---|
+|`ParseBattery`|`string`, `string`|||
+### Semantics
+#### **State Variables**
+None
+#### **Assumptions**
+None
+#### **Design Decision**
+This module is the entry point for the Post-Processing Modules. It is run as a seperate program in a terminal. It will take two filenames as input, one for the input file to the program, and one for where the program will output to. This module is responsible for overseeing the calculations of all other post-processing modules; it will use `JSONLoader` to read all the JSON files, and then it will decide which game modules to call to calculate scores for the data, and output those scores to a JSON file.
+#### **Access Routine Semantics**
+`ParseBattery(inputFile, outputFile)`
+* transition: none
+* output: _file output_ := `JSON` at `outputFile`
+* exception: none
 ## 4.4.3 Game Performance Modules
 
 This section outlines all modules for calculating the performance of a user in a specific game, based on the JSON output of the [Measurement Modules](#43-measurement-modules) section.
 
 ## 4.4.3.1 Digger Performance Module
-
+`singleton DiggerPerformance`
+### Uses
+None
+### Syntax
+#### **Exported Constants**
+None
+#### **Exported Types**
+None
+#### **Exported Access Programs**
+|Routine Name|In |Out |Exceptions |
+|---|---|---|---|
+|`CalculateScores`|`JSON`|`JSON`||
+### Semantics
+#### **State Variables**
+None
+#### **Assumptions**
+None
+#### **Design Decision**
+This module calculates scores based on the _Digger Minigame_ data entered in `CalculateScores`. It does this using algorithms defined in {ALGORITHM LINK}
+#### **Access Routine Semantics**
+`CalculateScores(data)`
+* transition: none
+* output: `JSON`
+* exception: none
 ## 4.4.3.2 Feeder Performance Module
-
+`singleton FeederPerformance`
+### Uses
+None
+### Syntax
+#### **Exported Constants**
+None
+#### **Exported Types**
+None
+#### **Exported Access Programs**
+|Routine Name|In |Out |Exceptions |
+|---|---|---|---|
+|`CalculateScores`|`JSON`|`JSON`||
+### Semantics
+#### **State Variables**
+None
+#### **Assumptions**
+None
+#### **Design Decision**
+This module calculates scores based on the _Feeder Minigame_ data entered in `CalculateScores`. It does this using algorithms defined in {ALGORITHM LINK}
+#### **Access Routine Semantics**
+`CalculateScores(data)`
+* transition: none
+* output: `JSON`
+* exception: none
 ## 4.4.3.3 Rockstar Performance Module
-
+`singleton RockstarPerformance`
+### Uses
+None
+### Syntax
+#### **Exported Constants**
+None
+#### **Exported Types**
+None
+#### **Exported Access Programs**
+|Routine Name|In |Out |Exceptions |
+|---|---|---|---|
+|`CalculateScores`|`JSON`|`JSON`||
+### Semantics
+#### **State Variables**
+None
+#### **Assumptions**
+None
+#### **Design Decision**
+This module calculates scores based on the _Rockstar Minigame_ data entered in `CalculateScores`. It does this using algorithms defined in {ALGORITHM LINK}
+#### **Access Routine Semantics**
+`CalculateScores(data)`
+* transition: none
+* output: `JSON`
+* exception: none
 # 5. List of Changes to SRS
 
 # 5. Traceability Matrix
