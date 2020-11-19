@@ -1760,6 +1760,26 @@ Many changes have been made to the SRS document in response to the creation of P
 # 8. Significant Design
 
 ## 8.1 Game Designs
+## 8.1 Significant Algorithms
+1. Sorting algorithm
+The sorting algorithm are used to sort out different entities, to make a list or other form of date to be in a better order.
+2. Selecting algorithm
+The selection algorithms are used to find out certain data base on some conditions.
+3. recr
+
+## 8.1.1 Post-Processing Algorithms
+## 8.1.1.1 Digger - Average Pressing Speed 
+* Calculate difference between each press
+* Sum the delta times
+* output := Divide by number of events
+
+## 8.1.1.2 Digger - Percent of Correct Presses
+* counter = 0
+* For each event, if key equals correct key, counter ++
+* output := Divide counter by number of events
+
+
+## 8.2 Non-Trivia Invariants
 
 ### 8.1.1 Digger Game 
 
