@@ -1,3 +1,19 @@
+# Design Document
+
+## Mactivision:
+
+ * Kunyuan Cao
+ * Bryan Chiu
+ * David Hospital
+ * Michael Tee
+ * Sijie Zhou
+
+2020-11-18
+
+# Introduction 
+
+This document provides design documentation to be used to aid in the software development of Mactivision's Mini-game project. It details design descisions and rationales for choosing those descisions.
+
 Table of Contents
 =================
 * [Revision History](#revision-history)
@@ -37,6 +53,10 @@ Table of Contents
 * 8 [Traceability Matrix](#8-traceability-matrix)
 
 # Revision History
+
+|Name | Date       | Reason For Changes  | Version |
+|-----|------------|---------------------|---------|
+|Team | 2020-11-18 | Initial Release     | 1.0     |
 
 # 1. Anticipated Changes
 
