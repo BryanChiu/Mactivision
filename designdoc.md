@@ -1240,6 +1240,27 @@ This module represents the class `MetricJSONWriter`. It will be instantiated by 
 * output: _out_ := none
 * exceptions: `CannotWriteToFileException`
 
+
+## 4.4 Post-Processing Modules
+
+This section outlines all modules for processing the JSON data output from the [Measurement Modules](#43-measurement-modules) section. [MetaJSON]
+
+## 4.4.1 JSON Loader Module
+
+## 4.4.2 Profile Parser Module
+
+## 4.4.3 Game Performance Modules
+
+This section outlines all modules for calculating the performance of a user in a specific game, based on the JSON output of the [Measurement Modules](#43-measurement-modules) section.
+
+## 4.4.3.1 Digger Performance Module
+
+## 4.4.3.2 Feeder Performance Module
+
+## 4.4.3.3 Rockstar Performance Module
+
+# 5. List of Changes to SRS
+
 # 5. Traceability Matrix
 
 Table #1 Functional requirements and descriptions from [SRS](https://github.com/BryanChiu/Mactivision/wiki/Software-Requirements-Specification#32-functional)
