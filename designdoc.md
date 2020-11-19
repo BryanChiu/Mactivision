@@ -32,7 +32,7 @@ Table of Contents
     * 4.2.2 [Feeder Modules](#422-feeder-modules)
       * 4.2.2.1 [Feeder Level Manager Module](#4221-feeder-level-manager-module)
       * 4.2.2.2 [Food Dispenser Module](#4222-food-dispenser-module)
-    * 4.2.3 [Rockstar Modules](#423-thirdgame-modules)
+    * 4.2.3 [Rockstar Modules](#423-rockstar-modules)
       * 4.2.3.1 [Rockstar Level Manager Module](#4231-rockstar-level-manager-module)
       * 4.2.3.2 [Spotlight Module](#4232-spotlight-module)
       * 4.2.3.3 [Rockstar Module](#4233-rockstar-module)
