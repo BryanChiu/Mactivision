@@ -1610,8 +1610,10 @@ Many changes have been made to the SRS document in response to the creation of P
 
 ## 8.1 Significant Algorithms
 1. Sorting algorithm
-The sorting algorithm are used to sort out different entities.
+The sorting algorithm are used to sort out different entities, to make a list or other form of date to be in a better order.
 2. Selecting algorithm
-The selection algorithms are used to find out certain data.
+The selection algorithms are used to find out certain data base on some conditions.
+3. recr
 ## 8.2 Non-Trivia Invariants
 
+player_name: The name of the player, it will not ne changed through the run.
