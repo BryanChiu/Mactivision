@@ -65,6 +65,19 @@ Table of Contents
      * 8.1.2 [Feeder Game](#812-feeder-game)
      * 8.1.3 [Rockstar Game](#813-rockstar-game)
   * 8.2 [Algorithms](#81-algorithms)
+     * 8.2.1 [Post-Processing Algorithms](#821-post-processing-algorithms)
+       * 8.2.1.1 [Digger - Average Pressing Speed](#8211-digger-average-pressing-speed)
+       * 8.2.1.2 [Digger - Percent of Correct Presses](#8212-digger-percent-of-correct-presses)
+       * 8.2.1.3 [Feeder - Percent Choices Correct](#8213-feeder-percent-choices-correct)
+       * 8.2.1.4 [Feeder - Average Time To Make Guess](#8214-feeder-average-time-to-make-guess)
+       * 8.2.1.5 [Feeder - Average Time To Make Correct Guess on Liked Food](#8215-feeder-average-time-to-make-correct-guess-on-liked-food)
+       * 8.2.1.6 [Feeder - Average Time To Make Incorrect Guess on Liked Food](#8216-feeder-average-time-to-make-incorrect-guess-on-liked-food)
+       * 8.2.1.7 [Feeder - Average Time To Make Correct Guess on Disliked Food](#8217-feeder-average-time-to-make-correct-guess-on-disliked-food)
+       * 8.2.1.8 [Feeder - Average Time To Make Incorrect Guess on Disliked Food](#8218-feeder-average-time-to-make-incorrect-guess-on-disliked-food)
+       * 8.2.1.9 [Rockstar - Average Distance from Rockstar Moving](#8219-average-distance-from-rockstar)
+       * 8.2.1.10 [Rockstar - Average Reaction Time from Rockstar Moving](#8210-average-reaction-time-from-rockstar-moving)
+       * 8.2.1.11 [Rockstar - Percent Time Meter is in Good Range](#8211-rockstar-percent-time-meter-is-in-good-range)
+       * 8.2.1.12 [Rockstar - Average Level of Meter](#8212-rockstar-average-level-of-meter)
 
 # Revision History
 
@@ -1613,7 +1626,7 @@ None
 #### **Assumptions**
 None
 #### **Design Decision**
-This module calculates scores based on the _Digger Minigame_ data entered in `CalculateScores`. It does this using algorithms defined in {ALGORITHM LINK}
+This module calculates scores based on the _Digger Minigame_ data entered in `CalculateScores`. It does this using algorithms defined in [8.2.1 Post-Processing Algorithms](#8.2.1-post-processing-algorithms)
 #### **Access Routine Semantics**
 `CalculateScores(data)`
 * transition: none
@@ -1638,7 +1651,7 @@ None
 #### **Assumptions**
 None
 #### **Design Decision**
-This module calculates scores based on the _Feeder Minigame_ data entered in `CalculateScores`. It does this using algorithms defined in {ALGORITHM LINK}
+This module calculates scores based on the _Feeder Minigame_ data entered in `CalculateScores`. It does this using algorithms defined in [8.2.1 Post-Processing Algorithms](#8.2.1-post-processing-algorithms)
 #### **Access Routine Semantics**
 `CalculateScores(data)`
 * transition: none
@@ -1663,7 +1676,7 @@ None
 #### **Assumptions**
 None
 #### **Design Decision**
-This module calculates scores based on the _Rockstar Minigame_ data entered in `CalculateScores`. It does this using algorithms defined in {ALGORITHM LINK}
+This module calculates scores based on the _Rockstar Minigame_ data entered in `CalculateScores`. It does this using algorithms defined in [8.2.1 Post-Processing Algorithms](#8.2.1-post-processing-algorithms)
 #### **Access Routine Semantics**
 `CalculateScores(data)`
 * transition: none
@@ -1759,26 +1772,6 @@ Many changes have been made to the SRS document in response to the creation of P
 # 8. Significant Design
 
 ## 8.1 Game Designs
-## 8.1 Significant Algorithms
-1. Sorting algorithm
-The sorting algorithm are used to sort out different entities, to make a list or other form of date to be in a better order.
-2. Selecting algorithm
-The selection algorithms are used to find out certain data base on some conditions.
-3. recr
-
-## 8.1.1 Post-Processing Algorithms
-## 8.1.1.1 Digger - Average Pressing Speed 
-* Calculate difference between each press
-* Sum the delta times
-* output := Divide by number of events
-
-## 8.1.1.2 Digger - Percent of Correct Presses
-* counter = 0
-* For each event, if key equals correct key, counter ++
-* output := Divide counter by number of events
-
-
-## 8.2 Non-Trivia Invariants
 
 ### 8.1.1 Digger Game 
 
@@ -1793,5 +1786,69 @@ The feeder game measures updating working memory ability. The player avatar will
 The rockstar game measures divided attention ability. The player avatar will be asked to be a rockstar who is performing onstage for a crowd. A spot light will be moving around the stage during the performance. The player has to stay in the spot light so the fans can see the player perform. At the same time a gauge will measure the excitement levels of the crowd. If the crowd gets too excited the player has to calm the audience down. When the crowd gets bored the player has to excite them with fireworks. The goal is to keep the crowd just excited enough by staying in the spotlight and calming or exciting the crowd when needed. The position event module will be used to record the player position and the spotlight position. The linear variable metric event module used to record the fluctuations of the crowd gauge.
 
 ## 8.2 Significant Algorithms
+1. Sorting algorithm
+The sorting algorithm are used to sort out different entities, to make a list or other form of date to be in a better order.
+2. Selecting algorithm
+The selection algorithms are used to find out certain data base on some conditions.
+3. recr
+
+## 8.2.1 Post-Processing Algorithms
+## 8.2.1.1 Digger: Average Pressing Speed 
+* Calculate difference between each press
+* Sum the delta times
+* output := Divide by number of events
+
+## 8.2.1.2 Digger: Percent of Correct Presses
+* counter = 0
+* For each event, if key equals correct key, counter ++
+* output := Divide counter by number of events
+
+## 8.2.1.3 Feeder: Percent Choices Correct
+* output := Divide number of correct guesses by number of guesses
+
+## 8.2.1.4 Feeder: Average Time to Make Guess
+* Calculate difference between guess made and guess available
+* Sum the delta times
+* Divide by number of guesses
+
+## 8.2.1.5 Feeder: Average Time to Make Correct Guess on Liked Food
+* Calculate difference between guess made and guess available
+* Sum the delta times
+* Divide by number of guesses
+
+## 8.2.1.6 Feeder: Average Time to Make Incorrect Guess on Liked Food
+* Calculate difference between guess made and guess available
+* Sum the delta times
+* Divide by number of guesses
+
+## 8.2.1.7 Feeder: Average Time to Make Correct Guess on DisLiked Food
+* Calculate difference between guess made and guess available
+* Sum the delta times
+* Divide by number of guesses
+
+## 8.2.1.8 Feeder: Average Time to Make Incorrect Guess on DisLiked Food
+* Calculate difference between guess made and guess available
+* Sum the delta times
+* Divide by number of guesses
+
+## 8.2.1.9 Rockstar: Average distance from Rockstar
+* totalDistance = 0
+* For each position event, subtract positions of spotlight and rockstar, add that to totalDistance
+* Output := Divide totalDistance by number of events
+
+## 8.2.1.10 Rockstar: Average reaction time from Rockstar Moving
+* totalReactionTime = 0
+* numReactions = 0
+* For each event where rockstar moves, find next event * where player moves toward it, and calculate difference in those times.
+* Add that to totalReactionTime, numReactions ++
+* Output := totalReactionTime / numReactions
+
+## 8.2.1.11 Rockstar: Percent Time Meter is in Good Range
+* counter = 0
+* For each event, if meter level is in good range, counter++
+* Divide counter by number of events
+## 8.2.1.12 Rockstar: Average Level of Meter
+* Sum the levels of each event
+* Divide the sum by number of events
 
 
