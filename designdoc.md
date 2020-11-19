@@ -1325,6 +1325,9 @@ Many changes have been made to the SRS document in response to the creation of P
 # 8. Significant Design
 
 ## 8.1 Significant Algorithms
-
+1. Sorting algorithm
+The sorting algorithm are used to sort out different entities.
+2. Selecting algorithm
+The selection algorithms are used to find out certain data.
 ## 8.2 Non-Trivia Invariants
 
