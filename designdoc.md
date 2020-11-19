@@ -65,6 +65,8 @@ Table of Contents
 
 # 3. List of Concepts
 
+This is the table of the list of concepts and definations related to the design:
+
 | Number | Concept       | Definition | Type |  SRS Link |
 |--------|---------------|------------|------|-----------|
 | C1     | The player    | The user who is told to complete a battery. The player will be using a device to run the battery and a device to send inputs to the battery. For the purpose of this design document we will assume that the player is using a Web Browser and Keyboard respectively. The player is given the battery by the battery administrator. The player runs the battery and is subjected to a series of mini games. The player completes the mini games by using their Keyboard. After the battery is completed the player can stop. | Design Time | [Product Scope](https://github.com/BryanChiu/Mactivision/wiki/Software-Requirements-Specification#12-product-scope). |
@@ -1255,14 +1257,14 @@ Many changes have been made to the SRS document in response to the creation of P
 # 6. Module Relationship Diagram
 ![](ModuleRelationShip.jpg)
 
-# 7. Significant Algorithms/Non-Trivial Invariants
+# 7. Significant Design
 
-## 7.1 Algorithms
+## 7.1 Significant Algorithms
 
-## 7.2 Invariants
+## 7.2 Non-Trivia Invariants
 
 # 8. Traceability Matrix
-Table #1 Functional requirements and descriptions from https://github.com/BryanChiu/Mactivision/blob/master/Requirements%20Specification/requirements.md
+Table #1 Functional requirements and descriptions from https://github.com/BryanChiu/Mactivision/blob/master/updated_srs.md#32-functional
 | ID | Description |
 |----|-------------|
 | F-1 | Record input from player. |
@@ -1277,32 +1279,31 @@ Table #1 Functional requirements and descriptions from https://github.com/BryanC
 | F-9 | Move the camera around the game world. |
 | F-10 | Move the object around the game world. |
 | F-11 | Be able to change game scene. |
-| F-12 | Player has ability to pause game. |
-| F-13 | Show player score (how well they are completing objectives) during game play. |
-|| Read measurement data from database. |
-|| Write measurement data from database. |
-| F-14 | Delete measurement data from database. |
+| F-12 | Read measurement data from JSON files. |
+| F-13 | Present data. |
+| F-14 | Entity Manager. |
+| F-15 | Animation Manager. |
+| F-16 | Physics Manager. |
 
 Table #2 Traceability Matrix between functional requirements and modules
 | Functional Requirements | Module Name |
-|-------------------------|--------------------|
+|-------------------------|-------------|
 | F-8 | Battery Module |
 | F-11 | Abstract Level Manager Module|
-| F-1, F-2, F-3, F-4, F-5, F-6, F-7, F-10, F-13 | Digger Level Manager Module |
+| F-1, F-2, F-3, F-4, F-5, F-6, F-7, F-10, F-14 | Digger Level Manager Module |
 | F-4 | Player Controller Module |
-| F-1, F-10 | Ground Breaker Module |
-| F-11 | Chest Animator Module |
-|  | Feeder Module |
+| F-1, F-10, F-14 | Ground Breaker Module |
+| F-11, F-15 | Chest Animator Module |
+| F-1, F-2, F-3, F-4, F-5, F-6, F-7, F-10,F-14 | Feeder Level Manager Module |
+| F-2, F-14 | Food Dispenser Module |
 |  | Rockstaer Module |
 | F-2 | Abstract Metric Event Module |
 | F-1, F-2 | Button Pressing Event Module |
 | F-1, F-2, F-6 | Position Event Module |
-| F-5, F-13 | Memory Choice Event Module |
-| F-1, F-5, F-13 | Linear Variable Event Module |
-| F-5, F-13 | Abstract Metric Module |
-| F-1, F-2 | Button Pressing Metric Module |
-| F-1, F-2, F-6, F-13 | Position Metric Module |
-| F-1, F-2, F-5, F-6, F-13 | Memory Choice Metric Module |
-| F-13 | Linear Variable Metric Module |
-
+| F-1, F-5 | Memory Choice Event Module |
+| F-5, F-12, F-13 | Abstract Metric Module |
+| F-1, F-12 | Button Pressing Metric Module |
+| F-1, F-2, F-6, F-12 | Position Metric Module |
+| F-1, F-2, f-5, F-6, F-12 | Memory Choice Metric Module |
+| F-12 | Metric JSON Writer Module |
 
