@@ -1767,7 +1767,7 @@ Many changes have been made to the SRS document in response to the creation of P
 | 27     | Added Data Manager interface            | Now that data manager is no longer a database it requires it's own interface. | [User Interface](https://github.com/BryanChiu/Mactivision/wiki/Software-Requirements-Specification#311-user-interfaces) |
 
 # 7. Module Relationship Diagram
-![](ModuleRelationShip.jpg)
+![](ERD.jpg)
 
 # 8. Significant Design
 
