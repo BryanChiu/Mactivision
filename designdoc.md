@@ -275,7 +275,7 @@ This section of modules are used in the Digger game. In this mini-game, the play
 `DiggerLevelManager` module inherits [`LevelManager`](#420-abstract-level-manager-module)
 
 ### Uses
-[`DiggerPlayerController`](#4212-feeder-player-controller-module), [`GroundBreaker`](#4213-ground-breaker-module), [`ChestAnimator`](#4214-chest-animator-module), [`ButtonPressingMetric`](#button-pressing-metric-module), [`ButtonPressingEvent`](#button-pressing-event-module), [`MetricJSONWriter`](#), `UnityEngine.Event`, `UnityEngine.KeyCode`, `System.DateTime`
+[`DiggerPlayerController`](#4212-feeder-player-controller-module), [`GroundBreaker`](#4213-ground-breaker-module), [`ChestAnimator`](#4214-chest-animator-module), [`ButtonPressingMetric`](#button-pressing-metric-module), [`ButtonPressingEvent`](#button-pressing-event-module), [`MetricJSONWriter`](#433-metric-json-writer-module), `UnityEngine.Event`, `UnityEngine.KeyCode`, `System.DateTime`
 
 ### Syntax
 #### Exported Constants
@@ -298,6 +298,7 @@ None
 window: The game window
 
 #### State Variables
+`metricWriter`: [`MetricJSONWriter`](#433-metric-json-writer-module)\
 `bpMetric`: [`ButtonPressingMetric`](#4321-button-pressing-metric-module)\
 `recording`: `𝔹`\
 `player`: [`DiggerPlayerController`](#4212-feeder-player-controller-module)\
@@ -323,6 +324,7 @@ This module manages the majority of functionality in the game. The `digAmount` i
 - transition: `Setup()`(inherited from [`LevelManager`](#420-abstract-level-manager-module)).
    ||:=|
    |---|---|
+   |`metricWriter`|new [`MetricJSONWriter("Digger", DateTime.Now)`](#433-metric-json-writer-module)|
    |`bpMetric`|new [`ButtonPressingMetric()`](#4321-button-pressing-metric-module)|
    |`recording`|`false`|
    |`digAmount`|100|
@@ -334,7 +336,7 @@ This module manages the majority of functionality in the game. The `digAmount` i
    ||⇒|
    |---|---|
    | ¬`recording` | `recording` := `true`. `bpMetric.startRecording()`. `SetDigKeyForGround()`. `SetDigAmountForGround()`|
-   | `chest.opened` | `bpMetric.finishRecording()`. `EndLevel()`(inherited from [`LevelManager`](#420-abstract-level-manager-module)) |
+   | `chest.opened` | `bpMetric.finishRecording()`. `EndLevel()`(inherited from [`LevelManager`](#420-abstract-level-manager-module)).<br>`metricWriter.logMetrics("digger_{DateTime.Now.ToString()}.JSON", DateTime.Now, [bpMetric])` |
 
 `OnGUI()`
 - transition: `e.isKey` ⇒
@@ -521,7 +523,7 @@ This section of modules are used in the Feeder game. In this mini-game, the play
 `FeederLevelManager` module inherits [`LevelManager`](#420-abstract-level-manager-module)
 
 ### Uses
-[`FoodDispenser`](#4222-food-dispenser-module), [`MemoryChoiceMetric`](#4323-memory-choice-metric-module), [`MemoryChoiceEvent`](#4313-memory-choice-event-module), [`MetricJSONWriter`](#), `UnityEngine.Event`, `UnityEngine.KeyCode`, `System.DateTime`
+[`FoodDispenser`](#4222-food-dispenser-module), [`MemoryChoiceMetric`](#4323-memory-choice-metric-module), [`MemoryChoiceEvent`](#4313-memory-choice-event-module), [`MetricJSONWriter`](#433-metric-json-writer-module), `UnityEngine.Event`, `UnityEngine.KeyCode`, `System.DateTime`
 
 ### Syntax
 #### Exported Constants
@@ -544,6 +546,7 @@ None
 window: The game window
 
 #### State Variables
+`metricWriter`: [`MetricJSONWriter`](#433-metric-json-writer-module)\
 `mcMetric`: [`MemoryChoiceMetric`](#4323-memory-choice-metric-module)\
 `recording`: `𝔹`\
 `seed`: `ℕ`\
@@ -574,6 +577,7 @@ This module manages the majority of functionality in the game. `totalFoods` is t
 - transition: `Setup()`(inherited from [`LevelManager`](#420-abstract-level-manager-module)).
    ||:=|
    |---|---|
+   |`metricWriter`|new [`MetricJSONWriter("Feeder", DateTime.Now)`](#433-metric-json-writer-module)|
    |`mcMetric`|new [`MemoryChoiceMetric()`](#4323-memory-choice-metric-module)|
    |`recording`|`false`|
    |`totalFoods`|4|
@@ -591,7 +595,7 @@ This module manages the majority of functionality in the game. `totalFoods` is t
    ||⇒|
    |---|---|
    | ¬`recording` | `recording` := `true`. `mcMetric.startRecording()` |
-   | `elaspedGameTime`>`maxGameTime` | `mcMetric.finishRecording()`. `EndLevel()`
+   | `elaspedGameTime`>`maxGameTime` | `mcMetric.finishRecording()`. `EndLevel()`.<br>`metricWriter.logMetrics("feeder_{DateTime.Now.ToString()}.JSON", DateTime.Now, [mcMetric])`
 
 `OnGUI()`
 - transition: `e.isKey` ⇒
@@ -682,7 +686,7 @@ This section of modules are used in the Rockstar game. In this mini-game, the pl
 `RockstarLevelManager` module inherits [`LevelManager`](#420-abstract-level-manager-module)
 
 ### Uses
-[`Spotlight`](#4232-spotlight-module), [`Rockstar`](#4233-rockstar-module), [`Meter`](#4234-meter-module), [`PositionMetric`](#4322-position-metric-module), [`PositionEvent`](#4312-position-event-module), [`LinearVariableMetric`](#4324-linear-variable-metric-module), [`LinearVariableEvent`](#4314-linear-variable-event-module), [`MetricJSONWriter`](#), `UnityEngine.Event`, `UnityEngine.KeyCode`, `System.DateTime`
+[`Spotlight`](#4222-spotlight-module), [`Rockstar`](#4223-rockstar-module), [`Meter`](#4224-meter-module), [`PositionMetric`](#4322-position-metric-module), [`PositionEvent`](#4312-position-event-module), [`LinearVariableMetric`](#4324-linear-variable-metric-module), [`LinearVariableEvent`](#4314-linear-variable-event-module), [`MetricJSONWriter`](#433-metric-json-writer-module), `UnityEngine.Event`, `UnityEngine.KeyCode`, `System.DateTime`
 
 ### Syntax
 #### Exported Constants
@@ -705,6 +709,7 @@ None
 window: The game window
 
 #### State Variables
+`metricWriter`: [`MetricJSONWriter`](#433-metric-json-writer-module)\
 `pMetric`: [`PositionMetric`](#4322-position-metric-module)\
 `lvMetric`: [`LinearVariableMetric`](#4324-linear-variable-metric-module)\
 `recording`: `𝔹`\
@@ -721,9 +726,9 @@ window: The game window
 `upKey`: `KeyCode`\
 `maxGameTime`: `ℕ`\
 `elapsedGameTime`: `ℝ`\
-`spotlight`: [`Spotlight`](#4232-spotlight-module)\
-`rockstar`: [`Rockstar`](#4233-rockstar-module)\
-`meter`: [`Meter`](#4234-meter-module)\
+`spotlight`: [`Spotlight`](#4222-spotlight-module)\
+`rockstar`: [`Rockstar`](#4223-rockstar-module)\
+`meter`: [`Meter`](#4224-meter-module)\
 `lvlState`: `ℕ` (inherited from [`LevelManager`](#420-abstract-level-manager-module))
 
 #### State Invariant
@@ -744,6 +749,7 @@ This module manages the majority of functionality in the game. `rockstarChangeFr
 - transition: `Setup()`(inherited from [`LevelManager`](#420-abstract-level-manager-module)).
    ||:=|
    |---|---|
+   |`metricWriter`|new [`MetricJSONWriter("Rockstar", DateTime.Now)`](#433-metric-json-writer-module)|
    |`pMetric`|new [`PositionMetric(["rockstar", "spotlight"])`](#4322-position-metric-module)|
    |`lvMetric`|new [`LinearVariableMetric(0.0, 100.0, 75.0, ["gameDrop", "playerRaise"])`](#4324-linear-variable-metric-module)|
    |`recording`|`false`|
@@ -769,7 +775,7 @@ This module manages the majority of functionality in the game. `rockstarChangeFr
    |---|---|
    | ¬`recording` | `recording` := `true`. `pMetric.startRecording()`. `lvMetric.startRecording()` |
    | `recording` | `pMetric.recordEvent(new PositionEvent(DateTime.Now, [rockstar.GetPosition(), spotlight.GetPosition()]))`.<br>`lvMetric.recordEvent(new LinearVariable(DateTime.Now, meter.Drop(), meter.GetVelocity(), 0))` |
-   | `elaspedGameTime`>`maxGameTime` | `pMetric.finishRecording()`. `lvMetric.finishRecording()`. `EndLevel()`
+   | `elaspedGameTime`>`maxGameTime` | `pMetric.finishRecording()`. `lvMetric.finishRecording()`. `EndLevel()`.<br>`metricWriter.logMetrics("rockstar_{DateTime.Now.ToString()}.JSON", DateTime.Now, [pMetric, lvMetric])`
 
 `OnGUI()`
 - transition: `e.isKey` ⇒
@@ -781,7 +787,7 @@ This module manages the majority of functionality in the game. `rockstarChangeFr
    | `lvlState`==1 ∧ `e.keyCode`==`upKey`| `lvMetric.recordEvent(new LinearVariable(DateTime.Now, meter.Raise(), meterUpVel, 1))`|
    
 
-## 4.2.3.2 Spotlight Module
+## 4.2.2.2 Spotlight Module
 `Spotlight` module inherits Monobehaviour
 
 ### Uses
@@ -836,7 +842,7 @@ This module manages the spotlight. It is moved by the player and displays the sp
 `GetPostition()`
 - output: *out* := `new Vector2(position, 0)`
 
-## 4.2.3.3 Rockstar Module
+## 4.2.2.3 Rockstar Module
 `Rockstar` module inherits Monobehaviour
 
 ### Uses
@@ -883,7 +889,8 @@ This module manages the rockstar. It moves on its own and displays the rockstar 
 
 `Update()`
 - transition: `rand.NextDouble()` < (1/`changeFreq`*`Time.deltaTime`) ⇒ `destination` := random position.<br>
-   window := The rockstar is at `position`. `Move()`
+   window := The rockstar is at `position`.
+   `Move()`
 
 `Move()`
 - transition: `position` := 
@@ -896,7 +903,7 @@ This module manages the rockstar. It moves on its own and displays the rockstar 
 `GetPostition()`
 - output: *out* := `new Vector2(position, 0)`
 
-## 4.2.3.4 Meter Module
+## 4.2.2.4 Meter Module
 `Meter` module inherits Monobehaviour
 
 ### Uses
