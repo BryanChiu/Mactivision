@@ -55,7 +55,7 @@ Table of Contents
 ## Revision History
 | Name | Date              | Reason For Changes                | Version   |
 | ---- | ----------------- | --------------------------------- | --------- |
-| N/A  | October 19, 2020  | First Version                     | 1.0.0     |
+| Team | October 19, 2020  | First Version                     | 1.0.0     |
 | Mike | November 12, 2020 | Updates from design document      | 1.1.0     |
 | Mike | November 18, 2020 | More updates from design document | 1.2.0     |
 
