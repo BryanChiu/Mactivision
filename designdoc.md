@@ -63,7 +63,7 @@ Table of Contents
   * 8.1 [Game Designs](#81-game-designs)
      * 8.1.1 [Digger Game](#811-digger-game)
      * 8.1.2 [Feeder Game](#812-feeder-game)
-     * 8.1.3 [Digger Game](#813-rockstar-game)
+     * 8.1.3 [Rockstar Game](#813-rockstar-game)
   * 8.2 [Algorithms](#81-algorithms)
 
 # Revision History
