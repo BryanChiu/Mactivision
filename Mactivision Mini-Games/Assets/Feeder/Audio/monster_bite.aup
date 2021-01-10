@@ -1,0 +1,72 @@
+<?xml version="1.0" standalone="no" ?>
+<!DOCTYPE project PUBLIC "-//audacityproject-1.3.0//DTD//EN" "http://audacity.sourceforge.net/xml/audacityproject-1.3.0.dtd" >
+<project xmlns="http://audacity.sourceforge.net/xml/" projname="monster_bite_data" version="1.3.0" audacityversion="2.4.2" sel0="0.8296973080" sel1="0.8296973080" vpos="0" h="0.0000000000" zoom="1474.0315392527" rate="48000.0" snapto="off" selectionformat="hh:mm:ss + milliseconds" frequencyformat="Hz" bandwidthformat="octaves">
+	<tags>
+		<tag name="TITLE" value="VEGECIDE! Sound Library"/>
+		<tag name="ALBUM" value="VEGECIDE!"/>
+		<tag name="YEAR" value="2016"/>
+		<tag name="Software" value="Pro Tools 12"/>
+		<tag name="ARTIST" value="Ashley Tough"/>
+		<tag name="GENRE" value="SFX"/>
+	</tags>
+	<wavetrack name="467701__lucasduff__monster-bite" isSelected="0" height="150" minimized="0" channel="0" linked="1" mute="0" solo="0" rate="48000" gain="1.0" pan="0.0" colorindex="0">
+		<waveclip offset="0.50812061" colorindex="0">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="25202">
+				<waveblock start="0">
+					<simpleblockfile filename="e08082c8.au" len="25202" min="-0.265982" max="0.930878" rms="0.098043"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="467701__lucasduff__monster-bite" isSelected="0" height="150" minimized="0" channel="1" linked="0" mute="0" solo="0" rate="48000" gain="1.0" pan="0.0" colorindex="0">
+		<waveclip offset="0.50812061" colorindex="0">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="25202">
+				<waveblock start="0">
+					<simpleblockfile filename="e08083c4.au" len="25202" min="-0.244339" max="0.908997" rms="0.0949"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="249686__cylon8472__cthulhu-growl" isSelected="1" height="150" minimized="0" channel="0" linked="1" mute="0" solo="0" rate="44100" gain="1.0" pan="0.0" colorindex="0">
+		<waveclip offset="0.00000000" colorindex="0">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="30897">
+				<waveblock start="0">
+					<simpleblockfile filename="e0808aa9.au" len="30897" min="-0.500955" max="0.386852" rms="0.072604"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="249686__cylon8472__cthulhu-growl" isSelected="1" height="150" minimized="0" channel="1" linked="0" mute="0" solo="0" rate="44100" gain="1.0" pan="0.0" colorindex="0">
+		<waveclip offset="0.00000000" colorindex="0">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="30897">
+				<waveblock start="0">
+					<simpleblockfile filename="e080897e.au" len="30897" min="-0.469717" max="0.364095" rms="0.071836"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="467701__lucasduff__monster-bite" isSelected="0" height="150" minimized="0" channel="0" linked="1" mute="0" solo="0" rate="48000" gain="1.0" pan="0.0" colorindex="0">
+		<waveclip offset="0.05191227" colorindex="0">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="28528">
+				<waveblock start="0">
+					<simpleblockfile filename="e08085ae.au" len="28528" min="-0.266587" max="0.377727" rms="0.071507"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="467701__lucasduff__monster-bite" isSelected="0" height="150" minimized="0" channel="1" linked="0" mute="0" solo="0" rate="48000" gain="1.0" pan="0.0" colorindex="0">
+		<waveclip offset="0.05191227" colorindex="0">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="28528">
+				<waveblock start="0">
+					<simpleblockfile filename="e0808c3a.au" len="28528" min="-0.23173" max="0.289913" rms="0.067719"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+</project>
