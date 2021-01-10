@@ -2,71 +2,89 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Animations;
 using UnityEngine.Rendering.PostProcessing;
+using TMPro;
 
-public class LevelManager : MonoBehaviour
+public abstract class LevelManager : MonoBehaviour
 {
-    public ChestAnimator chest;
-    public PostProcessVolume postprocess;
-    public Text intro;
-    public Text outro;
-    
-    List<KeyCode> keysDownArray; // List of keys currently held down (not full history)
-    InputRecorder recorder; // input recorder (this will record full history)
+    public PostProcessVolume postprocess; // graphical effects, used for blurring the scene
+    public TMP_Text introText; // text object displayed before actual game begins
+    public TMP_Text outroText; // text object displayed after game ends
+    public TMP_Text countdownText; // text object displaying countdown to begin actual game
 
-    int lvlState;
+    public GameObject textBG; // parent group for graphics displayed behind text
+    public RectTransform textBG_Main;
+    public RectTransform textBG_Edge;
+    public RectTransform textBG_LArm;
+    public RectTransform textBG_RArm;
 
-    // Start is called before the first frame update
-    void Start()
+    public string countDoneText = "Start!";
+    public int lvlState; // 0: intro; 1: countdown; 2: gameplay; 3: game end
+
+    public AudioSource sound;
+
+    // must be added to Start() method of inherited classes
+    // blurs the scene and displays the intro graphic/text
+    public void Setup()
     {
-        keysDownArray = new List<KeyCode>();
-        recorder = new InputRecorder();
-
-        outro.enabled = false;
         lvlState = 0;
         ChangeBlur(2f);
+        textBG.SetActive(true);
+        introText.enabled = true;
+        countdownText.enabled = false;
+        outroText.enabled = false;
+        ResizeTextBG(GetRect(introText));
+        sound = gameObject.GetComponent<AudioSource>();
     }
 
-    // Update is called once per frame
-    void Update()
+    // call this to begin countdown and actual level
+    // hides intro text and displays countdown text and plays countdown sound
+    public void StartLevel()
     {
-        if (lvlState==0 && Input.GetKeyDown("b")) {
-            recorder.StartRec();
-            lvlState++;
-            ChangeBlur(10f);
-            intro.enabled = false;
-        }
-        if (lvlState==1 && chest.opened) {
-            recorder.EndRec();
-            lvlState++;
-            Invoke("LevelComplete", 5);
-        }
+        lvlState = 1;
+        introText.enabled = false;
+        countdownText.enabled = true;
+        ResizeTextBG(GetRect(countdownText));
+        sound.PlayDelayed(0.0f);
+        StartCoroutine(CountDown());
     }
 
-    // Handles GUI events (keyboard, mouse, etc events)
-    void OnGUI()
+    // call this to end level
+    public void EndLevel(float delay)
     {
-        Event e = Event.current;
-        if (e.isKey && e.keyCode!=KeyCode.None) {
-            // When a keyboard key is initially pressed down, add it to list
-            // We don't want to record when a key is HELD down
-            if (e.type == EventType.KeyDown && !keysDownArray.Contains(e.keyCode)) {
-                keysDownArray.Add(e.keyCode);
-                recorder.AddEvent(e.keyCode, true);
-            // Remove key from list
-            } else if (e.type == EventType.KeyUp) {
-                keysDownArray.Remove(e.keyCode);
-                recorder.AddEvent(e.keyCode, false);
-            }
-        }
+        lvlState = 3;
+        StartCoroutine(PauseAndEnd(delay)); // delays the end graphic to allow for animations, etc.
     }
 
-    void LevelComplete()
+    // displays the countdown before the actual game begins
+    IEnumerator CountDown()
     {
+        countdownText.text = "3";
+        yield return new WaitForSeconds(1);
+        countdownText.text = "2";
+        yield return new WaitForSeconds(1);
+        countdownText.text = "1";
+        yield return new WaitForSeconds(1);
+        countdownText.text = countDoneText;
+        yield return new WaitForSeconds(1);
+        lvlState = 2;
+        countdownText.enabled = false;
+        textBG.SetActive(false);
+        ChangeBlur(10f);
+    }
+
+    // blurs the scene and displays the outro graphic/text
+    IEnumerator PauseAndEnd(float delay) 
+    {
+        yield return new WaitForSeconds(delay);
         ChangeBlur(2f);
-        outro.enabled = true;
+        textBG.SetActive(true);
+        outroText.enabled = true;
+        ResizeTextBG(GetRect(outroText));
     }
 
+    // blurs the scene by changing the scene camera's depth of field
     void ChangeBlur(float dist)
     {
         if (postprocess) {
@@ -76,5 +94,27 @@ public class LevelManager : MonoBehaviour
                 pr.focusDistance.value = dist;
             }
          }
+    }
+
+    // returns a text object's bounding box
+    public Rect GetRect(TMP_Text text) 
+    {
+        return text.gameObject.GetComponent<RectTransform>().rect;
+    }
+
+    // resizes the red background according to text's bounding box
+    public void ResizeTextBG(Rect box) 
+    {
+        float w = box.width+40;
+        float h = box.height+40;
+        textBG.GetComponent<RectTransform>().sizeDelta = new Vector2(w, h);
+        textBG_Main.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 0f, w);
+        textBG_Main.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0f, h);
+        textBG_Edge.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, 0f, w*1.04255f);
+        textBG_Edge.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, 0f, h*1.04255f);
+        textBG_LArm.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, h*-0.135f, h*0.244082f);
+        textBG_LArm.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, 0f, h*0.55f);
+        textBG_RArm.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, h*-0.05f, h*0.244082f);
+        textBG_RArm.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, 0f, h*0.55f);
     }
 }
