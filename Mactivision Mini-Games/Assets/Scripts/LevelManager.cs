@@ -19,36 +19,16 @@ public abstract class LevelManager : MonoBehaviour
     public RectTransform textBG_LArm;
     public RectTransform textBG_RArm;
 
-    public float countDown;
     public string countDoneText = "Start!";
     public int lvlState; // 0: intro; 1: countdown; 2: gameplay; 3: game end
 
-    AudioSource sound;
+    public AudioSource sound;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        //Setup();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        //LvlMngr();
-    }
-
-    // must be added to Update() method of subclasses
-    public void LvlMngr()
-    {
-        if (lvlState==1) CountDown();
-    }
-
-    // must be added to Start() method of subclasses
+    // must be added to Start() method of inherited classes
     // blurs the scene and displays the intro graphic/text
     public void Setup()
     {
         lvlState = 0;
-        countDown = 5f;
         ChangeBlur(2f);
         textBG.SetActive(true);
         introText.enabled = true;
@@ -63,40 +43,41 @@ public abstract class LevelManager : MonoBehaviour
     public void StartLevel()
     {
         lvlState = 1;
-        countDown = 4f;
         introText.enabled = false;
         countdownText.enabled = true;
         ResizeTextBG(GetRect(countdownText));
         sound.PlayDelayed(0.0f);
+        StartCoroutine(CountDown());
     }
 
     // call this to end level
     public void EndLevel(float delay)
     {
         lvlState = 3;
-        Invoke("PauseAndEnd", delay); // delays the end graphic to allow for animations, etc.
+        StartCoroutine(PauseAndEnd(delay)); // delays the end graphic to allow for animations, etc.
     }
 
     // displays the countdown before the actual game begins
-    void CountDown()
+    IEnumerator CountDown()
     {
-        if (countDown<=0) { // after 0, we hide the countdown graphic/text and unblur the scene
-            lvlState = 2;
-            countdownText.enabled = false;
-            textBG.SetActive(false);
-            ChangeBlur(10f);
-        } else if (countDown<=1) { // after 1, instead of 0, we display "Start!" (can be customized)
-            countDown -= Time.deltaTime;
-            countdownText.text = countDoneText;
-        } else if (countDown<=4) {
-            countDown -= Time.deltaTime;
-            countdownText.text = Mathf.FloorToInt(countDown).ToString();
-        }
+        countdownText.text = "3";
+        yield return new WaitForSeconds(1);
+        countdownText.text = "2";
+        yield return new WaitForSeconds(1);
+        countdownText.text = "1";
+        yield return new WaitForSeconds(1);
+        countdownText.text = countDoneText;
+        yield return new WaitForSeconds(1);
+        lvlState = 2;
+        countdownText.enabled = false;
+        textBG.SetActive(false);
+        ChangeBlur(10f);
     }
 
     // blurs the scene and displays the outro graphic/text
-    void PauseAndEnd() 
+    IEnumerator PauseAndEnd(float delay) 
     {
+        yield return new WaitForSeconds(delay);
         ChangeBlur(2f);
         textBG.SetActive(true);
         outroText.enabled = true;
@@ -116,13 +97,13 @@ public abstract class LevelManager : MonoBehaviour
     }
 
     // returns a text object's bounding box
-    Rect GetRect(TMP_Text text) 
+    public Rect GetRect(TMP_Text text) 
     {
         return text.gameObject.GetComponent<RectTransform>().rect;
     }
 
     // resizes the red background according to text's bounding box
-    void ResizeTextBG(Rect box) 
+    public void ResizeTextBG(Rect box) 
     {
         float w = box.width+40;
         float h = box.height+40;
