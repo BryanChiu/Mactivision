@@ -16,7 +16,7 @@ public class MemoryChoiceEvent : AbstractMetricEvent {
     // Subtracting the two will give the time it took for the user to decide.
     public System.DateTime choiceTime { get; }
     
-    MemoryChoiceEvent(System.DateTime eventTime, List<string> objectsSet, string _object, bool choice, System.DateTime choiceTime) : base(eventTime) {
+    public MemoryChoiceEvent(System.DateTime eventTime, List<string> objectsSet, string _object, bool choice, System.DateTime choiceTime) : base(eventTime) {
         this.objectsSet = objectsSet;
         this._object = _object;
         this.choice = choice;

@@ -1,13 +1,19 @@
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 
-public abstract class AbstractMetric {
+public interface AbstractMetric { 
+    void startRecording();
+    void finishRecording();
+    JObject getJSON();
+}
+
+public abstract class AbstractMetric<T> : AbstractMetric where T : AbstractMetricEvent {
     public  bool isRecording { protected set; get; }
-    public List<AbstractMetricEvent> eventList { get; }
+    public List<T> eventList { get; }
 
     protected AbstractMetric() {
         this.isRecording = false;
-        this.eventList = new List<AbstractMetricEvent>();
+        this.eventList = new List<T>();
     }
 
     public void startRecording() {
@@ -18,11 +24,11 @@ public abstract class AbstractMetric {
         this.isRecording = false;
     }
 
-    public void recordEvent(AbstractMetricEvent metricEvent) {
+    public void recordEvent(T metricEvent) {
         if (this.isRecording) {
             this.eventList.Add(metricEvent);
         }
     }
-
     public abstract JObject getJSON();
+
 }
