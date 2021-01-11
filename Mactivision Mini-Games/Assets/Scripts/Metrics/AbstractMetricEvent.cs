@@ -1,14 +1,10 @@
-using System;
+// AbstractMetricEvent is the base class of all metric events which are consumed by subclasses of AbstractMetric class
+public abstract class AbstractMetricEvent {
 
-abstract class AbstractMetricEvent {
+    // All subclasses of AbstractMetricEvent have access to eventTime, which records the start time of a metric event.
+    public System.DateTime eventTime { get; }
 
-    private DateTime eventTime;
-
-    protected AbstractMetricEvent(DateTime eventTime) {
+    protected AbstractMetricEvent(System.DateTime eventTime) {
         this.eventTime = eventTime;
-    }
-
-    public DateTime getEventTime() {
-        return this.eventTime;
     }
 } 

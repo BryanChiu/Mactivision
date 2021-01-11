@@ -1,9 +1,9 @@
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
-abstract class AbstractMetric {
-    private bool isRecording;
-    private List<AbstractMetricEvent> eventList;
+public abstract class AbstractMetric {
+    public  bool isRecording { protected set; get; }
+    public List<AbstractMetricEvent> eventList { get; }
 
     protected AbstractMetric() {
         this.isRecording = false;
@@ -19,8 +19,10 @@ abstract class AbstractMetric {
     }
 
     public void recordEvent(AbstractMetricEvent metricEvent) {
-        this.eventList.Add(metricEvent);
+        if (this.isRecording) {
+            this.eventList.Add(metricEvent);
+        }
     }
 
-    public abstract JsonToken getJSON();
+    public abstract JObject getJSON();
 }
