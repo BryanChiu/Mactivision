@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DiggerLevelManager : LevelManager
 {
@@ -20,7 +21,11 @@ public class DiggerLevelManager : LevelManager
         Setup(); // run initial setup, inherited from parent class
         countDoneText = "Dig!";
         digKey = KeyCode.B;
-        digAmount = 10;
+       
+        // Example of getting configuration data.
+        DiggerConfig diggerConfig = (DiggerConfig)Battery.Instance.GetCurrentConfig();
+        digAmount = diggerConfig.DigAmount;
+        
         keysDown = new List<KeyCode>();
         recorder = new InputRecorder();
         recording = false;

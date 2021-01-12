@@ -26,7 +26,7 @@ public class FeederLevelManager : LevelManager
     public int totalFoods = 6;
     public int changeFreq = 3;
 
-    public int maxGameTime = 120;
+    private float maxGameTime = 20f;
 
     KeyCode feedKey = KeyCode.RightArrow;
     KeyCode trashKey = KeyCode.LeftArrow;
@@ -46,6 +46,10 @@ public class FeederLevelManager : LevelManager
         countDoneText = "Start!";
         keysDown = new List<KeyCode>();
         recording = false;
+   
+        // Example of getting configuration data.
+        FeederConfig config = (FeederConfig)Battery.Instance.GetCurrentConfig();
+        maxGameTime = config.MaxTime;
 
         if (seed=="") seed = System.DateTime.Now.ToString();
         randomSeed = new System.Random(seed.GetHashCode());
@@ -56,12 +60,16 @@ public class FeederLevelManager : LevelManager
     // Update is called once per frame
     void Update()
     {
+        Event e = Event.current;
+       
+        maxGameTime = maxGameTime - Time.deltaTime;
+
         if (lvlState==2) {
             if (!recording) { // begin recording 
                 recording = true;
                 sound.clip = bite_sound;
             }
-            if (Time.time > maxGameTime) { // game automatically ends after maxGameTime seconds
+            if (maxGameTime < 0) { // game automatically ends after maxGameTime seconds
                 EndLevel(1f);
             }
 
@@ -114,7 +122,6 @@ public class FeederLevelManager : LevelManager
             // Remove key from list
             } else if (e.type == EventType.KeyUp) {
                 keysDown.Remove(e.keyCode);
-
             }
         }
     }

@@ -1,0 +1,23 @@
+{
+  "$type": "BatteryConfig, Assembly-CSharp",
+  "PlayerName": null,
+  "StartTime": null,
+  "EndTime": null,
+  "Games": {
+    "$type": "System.Collections.Generic.List`1[[GameConfig, Assembly-CSharp]], mscorlib",
+    "$values": [
+      {
+        "$type": "DiggerConfig, Assembly-CSharp",
+        "Name": null,
+        "Scene": null,
+        "DigAmount": 0
+      },
+      {
+        "$type": "FeederConfig, Assembly-CSharp",
+        "Name": null,
+        "Scene": null,
+        "MaxTime": 0.0
+      }
+    ]
+  }
+}
