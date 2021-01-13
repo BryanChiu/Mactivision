@@ -21,11 +21,7 @@ public class DiggerLevelManager : LevelManager
         Setup(); // run initial setup, inherited from parent class
         countDoneText = "Dig!";
         digKey = KeyCode.B;
-       
-        // Example of getting configuration data.
-        DiggerConfig diggerConfig = (DiggerConfig)Battery.Instance.GetCurrentConfig();
-        digAmount = diggerConfig.DigAmount;
-        
+        digAmount = 100;
         keysDown = new List<KeyCode>();
         bpMetric = new ButtonPressingMetric();
         metricWriter = new MetricJSONWriter("Digger", DateTime.Now);
