@@ -1,0 +1,27 @@
+{
+  "PlayerName": "test",
+  "StartTime": "2021-01-13-05-16-38",
+  "EndTime": "2021-01-13-05-18-36",
+  "Games": [
+    {
+      "Name": null,
+      "Scene": "Digger",
+      "DigAmount": 100
+    },
+    {
+      "Name": null,
+      "Scene": "Digger",
+      "DigAmount": 10
+    },
+    {
+      "Name": null,
+      "Scene": "Feeder",
+      "MaxTime": 2.0
+    },
+    {
+      "Name": null,
+      "Scene": "Feeder",
+      "MaxTime": 60.0
+    }
+  ]
+}
