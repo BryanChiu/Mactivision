@@ -12,8 +12,6 @@ public class DiggerLevelManager : LevelManager
     int digAmount; // total amount of presses required; must be > 0, rounds up to nearest 10
 
     List<KeyCode> keysDown; // List of keys currently held down (not full history)
-    InputRecorder recorder; // input recorder (this will record full history)
-    bool recording;
 
     // Start is called before the first frame update
     void Start()
@@ -27,8 +25,6 @@ public class DiggerLevelManager : LevelManager
         digAmount = diggerConfig.DigAmount;
         
         keysDown = new List<KeyCode>();
-        recorder = new InputRecorder();
-        recording = false;
     }
 
     // Update is called once per frame

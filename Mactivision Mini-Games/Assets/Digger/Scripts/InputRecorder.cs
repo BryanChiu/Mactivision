@@ -3,78 +3,68 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 
-// This class records (keyboard) inputs and outputs them to a JSON file
-// "Time start" :
-// "Time end" :
-// "Events" : 
-// [
-//  "TimeStamp" :
-//  "Key" :
-//  "Value" :
-// ]
+// This is used as an example of how input recording works.
+// TODO: Shoudl we push this into game levelmanagers rather than having a seperate class?
 public class InputRecorder
 {
-    string outputPath; // path to output log file
-    StreamWriter writer;
-    bool recording;
-
-    List<(float TimeStamp, KeyCode Key, bool Value)> keyEvents; // list of input events, represented as a tuple
-    float startTime;
-    float endTime;
+    MetricJSONWriter MetricWriter;
+    ButtonPressingMetric MetricButton;
+    List<AbstractMetric> Metrics;
+     
+    string GameName;
 
     // Constructor
     public InputRecorder()
     {
-        outputPath = "Logs/" + System.DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss") + ".json";
-        writer = new StreamWriter(outputPath, true);
-        recording = false;
+        GameName = Battery.Instance.GetGameName();
 
-        keyEvents = new List<(float, KeyCode, bool)>();
+        // Write the metrics to JSON
+        MetricWriter = new MetricJSONWriter(GameName, System.DateTime.Now);
+        
+        // Records the button pressing metrics.
+        MetricButton = new ButtonPressingMetric();
+
+        // Holds a list of different kind of Metrics Recorders (Button, etc.).
+        Metrics = new List<AbstractMetric>();
     }
 
     // Start the recording
-    // Write the start time 
     public void StartRec()
     {
-        if (recording) return;
-        writer.WriteLine("{");
-        writer.WriteLine("\"Time start\" : \"" + System.DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss") + "\",");
-
-        startTime = Time.time;
-        recording = true;
-        Debug.Log("Input recording started");
+        MetricButton.startRecording();
+        Debug.Log("Button recording started");
     }
 
     // End the recording
-    // Write the end time, and write each event
-    // End the json structure, close the file
     public void EndRec()
     {
-        if (!recording) return;
-        writer.WriteLine("\"Time end\" : \"" + System.DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss") + "\",");
-        writer.WriteLine("\"Events\" : ");
-        writer.WriteLine("[");
-        keyEvents.ForEach(LogToFile); // for each event, write to file
-        writer.WriteLine("]");
-        writer.WriteLine("}");
-        writer.Close();
+        if (MetricButton.isRecording)
+        {   
+            MetricButton.finishRecording();
+            Debug.Log("Input recording ended");
+        }
+    }
 
-        endTime = Time.time;
-        recording = false;
-        Debug.Log("Input recording ended");
-        Debug.Log("Log file output to " + outputPath);
+    // Write Recording
+    public void WriteRec()
+    {
+        // Add button recordings to metric list.
+        Metrics.Add(MetricButton);
+
+        // Write all the recordings from the list to a JSON file.
+        MetricWriter.logMetrics(
+                Battery.Instance.GetOutputPath() + GameName + ".json",
+                System.DateTime.Now, Metrics); 
     }
 
     // Add an event to the list
     public void AddEvent(KeyCode key, bool val)
     {
-        if (!recording) return;
-        keyEvents.Add((Time.time, key, val));
-    }
-
-    // Write an event using proper JSON formatting
-    private void LogToFile((float time, KeyCode key, bool val) e)
-    {
-        writer.WriteLine("{ \"TimeStamp\" : " + System.String.Format("{0:0.000}", e.time) + ", \"Key\" : \"" + e.key + "\", \"Value\" : " + e.val.ToString().ToLower() + " },");
+        if (MetricButton.isRecording)
+        {
+            // Record a button pressing event.
+            MetricButton.recordEvent(
+                    new ButtonPressingEvent(System.DateTime.Now, key, val));
+        }
     }
 }

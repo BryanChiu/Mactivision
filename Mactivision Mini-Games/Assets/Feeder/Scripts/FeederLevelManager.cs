@@ -18,7 +18,6 @@ public class FeederLevelManager : LevelManager
     public AudioClip bite_sound;
     
     List<KeyCode> keysDown; // List of keys currently held down (not full history)
-    bool recording;
 
     public string seed;
     System.Random randomSeed;
