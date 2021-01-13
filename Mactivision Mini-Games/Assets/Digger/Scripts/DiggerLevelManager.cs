@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 
 public class DiggerLevelManager : LevelManager
 {
@@ -12,8 +11,8 @@ public class DiggerLevelManager : LevelManager
     int digAmount; // total amount of presses required; must be > 0, rounds up to nearest 10
 
     List<KeyCode> keysDown; // List of keys currently held down (not full history)
-    ButtonPressingMetric bpMetric; // records button pressing data during the game
-    MetricJSONWriter metricWriter; // outputs recording metric (bpMetric) as a json file
+    InputRecorder recorder; // input recorder (this will record full history)
+    bool recording;
 
     // Start is called before the first frame update
     void Start()
@@ -21,32 +20,24 @@ public class DiggerLevelManager : LevelManager
         Setup(); // run initial setup, inherited from parent class
         countDoneText = "Dig!";
         digKey = KeyCode.B;
-       
-        // Example of getting configuration data.
-        DiggerConfig diggerConfig = (DiggerConfig)Battery.Instance.GetCurrentConfig();
-        digAmount = diggerConfig.DigAmount;
-        
+        digAmount = 10;
         keysDown = new List<KeyCode>();
-        bpMetric = new ButtonPressingMetric();
-        metricWriter = new MetricJSONWriter("Digger", DateTime.Now);
+        recorder = new InputRecorder();
+        recording = false;
     }
 
     // Update is called once per frame
     void Update()
     {
         if (lvlState==2) {
-            if (!bpMetric.isRecording) { // begin recording 
-                bpMetric.startRecording();
+            if (!recording) { // begin recording 
+                recording = true;
+                recorder.StartRec();
                 SetDigKeyForGround(); // not called at Start() because this script could load before the blocks
                 SetDigAmountForGround();
             }
             if (chest.opened) { // the player landing on chest triggers the end of the game
-                bpMetric.finishRecording();
-                metricWriter.logMetrics(
-                    "Logs/digger_"+DateTime.Now.ToFileTime()+".json", 
-                    DateTime.Now, 
-                    new List<AbstractMetric>(){bpMetric}
-                );
+                recorder.EndRec();
                 EndLevel(5f);
             }
         }
@@ -64,12 +55,12 @@ public class DiggerLevelManager : LevelManager
             // We don't want to record when a key is HELD down
             if (e.type == EventType.KeyDown && !keysDown.Contains(e.keyCode)) {
                 keysDown.Add(e.keyCode);
-                bpMetric.recordEvent(new ButtonPressingEvent(DateTime.Now, e.keyCode, true));
+                recorder.AddEvent(e.keyCode, true);
                 if (e.keyCode==digKey) player.DigDown();
             // Remove key from list
             } else if (e.type == EventType.KeyUp) {
                 keysDown.Remove(e.keyCode);
-                bpMetric.recordEvent(new ButtonPressingEvent(DateTime.Now, e.keyCode, false));
+                recorder.AddEvent(e.keyCode, false);
                 if (e.keyCode==digKey) player.DigUp();
             }
         }

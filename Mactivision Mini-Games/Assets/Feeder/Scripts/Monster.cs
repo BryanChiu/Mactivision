@@ -19,7 +19,7 @@ public class Monster : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         GameObject food = other.gameObject;
-        string[] goodFoods = dispenser.goodFoods;
+        string[] goodFoods = dispenser.MakeChoice(false);
         if (Array.IndexOf(goodFoods, food.name)<0) {
             anim.Play("Base Layer.monster_spit");
             sound.PlayDelayed(0.2f);
@@ -32,6 +32,7 @@ public class Monster : MonoBehaviour
 
     IEnumerator WaitForMonsterSpit(Rigidbody2D food)
     {
+        Debug.Log(Time.frameCount.ToString() + ": WaitForMonsterSpit Start");
         yield return new WaitForSeconds(0.37f);
         food.velocity = new Vector2(6f, 8f);
         food.position = new Vector3(5.1f, -4.3f, 0f);
@@ -40,5 +41,6 @@ public class Monster : MonoBehaviour
         food.velocity = Vector2.zero;
         food.gameObject.transform.eulerAngles = Vector3.zero;
         food.gameObject.SetActive(false);
+        Debug.Log(Time.frameCount.ToString() + ": WaitForMonsterSpit End");
     }
 }

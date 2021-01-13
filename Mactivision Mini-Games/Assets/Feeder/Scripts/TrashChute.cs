@@ -20,7 +20,7 @@ public class TrashChute : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         GameObject food = other.gameObject;
-        string[] goodFoods = dispenser.goodFoods;
+        string[] goodFoods = dispenser.MakeChoice(false);
         recycleIcon.color = Array.IndexOf(goodFoods, food.name)<0 ? correct : incorrect;
         other.attachedRigidbody.velocity = Vector2.zero;
         food.transform.eulerAngles = Vector3.zero;
@@ -31,7 +31,9 @@ public class TrashChute : MonoBehaviour
 
     IEnumerator WaitForIconIndicator()
     {
+        Debug.Log(Time.frameCount.ToString() + ": WaitForIconIndicator Start");
         yield return new WaitForSeconds(1.5f);
         recycleIcon.color = defaultCol;
+        Debug.Log(Time.frameCount.ToString() + ": WaitForIconIndicator End");
     }
 }

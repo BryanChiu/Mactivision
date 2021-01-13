@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using TMPro;
-using System.Linq;
 
 public class FeederLevelManager : LevelManager
 {
@@ -18,14 +17,16 @@ public class FeederLevelManager : LevelManager
     public AudioClip plate_down;
     public AudioClip bite_sound;
     
+    List<KeyCode> keysDown; // List of keys currently held down (not full history)
+    bool recording;
+
     public string seed;
     System.Random randomSeed;
 
     public int totalFoods = 6;
-    public float avgUpdateFreq = 3f;
-    public float stdDevUpdateFreq = 2.8f;
+    public int changeFreq = 3;
 
-    private float maxGameTime = 240f;
+    public int maxGameTime = 120;
 
     KeyCode feedKey = KeyCode.RightArrow;
     KeyCode trashKey = KeyCode.LeftArrow;
@@ -35,9 +36,6 @@ public class FeederLevelManager : LevelManager
     bool animatingDispense = false;
     float tiltPlateTo;
 
-    MemoryChoiceMetric mcMetric; // records choice data during the game
-    MetricJSONWriter metricWriter; // outputs recording metric (mcMetric) as a json file
-
     // Start is called before the first frame update
     void Start()
     {
@@ -46,40 +44,24 @@ public class FeederLevelManager : LevelManager
         introText2.enabled = false;
         showIntro2 = false;
         countDoneText = "Start!";
+        keysDown = new List<KeyCode>();
+        recording = false;
 
-        if (seed=="") seed = DateTime.Now.ToString();
+        if (seed=="") seed = System.DateTime.Now.ToString();
         randomSeed = new System.Random(seed.GetHashCode());
 
-        mcMetric = new MemoryChoiceMetric();
-
-        metricWriter = new MetricJSONWriter("Feeder", DateTime.Now);
-
-        // Example of getting configuration data.
-        FeederConfig config = (FeederConfig)Battery.Instance.GetCurrentConfig();
-        maxGameTime = config.MaxTime;
-
-        dispenser.Init(seed, totalFoods, avgUpdateFreq, stdDevUpdateFreq);
+        dispenser.Init(seed, totalFoods, changeFreq);
     }
 
     // Update is called once per frame
     void Update()
     {
-        Event e = Event.current;
-       
-        maxGameTime = maxGameTime - Time.deltaTime;
-
         if (lvlState==2) {
-            if (!mcMetric.isRecording) { // begin recording 
-                mcMetric.startRecording();
+            if (!recording) { // begin recording 
+                recording = true;
                 sound.clip = bite_sound;
             }
-            if (maxGameTime < 0) { // game automatically ends after maxGameTime seconds
-                mcMetric.finishRecording();
-                metricWriter.logMetrics(
-                    "Logs/feeder_"+DateTime.Now.ToFileTime()+".json", 
-                    DateTime.Now, 
-                    new List<AbstractMetric>(){mcMetric}
-                );
+            if (Time.time > maxGameTime) { // game automatically ends after maxGameTime seconds
                 EndLevel(1f);
             }
 
@@ -123,21 +105,17 @@ public class FeederLevelManager : LevelManager
                 StartLevel();
             }
         }
-        if (lvlState==2 && e.type == EventType.KeyDown) {
-            if (e.keyCode == feedKey) mcMetric.recordEvent(new MemoryChoiceEvent(
-                dispenser.choiceStartTime,
-                new List<String>(dispenser.goodFoods),
-                dispenser.currentFood,
-                true,
-                DateTime.Now
-            ));
-            else if (e.keyCode == trashKey) mcMetric.recordEvent(new MemoryChoiceEvent(
-                dispenser.choiceStartTime,
-                new List<String>(dispenser.goodFoods),
-                dispenser.currentFood,
-                false,
-                DateTime.Now
-            ));
+        if (lvlState==2 && e.isKey && e.keyCode!=KeyCode.None) {
+            // When a keyboard key is initially pressed down, add it to list
+            // We don't want to record when a key is HELD down
+            if (e.type == EventType.KeyDown && !keysDown.Contains(e.keyCode)) {
+                keysDown.Add(e.keyCode);
+
+            // Remove key from list
+            } else if (e.type == EventType.KeyUp) {
+                keysDown.Remove(e.keyCode);
+
+            }
         }
     }
 
@@ -158,6 +136,7 @@ public class FeederLevelManager : LevelManager
 
     IEnumerator WaitForChoiceAnimation()
     {
+        Debug.Log(Time.frameCount.ToString() + ": WaitForChoiceAnimtion Start");
         yield return new WaitForSeconds(1.3f);
         tiltPlateTo = 0f;
         sound.PlayOneShot(plate_down);
@@ -167,12 +146,15 @@ public class FeederLevelManager : LevelManager
         plate.localEulerAngles = Vector3.zero;
         plate.GetChild(0).localEulerAngles = Vector3.zero;
         animatingChoice = false;
+        Debug.Log(Time.frameCount.ToString() + ": WaitForChoiceAnimtion End");
     }
 
     IEnumerator WaitForFoodDispense(float wait)
     {
+        Debug.Log(Time.frameCount.ToString() + ": WaitForFoodDispense Start");
         yield return new WaitForSeconds(wait);
         playerChoosing = true;
         animatingDispense = false;
+        Debug.Log(Time.frameCount.ToString() + ": WaitForFoodDispense End");
     }
 }
