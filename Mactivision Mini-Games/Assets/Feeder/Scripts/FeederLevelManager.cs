@@ -7,8 +7,8 @@ using System.Linq;
 
 public class FeederLevelManager : LevelManager
 {
-    public TMP_Text introText2;
-    bool showIntro2; // a second text block b/c lots of info
+    public TMP_Text introText2;                 // a second text block b/c lots of info
+    bool showIntro2;
 
     public Animator monster;
     public Transform plate;
@@ -18,12 +18,12 @@ public class FeederLevelManager : LevelManager
     public AudioClip plate_down;
     public AudioClip bite_sound;
     
-    public string seed;
-    System.Random randomSeed;
+    public string seed;                     // optional manually entered seed
+    System.Random randomSeed;               // seed of the current game
 
-    public int totalFoods = 6;
-    public float avgUpdateFreq = 3f;
-    public float stdDevUpdateFreq = 2.8f;
+    public int totalFoods = 6;              // number of foods to be used in the current game
+    public float avgUpdateFreq = 3f;        // average number of foods dispensed between each food update
+    public float stdDevUpdateFreq = 2.8f;   // standard deviation of `avgUpdateFreq`
 
     public int maxGameTime = 240;
 
@@ -86,6 +86,7 @@ public class FeederLevelManager : LevelManager
             } else if (playerChoosing && (Input.GetKeyDown(feedKey) || Input.GetKeyDown(trashKey))) {
                 playerChoosing = false;
                 animatingChoice = true;
+
                 if (Input.GetKeyDown(feedKey)) {
                     monster.Play("Base Layer.monster_eat");
                     sound.PlayDelayed(0.85f);
@@ -93,8 +94,17 @@ public class FeederLevelManager : LevelManager
                 } else {
                     tiltPlateTo = 33f;
                 }
+
+                mcMetric.recordEvent(new MemoryChoiceEvent(
+                    dispenser.choiceStartTime,
+                    new List<String>(dispenser.goodFoods),
+                    dispenser.currentFood,
+                    Input.GetKeyDown(feedKey),
+                    DateTime.Now
+                ));
+
                 sound.PlayOneShot(plate_up);
-                StartCoroutine(WaitForChoiceAnimation());
+                StartCoroutine(WaitForChoiceAnimation(Input.GetKeyDown(feedKey) && dispenser.MakeChoice(Input.GetKeyDown(feedKey))));
             }
         }
     }
@@ -103,7 +113,7 @@ public class FeederLevelManager : LevelManager
     void OnGUI()
     {
         Event e = Event.current;
-        if (lvlState==0 && e.isKey && e.type == EventType.KeyUp) {
+        if (lvlState==0 && e.type == EventType.KeyUp) {
             if (!showIntro2) {
                 showIntro2 = true;
                 introText.enabled = false;
@@ -113,22 +123,6 @@ public class FeederLevelManager : LevelManager
                 introText2.enabled = false;
                 StartLevel();
             }
-        }
-        if (lvlState==2 && e.type == EventType.KeyDown) {
-            if (e.keyCode == feedKey) mcMetric.recordEvent(new MemoryChoiceEvent(
-                dispenser.choiceStartTime,
-                new List<String>(dispenser.goodFoods),
-                dispenser.currentFood,
-                true,
-                DateTime.Now
-            ));
-            else if (e.keyCode == trashKey) mcMetric.recordEvent(new MemoryChoiceEvent(
-                dispenser.choiceStartTime,
-                new List<String>(dispenser.goodFoods),
-                dispenser.currentFood,
-                false,
-                DateTime.Now
-            ));
         }
     }
 
@@ -147,13 +141,13 @@ public class FeederLevelManager : LevelManager
         lever.localEulerAngles = rot;
     }
 
-    IEnumerator WaitForChoiceAnimation()
+    IEnumerator WaitForChoiceAnimation(bool feed)
     {
         yield return new WaitForSeconds(1.3f);
         tiltPlateTo = 0f;
         sound.PlayOneShot(plate_down);
 
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(feed ? 1.33f : 2.5f);
         lever.localEulerAngles = Vector3.zero;
         plate.localEulerAngles = Vector3.zero;
         plate.GetChild(0).localEulerAngles = Vector3.zero;

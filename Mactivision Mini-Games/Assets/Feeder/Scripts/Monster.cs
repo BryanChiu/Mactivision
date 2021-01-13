@@ -5,7 +5,7 @@ using System;
 
 public class Monster : MonoBehaviour
 {
-    public Dispenser dispenser;
+    public Dispenser dispenser; // will tell this class the correctness of the decision
     Animator anim;
     AudioSource sound;
 
@@ -16,20 +16,25 @@ public class Monster : MonoBehaviour
         sound = gameObject.GetComponent<AudioSource>();
     }
 
+    // When the monster eats the food GameObject, it will determine
+    // whether the food was correctly feed. If incorrectly feed,
+    // play the monster spiting animation and sound.
     void OnTriggerEnter2D(Collider2D other)
     {
-        GameObject food = other.gameObject;
-        string[] goodFoods = dispenser.goodFoods;
-        if (Array.IndexOf(goodFoods, food.name)<0) {
+        if (dispenser.MakeChoice(true)) {
+            other.gameObject.SetActive(false);
+        } else {
             anim.Play("Base Layer.monster_spit");
             sound.PlayDelayed(0.2f);
-        } else {
-            food.SetActive(false);
         }
+
         StartCoroutine(WaitForMonsterSpit(other.attachedRigidbody));
-        
     }
 
+    // Wait for the eating animation to finish before ejecting the food.
+    // Regardless of the choice, the food gets ejected as if the monster
+    // spit it out; if the choice was correct, the food GameObject will be
+    // invisible. At the end, the food gets deactivated and rotation reset.
     IEnumerator WaitForMonsterSpit(Rigidbody2D food)
     {
         yield return new WaitForSeconds(0.37f);
