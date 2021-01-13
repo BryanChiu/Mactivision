@@ -8,7 +8,7 @@ public interface AbstractMetric {
 }
 
 public abstract class AbstractMetric<T> : AbstractMetric where T : AbstractMetricEvent {
-    public bool isRecording { protected set; get; }
+    public  bool isRecording { protected set; get; }
     public List<T> eventList { get; }
 
     protected AbstractMetric() {
