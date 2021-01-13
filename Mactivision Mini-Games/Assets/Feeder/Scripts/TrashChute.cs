@@ -5,8 +5,8 @@ using System;
 
 public class TrashChute : MonoBehaviour
 {
-    public Dispenser dispenser;
-    public SpriteRenderer recycleIcon;
+    public Dispenser dispenser;         // will tell this class the correctness of the decision
+    public SpriteRenderer recycleIcon;  // icon changes colour based on correctness
     public Color correct = Color.green;
     public Color incorrect = Color.red;
     Color defaultCol = Color.white;
@@ -17,23 +17,25 @@ public class TrashChute : MonoBehaviour
         sound = gameObject.GetComponent<AudioSource>();
     }
 
+    // When the trashchute detects a food GameObject, it will determine
+    // whether the food was correctly discarded. The `recycleIcon` will
+    // change to green or red based on the correct or incorrect decision.
+    // Food GameObject gets deactivated and rotation reset.
     void OnTriggerEnter2D(Collider2D other)
     {
-        GameObject food = other.gameObject;
-        string[] goodFoods = dispenser.MakeChoice(false);
-        recycleIcon.color = Array.IndexOf(goodFoods, food.name)<0 ? correct : incorrect;
+        recycleIcon.color = dispenser.MakeChoice(false) ? correct : incorrect;
         other.attachedRigidbody.velocity = Vector2.zero;
         food.transform.eulerAngles = Vector3.zero;
         food.SetActive(false);
         sound.PlayDelayed(0f);
+
         StartCoroutine(WaitForIconIndicator());
     }
 
+    // Wait a bit before returning the icon back to gray
     IEnumerator WaitForIconIndicator()
     {
-        Debug.Log(Time.frameCount.ToString() + ": WaitForIconIndicator Start");
         yield return new WaitForSeconds(1.5f);
         recycleIcon.color = defaultCol;
-        Debug.Log(Time.frameCount.ToString() + ": WaitForIconIndicator End");
     }
 }
