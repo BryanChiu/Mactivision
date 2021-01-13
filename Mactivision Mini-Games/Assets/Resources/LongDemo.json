@@ -1,0 +1,35 @@
+{
+  "$type": "BatteryConfig, Assembly-CSharp",
+  "PlayerName": null,
+  "StartTime": null,
+  "EndTime": null,
+  "Games": {
+    "$type": "System.Collections.Generic.List`1[[GameConfig, Assembly-CSharp]], mscorlib",
+    "$values": [
+      {
+        "$type": "DiggerConfig, Assembly-CSharp",
+        "Name": null,
+        "Scene": "Digger",
+        "DigAmount": 100
+      },
+      {
+        "$type": "DiggerConfig, Assembly-CSharp",
+        "Name": null,
+        "Scene": "Digger",
+        "DigAmount": 10
+      },
+      {
+        "$type": "FeederConfig, Assembly-CSharp",
+        "Name": null,
+        "Scene": "Feeder",
+        "MaxTime": 2.0
+      },
+      {
+        "$type": "FeederConfig, Assembly-CSharp",
+        "Name": null,
+        "Scene": "Feeder",
+        "MaxTime": 60.0
+      }
+    ]
+  }
+}
