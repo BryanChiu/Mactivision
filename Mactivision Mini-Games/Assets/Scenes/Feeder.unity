@@ -4643,6 +4643,7 @@ MonoBehaviour:
   textBG_LArm: {fileID: 971437893}
   textBG_RArm: {fileID: 698932964}
   countDoneText: Start!
+  lvlState: 2
   sound: {fileID: 0}
   introText2: {fileID: 2021517829}
   monster: {fileID: 635403759}
