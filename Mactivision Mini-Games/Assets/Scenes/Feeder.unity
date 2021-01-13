@@ -4654,8 +4654,9 @@ MonoBehaviour:
   bite_sound: {fileID: 8300000, guid: b22eeec3ff78e924b83a232ee15d9a26, type: 3}
   seed: 
   totalFoods: 6
-  changeFreq: 3
-  maxGameTime: 60
+  avgUpdateFreq: 3
+  stdDevUpdateFreq: 2.8
+  maxGameTime: 120
 --- !u!4 &1867650888
 Transform:
   m_ObjectHideFlags: 0

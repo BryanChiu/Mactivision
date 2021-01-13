@@ -15,18 +15,22 @@ public class Dispenser : MonoBehaviour
     AudioSource sound;
 
     System.Random randomSeed;
-    int changeFreq;
+    float avgUpdateFreq;
+    float stdDevUpdateFreq;
+    int lastUpdate = 0;
+
     string[] gameFoods;
-    string[] goodFoods;
+    public string[] goodFoods { protected set; get; }
     string[] badFoods;
     int goodFoodCount = 0;
-    string currentFood;
+
     GameObject screenFood;
-    DateTime choiceStartTime;
+    public string currentFood { protected set; get; }
+    public DateTime choiceStartTime { protected set; get; }
 
     // initializes the dispenser with the seed, as well as the foods to
     // be used and the frequency the "good foods" are updated
-    public void Init(string seed, int tf, int cf)
+    public void Init(string seed, int tf, float uf, float sd)
     {
         screenGreen.SetActive(false);
         screenRed.SetActive(false);
@@ -35,7 +39,8 @@ public class Dispenser : MonoBehaviour
         sound = gameObject.GetComponent<AudioSource>();
 
         randomSeed = new System.Random(seed.GetHashCode());
-        changeFreq = cf;
+        avgUpdateFreq = uf;
+        stdDevUpdateFreq = sd;
         
         gameFoods = new string[tf];
         goodFoods = new string[tf];
@@ -57,9 +62,10 @@ public class Dispenser : MonoBehaviour
     {
         bool update = false;
 
-        if (randomSeed.NextDouble()<1f/changeFreq || goodFoodCount==0) {
+        if (randomSeed.NextDouble()<CDF(++lastUpdate) || goodFoodCount==0) {
             UpdateFoods();
             update = true;
+            lastUpdate = 0;
             StartCoroutine(WaitForFoodUpdate(1.75f));
         } else {
             StartCoroutine(WaitForFoodUpdate(0f));
@@ -68,15 +74,26 @@ public class Dispenser : MonoBehaviour
         return update;
     }
 
-    public string[] MakeChoice(bool choice)
+    void Dispense()
     {
-        return goodFoods;
+        int randIdx;
+        randIdx = randomSeed.Next(gameFoods.Length);
+        currentFood = gameFoods[randIdx];
+        choiceStartTime = DateTime.Now;
+
+        foreach (GameObject obj in allFoods) {
+            if (obj.name==currentFood) {
+                obj.SetActive(true);
+                obj.transform.position = new Vector3(0f, 4f, 0f);
+                break;
+            }
+        }
+
+        pipe.Play("Base Layer.pipe_dispense");
+        sound.clip = dispense_sound;
+        sound.PlayDelayed(0f);
     }
-
-    public string GetCurrent() {return currentFood;}
-
-    public DateTime GetChoiceStartTime() {return choiceStartTime;}
-
+ 
     void UpdateFoods()
     {
         int randIdx = randomSeed.Next(gameFoods.Length);
@@ -104,34 +121,20 @@ public class Dispenser : MonoBehaviour
         sound.PlayOneShot(screen_sound);
     }
 
-    void Dispense()
-    {
-        int randIdx;
-        string food;
-        randIdx = randomSeed.Next(gameFoods.Length);
-        food = gameFoods[randIdx];
-
-        foreach (GameObject obj in allFoods) {
-            if (obj.name==food) {
-                obj.SetActive(true);
-                obj.transform.position = new Vector3(0f, 4f, 0f);
-                break;
-            }
-        }
-
-        pipe.Play("Base Layer.pipe_dispense");
-        sound.clip = dispense_sound;
-        sound.PlayDelayed(0f);
+    // Rough approximation of the cumulative distribution function based off the
+    // probability density function as defined by `avgUpdateFreq` and `stdDevUpdateFreq`.
+    // Returns the percentage of values less than x on a bell curve with
+    // a peak at `avgUpdateFreq` and an inverted standard deviation of `stdDevUpdateFreq`
+    float CDF(int x) {
+        return 1f/(1f+Mathf.Exp(-stdDevUpdateFreq*(x-avgUpdateFreq+0.5f)));
     }
 
     IEnumerator WaitForFoodUpdate(float wait)
     {
-        Debug.Log(Time.frameCount.ToString() + ": WaitForFoodUpdate Start");
         yield return new WaitForSeconds(wait);
         screenGreen.SetActive(false);
         screenRed.SetActive(false);
         screenFood.SetActive(false);
         Dispense();
-        Debug.Log(Time.frameCount.ToString() + ": WaitForFoodUpdate End");
     }
 }

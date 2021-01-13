@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using System;
 
 public class DiggerLevelManager : LevelManager
 {
@@ -12,6 +12,8 @@ public class DiggerLevelManager : LevelManager
     int digAmount; // total amount of presses required; must be > 0, rounds up to nearest 10
 
     List<KeyCode> keysDown; // List of keys currently held down (not full history)
+    ButtonPressingMetric bpMetric; // records button pressing data during the game
+    MetricJSONWriter metricWriter; // outputs recording metric (bpMetric) as a json file
 
     // Start is called before the first frame update
     void Start()
@@ -25,20 +27,26 @@ public class DiggerLevelManager : LevelManager
         digAmount = diggerConfig.DigAmount;
         
         keysDown = new List<KeyCode>();
+        bpMetric = new ButtonPressingMetric();
+        metricWriter = new MetricJSONWriter("Digger", DateTime.Now);
     }
 
     // Update is called once per frame
     void Update()
     {
         if (lvlState==2) {
-            if (!recording) { // begin recording 
-                recording = true;
-                recorder.StartRec();
+            if (!bpMetric.isRecording) { // begin recording 
+                bpMetric.startRecording();
                 SetDigKeyForGround(); // not called at Start() because this script could load before the blocks
                 SetDigAmountForGround();
             }
             if (chest.opened) { // the player landing on chest triggers the end of the game
-                recorder.EndRec();
+                bpMetric.finishRecording();
+                metricWriter.logMetrics(
+                    "Logs/digger_"+DateTime.Now.ToFileTime()+".json", 
+                    DateTime.Now, 
+                    new List<AbstractMetric>(){bpMetric}
+                );
                 EndLevel(5f);
             }
         }
@@ -56,12 +64,12 @@ public class DiggerLevelManager : LevelManager
             // We don't want to record when a key is HELD down
             if (e.type == EventType.KeyDown && !keysDown.Contains(e.keyCode)) {
                 keysDown.Add(e.keyCode);
-                recorder.AddEvent(e.keyCode, true);
+                bpMetric.recordEvent(new ButtonPressingEvent(DateTime.Now, e.keyCode, true));
                 if (e.keyCode==digKey) player.DigDown();
             // Remove key from list
             } else if (e.type == EventType.KeyUp) {
                 keysDown.Remove(e.keyCode);
-                recorder.AddEvent(e.keyCode, false);
+                bpMetric.recordEvent(new ButtonPressingEvent(DateTime.Now, e.keyCode, false));
                 if (e.keyCode==digKey) player.DigUp();
             }
         }
