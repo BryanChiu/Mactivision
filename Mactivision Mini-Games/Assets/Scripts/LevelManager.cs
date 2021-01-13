@@ -25,9 +25,6 @@ public abstract class LevelManager : MonoBehaviour
 
     public AudioSource sound;
     
-    protected InputRecorder recorder;
-    protected bool recording;
-
     // must be added to Start() method of inherited classes
     // blurs the scene and displays the intro graphic/text
     public void Setup()
@@ -40,10 +37,6 @@ public abstract class LevelManager : MonoBehaviour
         outroText.enabled = false;
         ResizeTextBG(GetRect(introText));
         sound = gameObject.GetComponent<AudioSource>();
-
-        // Moved these into LevelManager parent for testing purposes.
-        recorder = new InputRecorder();
-        recording = false;
     }
 
     // call this to begin countdown and actual level
@@ -94,7 +87,6 @@ public abstract class LevelManager : MonoBehaviour
         // TODO: This is a temporary fix.
         // Ideally we wait for user input before loading next scene.
         // Will have to revisit to find better solution.
-        recorder.WriteRec();
         yield return new WaitForSeconds(3f);
         Battery.Instance.LoadNextScene();
     }

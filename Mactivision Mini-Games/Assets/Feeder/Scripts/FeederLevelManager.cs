@@ -25,8 +25,7 @@ public class FeederLevelManager : LevelManager
     public float avgUpdateFreq = 3f;
     public float stdDevUpdateFreq = 2.8f;
 
-    private float maxGameTime = 20f;
-    public int maxGameTime = 240;
+    private float maxGameTime = 240f;
 
     KeyCode feedKey = KeyCode.RightArrow;
     KeyCode trashKey = KeyCode.LeftArrow;
@@ -52,7 +51,12 @@ public class FeederLevelManager : LevelManager
         randomSeed = new System.Random(seed.GetHashCode());
 
         mcMetric = new MemoryChoiceMetric();
+
         metricWriter = new MetricJSONWriter("Feeder", DateTime.Now);
+
+        // Example of getting configuration data.
+        FeederConfig config = (FeederConfig)Battery.Instance.GetCurrentConfig();
+        maxGameTime = config.MaxTime;
 
         dispenser.Init(seed, totalFoods, avgUpdateFreq, stdDevUpdateFreq);
     }
@@ -69,7 +73,7 @@ public class FeederLevelManager : LevelManager
                 mcMetric.startRecording();
                 sound.clip = bite_sound;
             }
-            if (Time.time > maxGameTime) { // game automatically ends after maxGameTime seconds
+            if (maxGameTime < 0) { // game automatically ends after maxGameTime seconds
                 mcMetric.finishRecording();
                 metricWriter.logMetrics(
                     "Logs/feeder_"+DateTime.Now.ToFileTime()+".json", 
