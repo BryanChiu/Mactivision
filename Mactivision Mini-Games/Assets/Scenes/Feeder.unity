@@ -4657,7 +4657,7 @@ MonoBehaviour:
   totalFoods: 6
   avgUpdateFreq: 3
   stdDevUpdateFreq: 2.8
-  maxGameTime: 120
+  maxGameTime: 180
 --- !u!4 &1867650888
 Transform:
   m_ObjectHideFlags: 0

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+// This class animates the trashchute and resets food GameObjects entering it
 public class TrashChute : MonoBehaviour
 {
     public Dispenser dispenser;         // will tell this class the correctness of the decision
@@ -25,8 +26,8 @@ public class TrashChute : MonoBehaviour
     {
         recycleIcon.color = dispenser.MakeChoice(false) ? correct : incorrect;
         other.attachedRigidbody.velocity = Vector2.zero;
-        food.transform.eulerAngles = Vector3.zero;
-        food.SetActive(false);
+        other.gameObject.transform.eulerAngles = Vector3.zero;
+        other.gameObject.SetActive(false);
         sound.PlayDelayed(0f);
 
         StartCoroutine(WaitForIconIndicator());

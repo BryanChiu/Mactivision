@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+// This class is responsible for managing the games foods, and dispensing of foods.
 public class Dispenser : MonoBehaviour
 {
     public Animator pipe;               // this class will play the pipe dispensing animation

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+// This class animates the monster and resets food GameObjects entering it
 public class Monster : MonoBehaviour
 {
     public Dispenser dispenser; // will tell this class the correctness of the decision
@@ -22,19 +23,19 @@ public class Monster : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         if (dispenser.MakeChoice(true)) {
+            other.attachedRigidbody.velocity = Vector2.zero;
+            other.gameObject.transform.eulerAngles = Vector3.zero;
             other.gameObject.SetActive(false);
         } else {
             anim.Play("Base Layer.monster_spit");
             sound.PlayDelayed(0.2f);
+            StartCoroutine(WaitForMonsterSpit(other.attachedRigidbody));
         }
 
-        StartCoroutine(WaitForMonsterSpit(other.attachedRigidbody));
     }
 
     // Wait for the eating animation to finish before ejecting the food.
-    // Regardless of the choice, the food gets ejected as if the monster
-    // spit it out; if the choice was correct, the food GameObject will be
-    // invisible. At the end, the food gets deactivated and rotation reset.
+    // At the end, the food gets deactivated and rotation reset.
     IEnumerator WaitForMonsterSpit(Rigidbody2D food)
     {
         yield return new WaitForSeconds(0.37f);

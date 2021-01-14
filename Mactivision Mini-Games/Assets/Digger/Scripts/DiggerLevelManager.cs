@@ -3,40 +3,45 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+// This class manages the majority of the game functionality
 public class DiggerLevelManager : LevelManager
 {
     public PlayerController player; // the player object in Unity
-    public ChestAnimator chest; // the chest object in Unity
+    public ChestAnimator chest;     // the chest object in Unity
     
-    KeyCode digKey; // keyboard key used to dig
-    int digAmount; // total amount of presses required; must be > 0, rounds up to nearest 10
+    KeyCode digKey;                 // keyboard key used to dig
+    int digAmount;                  // total amount of presses required; must be > 0, rounds up to nearest 10
 
-    List<KeyCode> keysDown; // List of keys currently held down (not full history)
-    ButtonPressingMetric bpMetric; // records button pressing data during the game
-    MetricJSONWriter metricWriter; // outputs recording metric (bpMetric) as a json file
+    List<KeyCode> keysDown;         // List of keys currently held down (not full history)
+    ButtonPressingMetric bpMetric;  // records button pressing data during the game
+    MetricJSONWriter metricWriter;  // outputs recording metric (bpMetric) as a json file
 
     // Start is called before the first frame update
     void Start()
     {
         Setup(); // run initial setup, inherited from parent class
+
         countDoneText = "Dig!";
         digKey = KeyCode.B;
         digAmount = 100;
         keysDown = new List<KeyCode>();
-        bpMetric = new ButtonPressingMetric();
-        metricWriter = new MetricJSONWriter("Digger", DateTime.Now);
+
+        bpMetric = new ButtonPressingMetric(); // initialize metric recorder
+        metricWriter = new MetricJSONWriter("Digger", DateTime.Now); // initialize metric data writer
     }
 
     // Update is called once per frame
     void Update()
     {
         if (lvlState==2) {
-            if (!bpMetric.isRecording) { // begin recording 
+            // begin game, begin recording 
+            if (!bpMetric.isRecording) {
                 bpMetric.startRecording();
-                SetDigKeyForGround(); // not called at Start() because this script could load before the blocks
+                SetDigKeyForGround();
                 SetDigAmountForGround();
             }
-            if (chest.opened) { // the player landing on chest triggers the end of the game
+            // the player landing on chest triggers the end of the game
+            if (chest.opened) {
                 bpMetric.finishRecording();
                 metricWriter.logMetrics(
                     "Logs/digger_"+DateTime.Now.ToFileTime()+".json", 
@@ -52,9 +57,11 @@ public class DiggerLevelManager : LevelManager
     void OnGUI()
     {
         Event e = Event.current;
+        // start level when user pressing `digKey`
         if (lvlState==0 && e.isKey && e.keyCode==digKey) {
             StartLevel();
         }
+        // record every key press and key release, regardless if it's `digKey`
         if (lvlState==2 && e.isKey && e.keyCode!=KeyCode.None) {
             // When a keyboard key is initially pressed down, add it to list
             // We don't want to record when a key is HELD down
@@ -71,7 +78,7 @@ public class DiggerLevelManager : LevelManager
         }
     }
 
-    // for all blocks to be dug, set the key that will break it
+    // For all blocks to be dug, set the key that will break it
     void SetDigKeyForGround() {
         GameObject[] groundBlocks = GameObject.FindGameObjectsWithTag("GroundBlock");
         foreach (GameObject block in groundBlocks) {
@@ -79,7 +86,9 @@ public class DiggerLevelManager : LevelManager
         }
     }
 
-    // for all blocks to be dug, set the amount of "digs"/key-presses it will take to completely break
+    // For all blocks to be dug, set the amount of "digs"/key-presses it will take to completely break.
+    // Since there are 10 blocks to be dug, the dig amount for each block is a tenth of the `digAmount`,
+    // rounded up. Will be at least 1, as `digAmount` must be > 0
     void SetDigAmountForGround() {
         GameObject[] groundBlocks = GameObject.FindGameObjectsWithTag("GroundBlock");
         foreach (GameObject block in groundBlocks) {

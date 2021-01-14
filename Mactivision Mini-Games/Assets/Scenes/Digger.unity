@@ -2964,8 +2964,8 @@ MonoBehaviour:
   dust1: {fileID: 7174470308190422555, guid: 826f5defe3284b14eb0f3cb1d1de52de, type: 3}
   dust2: {fileID: 6081451832378109467, guid: 9ca550c85cf29974b80d1421a17bec3e, type: 3}
   jackhammer: {fileID: 585123253}
-  hammerRest: {x: 0, y: -0.191, z: 0}
-  hammerJump: {x: 0, y: -0.126, z: 0}
+  hammerRest: {x: 0, y: -0.191, z: -1}
+  hammerJump: {x: 0, y: -0.126, z: -1}
 --- !u!1 &1267353247
 GameObject:
   m_ObjectHideFlags: 0
