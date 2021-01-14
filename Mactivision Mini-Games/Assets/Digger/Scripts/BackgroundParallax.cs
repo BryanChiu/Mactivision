@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// This class animates the background to have a parallax effect
 public class BackgroundParallax : MonoBehaviour
 {
     Vector3 current;

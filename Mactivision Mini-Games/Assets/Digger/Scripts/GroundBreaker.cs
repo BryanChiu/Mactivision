@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// This class is applied to each of the ten blocks that the player has to break
 public class GroundBreaker : MonoBehaviour
 {
     public GameObject player;
     public Sprite[] breakAnimation;
     KeyCode digKey;
 
-    public int hitsToBreak = 10;
-    int hits;
-    bool touching;
+    public int hitsToBreak;         // number of hits it takes to break the block (set by `SetHitsToBreak`)
+    int hits;                       // number of hits it has received
+    bool touching;                  // whether the player is touching the block
 
     SpriteRenderer spriteRender;
 
@@ -23,6 +24,7 @@ public class GroundBreaker : MonoBehaviour
         spriteRender = GetComponent<SpriteRenderer>();
     }
 
+    // if the player is touching the block
     void OnTriggerStay2D(Collider2D c)
     {
         if (c.gameObject.name == player.name) {
@@ -30,8 +32,12 @@ public class GroundBreaker : MonoBehaviour
         }
     }
 
+    // Update is called once per frame
     void Update()
     {
+        // If the dig key is pressed, progress the breaking animation.
+        // If the number of hits needed to fully break is reached, deactivate the object.
+        // This causes the player to fall to the next block.
         if (touching && Input.GetKeyDown(digKey)) {
             if (hits<hitsToBreak-1) {
                 spriteRender.sprite = breakAnimation[Mathf.FloorToInt((++hits/(float)hitsToBreak)*10)];

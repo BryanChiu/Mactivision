@@ -6,26 +6,28 @@ using UnityEngine.Animations;
 using UnityEngine.Rendering.PostProcessing;
 using TMPro;
 
+// This class provides methods to inherited classes for pre and post-game features. It starts the
+// scene with a blurred game scene with an introductory text, then a countdown, and a end game text.
 public abstract class LevelManager : MonoBehaviour
 {
-    public PostProcessVolume postprocess; // graphical effects, used for blurring the scene
-    public TMP_Text introText; // text object displayed before actual game begins
-    public TMP_Text outroText; // text object displayed after game ends
-    public TMP_Text countdownText; // text object displaying countdown to begin actual game
+    public PostProcessVolume postprocess;   // graphical effects, used for blurring the scene
+    public TMP_Text introText;              // text object displayed before actual game begins
+    public TMP_Text outroText;              // text object displayed after game ends
+    public TMP_Text countdownText;          // text object displaying countdown to begin actual game
+    public string countDoneText = "Start!"; // text instead of "0" after "3, 2, 1"
 
-    public GameObject textBG; // parent group for graphics displayed behind text
+    public GameObject textBG;               // parent group for graphics displayed behind text
     public RectTransform textBG_Main;
     public RectTransform textBG_Edge;
     public RectTransform textBG_LArm;
     public RectTransform textBG_RArm;
 
-    public string countDoneText = "Start!";
-    public int lvlState; // 0: intro; 1: countdown; 2: gameplay; 3: game end
+    public int lvlState;                    // 0: intro; 1: countdown; 2: gameplay; 3: game end
 
     public AudioSource sound;
 
-    // must be added to Start() method of inherited classes
-    // blurs the scene and displays the intro graphic/text
+    // Must be added to Start() method of inherited classes.
+    // Blurs the scene and displays the intro graphic/text.
     public void Setup()
     {
         lvlState = 0;
@@ -38,8 +40,8 @@ public abstract class LevelManager : MonoBehaviour
         sound = gameObject.GetComponent<AudioSource>();
     }
 
-    // call this to begin countdown and actual level
-    // hides intro text and displays countdown text and plays countdown sound
+    // Call this to begin countdown and actual level.
+    // Hides intro text and displays countdown text and plays countdown sound.
     public void StartLevel()
     {
         lvlState = 1;
@@ -50,14 +52,14 @@ public abstract class LevelManager : MonoBehaviour
         StartCoroutine(CountDown());
     }
 
-    // call this to end level
+    // Call this to end level
     public void EndLevel(float delay)
     {
         lvlState = 3;
         StartCoroutine(PauseAndEnd(delay)); // delays the end graphic to allow for animations, etc.
     }
 
-    // displays the countdown before the actual game begins
+    // Displays the countdown before the actual game begins
     IEnumerator CountDown()
     {
         countdownText.text = "3";
@@ -74,7 +76,7 @@ public abstract class LevelManager : MonoBehaviour
         ChangeBlur(10f);
     }
 
-    // blurs the scene and displays the outro graphic/text
+    // Blurs the scene and displays the outro graphic/text
     IEnumerator PauseAndEnd(float delay) 
     {
         yield return new WaitForSeconds(delay);
@@ -84,7 +86,7 @@ public abstract class LevelManager : MonoBehaviour
         ResizeTextBG(GetRect(outroText));
     }
 
-    // blurs the scene by changing the scene camera's depth of field
+    // Blurs the scene by changing the scene camera's depth of field
     void ChangeBlur(float dist)
     {
         if (postprocess) {
@@ -96,13 +98,13 @@ public abstract class LevelManager : MonoBehaviour
          }
     }
 
-    // returns a text object's bounding box
+    // Returns a text object's bounding box
     public Rect GetRect(TMP_Text text) 
     {
         return text.gameObject.GetComponent<RectTransform>().rect;
     }
 
-    // resizes the red background according to text's bounding box
+    // Resizes the red background according to text's bounding box
     public void ResizeTextBG(Rect box) 
     {
         float w = box.width+40;
