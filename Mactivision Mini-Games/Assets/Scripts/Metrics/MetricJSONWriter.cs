@@ -4,9 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 
 // MetricJSONWriter class is used to collect game data from metrics after a game has finished and output it to a file
-public class MetricJSONWriter 
-    // : MonoBehaviour 
-    {
+public class MetricJSONWriter {
 
     private string gameName;
     private System.DateTime gameStartTime;
@@ -53,33 +51,4 @@ public class MetricJSONWriter
             json.WriteTo(writer);
         }
     }
-
-    // Testing purposes. Will remove before submission
-    // void Start()
-    // {
-    //     Debug.Log("test123");
-    //     MetricJSONWriter mjw = new MetricJSONWriter("digger", System.DateTime.Now);
-
-    //     ButtonPressingMetric myBPMetric = new ButtonPressingMetric();
-    //     myBPMetric.startRecording();
-    //     myBPMetric.recordEvent(new ButtonPressingEvent(System.DateTime.Now, UnityEngine.KeyCode.R, true));
-    //     myBPMetric.recordEvent(new ButtonPressingEvent(System.DateTime.Now, UnityEngine.KeyCode.A, true));
-    //     myBPMetric.recordEvent(new ButtonPressingEvent(System.DateTime.Now, UnityEngine.KeyCode.S, false));
-    //     myBPMetric.recordEvent(new ButtonPressingEvent(System.DateTime.Now, UnityEngine.KeyCode.R, true));
-    //     myBPMetric.finishRecording();
-
-    //     MemoryChoiceMetric myMCMetric = new MemoryChoiceMetric();
-    //     myMCMetric.startRecording();
-    //     myMCMetric.recordEvent(new MemoryChoiceEvent(System.DateTime.Now, new List<string> {"apple", "banana"}, "apple", false, System.DateTime.Now));
-    //     myMCMetric.recordEvent(new MemoryChoiceEvent(System.DateTime.Now, new List<string> {"apple", "banana", "pear"}, "orange", false, System.DateTime.Now));
-    //     myMCMetric.recordEvent(new MemoryChoiceEvent(System.DateTime.Now, new List<string> {"apple", "pear"}, "pear", true, System.DateTime.Now));
-    //     myMCMetric.recordEvent(new MemoryChoiceEvent(System.DateTime.Now, new List<string> {"apple", "pear"}, "banana", true, System.DateTime.Now));
-    //     myMCMetric.finishRecording();
-        
-    //     List<AbstractMetric> myList = new List<AbstractMetric>();
-    //     myList.Add(myBPMetric);
-    //     myList.Add(myMCMetric);
-        
-    //     mjw.logMetrics("test_out.json", System.DateTime.Now, myList);
-    // }
 }

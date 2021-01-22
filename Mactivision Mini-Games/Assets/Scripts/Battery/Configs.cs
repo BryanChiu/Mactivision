@@ -19,14 +19,6 @@ public interface GameConfig
     string Scene {get; set;}
 }
 
-// public class GameConfigConverter : CustomCreationConverter<GameConfig>
-// {
-//     public override GameConfig Create(Type objectType)
-//     {
-//         return new DiggerConfig();
-//     }
-// }
-
 public class DiggerConfig : GameConfig
 {
     public string Name {get; set;}
