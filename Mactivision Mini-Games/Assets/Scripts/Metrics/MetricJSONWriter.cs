@@ -10,10 +10,17 @@ public class MetricJSONWriter
 
     private string gameName;
     private System.DateTime gameStartTime;
+    private string seed;
 
     public MetricJSONWriter(string gameName, System.DateTime gameStartTime) {
         this.gameName = gameName;
         this.gameStartTime = gameStartTime;
+    }
+
+    public MetricJSONWriter(string gameName, System.DateTime gameStartTime, string seed) {
+        this.gameName = gameName;
+        this.gameStartTime = gameStartTime;
+        this.seed = seed;
     }
 
     // logMetrics takes 3 parameters:
@@ -32,6 +39,7 @@ public class MetricJSONWriter
             json["game"] = new JValue(gameName);
             json["startTime"] = new JValue(gameStartTime);
             json["endTime"] = new JValue(gameEndTime);
+            json["seed"] = new JValue(seed);
 
             JArray jsonMetrics = new JArray();
             foreach (AbstractMetric m in metrics) {

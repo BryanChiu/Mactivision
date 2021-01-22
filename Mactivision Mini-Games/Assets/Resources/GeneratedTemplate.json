@@ -10,13 +10,19 @@
         "$type": "DiggerConfig, Assembly-CSharp",
         "Name": null,
         "Scene": null,
-        "DigAmount": 0
+        "DigAmount": 0,
+        "DigKey": null
       },
       {
         "$type": "FeederConfig, Assembly-CSharp",
         "Name": null,
         "Scene": null,
-        "MaxTime": 0.0
+        "Seed": null,
+        "MaxGameTime": 0.0,
+        "MaxFoodDispensed": 0,
+        "TotalFoods": 0,
+        "AverageUpdateFrequency": 0.0,
+        "StandardDeviationUpdateFreq": 0.0
       }
     ]
   }
