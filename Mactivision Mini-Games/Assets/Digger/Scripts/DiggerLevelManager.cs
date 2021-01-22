@@ -9,8 +9,8 @@ public class DiggerLevelManager : LevelManager
     public PlayerController player; // the player object in Unity
     public ChestAnimator chest;     // the chest object in Unity
     
+    public int digAmount;           // total amount of presses required; must be > 0, rounds up to nearest 10
     KeyCode digKey;                 // keyboard key used to dig
-    int digAmount;                  // total amount of presses required; must be > 0, rounds up to nearest 10
 
     List<KeyCode> keysDown;         // List of keys currently held down (not full history)
     ButtonPressingMetric bpMetric;  // records button pressing data during the game
@@ -20,14 +20,32 @@ public class DiggerLevelManager : LevelManager
     void Start()
     {
         Setup(); // run initial setup, inherited from parent class
-
-        countDoneText = "Dig!";
+        
+        // set default values
         digKey = KeyCode.B;
         digAmount = 100;
+        InitConfig(); // change values according to config
+
+        // set the digKey for the intro instructions
+        int tempIdx = introText.text.IndexOf("KEY");
+        introText.text = introText.text.Substring(0, tempIdx) + digKey.ToString() + introText.text.Substring(tempIdx+3);
+
+        countDoneText = "Dig!";
         keysDown = new List<KeyCode>();
 
         bpMetric = new ButtonPressingMetric(); // initialize metric recorder
         metricWriter = new MetricJSONWriter("Digger", DateTime.Now); // initialize metric data writer
+    }
+
+    void InitConfig()
+    {
+        try {
+            DiggerConfig diggerConfig = (DiggerConfig)Battery.Instance.GetCurrentConfig();
+            if (diggerConfig.DigAmount != 0) digAmount = diggerConfig.DigAmount;
+            if (diggerConfig.DigKey != null) digKey = (KeyCode) System.Enum.Parse(typeof(KeyCode), diggerConfig.DigKey);
+        } catch (Exception) {
+            Debug.Log("Battery not found, using default values");
+        }
     }
 
     // Update is called once per frame
@@ -75,6 +93,10 @@ public class DiggerLevelManager : LevelManager
                 bpMetric.recordEvent(new ButtonPressingEvent(DateTime.Now, e.keyCode, false));
                 if (e.keyCode==digKey) player.DigUp();
             }
+        }
+
+        if (lvlState==4 && e.type == EventType.KeyUp) {
+            Battery.Instance.LoadNextScene();
         }
     }
 

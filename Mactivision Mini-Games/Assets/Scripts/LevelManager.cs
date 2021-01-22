@@ -22,7 +22,7 @@ public abstract class LevelManager : MonoBehaviour
     public RectTransform textBG_LArm;
     public RectTransform textBG_RArm;
 
-    public int lvlState;                    // 0: intro; 1: countdown; 2: gameplay; 3: game end
+    public int lvlState;                    // 0: intro; 1: countdown; 2: gameplay; 3: game ending; 4: game end
 
     public AudioSource sound;
 
@@ -56,7 +56,7 @@ public abstract class LevelManager : MonoBehaviour
     public void EndLevel(float delay)
     {
         lvlState = 3;
-        StartCoroutine(PauseAndEnd(delay)); // delays the end graphic to allow for animations, etc.
+        StartCoroutine(WaitBeforeShowingOutro(delay)); // delays the end graphic to allow for animations, etc.
     }
 
     // Displays the countdown before the actual game begins
@@ -77,13 +77,14 @@ public abstract class LevelManager : MonoBehaviour
     }
 
     // Blurs the scene and displays the outro graphic/text
-    IEnumerator PauseAndEnd(float delay) 
+    IEnumerator WaitBeforeShowingOutro(float delay) 
     {
         yield return new WaitForSeconds(delay);
         ChangeBlur(2f);
         textBG.SetActive(true);
         outroText.enabled = true;
         ResizeTextBG(GetRect(outroText));
+        lvlState = 4;
     }
 
     // Blurs the scene by changing the scene camera's depth of field

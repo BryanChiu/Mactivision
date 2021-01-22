@@ -10,25 +10,47 @@
         "$type": "DiggerConfig, Assembly-CSharp",
         "Name": null,
         "Scene": "Digger",
-        "DigAmount": 100
+        "DigAmount": 10,
+        "DigKey": "D"
       },
       {
         "$type": "DiggerConfig, Assembly-CSharp",
         "Name": null,
         "Scene": "Digger",
-        "DigAmount": 10
+        "DigAmount": 10,
+      },
+      {
+        "$type": "DiggerConfig, Assembly-CSharp",
+        "Name": null,
+        "Scene": "Digger",
+        "DigKey": "H"
+      },
+      {
+        "$type": "DiggerConfig, Assembly-CSharp",
+        "Name": null,
+        "Scene": "Digger",
       },
       {
         "$type": "FeederConfig, Assembly-CSharp",
         "Name": null,
         "Scene": "Feeder",
-        "MaxTime": 2.0
+        "Seed": "hello world",
+        "MaxGameTime": 200,
+        "MaxFoodDispensed": 40,
+        "TotalFoods": 5,
+        "AverageUpdateFrequency": 4,
+        "StandardDeviationUpdateFreq": 0.8
       },
       {
         "$type": "FeederConfig, Assembly-CSharp",
         "Name": null,
         "Scene": "Feeder",
-        "MaxTime": 60.0
+        "Seed": null,
+        "MaxGameTime": 0.0,
+        "MaxFoodDispensed": 0,
+        "TotalFoods": 0,
+        "AverageUpdateFrequency": 0.0,
+        "StandardDeviationUpdateFreq": 0.0
       }
     ]
   }

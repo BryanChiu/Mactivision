@@ -8,15 +8,24 @@
     "$values": [
       {
         "$type": "DiggerConfig, Assembly-CSharp",
-        "Name": "Digger Fast",
+        "Name": null,
         "Scene": "Digger",
         "DigAmount": 10
       },
       {
         "$type": "FeederConfig, Assembly-CSharp",
-        "Name": "Feeder Fast",
+        "Name": null,
         "Scene": "Feeder",
-        "MaxTime": 10.0
+        "MaxFoodDispensed": 4,
+        "AverageUpdateFrequency": 3,
+        "StandardDeviationUpdateFreq": 3
+      },
+      {
+        "$type": "FeederConfig, Assembly-CSharp",
+        "Name": null,
+        "Scene": "Feeder",
+        "MaxGameTime": 100.0,
+        "MaxFoodDispensed": 4,
       }
     ]
   }

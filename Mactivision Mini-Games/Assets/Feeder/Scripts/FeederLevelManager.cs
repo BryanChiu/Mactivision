@@ -21,12 +21,15 @@ public class FeederLevelManager : LevelManager
     public string seed;                     // optional manually entered seed
     System.Random randomSeed;               // seed of the current game
 
-    public int totalFoods = 6;              // number of foods to be used in the current game
-    public float avgUpdateFreq = 3f;        // average number of foods dispensed between each food update
-    public float stdDevUpdateFreq = 2.8f;   // standard deviation of `avgUpdateFreq`
+    public int totalFoods;                  // number of foods to be used in the current game
+    public float avgUpdateFreq;             // average number of foods dispensed between each food update
+    public float stdDevUpdateFreq;          // inverted standard deviation of `avgUpdateFreq`
 
-    public int maxGameTime = 180;           // length of the game
+    public float maxGameTime;               // maximum length of the game
     float gameStartTime;
+
+    public int maxFoodDispensed;            // maximum foods dispensed before game ends
+    int foodDispensed;
 
     KeyCode feedKey = KeyCode.RightArrow;   // press to feed monster
     KeyCode trashKey = KeyCode.LeftArrow;   // press to throw away
@@ -44,19 +47,42 @@ public class FeederLevelManager : LevelManager
     void Start()
     {
         Setup(); // run initial setup, inherited from parent class
+
+        //set default values
+        seed = DateTime.Now.ToString(); // if no seed is provided, use the current date and time
+        maxGameTime = 120;
+        maxFoodDispensed = 25;
+        totalFoods = 6;
+        avgUpdateFreq = 3f;
+        stdDevUpdateFreq = 2.8f;
+        InitConfig();
         
+        randomSeed = new System.Random(seed.GetHashCode());
+        foodDispensed = 0;
+
         introText2.enabled = false;
         showIntro2 = false;
         countDoneText = "Start!";
 
-        // if no seed is provided, use the current date and time
-        if (seed=="") seed = DateTime.Now.ToString();
-        randomSeed = new System.Random(seed.GetHashCode());
-
         mcMetric = new MemoryChoiceMetric(); // initialize metric recorder
-        metricWriter = new MetricJSONWriter("Feeder", DateTime.Now); // initialize metric data writer
+        metricWriter = new MetricJSONWriter("Feeder", DateTime.Now, seed); // initialize metric data writer
 
         dispenser.Init(seed, totalFoods, avgUpdateFreq, stdDevUpdateFreq); // initialize the dispenser
+    }
+
+    void InitConfig()
+    {
+        try {
+            FeederConfig feederConfig = (FeederConfig)Battery.Instance.GetCurrentConfig();
+            if (feederConfig.Seed != null) seed = feederConfig.Seed;
+            if (feederConfig.MaxGameTime != 0) maxGameTime = feederConfig.MaxGameTime;
+            if (feederConfig.MaxFoodDispensed != 0) maxFoodDispensed = feederConfig.MaxFoodDispensed;
+            if (feederConfig.TotalFoods != 0) totalFoods = feederConfig.TotalFoods;
+            if (feederConfig.AverageUpdateFrequency != 0) avgUpdateFreq = feederConfig.AverageUpdateFrequency;
+            if (feederConfig.StandardDeviationUpdateFreq != 0) stdDevUpdateFreq = feederConfig.StandardDeviationUpdateFreq;
+        } catch (Exception) {
+            Debug.Log("Battery not found, using default values");
+        }
     }
 
     // Update is called once per frame
@@ -70,14 +96,15 @@ public class FeederLevelManager : LevelManager
                 sound.clip = bite_sound;
             }
             // game automatically ends after maxGameTime seconds
-            if (Time.time-gameStartTime > maxGameTime) { 
+            if (Time.time-gameStartTime >= maxGameTime || (foodDispensed >= maxFoodDispensed && !animatingChoice)) { 
                 mcMetric.finishRecording();
                 metricWriter.logMetrics(
                     "Logs/feeder_"+DateTime.Now.ToFileTime()+".json", 
                     DateTime.Now, 
                     new List<AbstractMetric>(){mcMetric}
                 );
-                EndLevel(1f);
+                EndLevel(0f);
+                return;
             }
 
             // animate the plate tilting food into trash/monster
@@ -137,6 +164,10 @@ public class FeederLevelManager : LevelManager
                 StartLevel();
             }
         }
+
+        if (lvlState==4 && e.type == EventType.KeyUp) {
+            Battery.Instance.LoadNextScene();
+        }
     }
 
     // This function tilts the plate by a small increment. When called over multiple
@@ -172,6 +203,7 @@ public class FeederLevelManager : LevelManager
         plate.localEulerAngles = Vector3.zero;
         plate.GetChild(0).localEulerAngles = Vector3.zero;
         animatingChoice = false;
+        foodDispensed++;
     }
 
     // Wait for the food dispensing animation
