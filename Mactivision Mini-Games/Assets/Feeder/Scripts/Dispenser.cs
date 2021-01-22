@@ -151,7 +151,10 @@ public class Dispenser : MonoBehaviour
     // Rough approximation of the cumulative distribution function based off the
     // probability density function as defined by `avgUpdateFreq` and `stdDevUpdateFreq`.
     // Returns the percentage of values less than x on a bell curve with
-    // a peak at `avgUpdateFreq` and an inverted standard deviation of `stdDevUpdateFreq`
+    // a peak at `avgUpdateFreq` and an inverted standard deviation of `stdDevUpdateFreq`.
+    // stdDev = 2.8: avg-2 -> 0%,  avg-1 -> 20%, avg -> 80%, avg+1 -> 100%
+    // stdDev = 0.9: avg-2 -> 20%, avg-1 -> 40%, avg -> 60%, avg+1 -> 80%, avg+2 -> 90%
+    // stdDev = 15:                avg-1 -> 0%,  avg -> 100%
     float CDF(int x) {
         return 1f/(1f+Mathf.Exp(-stdDevUpdateFreq*(x-avgUpdateFreq+0.5f)));
     }

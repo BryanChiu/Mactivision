@@ -401,7 +401,7 @@ MonoBehaviour:
     treasure!
 
 
-    Press "B" to dig!'
+    Press "KEY" to dig!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1f1bd4f65deff6b429253f9c3a2178dd, type: 2}
   m_sharedMaterial: {fileID: 7052846941345835174, guid: 1f1bd4f65deff6b429253f9c3a2178dd, type: 2}
@@ -3245,7 +3245,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1377675674}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.42, y: -14.362, z: 2}
+  m_LocalPosition: {x: -0.42, y: -14.375, z: 2}
   m_LocalScale: {x: 0.63686, y: 0.63686, z: 0.63686}
   m_Children:
   - {fileID: 1099645844}
@@ -5252,16 +5252,17 @@ MonoBehaviour:
   introText: {fileID: 158730860}
   outroText: {fileID: 1311983253}
   countdownText: {fileID: 720354454}
+  countDoneText: Start!
   textBG: {fileID: 1875444285}
   textBG_Main: {fileID: 473482976}
   textBG_Edge: {fileID: 1538848487}
   textBG_LArm: {fileID: 480893005}
   textBG_RArm: {fileID: 1190943280}
-  countDoneText: Start!
   lvlState: 0
   sound: {fileID: 0}
   player: {fileID: 1265911977}
   chest: {fileID: 1377675679}
+  digAmount: 0
 --- !u!4 &1958587204
 Transform:
   m_ObjectHideFlags: 0

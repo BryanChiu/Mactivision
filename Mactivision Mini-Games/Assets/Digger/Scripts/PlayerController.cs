@@ -14,7 +14,6 @@ public class PlayerController : MonoBehaviour
     // Called when the dig key is pressed
     public void DigUp() {
         jackhammer.transform.localPosition = hammerJump;
-        Debug.Log(hammerJump);
     }
 
     // Called when the dig key is released
