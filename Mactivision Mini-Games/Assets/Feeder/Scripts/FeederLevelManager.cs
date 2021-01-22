@@ -80,6 +80,7 @@ public class FeederLevelManager : LevelManager
             if (feederConfig.TotalFoods != 0) totalFoods = feederConfig.TotalFoods;
             if (feederConfig.AverageUpdateFrequency != 0) avgUpdateFreq = feederConfig.AverageUpdateFrequency;
             if (feederConfig.StandardDeviationUpdateFreq != 0) stdDevUpdateFreq = feederConfig.StandardDeviationUpdateFreq;
+            outputPath = Battery.Instance.GetOutputPath();
         } catch (Exception) {
             Debug.Log("Battery not found, using default values");
         }
@@ -99,7 +100,7 @@ public class FeederLevelManager : LevelManager
             if (Time.time-gameStartTime >= maxGameTime || (foodDispensed >= maxFoodDispensed && !animatingChoice)) { 
                 mcMetric.finishRecording();
                 metricWriter.logMetrics(
-                    "Logs/feeder_"+DateTime.Now.ToFileTime()+".json", 
+                    outputPath+"feeder_"+DateTime.Now.ToFileTime()+".json", 
                     DateTime.Now, 
                     new List<AbstractMetric>(){mcMetric}
                 );

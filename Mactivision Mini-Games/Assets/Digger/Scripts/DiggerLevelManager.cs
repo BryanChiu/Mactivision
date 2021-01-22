@@ -43,6 +43,7 @@ public class DiggerLevelManager : LevelManager
             DiggerConfig diggerConfig = (DiggerConfig)Battery.Instance.GetCurrentConfig();
             if (diggerConfig.DigAmount != 0) digAmount = diggerConfig.DigAmount;
             if (diggerConfig.DigKey != null) digKey = (KeyCode) System.Enum.Parse(typeof(KeyCode), diggerConfig.DigKey);
+            outputPath = Battery.Instance.GetOutputPath();
         } catch (Exception) {
             Debug.Log("Battery not found, using default values");
         }
@@ -62,7 +63,7 @@ public class DiggerLevelManager : LevelManager
             if (chest.opened) {
                 bpMetric.finishRecording();
                 metricWriter.logMetrics(
-                    "Logs/digger_"+DateTime.Now.ToFileTime()+".json", 
+                    outputPath+"digger_"+DateTime.Now.ToFileTime()+".json", 
                     DateTime.Now, 
                     new List<AbstractMetric>(){bpMetric}
                 );

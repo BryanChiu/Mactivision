@@ -22,22 +22,25 @@ public abstract class LevelManager : MonoBehaviour
     public RectTransform textBG_LArm;
     public RectTransform textBG_RArm;
 
+    public AudioSource sound;               // countdown chime
+
     public int lvlState;                    // 0: intro; 1: countdown; 2: gameplay; 3: game ending; 4: game end
 
-    public AudioSource sound;
+    public string outputPath;               // output path of metric json data
 
     // Must be added to Start() method of inherited classes.
     // Blurs the scene and displays the intro graphic/text.
     public void Setup()
     {
-        lvlState = 0;
-        ChangeBlur(2f);
         textBG.SetActive(true);
         introText.enabled = true;
         countdownText.enabled = false;
         outroText.enabled = false;
         ResizeTextBG(GetRect(introText));
+        ChangeBlur(2f);
         sound = gameObject.GetComponent<AudioSource>();
+        lvlState = 0;
+        outputPath = "Logs/";
     }
 
     // Call this to begin countdown and actual level.
