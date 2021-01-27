@@ -8,14 +8,14 @@
     "$values": [
       {
         "$type": "DiggerConfig, Battery",
-        "Name": null,
+        "TestName": null,
         "Scene": null,
         "DigAmount": 0,
         "DigKey": null
       },
       {
         "$type": "FeederConfig, Battery",
-        "Name": null,
+        "TestName": null,
         "Scene": null,
         "Seed": null,
         "MaxGameTime": 0.0,

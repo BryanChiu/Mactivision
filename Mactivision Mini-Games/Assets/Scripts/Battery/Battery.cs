@@ -30,6 +30,7 @@ public class Battery : MonoBehaviour
     // When scene is loaded by Unity this function is called first.
     void Start()
     {
+        Write = new BatteryJSONWriter();
         LoadBattery("Demo");
         LoadScene(SceneControl.Name());
     }
@@ -37,7 +38,7 @@ public class Battery : MonoBehaviour
     public string GetGameName()
     {
         // Game name is part of the GameConfig interface so does not require casting to the specific game config. Useful to generating log files by name. Name is not the name of the game but that specific test of a game. TODO: Better naming.
-        return BatteryControl.GetTestName(SceneControl.Number());
+        return BatteryControl.GetTestName(SceneControl.Current());
     }
 
     // Gets the full path of current battery folder
@@ -50,7 +51,7 @@ public class Battery : MonoBehaviour
     // Returns the GameConfig interface type. Specific games will have to cast the GameConfig to their respective Config class in order to child parameters. 
     public GameConfig GetCurrentConfig()
     {
-        return BatteryControl.GetConfig(SceneControl.Number());
+        return BatteryControl.GetConfig(SceneControl.Current());
     }
 
     // Load the BatteryConfig JSON file and deserialize it while maintaining type information. Currently uses TextAsset which is a Unity Resource type. This allows easier file reading but it may not be wise to clutter resource folder. 
