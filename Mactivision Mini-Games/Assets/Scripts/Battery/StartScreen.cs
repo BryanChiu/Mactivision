@@ -8,7 +8,6 @@ public class StartScreen : MonoBehaviour
 {
     // GUI Objects
     public Button StartButton;
-    public InputField PlayerInput;
     public Text GameList;
 
     // Developer GUI Objects
@@ -26,8 +25,6 @@ public class StartScreen : MonoBehaviour
 
         StartButton.interactable = false;
         StartButton.onClick.AddListener(StartButtonClicked);
-
-        PlayerInput.onValueChanged.AddListener(delegate {PlayerInputOnChange ();});
 
         GenerateButton.onClick.AddListener(GenerateButtonClicked); 
 
@@ -53,9 +50,14 @@ public class StartScreen : MonoBehaviour
         // If dropdown selection is not a heading.
         if (!text.Equals("SELECT BATTERY"))
         {
+            Debug.Log(text);
             ConfigIsLoaded = true;
+            StartButton.interactable = true;
             Battery.Instance.LoadBattery(text);
             ListGames();
+        }
+        else{
+            StartButton.interactable = false;
         }
     }
 
@@ -76,25 +78,10 @@ public class StartScreen : MonoBehaviour
         }
     }
 
-    void PlayerInputOnChange()
-    {
-        // Make sure that the player puts a name in before they can hit the start Battery button.
-        if (string.IsNullOrEmpty(PlayerInput.text))
-        {
-            StartButton.interactable = false;  
-        }
-        else
-        {
-            StartButton.interactable = true;
-        }
-        Debug.Log("Player Input Field Changed.");
-    }
-
     void StartButtonClicked()
     {
         // Start Battery and record playername for configuration output log.
         Battery.Instance.StartBattery();
-        Battery.Instance.SetPlayerName(PlayerInput.text);
 
         Debug.Log("Start Button Clicked.");
         if (ConfigIsLoaded)

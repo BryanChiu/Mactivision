@@ -1,20 +1,20 @@
 {
-  "$type": "BatteryConfig, Assembly-CSharp",
+  "$type": "BatteryConfig, Battery",
   "PlayerName": null,
   "StartTime": null,
   "EndTime": null,
   "Games": {
-    "$type": "System.Collections.Generic.List`1[[GameConfig, Assembly-CSharp]], mscorlib",
+    "$type": "System.Collections.Generic.List`1[[GameConfig, Battery]], mscorlib",
     "$values": [
       {
-        "$type": "DiggerConfig, Assembly-CSharp",
+        "$type": "DiggerConfig, Battery",
         "Name": null,
         "Scene": null,
         "DigAmount": 0,
         "DigKey": null
       },
       {
-        "$type": "FeederConfig, Assembly-CSharp",
+        "$type": "FeederConfig, Battery",
         "Name": null,
         "Scene": null,
         "Seed": null,

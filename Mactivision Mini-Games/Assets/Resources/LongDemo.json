@@ -1,37 +1,37 @@
 {
-  "$type": "BatteryConfig, Assembly-CSharp",
+  "$type": "BatteryConfig, Battery",
   "PlayerName": null,
   "StartTime": null,
   "EndTime": null,
   "Games": {
-    "$type": "System.Collections.Generic.List`1[[GameConfig, Assembly-CSharp]], mscorlib",
+    "$type": "System.Collections.Generic.List`1[[GameConfig, Battery]], mscorlib",
     "$values": [
       {
-        "$type": "DiggerConfig, Assembly-CSharp",
+        "$type": "DiggerConfig, Battery",
         "Name": null,
         "Scene": "Digger",
         "DigAmount": 10,
         "DigKey": "D"
       },
       {
-        "$type": "DiggerConfig, Assembly-CSharp",
+        "$type": "DiggerConfig, Battery",
         "Name": null,
         "Scene": "Digger",
         "DigAmount": 10,
       },
       {
-        "$type": "DiggerConfig, Assembly-CSharp",
+        "$type": "DiggerConfig, Battery",
         "Name": null,
         "Scene": "Digger",
         "DigKey": "H"
       },
       {
-        "$type": "DiggerConfig, Assembly-CSharp",
+        "$type": "DiggerConfig, Battery",
         "Name": null,
         "Scene": "Digger",
       },
       {
-        "$type": "FeederConfig, Assembly-CSharp",
+        "$type": "FeederConfig, Battery",
         "Name": null,
         "Scene": "Feeder",
         "Seed": "hello world",
@@ -42,7 +42,7 @@
         "StandardDeviationUpdateFreq": 0.8
       },
       {
-        "$type": "FeederConfig, Assembly-CSharp",
+        "$type": "FeederConfig, Battery",
         "Name": null,
         "Scene": "Feeder",
         "Seed": null,

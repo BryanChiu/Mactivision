@@ -15,13 +15,13 @@ public class BatteryConfig
 
 public interface GameConfig 
 {
-    string Name {get; set;}
+    string TestName {get; set;}
     string Scene {get; set;}
 }
 
 public class DiggerConfig : GameConfig
 {
-    public string Name {get; set;}
+    public string TestName {get; set;}
     public string Scene {get; set;}
     public int DigAmount {get; set;}
     public string DigKey {get; set;}
@@ -29,7 +29,7 @@ public class DiggerConfig : GameConfig
 
 public class FeederConfig : GameConfig
 {
-    public string Name {get; set;}
+    public string TestName {get; set;}
     public string Scene {get; set;}
     public string Seed {get; set;}
     public float MaxGameTime {get; set;}
