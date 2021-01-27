@@ -10,21 +10,22 @@
         "$type": "DiggerConfig, Battery",
         "Name": null,
         "Scene": "Digger",
-        "DigAmount": -1,
-        "DigKey": "asd"
+        "DigAmount": 10
       },
       {
-        "$type": "DiggerConfig, Battery",
+        "$type": "FeederConfig, Battery",
         "Name": null,
-        "Scene": "Digger",
-        "DigAmount": 0,
-        "DigKey": "Space"
+        "Scene": "Feeder",
+        "MaxFoodDispensed": 4,
+        "AverageUpdateFrequency": 3,
+        "StandardDeviationUpdateFreq": 3
       },
       {
-        "$type": "DiggerConfig, Battery",
+        "$type": "FeederConfig, Battery",
         "Name": null,
-        "Scene": "Digger",
-        "DigAmount": 4
+        "Scene": "Feeder",
+        "MaxGameTime": 100.0,
+        "MaxFoodDispensed": 4,
       }
     ]
   }

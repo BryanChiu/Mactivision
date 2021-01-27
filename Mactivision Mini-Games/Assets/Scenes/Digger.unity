@@ -327,7 +327,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1b9b104304309b408923ab9ec3cf256, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1265911970}
+  player: {fileID: 1265911977}
   breakAnimation:
   - {fileID: 21300000, guid: 85f3c60c19504cb4bbba34ec8005596e, type: 3}
   - {fileID: 21300000, guid: e29e0d6e9dec3cd4d9baf8681c9dcc84, type: 3}
@@ -397,11 +397,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'There''s treasure below! The faster you dig, the faster you get to your
-    treasure!
+  m_text: 'There''s treasure below! Dig as fast as you can to get to your treasure!
 
 
-    Press "KEY" to dig!'
+    Press
+    "KEY" to dig!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1f1bd4f65deff6b429253f9c3a2178dd, type: 2}
   m_sharedMaterial: {fileID: 7052846941345835174, guid: 1f1bd4f65deff6b429253f9c3a2178dd, type: 2}
@@ -1222,7 +1222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1b9b104304309b408923ab9ec3cf256, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1265911970}
+  player: {fileID: 1265911977}
   breakAnimation:
   - {fileID: 21300000, guid: 85f3c60c19504cb4bbba34ec8005596e, type: 3}
   - {fileID: 21300000, guid: e29e0d6e9dec3cd4d9baf8681c9dcc84, type: 3}
@@ -1753,7 +1753,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1b9b104304309b408923ab9ec3cf256, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1265911970}
+  player: {fileID: 1265911977}
   breakAnimation:
   - {fileID: 21300000, guid: 85f3c60c19504cb4bbba34ec8005596e, type: 3}
   - {fileID: 21300000, guid: e29e0d6e9dec3cd4d9baf8681c9dcc84, type: 3}
@@ -2104,7 +2104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1b9b104304309b408923ab9ec3cf256, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1265911970}
+  player: {fileID: 1265911977}
   breakAnimation:
   - {fileID: 21300000, guid: 85f3c60c19504cb4bbba34ec8005596e, type: 3}
   - {fileID: 21300000, guid: e29e0d6e9dec3cd4d9baf8681c9dcc84, type: 3}
@@ -2966,6 +2966,7 @@ MonoBehaviour:
   jackhammer: {fileID: 585123253}
   hammerRest: {x: 0, y: -0.191, z: -1}
   hammerJump: {x: 0, y: -0.126, z: -1}
+  dig: 0
 --- !u!1 &1267353247
 GameObject:
   m_ObjectHideFlags: 0
@@ -3760,7 +3761,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1b9b104304309b408923ab9ec3cf256, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1265911970}
+  player: {fileID: 1265911977}
   breakAnimation:
   - {fileID: 21300000, guid: 85f3c60c19504cb4bbba34ec8005596e, type: 3}
   - {fileID: 21300000, guid: e29e0d6e9dec3cd4d9baf8681c9dcc84, type: 3}
@@ -4544,7 +4545,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1b9b104304309b408923ab9ec3cf256, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1265911970}
+  player: {fileID: 1265911977}
   breakAnimation:
   - {fileID: 21300000, guid: 85f3c60c19504cb4bbba34ec8005596e, type: 3}
   - {fileID: 21300000, guid: e29e0d6e9dec3cd4d9baf8681c9dcc84, type: 3}
@@ -4718,7 +4719,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1b9b104304309b408923ab9ec3cf256, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1265911970}
+  player: {fileID: 1265911977}
   breakAnimation:
   - {fileID: 21300000, guid: 85f3c60c19504cb4bbba34ec8005596e, type: 3}
   - {fileID: 21300000, guid: e29e0d6e9dec3cd4d9baf8681c9dcc84, type: 3}
@@ -4858,7 +4859,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1b9b104304309b408923ab9ec3cf256, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1265911970}
+  player: {fileID: 1265911977}
   breakAnimation:
   - {fileID: 21300000, guid: 65ccee27c0eca43498c375f7baec6a9e, type: 3}
   - {fileID: 21300000, guid: c14c8da6fc8148a40a7fc95ab858e817, type: 3}
@@ -5070,7 +5071,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1b9b104304309b408923ab9ec3cf256, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1265911970}
+  player: {fileID: 1265911977}
   breakAnimation:
   - {fileID: 21300000, guid: 85f3c60c19504cb4bbba34ec8005596e, type: 3}
   - {fileID: 21300000, guid: e29e0d6e9dec3cd4d9baf8681c9dcc84, type: 3}
@@ -5205,7 +5206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1b9b104304309b408923ab9ec3cf256, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1265911970}
+  player: {fileID: 1265911977}
   breakAnimation:
   - {fileID: 21300000, guid: 85f3c60c19504cb4bbba34ec8005596e, type: 3}
   - {fileID: 21300000, guid: e29e0d6e9dec3cd4d9baf8681c9dcc84, type: 3}
@@ -5258,8 +5259,9 @@ MonoBehaviour:
   textBG_Edge: {fileID: 1538848487}
   textBG_LArm: {fileID: 480893005}
   textBG_RArm: {fileID: 1190943280}
-  lvlState: 0
   sound: {fileID: 0}
+  lvlState: 0
+  outputPath: 
   player: {fileID: 1265911977}
   chest: {fileID: 1377675679}
   digAmount: 0

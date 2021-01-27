@@ -32,7 +32,7 @@ public class ChestAnimator : MonoBehaviour
     // When the player collides with the chest, it opens
     void OnTriggerEnter2D(Collider2D c)
     {
-        if (c.gameObject.name == player.name) {
+        if (c.gameObject == player) {
             opened = true;
             animator.SetBool("Open", true);
             sound.PlayDelayed(0.75f);
