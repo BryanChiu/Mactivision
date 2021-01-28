@@ -7,24 +7,22 @@
     "$type": "System.Collections.Generic.List`1[[GameConfig, Battery]], mscorlib",
     "$values": [
       {
-        "$type": "DiggerConfig, Battery",
+        "$type": "FeederConfig, Battery",
         "Name": null,
-        "Scene": "Digger",
-        "DigAmount": -1,
-        "DigKey": "asd"
+        "Scene": "Feeder",
+        "Seed": "hello world",
+        "MaxGameTime": -4,
+        "MaxFoodDispensed": 2,
+        "TotalFoods": 8,
+        "AverageUpdateFrequency": 0,
+        "StandardDeviationUpdateFreq": 0
       },
       {
         "$type": "DiggerConfig, Battery",
         "Name": null,
         "Scene": "Digger",
-        "DigAmount": 0,
+        "DigAmount": 1,
         "DigKey": "Space"
-      },
-      {
-        "$type": "DiggerConfig, Battery",
-        "Name": null,
-        "Scene": "Digger",
-        "DigAmount": 4
       }
     ]
   }

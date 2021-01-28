@@ -29,14 +29,14 @@ public class Monster : MonoBehaviour
         } else {
             anim.Play("Base Layer.monster_spit");
             sound.PlayDelayed(0.2f);
-            StartCoroutine(WaitForMonsterSpit(other.attachedRigidbody));
+            StartCoroutine(MonsterSpit(other.attachedRigidbody));
         }
 
     }
 
     // Wait for the eating animation to finish before ejecting the food.
     // At the end, the food gets deactivated and rotation reset.
-    IEnumerator WaitForMonsterSpit(Rigidbody2D food)
+    IEnumerator MonsterSpit(Rigidbody2D food)
     {
         yield return new WaitForSeconds(0.37f);
         food.velocity = new Vector2(6f, 8f);

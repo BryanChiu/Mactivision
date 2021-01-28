@@ -9,7 +9,7 @@ public class DiggerLevelManager : LevelManager
     public PlayerController player; // the player object in Unity
     public ChestAnimator chest;     // the chest object in Unity
     
-    public int digAmount;           // total amount of presses required; must be > 0, rounds up to nearest 10
+    int digAmount;                  // total amount of presses required; must be > 0, rounds up to nearest 10
     KeyCode digKey;                 // keyboard key used to dig
 
     List<KeyCode> keysDown;         // List of keys currently held down (not full history)
@@ -34,7 +34,7 @@ public class DiggerLevelManager : LevelManager
         metricWriter = new MetricJSONWriter("Digger", DateTime.Now); // initialize metric data writer
     }
 
-    // initialize values using config file, or default values if config values not specified
+    // Initialize values using config file, or default values if config values not specified
     void InitConfigurable()
     {
         DiggerConfig diggerConfig = new DiggerConfig();
@@ -50,7 +50,7 @@ public class DiggerLevelManager : LevelManager
         // use battery's config values, or default values if running game by itself
         digAmount = diggerConfig.DigAmount > 0 ? Mathf.CeilToInt(diggerConfig.DigAmount/10f)*10 : 100;
         try { // use default dig key if we cannot parse it from the config
-            digKey = diggerConfig.DigKey != null ? (KeyCode) System.Enum.Parse(typeof(KeyCode), diggerConfig.DigKey) : KeyCode.B;
+            digKey = !String.IsNullOrEmpty(diggerConfig.DigKey) ? (KeyCode) System.Enum.Parse(typeof(KeyCode), diggerConfig.DigKey) : KeyCode.B;
         } catch (Exception) {
             Debug.Log("Invalid KeyCode, using default value");
             digKey = KeyCode.B;
@@ -66,21 +66,30 @@ public class DiggerLevelManager : LevelManager
     {
         if (lvlState==2) {
             // begin game, begin recording 
-            if (!bpMetric.isRecording) {
-                bpMetric.startRecording();
-                SetDigAmountForGround();
-            }
+            if (!bpMetric.isRecording) StartGame();
+
             // the player landing on chest triggers the end of the game
-            if (chest.opened) {
-                bpMetric.finishRecording();
-                metricWriter.logMetrics(
-                    outputPath+"digger_"+DateTime.Now.ToFileTime()+".json", 
-                    DateTime.Now, 
-                    new List<AbstractMetric>(){bpMetric}
-                );
-                EndLevel(3f);
-            }
+            if (chest.opened) EndGame();
         }
+    }
+
+    // Begin the actual game, start recording metrics
+    void StartGame()
+    {
+        bpMetric.startRecording();
+        SetDigAmountForGround();
+    }
+
+    // End game, finish recording metrics
+    void EndGame()
+    {
+        bpMetric.finishRecording();
+        metricWriter.logMetrics(
+            outputPath+"digger_"+DateTime.Now.ToFileTime()+".json", 
+            DateTime.Now, 
+            new List<AbstractMetric>(){bpMetric}
+        );
+        EndLevel(3f);
     }
 
     // Handles GUI events (keyboard, mouse, etc events)
