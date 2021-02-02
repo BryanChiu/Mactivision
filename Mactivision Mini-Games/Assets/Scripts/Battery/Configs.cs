@@ -38,3 +38,16 @@ public class FeederConfig : GameConfig
     public float AverageUpdateFrequency {get; set;}
     public float StandardDeviationUpdateFreq {get; set;}
 }
+
+public class RockStarConfig : GameConfig
+{
+    public string TestName {get; set;}
+    public string Scene {get; set;}
+    public string Seed {get; set;}
+    public float MaxGameTime {get; set;}
+    public int MeterMax {get; set;}
+    public int MeterMin {get; set;}
+    public int MeterIncrement {get; set;}
+    public float ChangeFrequency {get; set;}
+    public float LightVelocity {get; set;}
+}

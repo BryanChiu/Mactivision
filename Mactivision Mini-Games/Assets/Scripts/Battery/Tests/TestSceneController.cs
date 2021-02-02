@@ -62,7 +62,7 @@ public class TestSceneController
     }
 
     [Test]
-    public void TestOutofRangeIndices()
+    public void TestOutofRangeIndex()
     {
         Scene.setIndex(-100);
         Assert.AreEqual(Scene.Current(), -100);

@@ -58,7 +58,8 @@ public class Battery : MonoBehaviour
     public void LoadBattery(string BatteryConfig)
     {
         TextAsset json = Resources.Load<TextAsset>(BatteryConfig);
-        BatteryControl = new BatteryController(json.text);
+        BatteryControl = new BatteryController();
+        BatteryControl.LoadConfig(json.text);
         SceneControl = new SceneController(StartScene.name, EndScene.name, BatteryControl.GameScenes());
     }
 

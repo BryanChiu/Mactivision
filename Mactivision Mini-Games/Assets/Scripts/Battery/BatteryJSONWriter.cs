@@ -35,10 +35,12 @@ public class BatteryJSONWriter
         var example = new BatteryConfig(); 
         var digger = new DiggerConfig();
         var feeder = new FeederConfig();
+        var rockstar = new RockStarConfig();
 
         example.Games = new List<GameConfig>();
-        example.Games.Add(digger);
         example.Games.Add(feeder);
+        example.Games.Add(digger);
+        example.Games.Add(rockstar);
 
         // Convert objects to JSON while retaining type information.
         string json = JsonConvert.SerializeObject(example, Formatting.Indented, new JsonSerializerSettings
