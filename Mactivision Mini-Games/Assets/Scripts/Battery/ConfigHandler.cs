@@ -4,22 +4,11 @@ using System.Collections;
 using System.IO;
 using Newtonsoft.Json;
 
-public class EmptyConfigException : Exception
-{
+public class EmptyConfigException : Exception{}
+public class BadConfigException : Exception{}
+public class InvalidScenesException : Exception{}
 
-}
-
-public class BadConfigException : Exception
-{
-
-}
-
-public class InvalidScenesException : Exception
-{
-
-}
-
-public class BatteryController
+public class ConfigHandler
 {   
     static private Dictionary<string,GameConfig> GameList = new Dictionary<string,GameConfig>
     {
@@ -36,7 +25,7 @@ public class BatteryController
         return GameList;
     }
 
-    public BatteryController()
+    public ConfigHandler()
     {
     }
 
@@ -70,14 +59,14 @@ public class BatteryController
         Config.EndTime = TimeStamp();
     }
 
-    public GameConfig GetConfig(int index)
+    public GameConfig Get(int index)
     {
         return Config.Games[index]; 
     }
 
     public string GetTestName(int index)
     {
-        return GetConfig(index).TestName;
+        return Get(index).TestName;
     }
 
     public string TimeStamp()
@@ -85,7 +74,7 @@ public class BatteryController
         return System.DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss"); 
     }
 
-    public string GenerateConfig()
+    public string Generate()
     {
         var config = new BatteryConfig(); 
         config.Games = new List<GameConfig>();
@@ -105,12 +94,21 @@ public class BatteryController
         return json;
     }
 
-    public string FolderTimeStamp()
+    public string Serialize()
     {
-        return System.DateTime.Now.ToString("yyyyMMddhhmm");
+        string json = JsonConvert.SerializeObject(Config, Formatting.Indented, new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.All
+        });
+        return json;
     }
 
-    public void LoadConfig(string json)
+    public string FolderTimeStamp()
+    {
+        return System.DateTime.Now.ToString("yyyyMMddhhmmss");
+    }
+
+    public void Load(string json)
     {
         var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto };
         BatteryConfig result = null;
@@ -151,6 +149,7 @@ public class BatteryController
             }
         }
 
+        // are all the scenes valid?
         if (valid != num_of_scenes)
         {
             throw new InvalidScenesException();

@@ -6,43 +6,31 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Newtonsoft.Json;
 
-public class Battery : MonoBehaviour
+public class Battery
 {
-    // Singleton instance of Battery
-    public static Battery Instance { get; private set; }
-   
-    // Managing Mini Games
-    public Object StartScene;    // Allows you to use unity interface to drag in the scenes.
-    public Object EndScene;
-
-    // Config File as JSON Text File.
-    public TextAsset ConfigFile;
-
-    // TODO: Check for missing / in folder names
     // Parent directory for all battery output files..
-    private string OutputFolderPath = "Output/"; 
+    private string OutputFolderParent = "./Output/"; 
+    private string OutputFolderPath; 
 
     // Controllers and Writers
-    private BatteryController BatteryControl;
-    private SceneController SceneControl;
-    private BatteryJSONWriter Write;
+    private ConfigHandler Config;
+    private SceneController Scene;
+    private FileHandler FileHandle;
 
-    // When scene is loaded by Unity this function is called first.
-    void Start()
-    {
-        Write = new BatteryJSONWriter();
-        LoadBattery("Demo");
-        LoadScene(SceneControl.Name());
+    public static readonly Battery Instance = new Battery(); 
+    private Battery()
+    { 
+        FileHandle = new FileHandler();
+        Config = new ConfigHandler();
     }
 
     public string GetGameName()
     {
         // Game name is part of the GameConfig interface so does not require casting to the specific game config. Useful to generating log files by name. Name is not the name of the game but that specific test of a game. TODO: Better naming.
-        return BatteryControl.GetTestName(SceneControl.Current());
+        return Config.GetTestName(Scene.Current());
     }
 
     // Gets the full path of current battery folder
-    // TODO: Better naming.
     public string GetOutputPath()
     {
         return OutputFolderPath;
@@ -51,16 +39,15 @@ public class Battery : MonoBehaviour
     // Returns the GameConfig interface type. Specific games will have to cast the GameConfig to their respective Config class in order to child parameters. 
     public GameConfig GetCurrentConfig()
     {
-        return BatteryControl.GetConfig(SceneControl.Current());
+        return Config.Get(Scene.Current());
     }
 
     // Load the BatteryConfig JSON file and deserialize it while maintaining type information. Currently uses TextAsset which is a Unity Resource type. This allows easier file reading but it may not be wise to clutter resource folder. 
     public void LoadBattery(string BatteryConfig)
     {
         TextAsset json = Resources.Load<TextAsset>(BatteryConfig);
-        BatteryControl = new BatteryController();
-        BatteryControl.LoadConfig(json.text);
-        SceneControl = new SceneController(StartScene.name, EndScene.name, BatteryControl.GameScenes());
+        Config.Load(json.text);
+        Scene = new SceneController("Battery Start", "Battery End", Config.GameScenes());
     }
 
     // Scenes are loaded by name
@@ -72,49 +59,54 @@ public class Battery : MonoBehaviour
 
     public void StartBattery()
     {
-        BatteryControl.Start();
+        Config.Start();
+        OutputFolderPath = OutputFolderParent + Config.FolderTimeStamp() + "/";
+        FileHandle.CreateDirectory(OutputFolderPath);
     }
-    
+
     public void EndBattery()
     {
-        BatteryControl.End();
+        Config.End();
+        FileHandle.WriteConfig(GetOutputPath(), Config.Serialize());
+    }
+   
+    public string GetStartTime()
+    {
+        return Config.StartTime();
+    }
+    
+    public string GetEndTime()
+    {
+        return Config.EndTime();
     }
 
     public void LoadNextScene()
     {
         // Scenes are indexed according to the order they appear in the battery config games list. The earlier in the list the earlier they will be loaded.
-        SceneControl.Next();
-        LoadScene(SceneControl.Name());
+        Scene.Next();
+        Debug.Log(Scene.Name());
+        LoadScene(Scene.Name());
     }
 
     private string GetCurrentScene()
     {  
-        return SceneControl.Name();
+        return Scene.Name();
     }
 
     // Lists the games that player will play during the battery session. Undecided if it will be a more than just useful for debugging.
     public List<string> GetGameList()
     {
-        return BatteryControl.GameScenes();
+        return Config.GameScenes();
     }
 
     // As the configurable variables are added, deleted or renamed during development in order not have to constantly sync these names with the configuration files this function can be used to generate a blank configuration file based off those variables. 
     public void WriteExampleConfig()
     {
-        Write.Example();
+        FileHandle.WriteGenerated(Config.Generate());
     }
 
-    // Prevents Battery from being destroyed when scenes are unloaded.
-    private void Awake()
+    public string[] ListConfigFiles()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
+        return FileHandle.ListConfigFiles();
     }
 }

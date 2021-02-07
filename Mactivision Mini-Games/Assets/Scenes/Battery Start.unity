@@ -729,7 +729,7 @@ GameObject:
   - component: {fileID: 542074154}
   - component: {fileID: 542074153}
   m_Layer: 5
-  m_Name: Game List Text
+  m_Name: Developer Output
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -787,7 +787,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Battery Game List
+  m_Text: Developer Output
 --- !u!222 &542074154
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -807,7 +807,7 @@ GameObject:
   - component: {fileID: 752302796}
   - component: {fileID: 752302795}
   m_Layer: 0
-  m_Name: Script
+  m_Name: Scripts
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -826,7 +826,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StartButton: {fileID: 1240775427}
-  GameList: {fileID: 542074153}
+  DevOutput: {fileID: 542074153}
   GenerateButton: {fileID: 374661521}
   ConfigDropdown: {fileID: 1095350932}
   ConfigDropdownSelected: {fileID: 393427875}

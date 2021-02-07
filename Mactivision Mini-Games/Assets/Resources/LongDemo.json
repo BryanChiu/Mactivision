@@ -28,7 +28,7 @@
       {
         "$type": "DiggerConfig, Battery",
         "Name": null,
-        "Scene": "Digger",
+        "Scene": "Digger"
       },
       {
         "$type": "FeederConfig, Battery",
