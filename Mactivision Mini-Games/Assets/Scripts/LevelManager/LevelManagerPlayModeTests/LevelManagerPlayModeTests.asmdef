@@ -1,13 +1,14 @@
 {
-    "name": "LevelManagerTests",
+    "name": "LevelManagerPlayModeTests",
     "rootNamespace": "",
     "references": [
         "UnityEngine.TestRunner",
-        "UnityEditor.TestRunner"
+        "UnityEditor.TestRunner",
+        "LevelManager",
+        "Unity.TextMeshPro",
+        "Unity.Postprocessing.Runtime"
     ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,

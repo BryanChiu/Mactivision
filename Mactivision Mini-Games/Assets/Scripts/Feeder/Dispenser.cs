@@ -21,13 +21,13 @@ public class Dispenser : MonoBehaviour
     int lastUpdate = 0;         // number of foods dispensed since last food update
 
     string[] gameFoods;                                 // foods being used in the current game
-    public string[] goodFoods { protected set; get; }   // foods the monster will eat
+    public string[] goodFoods { private set; get; }     // foods the monster will eat
     string[] badFoods;                                  // foods the monster will spit out
     int goodFoodCount = 0;                              // number of foods the monster likes
 
     GameObject screenFood;                                  // the food shown on the screen during a food update
-    public string currentFood { protected set; get; }       // the current food the player has to decide on
-    public DateTime choiceStartTime { protected set; get; } // the time the current food is dispensed and the player can make a choice
+    public string currentFood { private set; get; }         // the current food the player has to decide on
+    public DateTime choiceStartTime { private set; get; }   // the time the current food is dispensed and the player can make a choice
 
     // Initializes the dispenser with the seed.
     // Randomly chooses which foods will be used in the game.

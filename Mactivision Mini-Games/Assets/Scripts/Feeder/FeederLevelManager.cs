@@ -18,47 +18,46 @@ public class FeederLevelManager : LevelManager
     public AudioClip plate_down;            // brrrrrr
     public AudioClip bite_sound;            // nom nom nom
     
-    public string seed;                     // optional manually entered seed
+    string seed;                            // optional manually entered seed
     System.Random randomSeed;               // seed of the current game
 
-    public int totalFoods;                  // number of foods to be used in the current game
-    public float avgUpdateFreq;             // average number of foods dispensed between each food update
-    public float stdDevUpdateFreq;          // inverted standard deviation of `avgUpdateFreq`
+    int totalFoods;                         // number of foods to be used in the current game
+    float avgUpdateFreq;                    // average number of foods dispensed between each food update
+    float stdDevUpdateFreq;                 // inverted standard deviation of `avgUpdateFreq`
 
-    public float maxGameTime;               // maximum length of the game
+    float maxGameTime;                      // maximum length of the game
     float gameStartTime;
 
-    public int maxFoodDispensed;            // maximum foods dispensed before game ends
+    int maxFoodDispensed;                   // maximum foods dispensed before game ends
     int foodDispensed;
 
     KeyCode feedKey = KeyCode.RightArrow;   // press to feed monster
     KeyCode trashKey = KeyCode.LeftArrow;   // press to throw away
 
-    bool playerChoosing = false;            // true when food has been dispensed and waiting for player to make decision
-    bool animatingChoice = false;           // true when player has made choice and stuff is animating
-    bool animatingDispense = false;         // true when stuff animating is finished and the next food is being dispensed
-    
     float tiltPlateTo;                      // angle to tilt the plate (food will slide into trash or monster's mouth)
 
     MemoryChoiceMetric mcMetric;            // records choice data during the game
     MetricJSONWriter metricWriter;          // outputs recording metric (mcMetric) as a json file
+
+    // Represents the state of the game cycle
+    enum GameState {
+        DispensingFood,
+        WaitingForPlayer,
+        TiltingPlate,
+        FoodExpended
+    }
+    GameState gameState;
 
     // Start is called before the first frame update
     void Start()
     {
         Setup(); // run initial setup, inherited from parent class
 
-        //set default values
-        seed = DateTime.Now.ToString(); // if no seed is provided, use the current date and time
-        maxGameTime = 120;
-        maxFoodDispensed = 25;
-        totalFoods = 6;
-        avgUpdateFreq = 3f;
-        stdDevUpdateFreq = 2.8f;
-        InitConfig();
+        InitConfigurable(); // initialize configurable values
         
         randomSeed = new System.Random(seed.GetHashCode());
         foodDispensed = 0;
+        gameState = GameState.FoodExpended;
 
         introText2.enabled = false;
         showIntro2 = false;
@@ -70,83 +69,35 @@ public class FeederLevelManager : LevelManager
         dispenser.Init(seed, totalFoods, avgUpdateFreq, stdDevUpdateFreq); // initialize the dispenser
     }
 
-    void InitConfig()
+    // Initialize values using config file, or default values if config values not specified
+    void InitConfigurable()
     {
-        try {
-            FeederConfig feederConfig = (FeederConfig)Battery.Instance.GetCurrentConfig();
-            if (feederConfig.Seed != null) seed = feederConfig.Seed;
-            if (feederConfig.MaxGameTime != 0) maxGameTime = feederConfig.MaxGameTime;
-            if (feederConfig.MaxFoodDispensed != 0) maxFoodDispensed = feederConfig.MaxFoodDispensed;
-            if (feederConfig.TotalFoods != 0) totalFoods = feederConfig.TotalFoods;
-            if (feederConfig.AverageUpdateFrequency != 0) avgUpdateFreq = feederConfig.AverageUpdateFrequency;
-            if (feederConfig.StandardDeviationUpdateFreq != 0) stdDevUpdateFreq = feederConfig.StandardDeviationUpdateFreq;
+        FeederConfig feederConfig = new FeederConfig();
+
+        // if running the game from the battery, override `feederConfig` with the config class from Battery
+        FeederConfig tempConfig = (FeederConfig)Battery.Instance.GetCurrentConfig();
+        if (tempConfig!=null) {
+            feederConfig = tempConfig;
             outputPath = Battery.Instance.GetOutputPath();
-        } catch (Exception) {
+        } else {
             Debug.Log("Battery not found, using default values");
         }
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (lvlState==2) {
-            // begin game, begin recording 
-            if (!mcMetric.isRecording) { 
-                mcMetric.startRecording();
-                gameStartTime = Time.time;
-                sound.clip = bite_sound;
-            }
-            // game automatically ends after maxGameTime seconds
-            if (Time.time-gameStartTime >= maxGameTime || (foodDispensed >= maxFoodDispensed && !animatingChoice)) { 
-                mcMetric.finishRecording();
-                metricWriter.logMetrics(
-                    outputPath+"feeder_"+DateTime.Now.ToFileTime()+".json", 
-                    DateTime.Now, 
-                    new List<AbstractMetric>(){mcMetric}
-                );
-                EndLevel(0f);
-                return;
-            }
+        // use battery's config values, or default values if running game by itself
+        seed = !String.IsNullOrEmpty(feederConfig.Seed) ? feederConfig.Seed : DateTime.Now.ToString(); // if no seed provided, use current DateTime
+        maxGameTime = feederConfig.MaxGameTime > 0 ? feederConfig.MaxGameTime : 120f;
+        maxFoodDispensed = feederConfig.MaxFoodDispensed > 0 ? feederConfig.MaxFoodDispensed : 25;
+        totalFoods = feederConfig.TotalFoods > 0 && feederConfig.TotalFoods <= dispenser.allFoods.Length ? feederConfig.TotalFoods : 6;
+        avgUpdateFreq = feederConfig.AverageUpdateFrequency > 0 ? feederConfig.AverageUpdateFrequency : 3f;
+        stdDevUpdateFreq = feederConfig.StandardDeviationUpdateFreq > 0 ? feederConfig.StandardDeviationUpdateFreq : 2.8f;
 
-            // animate the plate tilting food into trash/monster
-            if (animatingChoice) { 
-                TiltPlate();
-            // animate a possible food update, and food dispensing
-            } else if (!playerChoosing && !animatingDispense) {
-                animatingDispense = true;
-                if (dispenser.DispenseNext()) {
-                    StartCoroutine(WaitForFoodDispense(2.55f));
-                } else {
-                    StartCoroutine(WaitForFoodDispense(0.8f));
-                }
-            // does nothing until player makes a choice
-            } else if (playerChoosing && (Input.GetKeyDown(feedKey) || Input.GetKeyDown(trashKey))) {
-                playerChoosing = false;
-                animatingChoice = true;
-
-                // set the angle the plate should to and play plate sound. Play monster eating animation if applicable
-                if (Input.GetKeyDown(feedKey)) {
-                    monster.Play("Base Layer.monster_eat");
-                    sound.PlayDelayed(0.85f);
-                    tiltPlateTo = -33f;
-                } else {
-                    tiltPlateTo = 33f;
-                }
-
-                // record the choice made
-                mcMetric.recordEvent(new MemoryChoiceEvent(
-                    dispenser.choiceStartTime,
-                    new List<String>(dispenser.goodFoods),
-                    dispenser.currentFood,
-                    Input.GetKeyDown(feedKey),
-                    DateTime.Now
-                ));
-
-                // animate choice and play plate sound
-                sound.PlayOneShot(plate_up);
-                StartCoroutine(WaitForChoiceAnimation(Input.GetKeyDown(feedKey) && !dispenser.MakeChoice(Input.GetKeyDown(feedKey))));
-            }
-        }
+        // udpate battery config with actual/final values being used
+        feederConfig.Seed = seed;
+        feederConfig.MaxGameTime = maxGameTime;
+        feederConfig.MaxFoodDispensed = maxFoodDispensed;
+        feederConfig.TotalFoods = totalFoods;
+        feederConfig.AverageUpdateFrequency = avgUpdateFreq;
+        feederConfig.StandardDeviationUpdateFreq = stdDevUpdateFreq;
     }
 
     // Handles GUI events (keyboard, mouse, etc events)
@@ -171,6 +122,88 @@ public class FeederLevelManager : LevelManager
         }
     }
 
+    // Update is called once per frame
+    void Update()
+    {
+        if (lvlState==2) {
+            // begin game, begin recording 
+            if (!mcMetric.isRecording) StartGame(); 
+                
+            // game automatically ends after maxGameTime seconds
+            if ((Time.time-gameStartTime >= maxGameTime || foodDispensed >= maxFoodDispensed)
+                && gameState==GameState.FoodExpended) { 
+                EndGame();
+                return;
+            }
+
+            // The game cycle
+            switch (gameState) {
+                case GameState.DispensingFood:
+                    break;
+                case GameState.WaitingForPlayer:
+                    WaitForPlayer();
+                    break;
+                case GameState.TiltingPlate:
+                    TiltPlate();
+                    break;
+                case GameState.FoodExpended:
+                    FoodExpended();
+                    break;
+            }
+        }
+    }
+
+    // Begin the actual game, start recording metrics
+    void StartGame()
+    {
+        mcMetric.startRecording();
+        gameStartTime = Time.time;
+        sound.clip = bite_sound;
+    }
+
+    // End game, finish recording metrics
+    void EndGame()
+    {
+        mcMetric.finishRecording();
+        metricWriter.logMetrics(
+            outputPath+"feeder_"+DateTime.Now.ToFileTime()+".json", 
+            DateTime.Now, 
+            new List<AbstractMetric>(){mcMetric}
+        );
+        EndLevel(0f);
+    }
+
+    // This function is called each frame the game is waiting for input from the player.
+    // When the player makes a choice, it plays appropriate animations and  
+    // records the metric event, and starts the choice wait coroutine.
+    void WaitForPlayer()
+    {
+        if (Input.GetKeyDown(feedKey) || Input.GetKeyDown(trashKey)) {
+            // set the angle the plate should tilt to. Play monster eating animation & sound if applicable
+            if (Input.GetKeyDown(feedKey)) {
+                monster.Play("Base Layer.monster_eat");
+                sound.PlayDelayed(0.85f);
+                tiltPlateTo = -33f;
+            } else {
+                tiltPlateTo = 33f;
+            }
+
+            // record the choice made
+            mcMetric.recordEvent(new MemoryChoiceEvent(
+                dispenser.choiceStartTime,
+                new List<String>(dispenser.goodFoods),
+                dispenser.currentFood,
+                Input.GetKeyDown(feedKey),
+                DateTime.Now
+            ));
+
+            // animate choice and play plate sound
+            sound.PlayOneShot(plate_up);
+            StartCoroutine(AnimateChoice(Input.GetKeyDown(feedKey) && !dispenser.MakeChoice(Input.GetKeyDown(feedKey))));
+            gameState = GameState.TiltingPlate;
+        }
+    }
+
     // This function tilts the plate by a small increment. When called over multiple
     // successive frames, it animates smoothly. If the plate reaches the intended
     // tilt amount, it stays there. 
@@ -189,9 +222,21 @@ public class FeederLevelManager : LevelManager
         lever.localEulerAngles = rot;
     }
 
+    // This function is called when the food has been dealt with (trashed or feed).
+    // Dispenses the next food and starts dispensing wait coroutine.
+    void FoodExpended()
+    {
+        if (dispenser.DispenseNext()) {
+            StartCoroutine(WaitForFoodDispense(2.55f));
+        } else {
+            StartCoroutine(WaitForFoodDispense(0.8f));
+        }
+        gameState = GameState.DispensingFood;
+    }
+
     // Wait for the choice animation to finish. If the player feeds the monster
     // incorrectly, wait longer for the monster spit animation.
-    IEnumerator WaitForChoiceAnimation(bool spit)
+    IEnumerator AnimateChoice(bool spit)
     {
         // return the plate to the original resting position
         yield return new WaitForSeconds(1.3f);
@@ -203,15 +248,15 @@ public class FeederLevelManager : LevelManager
         lever.localEulerAngles = Vector3.zero;
         plate.localEulerAngles = Vector3.zero;
         plate.GetChild(0).localEulerAngles = Vector3.zero;
-        animatingChoice = false;
+        // animatingChoice = false;
         foodDispensed++;
+        gameState = GameState.FoodExpended;
     }
 
     // Wait for the food dispensing animation
     IEnumerator WaitForFoodDispense(float wait)
     {
         yield return new WaitForSeconds(wait);
-        playerChoosing = true;
-        animatingDispense = false;
+        gameState = GameState.WaitingForPlayer;
     }
 }

@@ -10,14 +10,14 @@ public class ChestAnimator : MonoBehaviour
     public GameObject coin;
     public Vector3 destination = new Vector3(0f, 0.83f, -1.5f);
     public float coinspeed = 1.0f;
-    Animator animator;
+    Animator anim;
     AudioSource sound;
 
     // Start is called before the first frame update
     void Start()
     {
         opened = false;
-        animator = gameObject.GetComponent<Animator>();
+        anim = gameObject.GetComponent<Animator>();
         sound = gameObject.GetComponent<AudioSource>();
     }
 
@@ -32,9 +32,9 @@ public class ChestAnimator : MonoBehaviour
     // When the player collides with the chest, it opens
     void OnTriggerEnter2D(Collider2D c)
     {
-        if (c.gameObject.name == player.name) {
+        if (c.gameObject == player) {
             opened = true;
-            animator.SetBool("Open", true);
+            anim.Play("Base Layer.chest");
             sound.PlayDelayed(0.75f);
         }
     }

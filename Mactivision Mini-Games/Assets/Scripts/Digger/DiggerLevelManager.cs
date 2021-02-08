@@ -9,7 +9,7 @@ public class DiggerLevelManager : LevelManager
     public PlayerController player; // the player object in Unity
     public ChestAnimator chest;     // the chest object in Unity
     
-    public int digAmount;           // total amount of presses required; must be > 0, rounds up to nearest 10
+    int digAmount;                  // total amount of presses required; must be > 0, rounds up to nearest 10
     KeyCode digKey;                 // keyboard key used to dig
 
     List<KeyCode> keysDown;         // List of keys currently held down (not full history)
@@ -21,10 +21,7 @@ public class DiggerLevelManager : LevelManager
     {
         Setup(); // run initial setup, inherited from parent class
         
-        // set default values
-        digKey = KeyCode.B;
-        digAmount = 100;
-        InitConfig(); // change values according to config
+        InitConfigurable(); // initialize configurable values
 
         // set the digKey for the intro instructions
         int tempIdx = introText.text.IndexOf("KEY");
@@ -37,16 +34,32 @@ public class DiggerLevelManager : LevelManager
         metricWriter = new MetricJSONWriter("Digger", DateTime.Now); // initialize metric data writer
     }
 
-    void InitConfig()
+    // Initialize values using config file, or default values if config values not specified
+    void InitConfigurable()
     {
-        try {
-            DiggerConfig diggerConfig = (DiggerConfig)Battery.Instance.GetCurrentConfig();
-            if (diggerConfig.DigAmount != 0) digAmount = diggerConfig.DigAmount;
-            if (diggerConfig.DigKey != null) digKey = (KeyCode) System.Enum.Parse(typeof(KeyCode), diggerConfig.DigKey);
+        DiggerConfig diggerConfig = new DiggerConfig();
+     
+        // if running the game from the battery, override `diggerConfig` with the config class from Battery
+        DiggerConfig tempConfig = (DiggerConfig)Battery.Instance.GetCurrentConfig();
+        if (tempConfig!=null) {
+            diggerConfig = tempConfig;
             outputPath = Battery.Instance.GetOutputPath();
-        } catch (Exception) {
+        } else {
             Debug.Log("Battery not found, using default values");
         }
+
+        // use battery's config values, or default values if running game by itself
+        digAmount = diggerConfig.DigAmount > 0 ? Mathf.CeilToInt(diggerConfig.DigAmount/10f)*10 : 100;
+        try { // use default dig key if we cannot parse it from the config
+            digKey = !String.IsNullOrEmpty(diggerConfig.DigKey) ? (KeyCode) System.Enum.Parse(typeof(KeyCode), diggerConfig.DigKey) : KeyCode.B;
+        } catch (Exception) {
+            Debug.Log("Invalid KeyCode, using default value");
+            digKey = KeyCode.B;
+        }
+
+        // udpate battery config with actual/final values being used
+        diggerConfig.DigAmount = digAmount;
+        diggerConfig.DigKey = digKey.ToString();
     }
 
     // Update is called once per frame
@@ -54,58 +67,60 @@ public class DiggerLevelManager : LevelManager
     {
         if (lvlState==2) {
             // begin game, begin recording 
-            if (!bpMetric.isRecording) {
-                bpMetric.startRecording();
-                SetDigKeyForGround();
-                SetDigAmountForGround();
-            }
+            if (!bpMetric.isRecording) StartGame();
+
             // the player landing on chest triggers the end of the game
-            if (chest.opened) {
-                bpMetric.finishRecording();
-                metricWriter.logMetrics(
-                    outputPath+"digger_"+DateTime.Now.ToFileTime()+".json", 
-                    DateTime.Now, 
-                    new List<AbstractMetric>(){bpMetric}
-                );
-                EndLevel(5f);
-            }
+            if (chest.opened) EndGame();
         }
+    }
+
+    // Begin the actual game, start recording metrics
+    void StartGame()
+    {
+        bpMetric.startRecording();
+        SetDigAmountForGround();
+    }
+
+    // End game, finish recording metrics
+    void EndGame()
+    {
+        bpMetric.finishRecording();
+        metricWriter.logMetrics(
+            outputPath+"digger_"+DateTime.Now.ToFileTime()+".json", 
+            DateTime.Now, 
+            new List<AbstractMetric>(){bpMetric}
+        );
+        EndLevel(4f);
     }
 
     // Handles GUI events (keyboard, mouse, etc events)
     void OnGUI()
     {
         Event e = Event.current;
-        // start level when user pressing `digKey`
-        if (lvlState==0 && e.isKey && e.keyCode==digKey) {
-            StartLevel();
-        }
-        // record every key press and key release, regardless if it's `digKey`
-        if (lvlState==2 && e.isKey && e.keyCode!=KeyCode.None) {
-            // When a keyboard key is initially pressed down, add it to list
-            // We don't want to record when a key is HELD down
-            if (e.type == EventType.KeyDown && !keysDown.Contains(e.keyCode)) {
-                keysDown.Add(e.keyCode);
-                bpMetric.recordEvent(new ButtonPressingEvent(DateTime.Now, e.keyCode, true));
-                if (e.keyCode==digKey) player.DigDown();
-            // Remove key from list
-            } else if (e.type == EventType.KeyUp) {
-                keysDown.Remove(e.keyCode);
-                bpMetric.recordEvent(new ButtonPressingEvent(DateTime.Now, e.keyCode, false));
-                if (e.keyCode==digKey) player.DigUp();
-            }
-        }
+        // start level when user presses `digKey`
+        if (lvlState==0 && e.keyCode==digKey) StartLevel();
 
-        if (lvlState==4 && e.type == EventType.KeyUp) {
-            Battery.Instance.LoadNextScene();
-        }
+        // record every key press and key release, regardless if it's `digKey`
+        if (lvlState==2 && e.keyCode!=KeyCode.None) KeyEvent(e);
+
+        // advance to the next scene when the game is over and the user presses a key
+        if (lvlState==4 && e.type==EventType.KeyUp) Battery.Instance.LoadNextScene();
     }
 
-    // For all blocks to be dug, set the key that will break it
-    void SetDigKeyForGround() {
-        GameObject[] groundBlocks = GameObject.FindGameObjectsWithTag("GroundBlock");
-        foreach (GameObject block in groundBlocks) {
-            block.GetComponent<GroundBreaker>().SetDigKey(digKey);
+    // Record key presses during the actual game.
+    // Call player to dig when the dig key is pressed.
+    void KeyEvent(Event e) {
+        // When a keyboard key is initially pressed down, add it to list
+        // We don't want to record when a key is HELD down
+        if (e.type == EventType.KeyDown && !keysDown.Contains(e.keyCode)) {
+            keysDown.Add(e.keyCode);
+            bpMetric.recordEvent(new ButtonPressingEvent(DateTime.Now, e.keyCode, true));
+            if (e.keyCode==digKey) player.DigDown();
+        // Remove key from list
+        } else if (e.type == EventType.KeyUp) {
+            keysDown.Remove(e.keyCode);
+            bpMetric.recordEvent(new ButtonPressingEvent(DateTime.Now, e.keyCode, false));
+            if (e.keyCode==digKey) player.DigUp();
         }
     }
 
@@ -115,7 +130,7 @@ public class DiggerLevelManager : LevelManager
     void SetDigAmountForGround() {
         GameObject[] groundBlocks = GameObject.FindGameObjectsWithTag("GroundBlock");
         foreach (GameObject block in groundBlocks) {
-            block.GetComponent<GroundBreaker>().SetHitsToBreak(Mathf.CeilToInt(digAmount/10f));
+            block.GetComponent<GroundBreaker>().hitsToBreak = digAmount/10;
         }
     }
 }
