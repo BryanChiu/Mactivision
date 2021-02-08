@@ -6,7 +6,7 @@ using UnityEngine.TestTools;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class AcceptanceTest
+public class TestRequirementF12
 {
     [OneTimeSetUp]
     public void SetupBattery()
