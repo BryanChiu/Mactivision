@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
-using Newtonsoft.Json.Ling;
+using Newtonsoft.Json.Linq;
 
 public class TestLinearVariableMetric
 {
