@@ -46,12 +46,9 @@ public class FileHandler
 
     public void DeleteDirectory(string path, bool and_contents)
     {
-        try {
-            Directory.Delete(path, and_contents);
-        }
-        catch 
+        if (DirectoryExists(path))
         {
-            // TODO 
+            Directory.Delete(path, and_contents);
         }
     }
 
@@ -67,13 +64,9 @@ public class FileHandler
 
     private void WriteFile(string path, string filename, string text)
     {
-        try 
+        if (DirectoryExists(path))
         {
             File.WriteAllText(path + filename, text);
-        }
-        catch (System.Exception e)
-        {
-            string ErrorMessage = "File Write Error\n" + e.Message;
         }
     }
 }

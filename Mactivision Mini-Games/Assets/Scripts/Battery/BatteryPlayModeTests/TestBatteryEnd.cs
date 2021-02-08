@@ -27,10 +27,4 @@ public class TestBatteryEnd
         yield return null;
     }
 
-    [UnityTest]
-    public IEnumerator TestBatteryEndWritesConfig()
-    {
-          
-        yield return null;
-    }
 }
