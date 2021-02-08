@@ -12,8 +12,10 @@ public class TestBattery
     // Config being loaded first.
 
     [Test]
-    public void TestBatteryWhenNoLoaded()
+    public void TestBatteryWhenConfigNotLoaded()
     {
+        Battery.Instance.Reset();
+
         // If it failed it would throw NullReferenceException
         Assert.DoesNotThrow(() => Battery.Instance.EndBattery());
         Assert.DoesNotThrow(() => Battery.Instance.StartBattery());

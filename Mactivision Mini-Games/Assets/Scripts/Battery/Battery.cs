@@ -18,13 +18,19 @@ public class Battery
     private FileHandler FileHandle;
 
     // Config State
-    private bool IsLoaded = false;
+    private bool IsLoaded;
 
     public static readonly Battery Instance = new Battery(); 
     private Battery()
     { 
+        Reset();
+    }
+
+    public void Reset()
+    {
         FileHandle = new FileHandler();
         Config = new ConfigHandler();
+        IsLoaded = false;
     }
 
     public string GetGameName()
