@@ -34,6 +34,11 @@ public class FileHandler
         return Directory.Exists(path);
     }
 
+    public bool ConfigFileExists(string path)
+    {
+        return File.Exists(path + ConfigFile);
+    }
+
     public bool GeneratedConfigExists()
     {
         return File.Exists(ConfigPath + GeneratedFile);
