@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using UnityEngine;
+using System;
 
 // MemoryChoiceEvent class: designed to be consumed by MemoryChoiceMetric class.
 public class MemoryChoiceEvent : AbstractMetricEvent {
@@ -17,9 +19,21 @@ public class MemoryChoiceEvent : AbstractMetricEvent {
     public System.DateTime choiceTime { get; }
     
     public MemoryChoiceEvent(System.DateTime eventTime, List<string> objectsSet, string _object, bool choice, System.DateTime choiceTime) : base(eventTime) {
+        if (choiceTime < eventTime) {
+            throw new InvalidChoiceTimeException("MemoryChoiceEvent cannot be created: choiceTime cannot be earlier than eventTime");
+        }
+
         this.objectsSet = objectsSet;
         this._object = _object;
         this.choice = choice;
         this.choiceTime = choiceTime;
     }
+}
+
+
+[Serializable]
+public class InvalidChoiceTimeException : Exception {
+    public InvalidChoiceTimeException() : base() { }
+    public InvalidChoiceTimeException(string message) : base(message) { }
+    public InvalidChoiceTimeException(string message, Exception inner) : base(message, inner) { }
 }
