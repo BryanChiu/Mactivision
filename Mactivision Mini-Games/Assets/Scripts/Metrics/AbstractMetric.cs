@@ -25,10 +25,11 @@ public abstract class AbstractMetric<T> : AbstractMetric where T : AbstractMetri
     }
 
     public void recordEvent(T metricEvent) {
-        if (this.isRecording) {
+        if (this.isRecording && metricEvent != null) {
             this.eventList.Add(metricEvent);
         }
     }
+    
     public abstract JObject getJSON();
 
 }
