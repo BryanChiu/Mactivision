@@ -179,29 +179,34 @@ public class FeederLevelManager : LevelManager
     void WaitForPlayer()
     {
         if (Input.GetKeyDown(feedKey) || Input.GetKeyDown(trashKey)) {
-            // set the angle the plate should tilt to. Play monster eating animation & sound if applicable
-            if (Input.GetKeyDown(feedKey)) {
-                monster.Play("Base Layer.monster_eat");
-                sound.PlayDelayed(0.85f);
-                tiltPlateTo = -33f;
-            } else {
-                tiltPlateTo = 33f;
-            }
-
-            // record the choice made
-            mcMetric.recordEvent(new MemoryChoiceEvent(
-                dispenser.choiceStartTime,
-                new List<String>(dispenser.goodFoods),
-                dispenser.currentFood,
-                Input.GetKeyDown(feedKey),
-                DateTime.Now
-            ));
-
-            // animate choice and play plate sound
-            sound.PlayOneShot(plate_up);
-            StartCoroutine(AnimateChoice(Input.GetKeyDown(feedKey) && !dispenser.MakeChoice(Input.GetKeyDown(feedKey))));
-            gameState = GameState.TiltingPlate;
+            ChoiceMade(Input.GetKeyDown(feedKey));
         }
+    }
+
+    void ChoiceMade(bool choice)
+    {
+        // set the angle the plate should tilt to. Play monster eating animation & sound if applicable
+        if (choice) {
+            monster.Play("Base Layer.monster_eat");
+            sound.PlayDelayed(0.85f);
+            tiltPlateTo = -33f;
+        } else {
+            tiltPlateTo = 33f;
+        }
+
+        // record the choice made
+        mcMetric.recordEvent(new MemoryChoiceEvent(
+            dispenser.choiceStartTime,
+            new List<String>(dispenser.goodFoods),
+            dispenser.currentFood,
+            choice,
+            DateTime.Now
+        ));
+
+        // animate choice and play plate sound
+        sound.PlayOneShot(plate_up);
+        StartCoroutine(AnimateChoice(choice && !dispenser.MakeChoice(choice)));
+        gameState = GameState.TiltingPlate;
     }
 
     // This function tilts the plate by a small increment. When called over multiple

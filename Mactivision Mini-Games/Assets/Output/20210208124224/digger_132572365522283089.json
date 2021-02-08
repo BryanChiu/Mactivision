@@ -1,0 +1,112 @@
+{
+  "game": "Digger",
+  "startTime": "2021-02-08T00:42:24.2991779-05:00",
+  "endTime": "2021-02-08T00:42:32.2291998-05:00",
+  "seed": null,
+  "metrics": [
+    {
+      "buttonPressing": [
+        {
+          "keyCode": 98,
+          "keyDown": true,
+          "eventTime": "2021-02-08T00:42:30.7933652-05:00"
+        },
+        {
+          "keyCode": 98,
+          "keyDown": false,
+          "eventTime": "2021-02-08T00:42:30.8526325-05:00"
+        },
+        {
+          "keyCode": 98,
+          "keyDown": true,
+          "eventTime": "2021-02-08T00:42:30.9524674-05:00"
+        },
+        {
+          "keyCode": 98,
+          "keyDown": false,
+          "eventTime": "2021-02-08T00:42:31.0001478-05:00"
+        },
+        {
+          "keyCode": 98,
+          "keyDown": true,
+          "eventTime": "2021-02-08T00:42:31.0891717-05:00"
+        },
+        {
+          "keyCode": 98,
+          "keyDown": false,
+          "eventTime": "2021-02-08T00:42:31.1685721-05:00"
+        },
+        {
+          "keyCode": 98,
+          "keyDown": true,
+          "eventTime": "2021-02-08T00:42:31.2494886-05:00"
+        },
+        {
+          "keyCode": 98,
+          "keyDown": false,
+          "eventTime": "2021-02-08T00:42:31.3196743-05:00"
+        },
+        {
+          "keyCode": 98,
+          "keyDown": true,
+          "eventTime": "2021-02-08T00:42:31.3611355-05:00"
+        },
+        {
+          "keyCode": 98,
+          "keyDown": false,
+          "eventTime": "2021-02-08T00:42:31.4401015-05:00"
+        },
+        {
+          "keyCode": 98,
+          "keyDown": true,
+          "eventTime": "2021-02-08T00:42:31.4973383-05:00"
+        },
+        {
+          "keyCode": 98,
+          "keyDown": false,
+          "eventTime": "2021-02-08T00:42:31.560394-05:00"
+        },
+        {
+          "keyCode": 98,
+          "keyDown": true,
+          "eventTime": "2021-02-08T00:42:31.6172319-05:00"
+        },
+        {
+          "keyCode": 98,
+          "keyDown": false,
+          "eventTime": "2021-02-08T00:42:31.6910577-05:00"
+        },
+        {
+          "keyCode": 98,
+          "keyDown": true,
+          "eventTime": "2021-02-08T00:42:31.7534541-05:00"
+        },
+        {
+          "keyCode": 98,
+          "keyDown": false,
+          "eventTime": "2021-02-08T00:42:31.8250802-05:00"
+        },
+        {
+          "keyCode": 98,
+          "keyDown": true,
+          "eventTime": "2021-02-08T00:42:31.8661724-05:00"
+        },
+        {
+          "keyCode": 98,
+          "keyDown": false,
+          "eventTime": "2021-02-08T00:42:31.9302545-05:00"
+        },
+        {
+          "keyCode": 98,
+          "keyDown": true,
+          "eventTime": "2021-02-08T00:42:32.0012187-05:00"
+        },
+        {
+          "keyCode": 98,
+          "keyDown": false,
+          "eventTime": "2021-02-08T00:42:32.1921476-05:00"
+        }
+      ]
+    }
+  ]
+}

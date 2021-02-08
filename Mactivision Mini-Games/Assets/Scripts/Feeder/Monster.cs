@@ -31,7 +31,6 @@ public class Monster : MonoBehaviour
             sound.PlayDelayed(0.2f);
             StartCoroutine(MonsterSpit(other.attachedRigidbody));
         }
-
     }
 
     // Wait for the eating animation to finish before ejecting the food.

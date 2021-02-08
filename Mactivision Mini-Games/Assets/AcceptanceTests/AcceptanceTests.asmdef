@@ -9,7 +9,8 @@
         "LevelManager",
         "digger",
         "feeder",
-        "Battery"
+        "Battery",
+        "Rockstar"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
