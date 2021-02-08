@@ -22,6 +22,9 @@ public class StartScreen : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // for stress testing
+        //Application.targetFrameRate = 1;
+
         Debug.Log("Start Battery Start Scene");
         ConfigIsLoaded = false;
 
