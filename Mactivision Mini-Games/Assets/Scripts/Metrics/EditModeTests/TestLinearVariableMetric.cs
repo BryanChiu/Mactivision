@@ -143,8 +143,8 @@ public class TestLinearVariableMetric
         JArray json2lv = (JArray) json2["linearVariables"];
         Assert.AreEqual(1, json2lv.Count);
         Assert.AreEqual("2021-02-01 12:00:00 AM", json2lv[0]["eventTime"].ToString());
-        Assert.AreEqual(10, json2lv[0]["currentValue"].ToObject<int>());
-        Assert.AreEqual(10, json2lv[0]["valueChange"].ToObject<int>());
-        Assert.AreEqual(1, json2lv[0]["reasonIndex"].ToObject<int>());
+        Assert.AreEqual(10, json2lv[0]["currentValue"].ToObject<long>());
+        Assert.AreEqual(10, json2lv[0]["valueChange"].ToObject<long>());
+        Assert.AreEqual(1, json2lv[0]["initialValue"].ToObject<int>());
     }
 }
