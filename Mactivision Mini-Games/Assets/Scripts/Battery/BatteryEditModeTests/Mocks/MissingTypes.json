@@ -1,0 +1,37 @@
+{
+  "PlayerName": null,
+  "StartTime": null,
+  "EndTime": null,
+  "Games": {
+    "$type": "System.Collections.Generic.List`1[[GameConfig, Battery]], mscorlib",
+    "$values": [
+      {
+        "TestName": null,
+        "Scene": null,
+        "Seed": null,
+        "MaxGameTime": 0.0,
+        "MaxFoodDispensed": 0,
+        "TotalFoods": 0,
+        "AverageUpdateFrequency": 0.0,
+        "StandardDeviationUpdateFreq": 0.0
+      },
+      {
+        "TestName": null,
+        "Scene": null,
+        "DigAmount": 0,
+        "DigKey": null
+      },
+      {
+        "TestName": null,
+        "Scene": null,
+        "Seed": null,
+        "MaxGameTime": 0.0,
+        "MeterMax": 0,
+        "MeterMin": 0,
+        "MeterIncrement": 0,
+        "ChangeFrequency": 0.0,
+        "LightVelocity": 0.0
+      }
+    ]
+  }
+}

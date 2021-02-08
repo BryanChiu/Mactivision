@@ -8,21 +8,33 @@
     "$values": [
       {
         "$type": "DiggerConfig, Battery",
-        "Name": null,
-        "Scene": null,
+        "TestName": null,
+        "Scene": "Digger",
         "DigAmount": 0,
         "DigKey": null
       },
       {
         "$type": "FeederConfig, Battery",
-        "Name": null,
-        "Scene": null,
+        "TestName": null,
+        "Scene": "Feeder",
         "Seed": null,
         "MaxGameTime": 0.0,
         "MaxFoodDispensed": 0,
         "TotalFoods": 0,
         "AverageUpdateFrequency": 0.0,
         "StandardDeviationUpdateFreq": 0.0
+      },
+      {
+        "$type": "RockStarConfig, Battery",
+        "TestName": null,
+        "Scene": "RockStar",
+        "Seed": null,
+        "MaxGameTime": 0.0,
+        "MeterMax": 0,
+        "MeterMin": 0,
+        "MeterIncrement": 0,
+        "ChangeFrequency": 0.0,
+        "LightVelocity": 0.0
       }
     ]
   }
