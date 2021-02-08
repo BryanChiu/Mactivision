@@ -30,9 +30,6 @@ public class TestRequirementF2
         DiggerLevelManager diggerLevelManager = levelManager.GetComponent<DiggerLevelManager>();
         Assert.NotNull(levelManager);
         Assert.NotNull(diggerLevelManager);
-        var grass1 = GameObject.Find("Grass1").GetComponent<GroundBreaker>();
-        Assert.NotNull(grass1);
-        Assert.AreEqual(grass1.hitsToBreak, 10);
 
         string[] filesBefore = Directory.GetFiles("./Logs/", "digger_*.json").Select(filename => Path.GetFileName(filename)).ToArray();
 
