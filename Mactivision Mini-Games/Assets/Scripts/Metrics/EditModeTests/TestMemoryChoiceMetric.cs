@@ -167,7 +167,7 @@ public class TestMemoryChoice
         mcm2.recordEvent(new MemoryChoiceEvent(new System.DateTime(2021, 2, 1), new List<string>(new string[]{"apple"}), "apple", true, new System.DateTime(2021, 2, 2)));
         Assert.IsEmpty(mcm2.eventList);
 
-        // Test adding valid events to a ButtonPressingMetric which has started recording
+        // Test adding valid events to a MemoryChoiceMetric which has started recording
         MemoryChoiceMetric mcm3 = new MemoryChoiceMetric();
         mcm3.startRecording();
         Assert.IsTrue(mcm3.isRecording);
@@ -220,7 +220,7 @@ public class TestMemoryChoice
 
         JObject json1 = mcm1.getJSON();
         Assert.IsNotNull(json1);
-        Assert.IsNotNull(json1["memoryChoice"]);      // JSON entry "buttonPressing" should be empty, as nothing has been recorded
+        Assert.IsNotNull(json1["memoryChoice"]);      // JSON entry "memoryChoice" should be empty, as nothing has been recorded
         Assert.IsEmpty(json1["memoryChoice"]);
 
         // Test getJSON() with one record
