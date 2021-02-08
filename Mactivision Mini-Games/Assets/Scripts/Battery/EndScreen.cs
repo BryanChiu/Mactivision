@@ -9,5 +9,4 @@ public class EndScreen : MonoBehaviour
     {
         Battery.Instance.EndBattery();        
     }
-
 }
