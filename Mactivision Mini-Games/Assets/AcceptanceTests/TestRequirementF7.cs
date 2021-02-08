@@ -15,6 +15,12 @@ public class TestRequirementF7
         SceneManager.LoadScene("Battery Start", LoadSceneMode.Single);
     }
 
+    [OneTimeTearDown]
+    public void TearDownBattery()
+    {
+        Battery.Instance.Reset();
+    }
+
     [UnityTest]
     public IEnumerator TestBatteryStartToEnd()
     {

@@ -22,6 +22,12 @@ public class TestRequirementF2
         SceneManager.LoadScene("Digger", LoadSceneMode.Single);
     }
 
+    [OneTimeTearDown]
+    public void TearDownBattery()
+    {
+        Battery.Instance.Reset();
+    }
+
     [UnityTest]
     public IEnumerator TestDiggerButtonPresses()
     {
