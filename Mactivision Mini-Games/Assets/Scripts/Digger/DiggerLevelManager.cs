@@ -40,10 +40,11 @@ public class DiggerLevelManager : LevelManager
         DiggerConfig diggerConfig = new DiggerConfig();
      
         // if running the game from the battery, override `diggerConfig` with the config class from Battery
-        try {
-            diggerConfig = (DiggerConfig)Battery.Instance.GetCurrentConfig();
+        DiggerConfig tempConfig = (DiggerConfig)Battery.Instance.GetCurrentConfig();
+        if (tempConfig!=null) {
+            diggerConfig = tempConfig;
             outputPath = Battery.Instance.GetOutputPath();
-        } catch (Exception) {
+        } else {
             Debug.Log("Battery not found, using default values");
         }
 

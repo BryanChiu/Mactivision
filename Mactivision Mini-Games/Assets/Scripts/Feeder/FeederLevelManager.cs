@@ -75,10 +75,11 @@ public class FeederLevelManager : LevelManager
         FeederConfig feederConfig = new FeederConfig();
 
         // if running the game from the battery, override `feederConfig` with the config class from Battery
-        try {
-            feederConfig = (FeederConfig)Battery.Instance.GetCurrentConfig();
+        FeederConfig tempConfig = (FeederConfig)Battery.Instance.GetCurrentConfig();
+        if (tempConfig!=null) {
+            feederConfig = tempConfig;
             outputPath = Battery.Instance.GetOutputPath();
-        } catch (Exception) {
+        } else {
             Debug.Log("Battery not found, using default values");
         }
 
