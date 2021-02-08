@@ -86,7 +86,7 @@ public class FeederLevelManager : LevelManager
         seed = !String.IsNullOrEmpty(feederConfig.Seed) ? feederConfig.Seed : DateTime.Now.ToString(); // if no seed provided, use current DateTime
         maxGameTime = feederConfig.MaxGameTime > 0 ? feederConfig.MaxGameTime : 120f;
         maxFoodDispensed = feederConfig.MaxFoodDispensed > 0 ? feederConfig.MaxFoodDispensed : 25;
-        totalFoods = feederConfig.TotalFoods > 0 && feederConfig.TotalFoods < dispenser.allFoods.Length ? feederConfig.TotalFoods : 6;
+        totalFoods = feederConfig.TotalFoods > 0 && feederConfig.TotalFoods <= dispenser.allFoods.Length ? feederConfig.TotalFoods : 6;
         avgUpdateFreq = feederConfig.AverageUpdateFrequency > 0 ? feederConfig.AverageUpdateFrequency : 3f;
         stdDevUpdateFreq = feederConfig.StandardDeviationUpdateFreq > 0 ? feederConfig.StandardDeviationUpdateFreq : 2.8f;
 

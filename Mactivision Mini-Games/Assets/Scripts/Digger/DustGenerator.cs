@@ -5,14 +5,14 @@ using UnityEngine;
 // This class animates a dust particle
 public class DustGenerator : MonoBehaviour
 {
-    public int lifespan = 120;
-    int age;
+    public float lifespan = 2f;
+    float age;
     SpriteRenderer spriterender;
 
     // Start is called before the first frame update
     void Start()
     {
-        age = 0;
+        age = 0f;
         spriterender = GetComponent<SpriteRenderer>();
     }
 
@@ -20,6 +20,7 @@ public class DustGenerator : MonoBehaviour
     void Update()
     {
         // slowly fade the dust to transparent
-        spriterender.color = new Color(1f, 1f, 1f, (float)(lifespan-(age++/2))/lifespan);
+        age += Time.deltaTime;
+        spriterender.color = new Color(1f, 1f, 1f, (lifespan-age)/lifespan);
     }
 }

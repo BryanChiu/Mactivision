@@ -8,7 +8,7 @@ public class GroundBreaker : MonoBehaviour
     public PlayerController player;
     public Sprite[] breakAnimation;
 
-    public int hitsToBreak;         // number of hits it takes to break the block (set by `SetHitsToBreak`)
+    public int hitsToBreak {get; set;}         // number of hits it takes to break the block (set by `SetHitsToBreak`)
     int hits;                       // number of hits it has received
 
     SpriteRenderer spriteRender;
@@ -34,10 +34,5 @@ public class GroundBreaker : MonoBehaviour
             }
             player.dig = false;
         }
-    }
-
-    // Set the amount of key presses it will take to break this individual block
-    public void SetHitsToBreak(int hits) {
-        hitsToBreak = hits;
     }
 }

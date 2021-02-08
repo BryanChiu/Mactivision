@@ -89,7 +89,7 @@ public class DiggerLevelManager : LevelManager
             DateTime.Now, 
             new List<AbstractMetric>(){bpMetric}
         );
-        EndLevel(3f);
+        EndLevel(4f);
     }
 
     // Handles GUI events (keyboard, mouse, etc events)
@@ -129,7 +129,7 @@ public class DiggerLevelManager : LevelManager
     void SetDigAmountForGround() {
         GameObject[] groundBlocks = GameObject.FindGameObjectsWithTag("GroundBlock");
         foreach (GameObject block in groundBlocks) {
-            block.GetComponent<GroundBreaker>().SetHitsToBreak(digAmount/10);
+            block.GetComponent<GroundBreaker>().hitsToBreak = digAmount/10;
         }
     }
 }
