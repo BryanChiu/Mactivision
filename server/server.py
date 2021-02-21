@@ -30,15 +30,14 @@ class requestHandler(BaseHTTPRequestHandler):
             except OSError as e:
                 folder = (e) 
             self.wfile.write(folder.encode())
-        
-        if self.path.endswith('/get'):
+        elif self.path.endswith('/get'):
             self.send_get_headers()
 
             with open('./input/GeneratedTemplate.json', 'rb') as f:
                 self.wfile.write(f.read())
-
-        self.send_response(404)
-        self.end_headers()
+        else:
+            self.send_response(404)
+            self.end_headers()
 
     def do_POST(self):
         # global folder
@@ -84,7 +83,6 @@ class requestHandler(BaseHTTPRequestHandler):
             message = self.rfile.read(length)
             fileName = params['filename'] if 'filename' in params else 'test.json'
 
-            
             with open("./output/" + folder + "/" + fileName, "wb") as f:
                 f.write(message)
 

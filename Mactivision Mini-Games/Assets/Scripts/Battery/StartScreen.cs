@@ -35,7 +35,7 @@ public class StartScreen : MonoBehaviour
         
         StartCoroutine(Get("new", CreateOutputFolder));
         
-        StartCoroutine(Test());
+        StartCoroutine(Test("test.pancakes", "hello world"));
 
         // helpful for developers but not needed for users
         if (!Application.isEditor)
@@ -44,11 +44,11 @@ public class StartScreen : MonoBehaviour
         }
     }
 
-    IEnumerator Test()
+    IEnumerator Test(string filename, string data)
     {
-        var post = new UnityWebRequest ("http://127.0.0.1:8000/post", "POST");
-        byte[] data = Encoding.UTF8.GetBytes("Hello World");
-        post.uploadHandler = new UploadHandlerRaw(data);
+        var post = new UnityWebRequest ("http://127.0.0.1:8000/post?filename=" + filename, "POST");
+        byte[] bytes = Encoding.UTF8.GetBytes(data);
+        post.uploadHandler = new UploadHandlerRaw(bytes);
         post.downloadHandler = new DownloadHandlerBuffer();
         post.SetRequestHeader("Content-Type", "application/json");
         yield return post.SendWebRequest();
@@ -59,11 +59,9 @@ public class StartScreen : MonoBehaviour
         }
         else
         {
-            Debug.Log("Test Success!");
+            Debug.Log("Post Success!");
         }
     }
-
-
 
     IEnumerator Get(string slug, Action<string> method)
     {

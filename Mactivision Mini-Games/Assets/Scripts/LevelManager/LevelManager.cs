@@ -128,22 +128,20 @@ public abstract class LevelManager : MonoBehaviour
 
     public IEnumerator Post(string filename, string data)
     {
-        List<IMultipartFormSection> form = new List<IMultipartFormSection>();
-        byte[] test = Encoding.UTF8.GetBytes(data);
-        form.Add(new MultipartFormFileSection("file", test, filename, "text/plain"));
+        var post = new UnityWebRequest ("http://127.0.0.1:8000/post?filename=" + filename, "POST");
+        byte[] bytes = Encoding.UTF8.GetBytes(data);
+        post.uploadHandler = new UploadHandlerRaw(bytes);
+        post.downloadHandler = new DownloadHandlerBuffer();
+        post.SetRequestHeader("Content-Type", "application/json");
+        yield return post.SendWebRequest();
 
-        using (var www = UnityWebRequest.Post("http://127.0.0.1:8000/post", form))
+        if (post.result != UnityWebRequest.Result.Success)
         {
-            yield return www.SendWebRequest();
-    
-            if (www.result != UnityWebRequest.Result.Success)
-            {
-                Debug.Log(www.error);
-            }
-            else
-            {
-                Debug.Log("Post Successful.");
-            }
+            Debug.Log("Network Error\n" + post.error);
+        }
+        else
+        {
+            Debug.Log("Post Success!");
         }
     }
 }
