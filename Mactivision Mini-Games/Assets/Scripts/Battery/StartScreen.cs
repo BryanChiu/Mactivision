@@ -34,6 +34,8 @@ public class StartScreen : MonoBehaviour
         StartCoroutine(Get("get", GetBatteryConfig));
         
         StartCoroutine(Get("new", CreateOutputFolder));
+        
+        StartCoroutine(Test());
 
         // helpful for developers but not needed for users
         if (!Application.isEditor)
@@ -41,6 +43,27 @@ public class StartScreen : MonoBehaviour
             GenerateButton.gameObject.SetActive(false);
         }
     }
+
+    IEnumerator Test()
+    {
+        var post = new UnityWebRequest ("http://127.0.0.1:8000/post", "POST");
+        byte[] data = Encoding.UTF8.GetBytes("Hello World");
+        post.uploadHandler = new UploadHandlerRaw(data);
+        post.downloadHandler = new DownloadHandlerBuffer();
+        post.SetRequestHeader("Content-Type", "application/json");
+        yield return post.SendWebRequest();
+
+        if (post.result != UnityWebRequest.Result.Success)
+        {
+            Console.text = "Network Error\n" + post.error; 
+        }
+        else
+        {
+            Debug.Log("Test Success!");
+        }
+    }
+
+
 
     IEnumerator Get(string slug, Action<string> method)
     {
