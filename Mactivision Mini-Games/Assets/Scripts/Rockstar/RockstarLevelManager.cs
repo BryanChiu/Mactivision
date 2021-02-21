@@ -178,7 +178,7 @@ public class RockstarLevelManager : LevelManager
     void StartGame()
     {
         pMetric.startRecording();
-        // lvMetric.startRecording();
+        lvMetric.startRecording();
         gameStartTime = Time.time;
         rockstar.enabled = true;
         spotlight.enabled = true;
