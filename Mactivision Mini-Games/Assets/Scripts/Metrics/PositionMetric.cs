@@ -17,7 +17,14 @@ public class PositionMetric : AbstractMetric<PositionEvent> {
 
         json["metricName"] = JToken.FromObject("position");
         json["gameObjectKeys"] = JToken.FromObject(this.gameObjectKeys);
-        json["eventList"] = JToken.FromObject(this.eventList);
+        JArray jsonEvents = new JArray();
+        foreach (PositionEvent e in this.eventList) {
+            JObject jsonEvent = new JObject();
+            jsonEvent["eventTime"] = JToken.FromObject(e.eventTime);
+            jsonEvent["positions"] = JToken.FromObject(e.positions);
+            jsonEvents.Add(jsonEvent);
+        }
+        json["eventList"] = jsonEvents;
         return json;
     }
 }
