@@ -16,7 +16,7 @@ public class LinearVariableMetric : AbstractMetric<LinearVariableEvent> {
     // List of reasons for the value to change
     public List<string> reasons { get; }
 
-    public LinearVariableMetric(float minTime, float maxTime, float initialValue, List<string> reasons) {
+    public LinearVariableMetric(float minValue, float maxValue, float initialValue, List<string> reasons) {
         this.minValue = minValue;
         this.maxValue = maxValue;
         this.initialValue = initialValue;
