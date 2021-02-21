@@ -1,3 +1,5 @@
+import os
+import argparse
 import cgi
 import json
 import urllib.parse
@@ -8,21 +10,22 @@ from datetime import datetime
 from os import mkdir
 
 folder = "recent"
+config = ""
 
 class requestHandler(BaseHTTPRequestHandler):
 
-    def send_get_headers(self):
-        self.send_response(200)
-        self.send_header('Access-Control-Allow-Headers', 'authorization')
-        self.send_header('Access-Control-Allow-Methods', 'GET, POST')
+    def do_OPTIONS(self):
+        self.send_response(200, "ok")
         self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+        self.send_header('Access-Control-Allow-Headers', '*')
         self.end_headers()
-    
+
     def do_GET(self):
-        global folder
+        global folder, config
+        self.do_OPTIONS()
 
         if self.path.endswith('/new'):
-            self.send_get_headers()
             name = datetime.now().strftime('%Y-%m-%d_%H-%M-%S') 
             try:
                 mkdir("./output/" + name)
@@ -31,16 +34,14 @@ class requestHandler(BaseHTTPRequestHandler):
                 folder = (e) 
             self.wfile.write(folder.encode())
         elif self.path.endswith('/get'):
-            self.send_get_headers()
-
-            with open('./input/GeneratedTemplate.json', 'rb') as f:
+            with open('./input/' + config, 'rb') as f:
                 self.wfile.write(f.read())
         else:
             self.send_response(404)
             self.end_headers()
 
     def do_POST(self):
-        # global folder
+        global folder
 
         param_dict = urllib.parse.parse_qs(self.path)
         params = {}
@@ -52,22 +53,6 @@ class requestHandler(BaseHTTPRequestHandler):
 
         if parsed_path == 'post':
             ctype, pdict = cgi.parse_header(self.headers.get('content-type'))
-
-            # NOTE: in case we need this again, just gonna leave it here.
-            # pdict['boundary'] = bytes(pdict['boundary'], "utf-8")
-            # content_len = int(self.headers.get('Content-length'))
-            # pdict['CONTENT-LENGTH'] = content_len
-           
-            # if ctype == 'multipart/form-data':
-            #     form = cgi.FieldStorage(
-            #         fp=self.rfile,
-            #         headers=self.headers,
-            #         environ={'REQUEST_METHOD': 'POST',
-            #                 'CONTENT_TYPE': self.headers['Content-Type'],
-            #                 })
-            #     fn = form['file'].filename
-            #     data = form['file'].file.read()
-            #     open("./output/" + folder + "/" + fn, "wb").write(data)
 
             if ctype != 'application/json':
                 self.send_response(400, 'Content-Type must be application/json')
@@ -86,14 +71,37 @@ class requestHandler(BaseHTTPRequestHandler):
             with open("./output/" + folder + "/" + fileName, "wb") as f:
                 f.write(message)
 
-            self.send_response(201, 'File {} was created successfully'.format(params['filename']))
-            self.send_header('content-type', 'text/html')
+            self.do_OPTIONS()
+        else:
+            self.send_response(404)
             self.end_headers()
-        
-        self.send_response(404)
-        self.end_headers()
+
+def start_up_check(config):
+    cpath = "./input/" + config
+
+    if not os.path.exists('./input'):
+        print("ERROR: Missing ./input folder which should contain configuration files")
+        return False
+
+    if not os.path.exists('./output'):
+        print("ERROR: Missing ./output folder which will contain battery logs.")
+        return False
+   
+    if not os.path.exists(cpath):
+        print("ERROR: Config at " + cpath + " does not exist.")
+        return False
+
+    return True
 
 if __name__ == '__main__':
-    server = HTTPServer(('localhost', 8000), requestHandler)
-    print("Server running on port 8000")
-    server.serve_forever()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("file")
+    parser.parse_args()
+    args = parser.parse_args()
+    config = args.file
+
+    if (start_up_check(config)):
+        print("Using " + config)
+        server = HTTPServer(('localhost', 8000), requestHandler)
+        print("Server running on port 8000")
+        server.serve_forever()
