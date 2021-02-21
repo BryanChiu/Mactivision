@@ -188,17 +188,12 @@ public class RockstarLevelManager : LevelManager
     void EndGame()
     {
         pMetric.finishRecording();
-        metricWriter.logMetrics(
-            outputPath+"rockstarP_"+DateTime.Now.ToFileTime()+".json", 
-            DateTime.Now, 
-            new List<AbstractMetric>(){pMetric}
-        );
         lvMetric.finishRecording();
-        metricWriter.logMetrics(
-            outputPath+"rockstarLV_"+DateTime.Now.ToFileTime()+".json", 
+        var str = metricWriter.GetLogMetrics(
             DateTime.Now, 
-            new List<AbstractMetric>(){lvMetric}
+            new List<AbstractMetric>(){pMetric, lvMetric}
         );
+        StartCoroutine(Post("rockstar_"+DateTime.Now.ToFileTime()+".json", str));
         EndLevel(0f);
     }
 
