@@ -39,15 +39,20 @@ public class FeederConfig : GameConfig
     public float StandardDeviationUpdateFreq {get; set;}
 }
 
-public class RockStarConfig : GameConfig
+public class RockstarConfig : GameConfig
 {
     public string TestName {get; set;}
     public string Scene {get; set;}
     public string Seed {get; set;}
     public float MaxGameTime {get; set;}
-    public int MeterMax {get; set;}
-    public int MeterMin {get; set;}
-    public int MeterIncrement {get; set;}
-    public float ChangeFrequency {get; set;}
-    public float LightVelocity {get; set;}
+    public float RockstarChangeFreq {get; set;}
+    public float RockstarVelocity {get; set;}
+    public float SpotlightVelocity {get; set;}
+    public float MeterChangeFreq {get; set;}
+    public float MeterMinVel {get; set;}
+    public float MeterMaxVel {get; set;}
+    public float MeterUpVel {get; set;}
+    public string LeftKey {get; set;}
+    public string RightKey {get; set;}
+    public string UpKey {get; set;}
 }

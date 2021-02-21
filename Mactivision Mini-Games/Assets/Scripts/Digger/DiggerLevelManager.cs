@@ -8,6 +8,9 @@ public class DiggerLevelManager : LevelManager
 {
     public PlayerController player; // the player object in Unity
     public ChestAnimator chest;     // the chest object in Unity
+
+    float maxGameTime;       // maximum length of the game
+    float gameStartTime;
     
     int digAmount;                  // total amount of presses required; must be > 0, rounds up to nearest 10
     KeyCode digKey;                 // keyboard key used to dig
@@ -51,7 +54,7 @@ public class DiggerLevelManager : LevelManager
         // use battery's config values, or default values if running game by itself
         digAmount = diggerConfig.DigAmount > 0 ? Mathf.CeilToInt(diggerConfig.DigAmount/10f)*10 : 100;
         try { // use default dig key if we cannot parse it from the config
-            digKey = !String.IsNullOrEmpty(diggerConfig.DigKey) ? (KeyCode) System.Enum.Parse(typeof(KeyCode), diggerConfig.DigKey) : KeyCode.B;
+            digKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), diggerConfig.DigKey);
         } catch (Exception) {
             Debug.Log("Invalid KeyCode, using default value");
             digKey = KeyCode.B;
@@ -70,7 +73,7 @@ public class DiggerLevelManager : LevelManager
             if (!bpMetric.isRecording) StartGame();
 
             // the player landing on chest triggers the end of the game
-            if (chest.opened) EndGame();
+            if (chest.opened || Time.time-gameStartTime>=maxGameTime) EndGame();
         }
     }
 
@@ -79,6 +82,8 @@ public class DiggerLevelManager : LevelManager
     {
         bpMetric.startRecording();
         SetDigAmountForGround();
+        gameStartTime = Time.time;
+        maxGameTime = digAmount;
     }
 
     // End game, finish recording metrics
