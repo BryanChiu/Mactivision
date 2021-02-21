@@ -14,7 +14,7 @@ public class ConfigHandler
     {
         {"Digger", new DiggerConfig()},
         {"Feeder", new FeederConfig()},
-        {"RockStar", new RockStarConfig()}
+        {"Rockstar", new RockstarConfig()}
     };
     
     private BatteryConfig Config;

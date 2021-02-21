@@ -8,8 +8,8 @@ public class ButtonPressingMetric : AbstractMetric<ButtonPressingEvent> {
     public override JObject getJSON() {
         JObject json = new JObject();
 
-        // all json data from this metric should be stored under "buttonPressing"
-        json["buttonPressing"] = JToken.FromObject(this.eventList);
+        json["metricName"] = JToken.FromObject("buttonPressing");
+        json["eventList"] = JToken.FromObject(this.eventList);
         return json;
     }
 }

@@ -1,0 +1,19 @@
+{
+    "name": "Rockstar",
+    "rootNamespace": "",
+    "references": [
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:0abd878fb69bf504ab65d0c60fe7ff16",
+        "GUID:b2acb75c8853e4141a531b64f4424847",
+        "GUID:8533e69378f2b744db67c957c0af2137"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
