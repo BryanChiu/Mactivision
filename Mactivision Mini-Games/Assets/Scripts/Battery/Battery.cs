@@ -8,10 +8,6 @@ using Newtonsoft.Json;
 
 public class Battery
 {
-    // Parent directory for all battery output files..
-    private string OutputFolderParent = Application.dataPath + "./Output/"; 
-    private string OutputFolderPath; 
-
     // Helpers
     private ConfigHandler Config;
     private SceneController Scene;
@@ -28,7 +24,6 @@ public class Battery
 
     public void Reset()
     {
-        FileHandle = new FileHandler();
         Config = new ConfigHandler();
         IsLoaded = false;
     }
@@ -43,12 +38,6 @@ public class Battery
         return null;
     }
 
-    // Gets the full path of current battery folder
-    public string GetOutputPath()
-    {
-        return OutputFolderPath;
-    }
-
     // Returns the GameConfig interface type. Specific games will have to cast the GameConfig to their respective Config class in order to child parameters. 
     public GameConfig GetCurrentConfig()
     {
@@ -60,10 +49,9 @@ public class Battery
     }
 
     // Load the BatteryConfig JSON file and deserialize it while maintaining type information. Currently uses TextAsset which is a Unity Resource type. This allows easier file reading but it may not be wise to clutter resource folder. 
-    public void LoadBattery(string BatteryConfig)
+    public void LoadBattery(string json)
     {
-        TextAsset json = Resources.Load<TextAsset>(BatteryConfig);
-        Config.Load(json.text);
+        Config.Load(json);
         Scene = new SceneController("Battery Start", "Battery End", Config.GameScenes());
         IsLoaded = true;
     }
@@ -75,13 +63,16 @@ public class Battery
         SceneManager.LoadScene(Scene, LoadSceneMode.Single); 
     }
 
+    public string SerializedConfig()
+    {
+        return Config.Serialize();
+    }
+
     public void StartBattery()
     {
         if (IsLoaded)
         {
             Config.Start();
-            OutputFolderPath = OutputFolderParent + Config.FolderTimeStamp() + "/";
-            FileHandle.CreateDirectory(OutputFolderPath);
         }
     }
 
@@ -90,7 +81,6 @@ public class Battery
         if (IsLoaded)
         {
             Config.End();
-            FileHandle.WriteConfig(GetOutputPath(), Config.Serialize());
         }
     }
    
@@ -133,14 +123,6 @@ public class Battery
     // As the configurable variables are added, deleted or renamed during development in order not have to constantly sync these names with the configuration files this function can be used to generate a blank configuration file based off those variables. 
     public void WriteExampleConfig()
     {
-        if (IsLoaded)
-        {
-            FileHandle.WriteGenerated(Config.Generate());
-        }
-    }
-
-    public string[] ListConfigFiles()
-    {
-        return FileHandle.ListConfigFiles();
+        // TODO: FileHandle.WriteGenerated(Config.Generate());
     }
 }
