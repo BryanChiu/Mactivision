@@ -8,8 +8,8 @@ public class MemoryChoiceMetric : AbstractMetric<MemoryChoiceEvent> {
     public override JObject getJSON() {
         JObject json = new JObject();
 
-        // all json data from this metric should be stored under "memoryChoice"
-        json["memoryChoice"] = JToken.FromObject(this.eventList);
+        json["metricName"] = JToken.FromObject("memoryChoice");
+        json["eventList"] = JToken.FromObject(this.eventList);
         return json;
     }
 }
