@@ -395,7 +395,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'The monster has been well fed!
+  m_text: 'What a great show!
 
 
     Level Complete<line-height=30>

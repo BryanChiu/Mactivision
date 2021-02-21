@@ -63,8 +63,8 @@ public class RockstarLevelManager : LevelManager
         showIntro2 = false;
         countDoneText = "Rock!";
 
-        pMetric = new PositionMetric(new string[]{"rockstar", "spotlight"}); // initialize position metric recorder
-        lvMetric = new LinearVariableMetric(0f, 100f, 75f, new string[]{"gameDrop", "playerRaise"}); // initialize linear variable metric recorder
+        pMetric = new PositionMetric(new List<string>{"rockstar", "spotlight"}); // initialize position metric recorder
+        lvMetric = new LinearVariableMetric(0f, 100f, 75f, new List<string>{"gameDrop", "playerRaise"}); // initialize linear variable metric recorder
         metricWriter = new MetricJSONWriter("Rockstar", DateTime.Now, seed); // initialize metric data writer
 
         rockstar.Init(seed, rockstarChangeFreq, rockstarVelocity);
@@ -91,13 +91,13 @@ public class RockstarLevelManager : LevelManager
 
         // use battery's config values, or default values if running game by itself
         seed = !String.IsNullOrEmpty(rockstarConfig.Seed) ? rockstarConfig.Seed : DateTime.Now.ToString(); // if no seed provided, use current DateTime
-        maxGameTime = rockstarConfig.MaxGameTime > 0 ? rockstarConfig.MaxGameTime : 120f;
+        maxGameTime = rockstarConfig.MaxGameTime > 0 ? rockstarConfig.MaxGameTime : 5f;
         rockstarChangeFreq = rockstarConfig.RockstarChangeFreq > 0 ? rockstarConfig.RockstarChangeFreq : 1f;
         rockstarVelocity = rockstarConfig.RockstarVelocity > 0 ? rockstarConfig.RockstarVelocity : 2.5f;
         spotlightVelocity = rockstarConfig.SpotlightVelocity > 0 ? rockstarConfig.SpotlightVelocity : 3f;
         meterChangeFreq = rockstarConfig.MeterChangeFreq > 0 ? rockstarConfig.MeterChangeFreq : 2f;
         meterMinVel = rockstarConfig.MeterMinVel > 0 ? rockstarConfig.MeterMinVel : 5f;
-        meterMaxVel = rockstarConfig.MeterMaxVel > 0 ? rockstarConfig.MeterMaxVel : 30 f;
+        meterMaxVel = rockstarConfig.MeterMaxVel > 0 ? rockstarConfig.MeterMaxVel : 30f;
         meterUpVel = rockstarConfig.MeterUpVel > 0 ? rockstarConfig.MeterUpVel : 60f;
         // use default key if string cannot be parsed to keycode (or is null)
         try {
@@ -233,7 +233,7 @@ public class RockstarLevelManager : LevelManager
     // Called each frame to add metric event
     void RecordMetricEvents()
     {
-        pMetric.recordEvent(new PositionEvent(DateTime.Now, new Vector2[]{rockstar.GetPosition(), spotlight.GetPosition()}));
-        lvMetric.recordEvent(new LinearVariable(DateTime.Now, meter.level, meter.velocity*Time.deltaTime, 0));
+        pMetric.recordEvent(new PositionEvent(DateTime.Now, new List<Vector2>{rockstar.GetPosition(), spotlight.GetPosition()}));
+        lvMetric.recordEvent(new LinearVariableEvent(DateTime.Now, meter.level, meter.velocity*Time.deltaTime, 0));
     }
 }

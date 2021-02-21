@@ -44,7 +44,6 @@ public class Meter : MonoBehaviour
     {
         Drop();
         UpdateVelocity(false);
-        Debug.Log(velocity);
 
         //// TEMP SPRITE STUFF ////
         meterLevel = Mathf.Lerp(meterBottom.position.y, meterTop.position.y, level/100f);

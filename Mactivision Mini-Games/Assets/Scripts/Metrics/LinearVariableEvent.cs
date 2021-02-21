@@ -11,7 +11,7 @@ public class LinearVariableEvent : AbstractMetricEvent {
     public float valueChange { get; }
 
     // Index of the reason for the change in the linear variable (List of reasons defined by the LinearVariableMetric class which consumes this event)
-    public float reasonIndex { get; }
+    public int reasonIndex { get; }
 
     public LinearVariableEvent(System.DateTime eventTime, float currentValue, float valueChange, int reasonIndex) : base(eventTime) {
         this.currentValue = currentValue;
