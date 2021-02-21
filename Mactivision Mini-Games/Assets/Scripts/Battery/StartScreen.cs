@@ -35,31 +35,10 @@ public class StartScreen : MonoBehaviour
         
         StartCoroutine(Get("new", CreateOutputFolder));
         
-        StartCoroutine(Test("test.pancakes", "hello world"));
-
         // helpful for developers but not needed for users
         if (!Application.isEditor)
         {
             GenerateButton.gameObject.SetActive(false);
-        }
-    }
-
-    IEnumerator Test(string filename, string data)
-    {
-        var post = new UnityWebRequest ("http://127.0.0.1:8000/post?filename=" + filename, "POST");
-        byte[] bytes = Encoding.UTF8.GetBytes(data);
-        post.uploadHandler = new UploadHandlerRaw(bytes);
-        post.downloadHandler = new DownloadHandlerBuffer();
-        post.SetRequestHeader("Content-Type", "application/json");
-        yield return post.SendWebRequest();
-
-        if (post.result != UnityWebRequest.Result.Success)
-        {
-            Console.text = "Network Error\n" + post.error; 
-        }
-        else
-        {
-            Debug.Log("Post Success!");
         }
     }
 

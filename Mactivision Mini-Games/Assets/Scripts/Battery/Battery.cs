@@ -123,6 +123,6 @@ public class Battery
     // As the configurable variables are added, deleted or renamed during development in order not have to constantly sync these names with the configuration files this function can be used to generate a blank configuration file based off those variables. 
     public void WriteExampleConfig()
     {
-        // TODO: FileHandle.WriteGenerated(Config.Generate());
+        // TODO: reimplement FileHandle.WriteGenerated(Config.Generate());
     }
 }
