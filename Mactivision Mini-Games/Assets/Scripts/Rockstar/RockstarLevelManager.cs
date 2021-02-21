@@ -63,10 +63,9 @@ public class RockstarLevelManager : LevelManager
         showIntro2 = false;
         countDoneText = "Rock!";
 
-        pMetric = new PositionMetric(); // initialize position metric recorder
-        // pMetric = new PositionMetric(new string[]{"rockstar", "spotlight"}); // initialize position metric recorder
-        // lvMetric = new LinearVariableMetric(0f, 100f, 75f, new string[]{"gameDrop", "playerRaise"}); // initialize linear variable metric recorder
-        // metricWriter = new MetricJSONWriter("Rockstar", DateTime.Now, seed); // initialize metric data writer
+        pMetric = new PositionMetric(new string[]{"rockstar", "spotlight"}); // initialize position metric recorder
+        lvMetric = new LinearVariableMetric(0f, 100f, 75f, new string[]{"gameDrop", "playerRaise"}); // initialize linear variable metric recorder
+        metricWriter = new MetricJSONWriter("Rockstar", DateTime.Now, seed); // initialize metric data writer
 
         rockstar.Init(seed, rockstarChangeFreq, rockstarVelocity);
         spotlight.Init(spotlightVelocity);
@@ -98,7 +97,7 @@ public class RockstarLevelManager : LevelManager
         spotlightVelocity = rockstarConfig.SpotlightVelocity > 0 ? rockstarConfig.SpotlightVelocity : 3f;
         meterChangeFreq = rockstarConfig.MeterChangeFreq > 0 ? rockstarConfig.MeterChangeFreq : 2f;
         meterMinVel = rockstarConfig.MeterMinVel > 0 ? rockstarConfig.MeterMinVel : 5f;
-        meterMaxVel = rockstarConfig.MeterMaxVel > 0 ? rockstarConfig.MeterMaxVel : 30f;
+        meterMaxVel = rockstarConfig.MeterMaxVel > 0 ? rockstarConfig.MeterMaxVel : 30 f;
         meterUpVel = rockstarConfig.MeterUpVel > 0 ? rockstarConfig.MeterUpVel : 60f;
         // use default key if string cannot be parsed to keycode (or is null)
         try {
@@ -190,17 +189,17 @@ public class RockstarLevelManager : LevelManager
     void EndGame()
     {
         pMetric.finishRecording();
-        // metricWriter.logMetrics(
-        //     outputPath+"rockstarP_"+DateTime.Now.ToFileTime()+".json", 
-        //     DateTime.Now, 
-        //     new List<AbstractMetric>(){pMetric}
-        // );
-        // lvMetric.finishRecording();
-        // metricWriter.logMetrics(
-        //     outputPath+"rockstarLV_"+DateTime.Now.ToFileTime()+".json", 
-        //     DateTime.Now, 
-        //     new List<AbstractMetric>(){lvMetric}
-        // );
+        metricWriter.logMetrics(
+            outputPath+"rockstarP_"+DateTime.Now.ToFileTime()+".json", 
+            DateTime.Now, 
+            new List<AbstractMetric>(){pMetric}
+        );
+        lvMetric.finishRecording();
+        metricWriter.logMetrics(
+            outputPath+"rockstarLV_"+DateTime.Now.ToFileTime()+".json", 
+            DateTime.Now, 
+            new List<AbstractMetric>(){lvMetric}
+        );
         EndLevel(0f);
     }
 
@@ -216,7 +215,7 @@ public class RockstarLevelManager : LevelManager
     void MeterUp()
     {
         meter.Raise();
-        // lvMetric.recordEvent(new LinearVariableEvent(DateTime.Now, meter.level, meterUpVel*Time.deltaTime, 1));
+        lvMetric.recordEvent(new LinearVariableEvent(DateTime.Now, meter.level, meterUpVel*Time.deltaTime, 1));
     }
 
     // Move the spotlight left
@@ -234,7 +233,7 @@ public class RockstarLevelManager : LevelManager
     // Called each frame to add metric event
     void RecordMetricEvents()
     {
-        // pMetric.recordEvent(new PositionEvent(DateTime.Now, new Vector2[]{rockstar.GetPosition(), spotlight.GetPosition()}));
-        // lvMetric.recordEvent(new LinearVariable(DateTime.Now, meter.level, meter.velocity*Time.deltaTime, 0));
+        pMetric.recordEvent(new PositionEvent(DateTime.Now, new Vector2[]{rockstar.GetPosition(), spotlight.GetPosition()}));
+        lvMetric.recordEvent(new LinearVariable(DateTime.Now, meter.level, meter.velocity*Time.deltaTime, 0));
     }
 }
