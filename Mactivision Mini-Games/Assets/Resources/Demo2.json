@@ -8,24 +8,21 @@
     "$values": [
       {
         "$type": "DiggerConfig, Battery",
-        "Name": null,
+        "TestName": null,
         "Scene": "Digger",
         "DigAmount": 10
       },
       {
         "$type": "FeederConfig, Battery",
-        "Name": null,
+        "TestName": null,
         "Scene": "Feeder",
-        "MaxFoodDispensed": 4,
-        "AverageUpdateFrequency": 3,
-        "StandardDeviationUpdateFreq": 3
+        "MaxGameTime": 1.0
       },
       {
-        "$type": "FeederConfig, Battery",
-        "Name": null,
-        "Scene": "Feeder",
-        "MaxGameTime": 100.0,
-        "MaxFoodDispensed": 4,
+        "$type": "RockstarConfig, Battery",
+        "TestName": null,
+        "Scene": "Rockstar",
+        "MaxGameTime": 1.0
       }
     ]
   }

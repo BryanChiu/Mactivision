@@ -1,0 +1,609 @@
+{
+  "game": "Rockstar",
+  "startTime": "2021-02-21T15:07:28.4424553-05:00",
+  "endTime": "2021-02-21T15:07:35.1719677-05:00",
+  "seed": "2021-02-21 3:07:28 PM",
+  "metrics": [
+    {
+      "metricName": "position",
+      "gameObjectKeys": [
+        "rockstar",
+        "spotlight"
+      ],
+      "eventList": [
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.1646144-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.1736812-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.1825523-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.1915323-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.1985134-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.2005003-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.2074839-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.2134682-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.2164648-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.2242134-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.2282014-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.2351965-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.2431739-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.2501504-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.2576476-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.2626355-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.2696217-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.272602-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.2795829-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.2877002-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.2955934-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.3015782-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.3045737-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.3125535-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.3165332-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.3215276-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.3285025-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.3338701-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.3448448-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.3488315-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.3508325-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.3568117-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.3628038-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.3687851-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.3747637-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.3778018-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.3797465-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.3847362-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.3907209-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.3948293-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.3958254-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.4018099-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.4088252-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.4107881-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.4177676-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.423895-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.4267492-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.4327358-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.437718-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.4427084-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.451685-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.4557098-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.4572706-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.4626491-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.4686365-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.4721235-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.4756706-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.4826743-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.4867044-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.4876335-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.4946253-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.5022951-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.5122713-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.5170488-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.5219761-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.5289577-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.5325588-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.5335501-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.5406169-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.5465259-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.549522-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.5554967-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.5614794-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.5656185-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.5715948-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.5765737-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.5815652-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.5875457-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.5978682-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.6078396-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.6128327-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.622856-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.6357688-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.6407547-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.6488742-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.6528518-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.6598311-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.6678125-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.680948-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.6879148-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.6994312-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.7143186-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.7252831-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.733585-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.7405651-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.7425596-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.7525291-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.7645016-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.7734697-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.7754658-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.7847194-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.7907002-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.7956931-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.8046791-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.8086558-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.8166405-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.8226217-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.8276074-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.8365794-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.8465584-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.851541-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.8575256-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.8655033-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.8826476-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.8886518-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.89362-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.9035923-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.9170911-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.9190772-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.9231797-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.9358336-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.9446565-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.9566913-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.9629579-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.9719414-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.9749369-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.9846611-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:34.9928093-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:35.0043397-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:35.0083319-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:35.0184574-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:35.0264381-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:35.0364079-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:35.0394022-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:35.0473858-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:35.0563568-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:35.0626657-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:35.0715846-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:35.0775759-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:35.0855504-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:35.0947099-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:35.1007032-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:35.1096802-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:35.1186488-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:35.1328224-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:35.1406596-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:35.1490865-05:00"
+        },
+        {
+          "positions": null,
+          "eventTime": "2021-02-21T15:07:35.1570065-05:00"
+        }
+      ]
+    }
+  ]
+}

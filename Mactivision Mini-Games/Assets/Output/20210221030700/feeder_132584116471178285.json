@@ -1,0 +1,27 @@
+{
+  "game": "Feeder",
+  "startTime": "2021-02-21T15:07:14.9697953-05:00",
+  "endTime": "2021-02-21T15:07:27.1178285-05:00",
+  "seed": "2021-02-21 3:07:14 PM",
+  "metrics": [
+    {
+      "metricName": "memoryChoice",
+      "eventList": [
+        {
+          "objectsSet": [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "taco"
+          ],
+          "_object": "hotdog",
+          "choice": false,
+          "choiceTime": "2021-02-21T15:07:24.4767118-05:00",
+          "eventTime": "2021-02-21T15:07:22.9745942-05:00"
+        }
+      ]
+    }
+  ]
+}

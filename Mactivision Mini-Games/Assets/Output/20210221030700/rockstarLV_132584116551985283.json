@@ -1,0 +1,1100 @@
+{
+  "game": "Rockstar",
+  "startTime": "2021-02-21T15:07:28.4424553-05:00",
+  "endTime": "2021-02-21T15:07:35.1985283-05:00",
+  "seed": "2021-02-21 3:07:28 PM",
+  "metrics": [
+    {
+      "metricName": "linearVariable",
+      "minValue": 0.0,
+      "maxValue": 100.0,
+      "initialValue": 75.0,
+      "reasons": [
+        "gameDrop",
+        "playerRaise"
+      ],
+      "eventList": [
+        {
+          "currentValue": 75.0,
+          "valueChange": 0.127456546,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.1655943-05:00"
+        },
+        {
+          "currentValue": 75.0,
+          "valueChange": 0.207099169,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.1736812-05:00"
+        },
+        {
+          "currentValue": 74.7929,
+          "valueChange": 0.17552951,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.1825523-05:00"
+        },
+        {
+          "currentValue": 74.61737,
+          "valueChange": 0.187561929,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.1915323-05:00"
+        },
+        {
+          "currentValue": 74.42981,
+          "valueChange": 0.140351146,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.1985134-05:00"
+        },
+        {
+          "currentValue": 74.28946,
+          "valueChange": 0.0362287946,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.2005003-05:00"
+        },
+        {
+          "currentValue": 74.25323,
+          "valueChange": 0.136007741,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.2074839-05:00"
+        },
+        {
+          "currentValue": 74.11722,
+          "valueChange": 0.124189876,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.2134682-05:00"
+        },
+        {
+          "currentValue": 73.99303,
+          "valueChange": 0.06686135,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.2164648-05:00"
+        },
+        {
+          "currentValue": 73.92616,
+          "valueChange": 0.148614973,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.2242134-05:00"
+        },
+        {
+          "currentValue": 73.77755,
+          "valueChange": 0.08537245,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.2282014-05:00"
+        },
+        {
+          "currentValue": 73.69218,
+          "valueChange": 0.133279458,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.2351965-05:00"
+        },
+        {
+          "currentValue": 73.5589,
+          "valueChange": 0.174985081,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.2431739-05:00"
+        },
+        {
+          "currentValue": 73.38391,
+          "valueChange": 0.1357163,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.2501504-05:00"
+        },
+        {
+          "currentValue": 73.24819,
+          "valueChange": 0.158246964,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.2576476-05:00"
+        },
+        {
+          "currentValue": 73.08994,
+          "valueChange": 0.09876293,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.2626355-05:00"
+        },
+        {
+          "currentValue": 72.99118,
+          "valueChange": 0.142480358,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.2696217-05:00"
+        },
+        {
+          "currentValue": 72.8487,
+          "valueChange": 0.06820121,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.272602-05:00"
+        },
+        {
+          "currentValue": 72.7805,
+          "valueChange": 0.139130712,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.2805963-05:00"
+        },
+        {
+          "currentValue": 72.64137,
+          "valueChange": 0.14878498,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.2877002-05:00"
+        },
+        {
+          "currentValue": 72.4925842,
+          "valueChange": 0.162527636,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.2955934-05:00"
+        },
+        {
+          "currentValue": 72.3300552,
+          "valueChange": 0.134038433,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.3015782-05:00"
+        },
+        {
+          "currentValue": 72.1960144,
+          "valueChange": 0.0559886657,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.3045737-05:00"
+        },
+        {
+          "currentValue": 72.14002,
+          "valueChange": 0.16158852,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.3125535-05:00"
+        },
+        {
+          "currentValue": 71.97843,
+          "valueChange": 0.08236282,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.3165332-05:00"
+        },
+        {
+          "currentValue": 71.89607,
+          "valueChange": 0.0871676952,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.3215276-05:00"
+        },
+        {
+          "currentValue": 71.80891,
+          "valueChange": 0.140608191,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.3285025-05:00"
+        },
+        {
+          "currentValue": 71.6683,
+          "valueChange": 0.101432525,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.3338701-05:00"
+        },
+        {
+          "currentValue": 71.566864,
+          "valueChange": 0.226575688,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.3448448-05:00"
+        },
+        {
+          "currentValue": 71.34029,
+          "valueChange": 0.0894385651,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.3488315-05:00"
+        },
+        {
+          "currentValue": 71.25085,
+          "valueChange": 0.0420132577,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.3508325-05:00"
+        },
+        {
+          "currentValue": 71.20883,
+          "valueChange": 0.115555681,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.3568117-05:00"
+        },
+        {
+          "currentValue": 71.09328,
+          "valueChange": 0.1337227,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.3628038-05:00"
+        },
+        {
+          "currentValue": 70.95956,
+          "valueChange": 0.120105535,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.3687851-05:00"
+        },
+        {
+          "currentValue": 70.8394547,
+          "valueChange": 0.110518053,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.3747637-05:00"
+        },
+        {
+          "currentValue": 70.7289352,
+          "valueChange": 0.0671022,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.3778018-05:00"
+        },
+        {
+          "currentValue": 70.6618347,
+          "valueChange": 0.032907486,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.3797465-05:00"
+        },
+        {
+          "currentValue": 70.62893,
+          "valueChange": 0.09839052,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.3847362-05:00"
+        },
+        {
+          "currentValue": 70.53054,
+          "valueChange": 0.123400539,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.3907209-05:00"
+        },
+        {
+          "currentValue": 70.40714,
+          "valueChange": 0.08510932,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.3948293-05:00"
+        },
+        {
+          "currentValue": 70.32204,
+          "valueChange": 0.0311425943,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.3958254-05:00"
+        },
+        {
+          "currentValue": 70.29089,
+          "valueChange": 0.10786061,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.4018099-05:00"
+        },
+        {
+          "currentValue": 70.18303,
+          "valueChange": 0.141737565,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.4088252-05:00"
+        },
+        {
+          "currentValue": 70.04129,
+          "valueChange": 0.0542925932,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.4107881-05:00"
+        },
+        {
+          "currentValue": 69.987,
+          "valueChange": 0.127037585,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.4177676-05:00"
+        },
+        {
+          "currentValue": 69.85996,
+          "valueChange": 0.12961407,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.423895-05:00"
+        },
+        {
+          "currentValue": 69.73035,
+          "valueChange": 0.08699695,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.4267492-05:00"
+        },
+        {
+          "currentValue": 69.64335,
+          "valueChange": 0.159685239,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.4327358-05:00"
+        },
+        {
+          "currentValue": 69.4836655,
+          "valueChange": 0.155571386,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.4387154-05:00"
+        },
+        {
+          "currentValue": 69.3280945,
+          "valueChange": 0.134059265,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.4427084-05:00"
+        },
+        {
+          "currentValue": 69.19404,
+          "valueChange": 0.22694917,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.451685-05:00"
+        },
+        {
+          "currentValue": 68.96709,
+          "valueChange": 0.119573809,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.4557098-05:00"
+        },
+        {
+          "currentValue": 68.84751,
+          "valueChange": 0.0472503267,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.4572706-05:00"
+        },
+        {
+          "currentValue": 68.80026,
+          "valueChange": 0.153351709,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.4626491-05:00"
+        },
+        {
+          "currentValue": 68.64691,
+          "valueChange": 0.162931979,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.4686365-05:00"
+        },
+        {
+          "currentValue": 68.48398,
+          "valueChange": 0.09732647,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.4721235-05:00"
+        },
+        {
+          "currentValue": 68.38665,
+          "valueChange": 0.119211808,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.4756706-05:00"
+        },
+        {
+          "currentValue": 68.26744,
+          "valueChange": 0.172902286,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.4826743-05:00"
+        },
+        {
+          "currentValue": 68.0945358,
+          "valueChange": 0.124591246,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.4867044-05:00"
+        },
+        {
+          "currentValue": 67.96995,
+          "valueChange": 0.0401170366,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.4876335-05:00"
+        },
+        {
+          "currentValue": 67.92983,
+          "valueChange": 0.173272714,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.4946253-05:00"
+        },
+        {
+          "currentValue": 68.2149658,
+          "valueChange": 0.458406,
+          "reasonIndex": 1,
+          "eventTime": "2021-02-21T15:07:34.5022951-05:00"
+        },
+        {
+          "currentValue": 68.2149658,
+          "valueChange": 0.214394361,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.5022951-05:00"
+        },
+        {
+          "currentValue": 68.60237,
+          "valueChange": 0.601799965,
+          "reasonIndex": 1,
+          "eventTime": "2021-02-21T15:07:34.5122713-05:00"
+        },
+        {
+          "currentValue": 68.60237,
+          "valueChange": 0.281459063,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.5122713-05:00"
+        },
+        {
+          "currentValue": 68.61999,
+          "valueChange": 0.299076,
+          "reasonIndex": 1,
+          "eventTime": "2021-02-21T15:07:34.5170488-05:00"
+        },
+        {
+          "currentValue": 68.61999,
+          "valueChange": 0.139876455,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.5170488-05:00"
+        },
+        {
+          "currentValue": 68.7958145,
+          "valueChange": 0.315702021,
+          "reasonIndex": 1,
+          "eventTime": "2021-02-21T15:07:34.5219761-05:00"
+        },
+        {
+          "currentValue": 68.7958145,
+          "valueChange": 0.147652373,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.5219761-05:00"
+        },
+        {
+          "currentValue": 69.04559,
+          "valueChange": 0.397434,
+          "reasonIndex": 1,
+          "eventTime": "2021-02-21T15:07:34.5289577-05:00"
+        },
+        {
+          "currentValue": 69.04559,
+          "valueChange": 0.185878038,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.5289577-05:00"
+        },
+        {
+          "currentValue": 69.08597,
+          "valueChange": 0.226248011,
+          "reasonIndex": 1,
+          "eventTime": "2021-02-21T15:07:34.5325588-05:00"
+        },
+        {
+          "currentValue": 69.08597,
+          "valueChange": 0.105815142,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.5325588-05:00"
+        },
+        {
+          "currentValue": 69.0685349,
+          "valueChange": 0.08838,
+          "reasonIndex": 1,
+          "eventTime": "2021-02-21T15:07:34.5335501-05:00"
+        },
+        {
+          "currentValue": 69.0685349,
+          "valueChange": 0.0413349159,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.5335501-05:00"
+        },
+        {
+          "currentValue": 69.39161,
+          "valueChange": 0.36441,
+          "reasonIndex": 1,
+          "eventTime": "2021-02-21T15:07:34.5405377-05:00"
+        },
+        {
+          "currentValue": 69.39161,
+          "valueChange": 0.170432866,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.5406169-05:00"
+        },
+        {
+          "currentValue": 69.61819,
+          "valueChange": 0.397008,
+          "reasonIndex": 1,
+          "eventTime": "2021-02-21T15:07:34.5465259-05:00"
+        },
+        {
+          "currentValue": 69.61819,
+          "valueChange": 0.18567881,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.5465259-05:00"
+        },
+        {
+          "currentValue": 69.57696,
+          "valueChange": 0.144443989,
+          "reasonIndex": 1,
+          "eventTime": "2021-02-21T15:07:34.549522-05:00"
+        },
+        {
+          "currentValue": 69.57696,
+          "valueChange": 0.0675557852,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.549522-05:00"
+        },
+        {
+          "currentValue": 69.8837662,
+          "valueChange": 0.374369979,
+          "reasonIndex": 1,
+          "eventTime": "2021-02-21T15:07:34.5554967-05:00"
+        },
+        {
+          "currentValue": 69.8837662,
+          "valueChange": 0.175091118,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.5554967-05:00"
+        },
+        {
+          "currentValue": 70.07423,
+          "valueChange": 0.365556,
+          "reasonIndex": 1,
+          "eventTime": "2021-02-21T15:07:34.5614794-05:00"
+        },
+        {
+          "currentValue": 70.07423,
+          "valueChange": 0.170968845,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.5614794-05:00"
+        },
+        {
+          "currentValue": 70.13481,
+          "valueChange": 0.231552,
+          "reasonIndex": 1,
+          "eventTime": "2021-02-21T15:07:34.5656185-05:00"
+        },
+        {
+          "currentValue": 70.13481,
+          "valueChange": 0.1082958,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.5656185-05:00"
+        },
+        {
+          "currentValue": 70.40667,
+          "valueChange": 0.380154,
+          "reasonIndex": 1,
+          "eventTime": "2021-02-21T15:07:34.5715948-05:00"
+        },
+        {
+          "currentValue": 70.40667,
+          "valueChange": 0.177796274,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.5715948-05:00"
+        },
+        {
+          "currentValue": 70.53842,
+          "valueChange": 0.309546,
+          "reasonIndex": 1,
+          "eventTime": "2021-02-21T15:07:34.5765737-05:00"
+        },
+        {
+          "currentValue": 70.53842,
+          "valueChange": 0.14477323,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.5765737-05:00"
+        },
+        {
+          "currentValue": 70.65138,
+          "valueChange": 0.257736,
+          "reasonIndex": 1,
+          "eventTime": "2021-02-21T15:07:34.5815652-05:00"
+        },
+        {
+          "currentValue": 70.65138,
+          "valueChange": 0.120541938,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.5815652-05:00"
+        },
+        {
+          "currentValue": 70.89429,
+          "valueChange": 0.36345,
+          "reasonIndex": 1,
+          "eventTime": "2021-02-21T15:07:34.5875457-05:00"
+        },
+        {
+          "currentValue": 70.89429,
+          "valueChange": 0.169983879,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.5875457-05:00"
+        },
+        {
+          "currentValue": 70.7243042,
+          "valueChange": 0.290595978,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.5978682-05:00"
+        },
+        {
+          "currentValue": 70.43371,
+          "valueChange": 0.290817648,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.6078396-05:00"
+        },
+        {
+          "currentValue": 70.14289,
+          "valueChange": 0.14560385,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.6128327-05:00"
+        },
+        {
+          "currentValue": 69.9972839,
+          "valueChange": 0.26020512,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.622856-05:00"
+        },
+        {
+          "currentValue": 69.7370758,
+          "valueChange": 0.37429285,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.6357688-05:00"
+        },
+        {
+          "currentValue": 69.3627853,
+          "valueChange": 0.141745359,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.6407547-05:00"
+        },
+        {
+          "currentValue": 69.22104,
+          "valueChange": 0.239610612,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.6488742-05:00"
+        },
+        {
+          "currentValue": 68.98143,
+          "valueChange": 0.105697282,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.6528518-05:00"
+        },
+        {
+          "currentValue": 68.87573,
+          "valueChange": 0.19945991,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.6598311-05:00"
+        },
+        {
+          "currentValue": 68.67627,
+          "valueChange": 0.205807477,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.6678125-05:00"
+        },
+        {
+          "currentValue": 68.47046,
+          "valueChange": 0.280589134,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.680948-05:00"
+        },
+        {
+          "currentValue": 68.18987,
+          "valueChange": 0.170612469,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.6889054-05:00"
+        },
+        {
+          "currentValue": 68.93612,
+          "valueChange": 0.916866,
+          "reasonIndex": 1,
+          "eventTime": "2021-02-21T15:07:34.6994312-05:00"
+        },
+        {
+          "currentValue": 68.93612,
+          "valueChange": 0.428813964,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.6994312-05:00"
+        },
+        {
+          "currentValue": 69.3876953,
+          "valueChange": 0.880392,
+          "reasonIndex": 1,
+          "eventTime": "2021-02-21T15:07:34.7143186-05:00"
+        },
+        {
+          "currentValue": 69.3876953,
+          "valueChange": 0.411755264,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.7143186-05:00"
+        },
+        {
+          "currentValue": 69.70072,
+          "valueChange": 0.724782,
+          "reasonIndex": 1,
+          "eventTime": "2021-02-21T15:07:34.7252831-05:00"
+        },
+        {
+          "currentValue": 69.70072,
+          "valueChange": 0.3389772,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.7252831-05:00"
+        },
+        {
+          "currentValue": 69.81529,
+          "valueChange": 0.453546017,
+          "reasonIndex": 1,
+          "eventTime": "2021-02-21T15:07:34.733585-05:00"
+        },
+        {
+          "currentValue": 69.81529,
+          "valueChange": 0.212121367,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.733585-05:00"
+        },
+        {
+          "currentValue": 70.03556,
+          "valueChange": 0.43239,
+          "reasonIndex": 1,
+          "eventTime": "2021-02-21T15:07:34.7405651-05:00"
+        },
+        {
+          "currentValue": 70.03556,
+          "valueChange": 0.213234037,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.7405651-05:00"
+        },
+        {
+          "currentValue": 69.977684,
+          "valueChange": 0.155358,
+          "reasonIndex": 1,
+          "eventTime": "2021-02-21T15:07:34.7425596-05:00"
+        },
+        {
+          "currentValue": 69.977684,
+          "valueChange": 0.0766151249,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.7425596-05:00"
+        },
+        {
+          "currentValue": 70.44771,
+          "valueChange": 0.546636,
+          "reasonIndex": 1,
+          "eventTime": "2021-02-21T15:07:34.7525291-05:00"
+        },
+        {
+          "currentValue": 70.44771,
+          "valueChange": 0.2695747,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.7525291-05:00"
+        },
+        {
+          "currentValue": 70.17813,
+          "valueChange": 0.350406259,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.7645016-05:00"
+        },
+        {
+          "currentValue": 69.82773,
+          "valueChange": 0.293420583,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.7734697-05:00"
+        },
+        {
+          "currentValue": 69.53431,
+          "valueChange": 0.0614092723,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.7754658-05:00"
+        },
+        {
+          "currentValue": 69.4729,
+          "valueChange": 0.249184832,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.7847194-05:00"
+        },
+        {
+          "currentValue": 69.22372,
+          "valueChange": 0.180647537,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.7907002-05:00"
+        },
+        {
+          "currentValue": 69.04307,
+          "valueChange": 0.158680558,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.7956931-05:00"
+        },
+        {
+          "currentValue": 68.8843842,
+          "valueChange": 0.2691575,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.8046791-05:00"
+        },
+        {
+          "currentValue": 68.61523,
+          "valueChange": 0.112003721,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.8086558-05:00"
+        },
+        {
+          "currentValue": 68.50322,
+          "valueChange": 0.242110074,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.8166405-05:00"
+        },
+        {
+          "currentValue": 68.26111,
+          "valueChange": 0.16985935,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.8226217-05:00"
+        },
+        {
+          "currentValue": 68.09125,
+          "valueChange": 0.137613118,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.8276074-05:00"
+        },
+        {
+          "currentValue": 67.9536362,
+          "valueChange": 0.266098,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.8365794-05:00"
+        },
+        {
+          "currentValue": 67.68754,
+          "valueChange": 0.30567342,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.8465584-05:00"
+        },
+        {
+          "currentValue": 67.38187,
+          "valueChange": 0.165163547,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.851541-05:00"
+        },
+        {
+          "currentValue": 67.2167053,
+          "valueChange": 0.144501463,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.8575256-05:00"
+        },
+        {
+          "currentValue": 67.0722046,
+          "valueChange": 0.250048846,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.8655033-05:00"
+        },
+        {
+          "currentValue": 67.84769,
+          "valueChange": 1.02552593,
+          "reasonIndex": 1,
+          "eventTime": "2021-02-21T15:07:34.8826476-05:00"
+        },
+        {
+          "currentValue": 67.84769,
+          "valueChange": 0.5057403,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.8826476-05:00"
+        },
+        {
+          "currentValue": 67.7225342,
+          "valueChange": 0.380586028,
+          "reasonIndex": 1,
+          "eventTime": "2021-02-21T15:07:34.8886518-05:00"
+        },
+        {
+          "currentValue": 67.7225342,
+          "valueChange": 0.1876868,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.8886518-05:00"
+        },
+        {
+          "currentValue": 67.82221,
+          "valueChange": 0.287358,
+          "reasonIndex": 1,
+          "eventTime": "2021-02-21T15:07:34.89362-05:00"
+        },
+        {
+          "currentValue": 67.82221,
+          "valueChange": 0.1417112,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.89362-05:00"
+        },
+        {
+          "currentValue": 68.2478256,
+          "valueChange": 0.567324,
+          "reasonIndex": 1,
+          "eventTime": "2021-02-21T15:07:34.9035923-05:00"
+        },
+        {
+          "currentValue": 68.2478256,
+          "valueChange": 0.27977702,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.9035923-05:00"
+        },
+        {
+          "currentValue": 68.78199,
+          "valueChange": 0.813941956,
+          "reasonIndex": 1,
+          "eventTime": "2021-02-21T15:07:34.9170911-05:00"
+        },
+        {
+          "currentValue": 68.78199,
+          "valueChange": 0.4013972,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.9170911-05:00"
+        },
+        {
+          "currentValue": 68.55955,
+          "valueChange": 0.178955987,
+          "reasonIndex": 1,
+          "eventTime": "2021-02-21T15:07:34.9190772-05:00"
+        },
+        {
+          "currentValue": 68.55955,
+          "valueChange": 0.08825253,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.9190772-05:00"
+        },
+        {
+          "currentValue": 68.70167,
+          "valueChange": 0.23037,
+          "reasonIndex": 1,
+          "eventTime": "2021-02-21T15:07:34.9231797-05:00"
+        },
+        {
+          "currentValue": 68.70167,
+          "valueChange": 0.113607451,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.9231797-05:00"
+        },
+        {
+          "currentValue": 69.31433,
+          "valueChange": 0.726276,
+          "reasonIndex": 1,
+          "eventTime": "2021-02-21T15:07:34.9358336-05:00"
+        },
+        {
+          "currentValue": 69.31433,
+          "valueChange": 0.358164519,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.9358336-05:00"
+        },
+        {
+          "currentValue": 68.95617,
+          "valueChange": 0.2470692,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.9446565-05:00"
+        },
+        {
+          "currentValue": 68.7091,
+          "valueChange": 0.374583572,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.9566913-05:00"
+        },
+        {
+          "currentValue": 68.33452,
+          "valueChange": 0.180162266,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.9629579-05:00"
+        },
+        {
+          "currentValue": 68.15436,
+          "valueChange": 0.272711158,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.9719414-05:00"
+        },
+        {
+          "currentValue": 67.8816452,
+          "valueChange": 0.09791929,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.9749369-05:00"
+        },
+        {
+          "currentValue": 67.78373,
+          "valueChange": 0.26013872,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.9846611-05:00"
+        },
+        {
+          "currentValue": 67.52359,
+          "valueChange": 0.263497084,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:34.9928093-05:00"
+        },
+        {
+          "currentValue": 67.26009,
+          "valueChange": 0.330285668,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:35.0043397-05:00"
+        },
+        {
+          "currentValue": 66.92981,
+          "valueChange": 0.124398611,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:35.0083319-05:00"
+        },
+        {
+          "currentValue": 66.80541,
+          "valueChange": 0.2851504,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:35.0184574-05:00"
+        },
+        {
+          "currentValue": 66.52026,
+          "valueChange": 0.237875879,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:35.0264381-05:00"
+        },
+        {
+          "currentValue": 66.28239,
+          "valueChange": 0.308093816,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:35.0364079-05:00"
+        },
+        {
+          "currentValue": 65.9743,
+          "valueChange": 0.08941834,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:35.0394022-05:00"
+        },
+        {
+          "currentValue": 65.88488,
+          "valueChange": 0.248356327,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:35.0483848-05:00"
+        },
+        {
+          "currentValue": 65.63652,
+          "valueChange": 0.246261418,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:35.0563568-05:00"
+        },
+        {
+          "currentValue": 65.39026,
+          "valueChange": 0.190166369,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:35.0626657-05:00"
+        },
+        {
+          "currentValue": 65.2000961,
+          "valueChange": 0.255188465,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:35.0715846-05:00"
+        },
+        {
+          "currentValue": 64.94491,
+          "valueChange": 0.174987137,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:35.0775759-05:00"
+        },
+        {
+          "currentValue": 64.76992,
+          "valueChange": 0.261792749,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:35.0855504-05:00"
+        },
+        {
+          "currentValue": 64.5081253,
+          "valueChange": 0.252279848,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:35.0947099-05:00"
+        },
+        {
+          "currentValue": 64.2558441,
+          "valueChange": 0.183866829,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:35.1007032-05:00"
+        },
+        {
+          "currentValue": 64.0719757,
+          "valueChange": 0.249146372,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:35.1096802-05:00"
+        },
+        {
+          "currentValue": 63.82283,
+          "valueChange": 0.295340925,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:35.1186488-05:00"
+        },
+        {
+          "currentValue": 63.52749,
+          "valueChange": 0.40410462,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:35.1328224-05:00"
+        },
+        {
+          "currentValue": 63.1233826,
+          "valueChange": 0.237553343,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:35.1406596-05:00"
+        },
+        {
+          "currentValue": 62.88583,
+          "valueChange": 0.234887376,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:35.1490865-05:00"
+        },
+        {
+          "currentValue": 62.6509438,
+          "valueChange": 0.239127487,
+          "reasonIndex": 0,
+          "eventTime": "2021-02-21T15:07:35.1570065-05:00"
+        }
+      ]
+    }
+  ]
+}
