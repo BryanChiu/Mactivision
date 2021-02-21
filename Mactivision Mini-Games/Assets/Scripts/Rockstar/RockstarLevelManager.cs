@@ -84,7 +84,6 @@ public class RockstarLevelManager : LevelManager
         RockstarConfig tempConfig = (RockstarConfig)Battery.Instance.GetCurrentConfig();
         if (tempConfig!=null) {
             rockstarConfig = tempConfig;
-            outputPath = Battery.Instance.GetOutputPath();
         } else {
             Debug.Log("Battery not found, using default values");
         }
