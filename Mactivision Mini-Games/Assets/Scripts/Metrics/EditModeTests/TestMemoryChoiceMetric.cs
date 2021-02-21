@@ -77,7 +77,7 @@ public class TestMemoryChoice
         MemoryChoiceEvent mce4 = null;
         try {
             mce4 = new MemoryChoiceEvent(dt4, os4, o4, c4, ct4);
-        } catch (InvalidChoiceTimeException e) {
+        } catch {
             Assert.Fail("Exception should not be thrown!");
         } finally {
             Assert.IsNotNull(mce4);
