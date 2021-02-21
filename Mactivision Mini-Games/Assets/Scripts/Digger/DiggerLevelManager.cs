@@ -34,7 +34,6 @@ public class DiggerLevelManager : LevelManager
         keysDown = new List<KeyCode>();
 
         bpMetric = new ButtonPressingMetric(); // initialize metric recorder
-        metricWriter = new MetricJSONWriter("Digger", DateTime.Now); // initialize metric data writer
     }
 
     // Initialize values using config file, or default values if config values not specified
@@ -81,6 +80,7 @@ public class DiggerLevelManager : LevelManager
     void StartGame()
     {
         bpMetric.startRecording();
+        metricWriter = new MetricJSONWriter("Digger", DateTime.Now); // initialize metric data writer
         SetDigAmountForGround();
         gameStartTime = Time.time;
         maxGameTime = digAmount;

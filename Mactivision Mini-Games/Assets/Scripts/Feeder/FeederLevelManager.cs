@@ -64,7 +64,6 @@ public class FeederLevelManager : LevelManager
         countDoneText = "Start!";
 
         mcMetric = new MemoryChoiceMetric(); // initialize metric recorder
-        metricWriter = new MetricJSONWriter("Feeder", DateTime.Now, seed); // initialize metric data writer
 
         dispenser.Init(seed, totalFoods, avgUpdateFreq, stdDevUpdateFreq); // initialize the dispenser
     }
@@ -157,6 +156,7 @@ public class FeederLevelManager : LevelManager
     void StartGame()
     {
         mcMetric.startRecording();
+        metricWriter = new MetricJSONWriter("Feeder", DateTime.Now, seed); // initialize metric data writer
         gameStartTime = Time.time;
         sound.clip = bite_sound;
     }
