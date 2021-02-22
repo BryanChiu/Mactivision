@@ -4,6 +4,7 @@ import cgi
 import json
 import urllib.parse
 import re
+import sys
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from os import walk
 from datetime import datetime
@@ -11,6 +12,7 @@ from os import mkdir
 
 folder = "recent"
 config = ""
+path = ""
 
 class requestHandler(BaseHTTPRequestHandler):
 
@@ -22,26 +24,26 @@ class requestHandler(BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_GET(self):
-        global folder, config
+        global folder, config, path
         self.do_OPTIONS()
 
         if self.path.endswith('/new'):
             name = datetime.now().strftime('%Y-%m-%d_%H-%M-%S') 
             try:
-                mkdir("./output/" + name)
+                mkdir(path + "/output/" + name)
                 folder = name
             except OSError as e:
-                folder = (e) 
+                folder = 'recent'
             self.wfile.write(folder.encode())
         elif self.path.endswith('/get'):
-            with open('./input/' + config, 'rb') as f:
+            with open(config, 'rb') as f:
                 self.wfile.write(f.read())
         else:
             self.send_response(404)
             self.end_headers()
 
     def do_POST(self):
-        global folder
+        global folder, path
 
         param_dict = urllib.parse.parse_qs(self.path)
         params = {}
@@ -66,9 +68,9 @@ class requestHandler(BaseHTTPRequestHandler):
 
             length = int(self.headers.get('content-length'))
             message = self.rfile.read(length)
-            fileName = params['filename'] if 'filename' in params else 'test.json'
+            fileName = params['filename']
 
-            with open("./output/" + folder + "/" + fileName, "wb") as f:
+            with open(path + "/output/" + folder + "/" + fileName, "wb") as f:
                 f.write(message)
 
             self.do_OPTIONS()
@@ -76,16 +78,12 @@ class requestHandler(BaseHTTPRequestHandler):
             self.send_response(404)
             self.end_headers()
 
-def start_up_check(config):
-    cpath = "./input/" + config
+def start_up_check(cpath):
+    global path
 
-    if not os.path.exists('./input'):
-        print("ERROR: Missing ./input folder which should contain configuration files")
-        return False
-
-    if not os.path.exists('./output'):
-        print("ERROR: Missing ./output folder which will contain battery logs.")
-        return False
+    if not os.path.exists(path + '/output'):
+        mkdir(path + "/output/")
+        print("Generating ./output folder which will contain battery logs.")
    
     if not os.path.exists(cpath):
         print("ERROR: Config at " + cpath + " does not exist.")
@@ -99,6 +97,8 @@ if __name__ == '__main__':
     parser.parse_args()
     args = parser.parse_args()
     config = args.file
+
+    path = os.path.dirname(sys.argv[0])
 
     if (start_up_check(config)):
         print("Using " + config)
