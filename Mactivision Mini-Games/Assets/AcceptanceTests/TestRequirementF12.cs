@@ -31,7 +31,7 @@ public class TestRequirementF12
     
         Assert.AreEqual(Battery.Instance.GetStartTime(), null);
 
-        file.DeleteDirectory(Battery.Instance.GetOutputPath(), true);
+        //file.DeleteDirectory(Battery.Instance.GetOutputPath(), true);
 
         button.onClick.Invoke();
         
@@ -39,7 +39,7 @@ public class TestRequirementF12
         
         yield return null;
         
-        Assert.IsTrue(file.DirectoryExists(Battery.Instance.GetOutputPath()));
+        //Assert.IsTrue(file.DirectoryExists(Battery.Instance.GetOutputPath()));
 
         yield return null;
 
@@ -77,7 +77,7 @@ public class TestRequirementF12
         Assert.AreNotEqual(Battery.Instance.GetEndTime(), null);
 
         // clean up
-        file.DeleteDirectory(Battery.Instance.GetOutputPath(), true);
+        //file.DeleteDirectory(Battery.Instance.GetOutputPath(), true);
 
         yield return null;
 

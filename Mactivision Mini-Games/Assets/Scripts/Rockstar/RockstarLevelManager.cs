@@ -92,7 +92,6 @@ public class RockstarLevelManager : LevelManager
         RockstarConfig tempConfig = (RockstarConfig)Battery.Instance.GetCurrentConfig();
         if (tempConfig!=null) {
             rockstarConfig = tempConfig;
-            outputPath = Battery.Instance.GetOutputPath();
         } else {
             Debug.Log("Battery not found, using default values");
         }
@@ -199,12 +198,11 @@ public class RockstarLevelManager : LevelManager
     {
         pMetric.finishRecording();
         lvMetric.finishRecording();
-        metricWriter.logMetrics(
-            outputPath+"rockstar_"+DateTime.Now.ToFileTime()+".json", 
+        var str = metricWriter.GetLogMetrics(
             DateTime.Now, 
             new List<AbstractMetric>(){pMetric, lvMetric}
         );
-
+        StartCoroutine(Post("rockstar_"+DateTime.Now.ToFileTime()+".json", str));
         EndLevel(0f);
 
         rockstar.enabled = false;

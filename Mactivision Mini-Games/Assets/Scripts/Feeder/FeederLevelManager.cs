@@ -77,7 +77,6 @@ public class FeederLevelManager : LevelManager
         FeederConfig tempConfig = (FeederConfig)Battery.Instance.GetCurrentConfig();
         if (tempConfig!=null) {
             feederConfig = tempConfig;
-            outputPath = Battery.Instance.GetOutputPath();
         } else {
             Debug.Log("Battery not found, using default values");
         }
@@ -165,11 +164,12 @@ public class FeederLevelManager : LevelManager
     void EndGame()
     {
         mcMetric.finishRecording();
-        metricWriter.logMetrics(
-            outputPath+"feeder_"+DateTime.Now.ToFileTime()+".json", 
-            DateTime.Now, 
-            new List<AbstractMetric>(){mcMetric}
-        );
+        var str = metricWriter.GetLogMetrics( 
+                    DateTime.Now, 
+                    new List<AbstractMetric>(){mcMetric}
+                );
+        StartCoroutine(Post("feeder_"+DateTime.Now.ToFileTime()+".json", str));
+
         EndLevel(0f);
     }
 

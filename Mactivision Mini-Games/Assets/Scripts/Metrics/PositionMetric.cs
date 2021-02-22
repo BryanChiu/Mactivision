@@ -1,3 +1,4 @@
+using UnityEngine;
 using Newtonsoft.Json.Linq;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,7 +22,14 @@ public class PositionMetric : AbstractMetric<PositionEvent> {
         foreach (PositionEvent e in this.eventList) {
             JObject jsonEvent = new JObject();
             jsonEvent["eventTime"] = JToken.FromObject(e.eventTime);
-            jsonEvent["positions"] = JToken.FromObject(e.positions);
+            JArray jsonPositions = new JArray();
+            foreach (Vector2 v in e.positions) {
+                JObject jsonPosition = new JObject();
+                jsonPosition["x"] = v.x;
+                jsonPosition["y"] = v.y;
+                jsonPositions.Add(jsonPosition);
+            }
+            jsonEvent["positions"] = jsonPositions;
             jsonEvents.Add(jsonEvent);
         }
         json["eventList"] = jsonEvents;
