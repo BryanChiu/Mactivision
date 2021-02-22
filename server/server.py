@@ -98,7 +98,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     config = args.file
 
-    path = os.path.dirname(sys.argv[0])
+    path = os.path.dirname(sys.argv[0]) or '.'
 
     if (start_up_check(config)):
         print("Using " + config)
