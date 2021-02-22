@@ -1,0 +1,32 @@
+{
+  "$type": "BatteryConfig, Battery",
+  "PlayerName": null,
+  "StartTime": null,
+  "EndTime": null,
+  "Games": {
+    "$type": "System.Collections.Generic.List`1[[GameConfig, Battery]], mscorlib",
+    "$values": [
+      {
+        "$type": "DiggerConfig, Battery",
+        "TestName": null,
+        "Scene": "Digger",
+        "DigAmount": 8,
+        "DigKey": "B"
+      },
+      {
+        "$type": "DiggerConfig, Battery",
+        "TestName": null,
+        "Scene": "Digger",
+        "DigAmount": 4,
+        "DigKey": "C"
+      },
+      {
+        "$type": "DiggerConfig, Battery",
+        "TestName": null,
+        "Scene": "Digger",
+        "DigAmount": 2,
+        "DigKey": "D"
+      }    
+    ]
+  }
+}
