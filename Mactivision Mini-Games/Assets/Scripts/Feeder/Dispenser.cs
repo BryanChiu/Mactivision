@@ -17,8 +17,9 @@ public class Dispenser : MonoBehaviour
 
     System.Random randomSeed;   // seed of the current game
     float avgUpdateFreq;        // average number of foods dispensed between each food update
-    float stdDevUpdateFreq;     // standard deviation of `avgUpdateFreq`
+    float updateFreqVariance;     // standard deviation of `avgUpdateFreq`
     int lastUpdate = 0;         // number of foods dispensed since last food update
+    int nextUpdate = 0;
 
     string[] gameFoods;                                 // foods being used in the current game
     public string[] goodFoods { private set; get; }     // foods the monster will eat
@@ -45,7 +46,7 @@ public class Dispenser : MonoBehaviour
 
         randomSeed = new System.Random(seed.GetHashCode());
         avgUpdateFreq = uf;
-        stdDevUpdateFreq = sd;
+        updateFreqVariance = sd;
         
         gameFoods = new string[tf];
         goodFoods = new string[tf];
@@ -69,10 +70,11 @@ public class Dispenser : MonoBehaviour
     {
         bool update = false;
 
-        if (randomSeed.NextDouble()<CDF(++lastUpdate) || goodFoodCount==0) {
+        if (++lastUpdate >= nextUpdate || goodFoodCount==0) {
             UpdateFoods();
             update = true;
             lastUpdate = 0;
+            nextUpdate = FoodsBetweenNextUpdate(avgUpdateFreq, updateFreqVariance);
             StartCoroutine(WaitForFoodUpdate(1.75f)); // wait for a food update and then dispense next
         } else {
             StartCoroutine(WaitForFoodUpdate(0f)); // instantly dispense next food
@@ -148,17 +150,6 @@ public class Dispenser : MonoBehaviour
         sound.PlayOneShot(screen_sound);
     }
 
-    // Rough approximation of the cumulative distribution function based off the
-    // probability density function as defined by `avgUpdateFreq` and `stdDevUpdateFreq`.
-    // Returns the percentage of values less than x on a bell curve with
-    // a peak at `avgUpdateFreq` and an inverted standard deviation of `stdDevUpdateFreq`.
-    // stdDev = 2.8: avg-2 -> 0%,  avg-1 -> 20%, avg -> 80%, avg+1 -> 100%
-    // stdDev = 0.9: avg-2 -> 20%, avg-1 -> 40%, avg -> 60%, avg+1 -> 80%, avg+2 -> 90%
-    // stdDev = 15:                avg-1 -> 0%,  avg -> 100%
-    float CDF(int x) {
-        return 1f/(1f+Mathf.Exp(-stdDevUpdateFreq*(x-avgUpdateFreq+0.5f)));
-    }
-
     // Wait for the flashing screen animation and then dispense the next food.
     IEnumerator WaitForFoodUpdate(float wait)
     {
@@ -167,5 +158,10 @@ public class Dispenser : MonoBehaviour
         screenRed.SetActive(false);
         screenFood.SetActive(false);
         Dispense();
+    }
+
+    int FoodsBetweenNextUpdate(float avg, float sd) {
+        float rand = (float)randomSeed.NextDouble();
+        return (int)Mathf.Round((sd+0.1333f)*30f*Mathf.Pow(rand-0.5f, 3f)+avg);
     }
 }
