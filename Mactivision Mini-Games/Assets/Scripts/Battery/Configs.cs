@@ -36,7 +36,7 @@ public class FeederConfig : GameConfig
     public int MaxFoodDispensed {get; set;}
     public int TotalFoods {get; set;}
     public float AverageUpdateFrequency {get; set;}
-    public float StandardDeviationUpdateFreq {get; set;}
+    public float UpdateFreqVariance {get; set;}
 }
 
 public class RockstarConfig : GameConfig

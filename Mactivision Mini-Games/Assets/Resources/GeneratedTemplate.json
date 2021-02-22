@@ -22,7 +22,7 @@
         "MaxFoodDispensed": 0,
         "TotalFoods": 0,
         "AverageUpdateFrequency": 0.0,
-        "StandardDeviationUpdateFreq": 0.0
+        "UpdateFreqVariance": 0.0
       },
       {
         "$type": "RockstarConfig, Battery",

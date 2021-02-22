@@ -83,11 +83,11 @@ public class FeederLevelManager : LevelManager
 
         // use battery's config values, or default values if running game by itself
         seed = !String.IsNullOrEmpty(feederConfig.Seed) ? feederConfig.Seed : DateTime.Now.ToString(); // if no seed provided, use current DateTime
-        maxGameTime = feederConfig.MaxGameTime > 0 ? feederConfig.MaxGameTime : 120f;
-        maxFoodDispensed = feederConfig.MaxFoodDispensed > 0 ? feederConfig.MaxFoodDispensed : 25;
+        maxGameTime = feederConfig.MaxGameTime > 0 ? feederConfig.MaxGameTime : 90f;
+        maxFoodDispensed = feederConfig.MaxFoodDispensed > 0 ? feederConfig.MaxFoodDispensed : 20;
         totalFoods = feederConfig.TotalFoods > 0 && feederConfig.TotalFoods <= dispenser.allFoods.Length ? feederConfig.TotalFoods : 6;
         avgUpdateFreq = feederConfig.AverageUpdateFrequency > 0 ? feederConfig.AverageUpdateFrequency : 3f;
-        stdDevUpdateFreq = feederConfig.StandardDeviationUpdateFreq > 0 ? feederConfig.StandardDeviationUpdateFreq : 2.8f;
+        stdDevUpdateFreq = feederConfig.UpdateFreqVariance > 0 ? feederConfig.UpdateFreqVariance : 0.3f;
 
         // udpate battery config with actual/final values being used
         feederConfig.Seed = seed;
@@ -95,7 +95,7 @@ public class FeederLevelManager : LevelManager
         feederConfig.MaxFoodDispensed = maxFoodDispensed;
         feederConfig.TotalFoods = totalFoods;
         feederConfig.AverageUpdateFrequency = avgUpdateFreq;
-        feederConfig.StandardDeviationUpdateFreq = stdDevUpdateFreq;
+        feederConfig.UpdateFreqVariance = stdDevUpdateFreq;
     }
 
     // Handles GUI events (keyboard, mouse, etc events)
