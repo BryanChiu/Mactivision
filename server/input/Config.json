@@ -1,0 +1,46 @@
+{
+  "$type": "BatteryConfig, Battery",
+  "PlayerName": null,
+  "StartTime": null,
+  "EndTime": null,
+  "Games": {
+    "$type": "System.Collections.Generic.List`1[[GameConfig, Battery]], mscorlib",
+    "$values": [
+      {
+        "$type": "DiggerConfig, Battery",
+        "TestName": null,
+        "Scene": "Digger",
+        "DigAmount": 10,
+        "DigKey": "B"
+      },
+      {
+        "$type": "FeederConfig, Battery",
+        "TestName": null,
+        "Scene": "Feeder",
+        "Seed": null,
+        "MaxGameTime": 1.0,
+        "MaxFoodDispensed": 25,
+        "TotalFoods": 6,
+        "AverageUpdateFrequency": 3.0,
+        "StandardDeviationUpdateFreq": 2.8
+      },
+      {
+        "$type": "RockstarConfig, Battery",
+        "TestName": null,
+        "Scene": "Rockstar",
+        "Seed": null,
+        "MaxGameTime": 1.0,
+        "RockstarChangeFreq": 1.0,
+        "RockstarVelocity": 2.5,
+        "SpotlightVelocity": 3.0,
+        "MeterChangeFreq": 2.0,
+        "MeterMinVel": 5.0,
+        "MeterMaxVel": 30.0,
+        "MeterUpVel": 60.0,
+        "LeftKey": "A",
+        "RightKey": "D",
+        "UpKey": "L"
+      }
+    ]
+  }
+}
