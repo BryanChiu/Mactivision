@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System.Text;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Animations;
+using UnityEngine.Networking;
 using UnityEngine.Rendering.PostProcessing;
 using TMPro;
 
@@ -122,5 +124,24 @@ public abstract class LevelManager : MonoBehaviour
         textBG_LArm.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, 0f, h*0.55f);
         textBG_RArm.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Right, h*-0.05f, h*0.244082f);
         textBG_RArm.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, 0f, h*0.55f);
+    }
+
+    public IEnumerator Post(string filename, string data)
+    {
+        var post = new UnityWebRequest ("http://127.0.0.1:8000/post?filename=" + filename, "POST");
+        byte[] bytes = Encoding.UTF8.GetBytes(data);
+        post.uploadHandler = new UploadHandlerRaw(bytes);
+        post.downloadHandler = new DownloadHandlerBuffer();
+        post.SetRequestHeader("Content-Type", "application/json");
+        yield return post.SendWebRequest();
+
+        if (post.result != UnityWebRequest.Result.Success)
+        {
+            Debug.Log("Network Error\n" + post.error);
+        }
+        else
+        {
+            Debug.Log("Post Success!");
+        }
     }
 }

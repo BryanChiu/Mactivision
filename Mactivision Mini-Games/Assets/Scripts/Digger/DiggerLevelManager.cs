@@ -45,7 +45,6 @@ public class DiggerLevelManager : LevelManager
         DiggerConfig tempConfig = (DiggerConfig)Battery.Instance.GetCurrentConfig();
         if (tempConfig!=null) {
             diggerConfig = tempConfig;
-            outputPath = Battery.Instance.GetOutputPath();
         } else {
             Debug.Log("Battery not found, using default values");
         }
@@ -90,11 +89,11 @@ public class DiggerLevelManager : LevelManager
     void EndGame()
     {
         bpMetric.finishRecording();
-        metricWriter.logMetrics(
-            outputPath+"digger_"+DateTime.Now.ToFileTime()+".json", 
-            DateTime.Now, 
-            new List<AbstractMetric>(){bpMetric}
-        );
+        var str = metricWriter.GetLogMetrics( 
+                    DateTime.Now, 
+                    new List<AbstractMetric>(){bpMetric}
+                );
+        StartCoroutine(Post("digger_"+DateTime.Now.ToFileTime()+".json", str));
         EndLevel(4f);
     }
 

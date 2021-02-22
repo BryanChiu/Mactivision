@@ -31,6 +31,13 @@ MonoBehaviour:
     - jillejr
     m_IsDefault: 0
     m_Capabilities: 0
+  - m_Id: scoped:jilleJr
+    m_Name: jilleJr
+    m_Url: https://npm.cloudsmith.io/jillejr/newtonsoft-json-for-unity
+    m_Scopes:
+    - jillejr.newtonsoft.json-for-unity
+    m_IsDefault: 0
+    m_Capabilities: 0
   m_UserSelectedRegistryName: Packages from jillejr
   m_UserAddingNewScopedRegistry: 0
   m_RegistryInfoDraft:
