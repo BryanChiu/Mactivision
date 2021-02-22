@@ -11,7 +11,7 @@ public class EndScreen : MonoBehaviour
     void Start()
     {
         Battery.Instance.EndBattery();
-        StartCoroutine(Post("BatteyConfig.json", Battery.Instance.SerializedConfig()));
+        StartCoroutine(Post("BatteryConfig.json", Battery.Instance.SerializedConfig()));
     }
 
     IEnumerator Post(string filename, string data)
