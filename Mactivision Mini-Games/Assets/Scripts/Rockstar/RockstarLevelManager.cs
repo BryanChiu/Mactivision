@@ -38,6 +38,10 @@ public class RockstarLevelManager : LevelManager
     LinearVariableMetric lvMetric;  // records linear data during the game
     MetricJSONWriter metricWriter;  // outputs recording metric (pMetric and lvMetric) as a json file
 
+    float currMeterVel;             // used to detect change in meter velocity for lvMetric
+    float lastMeterLvl;             // used to determine delta level in between velocity changes
+    float currRockstarVel;          // used to detect change in rockstar velocity for pMetric
+
     // Start is called before the first frame update
     void Start()
     {
@@ -73,6 +77,10 @@ public class RockstarLevelManager : LevelManager
         rockstar.enabled = false;
         spotlight.enabled = false;
         meter.enabled = false;
+
+        currMeterVel = 0f;
+        lastMeterLvl = 75f;
+        currRockstarVel = 0f;
     }
 
     // Initialize values using config file, or default values if config values not specified
@@ -179,6 +187,7 @@ public class RockstarLevelManager : LevelManager
     {
         pMetric.startRecording();
         lvMetric.startRecording();
+        metricWriter = new MetricJSONWriter("Rockstar", DateTime.Now, seed); // initialize metric data writer
         gameStartTime = Time.time;
         rockstar.enabled = true;
         spotlight.enabled = true;
@@ -195,7 +204,12 @@ public class RockstarLevelManager : LevelManager
             DateTime.Now, 
             new List<AbstractMetric>(){pMetric, lvMetric}
         );
+
         EndLevel(0f);
+
+        rockstar.enabled = false;
+        spotlight.enabled = false;
+        meter.enabled = false;
     }
 
     // Handles player keyboard input
@@ -210,7 +224,7 @@ public class RockstarLevelManager : LevelManager
     void MeterUp()
     {
         meter.Raise();
-        lvMetric.recordEvent(new LinearVariableEvent(DateTime.Now, meter.level, meterUpVel*Time.deltaTime, 1));
+        // lvMetric.recordEvent(new LinearVariableEvent(DateTime.Now, meter.level, meterUpVel*Time.deltaTime, 1));
     }
 
     // Move the spotlight left
@@ -228,7 +242,22 @@ public class RockstarLevelManager : LevelManager
     // Called each frame to add metric event
     void RecordMetricEvents()
     {
-        pMetric.recordEvent(new PositionEvent(DateTime.Now, new List<Vector2>{rockstar.GetPosition(), spotlight.GetPosition()}));
-        lvMetric.recordEvent(new LinearVariableEvent(DateTime.Now, meter.level, meter.velocity*Time.deltaTime, 0));
+        // pMetric.recordEvent(new PositionEvent(DateTime.Now, new List<Vector2>{rockstar.GetPosition(), spotlight.GetPosition()}));
+        // lvMetric.recordEvent(new LinearVariableEvent(DateTime.Now, meter.level, meter.velocity*Time.deltaTime, 0));
+
+        if (Input.GetKeyDown(leftKey) || Input.GetKeyUp(leftKey) || Input.GetKeyDown(rightKey) || Input.GetKeyUp(rightKey) || !Mathf.Approximately(currRockstarVel, rockstar.currVelocity)) {
+            pMetric.recordEvent(new PositionEvent(DateTime.Now, new List<Vector2>{rockstar.GetPosition(), spotlight.GetPosition()}));
+            currRockstarVel = rockstar.currVelocity;
+            Debug.LogFormat("Rockstar {0}, Spotlight {1}", rockstar.GetPosition().x, spotlight.GetPosition().x);
+        }
+        if (Input.GetKeyDown(upKey) || Input.GetKeyUp(upKey)) {
+            lvMetric.recordEvent(new LinearVariableEvent(DateTime.Now, meter.level, meter.level-lastMeterLvl, 1));
+            lastMeterLvl = meter.level;
+        }
+        if (!Mathf.Approximately(currMeterVel, meter.velocity)) {
+            lvMetric.recordEvent(new LinearVariableEvent(DateTime.Now, meter.level, meter.level-lastMeterLvl, 0));
+            currMeterVel = meter.velocity;
+            lastMeterLvl = meter.level;
+        }
     }
 }

@@ -14,6 +14,7 @@ public class Rockstar : MonoBehaviour
     float maxPos = 5.5f;        // the maximum value for position (right)
 
     Vector3 startingPos;
+    public float currVelocity { private set; get; }
 
     // Initializes the rockstar with the seed
     public void Init(string seed, float cf, float v)
@@ -23,6 +24,7 @@ public class Rockstar : MonoBehaviour
         velocity = v;
         destination = 0f;
         startingPos = gameObject.transform.position;
+        currVelocity = 0f;
     }
 
     // Update is called once per frame
@@ -38,6 +40,8 @@ public class Rockstar : MonoBehaviour
         gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position,
                                                             new Vector3(destination, startingPos.y, startingPos.z),
                                                             velocity*Time.deltaTime);
+        currVelocity = Mathf.Approximately(gameObject.transform.position.x, destination) ? 0f : 
+                    (gameObject.transform.position.x < destination ? velocity : -velocity);
     }
 
     // updates the destination the rockstar moves towards. Can be forced to update
