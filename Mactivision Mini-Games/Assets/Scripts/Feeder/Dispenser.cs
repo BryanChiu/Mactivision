@@ -17,7 +17,7 @@ public class Dispenser : MonoBehaviour
 
     System.Random randomSeed;   // seed of the current game
     float avgUpdateFreq;        // average number of foods dispensed between each food update
-    float updateFreqVariance;     // standard deviation of `avgUpdateFreq`
+    float updateFreqVariance;   // variance of `avgUpdateFreq`
     int lastUpdate = 0;         // number of foods dispensed since last food update
     int nextUpdate = 0;
 
