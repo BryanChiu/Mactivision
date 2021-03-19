@@ -34,16 +34,16 @@ performance when using different mini-game parameters.
 
 Image
 
-Description
+The digger game measures finger pressing ability. The player avatar is directed to dig downwards by mashing a button as quickly as they can. Once the player reaches the treasure the game is over. The button pressing event module records all the button input by the user, the state of those inputs and the time each button was pressed.
 
 ### Feeder
 
 Image
 
-Description
+The feeder game measures updating working memory ability. The player avatar will be asked to feed a monster some food. The food the monster likes and dislikes changes over time. The player must remember these changes and correctly feed or discard the food they are given to feed the monster with. The memory choice event module will record whether the player correctly remembers to feed the monster the food it wants.
 
 ### Rockstar
 
 Image
 
-Description
+The rockstar game measures divided attention ability. The player avatar will be asked to be a rockstar who is performing onstage for a crowd. A spot light will be moving around the stage during the performance. The player has to stay in the spot light so the fans can see the player perform. At the same time a gauge will measure the excitement levels of the crowd. If the crowd gets too excited the player has to calm the audience down. When the crowd gets bored the player has to excite them with fireworks. The goal is to keep the crowd just excited enough by staying in the spotlight and calming or exciting the crowd when needed. The position event module will be used to record the player position and the spotlight position. The linear variable metric event module used to record the fluctuations of the crowd gauge.
