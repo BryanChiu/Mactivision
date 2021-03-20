@@ -53,15 +53,15 @@ public class RockstarLevelManager : LevelManager
 
         // set the leftKey for the intro instructions
         int tempIdx = introText.text.IndexOf("LKEY");
-        introText.text = introText.text.Substring(0, tempIdx) + leftKey.ToString() + introText.text.Substring(tempIdx+4);
+        introText.text = introText.text.Substring(0, tempIdx) + KeyCodeDict.toString[leftKey] + introText.text.Substring(tempIdx+4);
 
         // set the rightKey for the intro instructions
         tempIdx = introText.text.IndexOf("RKEY");
-        introText.text = introText.text.Substring(0, tempIdx) + rightKey.ToString() + introText.text.Substring(tempIdx+4);
+        introText.text = introText.text.Substring(0, tempIdx) + KeyCodeDict.toString[rightKey] + introText.text.Substring(tempIdx+4);
 
         // set the upKey for the intro instructions
         tempIdx = introText2.text.IndexOf("UKEY");
-        introText2.text = introText2.text.Substring(0, tempIdx) + upKey.ToString() + introText2.text.Substring(tempIdx+4);
+        introText2.text = introText2.text.Substring(0, tempIdx) + KeyCodeDict.toString[upKey] + introText2.text.Substring(tempIdx+4);
 
         introText2.enabled = false;
         showIntro2 = false;
@@ -109,22 +109,27 @@ public class RockstarLevelManager : LevelManager
         // use default key if string cannot be parsed to keycode (or is null)
         try {
             leftKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), rockstarConfig.LeftKey);
+            if (!KeyCodeDict.toString.ContainsKey(leftKey)) throw new Exception();
         } catch (Exception) {
             Debug.Log("Invalid KeyCode, using default value for leftkey");
             leftKey = KeyCode.A;
         }
         try {
             rightKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), rockstarConfig.RightKey);
+            if (!KeyCodeDict.toString.ContainsKey(rightKey)) throw new Exception();
         } catch (Exception) {
             Debug.Log("Invalid KeyCode, using default value for rightkey");
             rightKey = KeyCode.D;
         }
         try {
             upKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), rockstarConfig.UpKey);
+            if (!KeyCodeDict.toString.ContainsKey(upKey)) throw new Exception();
         } catch (Exception) {
             Debug.Log("Invalid KeyCode, using default value for upkey");
             upKey = KeyCode.L;
         }
+
+        if (leftKey==rightKey || leftKey==upKey || upKey==rightKey) Debug.Log("Warning: same key assigned to multiple actions");
 
         // udpate battery config with actual/final values being used
         rockstarConfig.Seed = seed;
