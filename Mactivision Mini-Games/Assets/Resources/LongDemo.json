@@ -37,7 +37,7 @@
         "Seed": "hello world",
         "MaxGameTime": 200,
         "MaxFoodDispensed": 40,
-        "TotalFoods": 5,
+        "UniqueFoods": 5,
         "AverageUpdateFrequency": 4,
         "StandardDeviationUpdateFreq": 0.8
       },
@@ -48,7 +48,7 @@
         "Seed": null,
         "MaxGameTime": 0.0,
         "MaxFoodDispensed": 0,
-        "TotalFoods": 0,
+        "UniqueFoods": 0,
         "AverageUpdateFrequency": 0.0,
         "StandardDeviationUpdateFreq": 0.0
       }
