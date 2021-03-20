@@ -23,6 +23,7 @@ public class DiggerConfig : GameConfig
 {
     public string TestName {get; set;}
     public string Scene {get; set;}
+    public float MaxGameTime {get; set;}
     public int DigAmount {get; set;}
     public string DigKey {get; set;}
 }
