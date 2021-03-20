@@ -28,7 +28,7 @@ public class DiggerLevelManager : LevelManager
 
         // set the digKey for the intro instructions
         int tempIdx = introText.text.IndexOf("KEY");
-        introText.text = introText.text.Substring(0, tempIdx) + digKey.ToString() + introText.text.Substring(tempIdx+3);
+        introText.text = introText.text.Substring(0, tempIdx) + KeyCodeDict.toString[digKey] + introText.text.Substring(tempIdx+3);
 
         countDoneText = "Dig!";
         keysDown = new List<KeyCode>();
@@ -54,6 +54,7 @@ public class DiggerLevelManager : LevelManager
         maxGameTime = diggerConfig.MaxGameTime > 0 ? diggerConfig.MaxGameTime : digAmount;
         try { // use default dig key if we cannot parse it from the config
             digKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), diggerConfig.DigKey);
+            if (!KeyCodeDict.toString.ContainsKey(digKey)) throw new Exception();
         } catch (Exception) {
             Debug.Log("Invalid KeyCode, using default value");
             digKey = KeyCode.B;
