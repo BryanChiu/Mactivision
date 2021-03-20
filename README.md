@@ -22,12 +22,17 @@ on understanding the fundamental science behind video games. Our capstone
 team (Mactivision) has developed various cognitive tests disguised as
 mini-games which will measure users’ strengths and weaknesses in performing
 various atomic challenges (game tasks), each corresponding to different
-cognitive and motor abilities. Each test is a play-through of a series of
-mini-games, called a Mini-game Battery. After each mini-game, data is
+cognitive and motor abilities. As they are measurements, these mini-games
+cannot be won or lost; there is no scoring or feedback that would otherwise
+try to encourage the user to "do better". Each test is a play-through of a
+series of mini-games, called a Mini-Game Battery. 
+
+After each mini-game, data is
 recorded of the user’s gameplay, which can then be processed, by
 researchers, to measure the user’s performance in the cognitive and motor
 abilities being measured. Each Battery can be tailored to the researcher’s
-specifications, and thus can be used to measure the change in a user’s
+specifications, with any combination and any number of mini-games, and thus
+can be used to measure the change in a user’s
 performance when using different mini-game parameters.
 
 ### Digger
