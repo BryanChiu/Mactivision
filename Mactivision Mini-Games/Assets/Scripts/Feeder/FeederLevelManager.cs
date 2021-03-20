@@ -21,7 +21,7 @@ public class FeederLevelManager : LevelManager
     string seed;                            // optional manually entered seed
     System.Random randomSeed;               // seed of the current game
 
-    int totalFoods;                         // number of foods to be used in the current game
+    int uniqueFoods;                         // number of foods to be used in the current game
     float avgUpdateFreq;                    // average number of foods dispensed between each food update
     float updateFreqVariance;               // variance of `avgUpdateFreq`
 
@@ -65,7 +65,7 @@ public class FeederLevelManager : LevelManager
 
         mcMetric = new MemoryChoiceMetric(); // initialize metric recorder
 
-        dispenser.Init(seed, totalFoods, avgUpdateFreq, updateFreqVariance); // initialize the dispenser
+        dispenser.Init(seed, uniqueFoods, avgUpdateFreq, updateFreqVariance); // initialize the dispenser
     }
 
     // Initialize values using config file, or default values if config values not specified
@@ -85,15 +85,15 @@ public class FeederLevelManager : LevelManager
         seed = !String.IsNullOrEmpty(feederConfig.Seed) ? feederConfig.Seed : DateTime.Now.ToString(); // if no seed provided, use current DateTime
         maxGameTime = feederConfig.MaxGameTime > 0 ? feederConfig.MaxGameTime : 90f;
         maxFoodDispensed = feederConfig.MaxFoodDispensed > 0 ? feederConfig.MaxFoodDispensed : 20;
-        totalFoods = feederConfig.TotalFoods > 0 && feederConfig.TotalFoods <= dispenser.allFoods.Length ? feederConfig.TotalFoods : 6;
-        avgUpdateFreq = feederConfig.AverageUpdateFrequency > 0 ? feederConfig.AverageUpdateFrequency : 3f;
+        uniqueFoods = feederConfig.UniqueFoods >= 2 && feederConfig.UniqueFoods <= dispenser.allFoods.Length ? feederConfig.UniqueFoods : 2;
+        avgUpdateFreq = feederConfig.AverageUpdateFrequency > 0 ? feederConfig.AverageUpdateFrequency : 1f;
         updateFreqVariance = feederConfig.UpdateFreqVariance > 0 ? feederConfig.UpdateFreqVariance : 0.3f;
 
         // udpate battery config with actual/final values being used
         feederConfig.Seed = seed;
         feederConfig.MaxGameTime = maxGameTime;
         feederConfig.MaxFoodDispensed = maxFoodDispensed;
-        feederConfig.TotalFoods = totalFoods;
+        feederConfig.UniqueFoods = uniqueFoods;
         feederConfig.AverageUpdateFrequency = avgUpdateFreq;
         feederConfig.UpdateFreqVariance = updateFreqVariance;
     }

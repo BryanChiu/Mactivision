@@ -21,7 +21,7 @@
         "Seed": null,
         "MaxGameTime": 90.0,
         "MaxFoodDispensed": 20,
-        "TotalFoods": 6,
+        "UniqueFoods": 6,
         "AverageUpdateFrequency": 3.0,
         "UpdateFreqVariance": 0.3
       },

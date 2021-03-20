@@ -35,7 +35,7 @@ public class FeederConfig : GameConfig
     public string Seed {get; set;}
     public float MaxGameTime {get; set;}
     public int MaxFoodDispensed {get; set;}
-    public int TotalFoods {get; set;}
+    public int UniqueFoods {get; set;}
     public float AverageUpdateFrequency {get; set;}
     public float UpdateFreqVariance {get; set;}
 }
