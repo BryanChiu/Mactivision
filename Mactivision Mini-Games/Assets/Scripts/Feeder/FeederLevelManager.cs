@@ -85,8 +85,8 @@ public class FeederLevelManager : LevelManager
         seed = !String.IsNullOrEmpty(feederConfig.Seed) ? feederConfig.Seed : DateTime.Now.ToString(); // if no seed provided, use current DateTime
         maxGameTime = feederConfig.MaxGameTime > 0 ? feederConfig.MaxGameTime : 90f;
         maxFoodDispensed = feederConfig.MaxFoodDispensed > 0 ? feederConfig.MaxFoodDispensed : 20;
-        uniqueFoods = feederConfig.UniqueFoods >= 2 && feederConfig.UniqueFoods <= dispenser.allFoods.Length ? feederConfig.UniqueFoods : 2;
-        avgUpdateFreq = feederConfig.AverageUpdateFrequency > 0 ? feederConfig.AverageUpdateFrequency : 1f;
+        uniqueFoods = feederConfig.UniqueFoods >= 2 && feederConfig.UniqueFoods <= dispenser.allFoods.Length ? feederConfig.UniqueFoods : 6;
+        avgUpdateFreq = feederConfig.AverageUpdateFrequency > 0 ? feederConfig.AverageUpdateFrequency : 3f;
         updateFreqVariance = feederConfig.UpdateFreqVariance > 0 ? feederConfig.UpdateFreqVariance : 0.3f;
 
         // udpate battery config with actual/final values being used
@@ -128,8 +128,7 @@ public class FeederLevelManager : LevelManager
             if (!mcMetric.isRecording) StartGame(); 
                 
             // game automatically ends after maxGameTime seconds
-            if ((Time.time-gameStartTime >= maxGameTime || foodDispensed >= maxFoodDispensed)
-                && gameState==GameState.FoodExpended) { 
+            if (Time.time-gameStartTime >= maxGameTime || foodDispensed >= maxFoodDispensed) { 
                 EndGame();
                 return;
             }
@@ -170,6 +169,19 @@ public class FeederLevelManager : LevelManager
                 );
         StartCoroutine(Post("feeder_"+DateTime.Now.ToFileTime()+".json", str));
 
+        dispenser.StopAllCoroutines();
+        dispenser.screenRed.SetActive(false);
+        dispenser.screenGreen.SetActive(false);
+        dispenser.enabled = false;
+        monster.speed = 0f;
+        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Food")) {
+            obj.GetComponent<Rigidbody2D>().isKinematic = true;
+            obj.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            obj.GetComponent<Rigidbody2D>().angularVelocity = 0f;
+        }
+        foreach (AudioSource aud in FindObjectsOfType(typeof(AudioSource)) as AudioSource[]) {
+            aud.Stop();
+        }
         EndLevel(0f);
     }
 
