@@ -6,6 +6,8 @@ TagManager:
   tags:
   - GroundBlock
   - Trashchute
+  - Food
+  - Monster
   layers:
   - Default
   - TransparentFX

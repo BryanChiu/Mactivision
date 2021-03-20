@@ -84,7 +84,6 @@ public class DiggerLevelManager : LevelManager
         metricWriter = new MetricJSONWriter("Digger", DateTime.Now); // initialize metric data writer
         SetDigAmountForGround();
         gameStartTime = Time.time;
-        maxGameTime = digAmount;
     }
 
     // End game, finish recording metrics

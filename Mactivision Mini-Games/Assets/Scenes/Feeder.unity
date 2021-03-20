@@ -219,7 +219,7 @@ GameObject:
   - component: {fileID: 165917465}
   m_Layer: 0
   m_Name: burger
-  m_TagString: Untagged
+  m_TagString: Food
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -452,7 +452,7 @@ GameObject:
   - component: {fileID: 204677394}
   m_Layer: 0
   m_Name: hotdog
-  m_TagString: Untagged
+  m_TagString: Food
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -747,7 +747,7 @@ GameObject:
   - component: {fileID: 269931321}
   m_Layer: 0
   m_Name: taco
-  m_TagString: Untagged
+  m_TagString: Food
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -878,7 +878,7 @@ GameObject:
   - component: {fileID: 360405639}
   m_Layer: 0
   m_Name: muffin
-  m_TagString: Untagged
+  m_TagString: Food
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1122,7 +1122,7 @@ GameObject:
   - component: {fileID: 405965023}
   m_Layer: 0
   m_Name: pizza
-  m_TagString: Untagged
+  m_TagString: Food
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1925,7 +1925,7 @@ GameObject:
   - component: {fileID: 635403764}
   m_Layer: 0
   m_Name: monster
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2638,7 +2638,7 @@ GameObject:
   - component: {fileID: 1047069376}
   m_Layer: 0
   m_Name: donut
-  m_TagString: Untagged
+  m_TagString: Food
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3440,7 +3440,7 @@ GameObject:
   - component: {fileID: 1324812062}
   m_Layer: 0
   m_Name: icecream
-  m_TagString: Untagged
+  m_TagString: Food
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4230,7 +4230,7 @@ GameObject:
   - component: {fileID: 1675732989}
   m_Layer: 0
   m_Name: trashchute
-  m_TagString: Untagged
+  m_TagString: Trashchute
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4637,14 +4637,15 @@ MonoBehaviour:
   introText: {fileID: 1552896726}
   outroText: {fileID: 438817474}
   countdownText: {fileID: 1639045743}
+  countDoneText: Start!
   textBG: {fileID: 657821064}
   textBG_Main: {fileID: 1277783394}
   textBG_Edge: {fileID: 1637270350}
   textBG_LArm: {fileID: 971437893}
   textBG_RArm: {fileID: 698932964}
-  countDoneText: Start!
-  lvlState: 2
   sound: {fileID: 0}
+  lvlState: 2
+  outputPath: 
   introText2: {fileID: 2021517829}
   monster: {fileID: 635403759}
   plate: {fileID: 472920895}
@@ -4653,11 +4654,6 @@ MonoBehaviour:
   plate_up: {fileID: 8300000, guid: 4802f2c780770204c9a2a2c85ec1a517, type: 3}
   plate_down: {fileID: 8300000, guid: 0a95c4f2217b29147b75883f351904dd, type: 3}
   bite_sound: {fileID: 8300000, guid: b22eeec3ff78e924b83a232ee15d9a26, type: 3}
-  seed: 
-  totalFoods: 6
-  avgUpdateFreq: 3
-  stdDevUpdateFreq: 2.8
-  maxGameTime: 180
 --- !u!4 &1867650888
 Transform:
   m_ObjectHideFlags: 0
