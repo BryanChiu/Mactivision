@@ -1,8 +1,9 @@
 /*
 FOR CONFIG FILE CONFIGURATION:
 Use the keys of the dictionary entries without the word "KeyCode".
-Example:
-"DigKey": "LeftArrow"
+Examples:
+"DigKey": "B"
+"LeftKey": "LeftArrow"
 */
 
 using System.Collections;
