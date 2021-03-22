@@ -5,7 +5,7 @@ import json
 import urllib.parse
 import re
 import sys
-from http.server import HTTPServer, BaseHTTPRequestHandler
+from http.server import HTTPServer, BaseHTTPRequestHandler, SimpleHTTPRequestHandler
 from os import walk
 from datetime import datetime
 from os import mkdir
@@ -14,7 +14,7 @@ folder = "recent"
 config = ""
 path = ""
 
-class requestHandler(BaseHTTPRequestHandler):
+class requestHandler(SimpleHTTPRequestHandler):
 
     def do_OPTIONS(self):
         self.send_response(200, "ok")
@@ -25,7 +25,8 @@ class requestHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         global folder, config, path
-        self.do_OPTIONS()
+
+        print(self.path)
 
         if self.path.endswith('/new'):
             name = datetime.now().strftime('%Y-%m-%d_%H-%M-%S') 
@@ -34,13 +35,16 @@ class requestHandler(BaseHTTPRequestHandler):
                 folder = name
             except OSError as e:
                 folder = 'recent'
+            self.do_OPTIONS()
             self.wfile.write(folder.encode())
         elif self.path.endswith('/get'):
+            self.do_OPTIONS()
             with open(config, 'rb') as f:
                 self.wfile.write(f.read())
+        elif self.path == ('/') or self.path.startswith('/Build') or self.path.startswith('/TemplateData'):
+            return SimpleHTTPRequestHandler.do_GET(self)
         else:
-            self.send_response(404)
-            self.end_headers()
+            self.send_error(404)
 
     def do_POST(self):
         global folder, path
@@ -102,6 +106,6 @@ if __name__ == '__main__':
 
     if (start_up_check(config)):
         print("Using " + config)
-        server = HTTPServer(('localhost', 8000), requestHandler)
+        server = HTTPServer(('', 8000), requestHandler)
         print("Server running on port 8000")
         server.serve_forever()
