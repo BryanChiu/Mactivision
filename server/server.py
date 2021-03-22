@@ -168,7 +168,7 @@ def cleanup_loop():
     for key, value in memory.items():
         
         # Cleanup memory
-        if value.state = FINISHED:
+        if value.state == FINISHED:
             del memory[key]
             log(current_time, "Deleting finished session with key {}".format(key))
 

@@ -8,6 +8,15 @@ using UnityEngine.Networking;
 using UnityEngine.Rendering.PostProcessing;
 using TMPro;
 
+enum ServerState
+{
+    CREATED = 0,
+    STANDBY = 1, 
+    GAME_STARTED = 2, 
+    GAME_ENDED = 3,
+    FINISHED = 4,
+}
+
 // This class provides methods to inherited classes for pre and post-game features. It starts the
 // scene with a blurred game scene with an introductory text, then a countdown, and a end game text.
 public abstract class LevelManager : MonoBehaviour
@@ -128,7 +137,7 @@ public abstract class LevelManager : MonoBehaviour
 
     public IEnumerator Post(string filename, string data)
     {
-        var post = new UnityWebRequest ("http://127.0.0.1:8000/post?filename=" + filename, "POST");
+        var post = new UnityWebRequest ("http://127.0.0.1:8000/post?filename=" + filename + "&token" + Battery.Instance.GetToken(), "POST");
         byte[] bytes = Encoding.UTF8.GetBytes(data);
         post.uploadHandler = new UploadHandlerRaw(bytes);
         post.downloadHandler = new DownloadHandlerBuffer();
@@ -144,4 +153,37 @@ public abstract class LevelManager : MonoBehaviour
             Debug.Log("Post Success!");
         }
     }
+
+    public static string QueryString(IDictionary<string, object> dict)
+    {
+        var list = new List<string>();
+        foreach(var item in dict)
+        {
+            list.Add(item.Key + "=" + item.Value);
+        }
+        return string.Join("&", list);
+    }
+
+    IEnumerator UpdateServerState(IDictionary<string, object> dict)
+    {
+        UnityWebRequest get = UnityWebRequest.Get("http://127.0.0.1:8000/updatestate?" + QueryString(dict));
+        yield return get.SendWebRequest();
+
+        if (get.result != UnityWebRequest.Result.Success)
+        {
+            Debug.Log("Network Error\n" + get.error);
+        }
+        else
+        {
+            Debug.Log("Update Server Success!");
+        }
+    }
+
+    IEnumerator ServerStateCreted(int expected_game_length)
+    {
+        var dict = new Dictionary<string, object>();
+        dict.Add("token", Battery.Instance.GetToken());
+        dict.Add("maxlength", expected_game_length);
+        return UpdateServerState(dict);
+    }    
 }
