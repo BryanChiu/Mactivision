@@ -190,6 +190,8 @@ if __name__ == '__main__':
 
     path = os.path.dirname(sys.argv[0]) or '.'
 
+    current_time = datetime.now()
+
     if (start_up_check(config)):
         log(current_time, "Using " + config)
         server = HTTPServer(('', 8000), requestHandler)
