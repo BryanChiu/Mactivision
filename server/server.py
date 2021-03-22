@@ -176,7 +176,7 @@ def cleanup_loop():
             del memory[key]
             log(current_time, "Deleting expired session with key {}".format(key))
     
-    threading.Timer(60, loop).start()
+    threading.Timer(60, cleanup_loop).start()
 
 def log(time, message):
     print("[{}] {}".format(time.strftime('%Y-%m-%d_%H-%M-%S'), message))
