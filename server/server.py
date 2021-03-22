@@ -49,8 +49,15 @@ class requestHandler(SimpleHTTPRequestHandler):
             params[new_key] = param_dict[key][0]
 
         parsed_path = re.sub('^\/([A-Za-z]*)(\?.*)?$', r'\1', self.path)
+        
+        if 'token' not in params:
+            self.send_response(400, 'Missing path parameter \"token\"')
+            self.end_headers()
+            return
+        token = params['token']
+        
         if parsed_path == 'new':
-            if 'token' in params:
+            if token in memory:
                 self.send_response(400, 'Invalid token')
                 self.end_headers()
                 return
@@ -70,12 +77,6 @@ class requestHandler(SimpleHTTPRequestHandler):
             memory[token] = SessionObj(CREATED, current_time + EXPIRE_DELTA, output_path)
         
         elif parsed_path == 'updatestate':
-            
-            if 'token' not in params:
-                self.send_response(400, 'Missing path parameter \"token\"')
-                self.end_headers()
-                return
-            token = params['token']
             if token not in memory:
                 self.send_response(400, 'Invalid token')
                 self.end_headers()
