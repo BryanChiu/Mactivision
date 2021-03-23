@@ -75,7 +75,8 @@ class requestHandler(SimpleHTTPRequestHandler):
             with open(config, 'rb') as f:
                 self.wfile.write(f.read())
             memory[token] = SessionObj(CREATED, current_time + EXPIRE_DELTA, output_path)
-        
+            log(current_time, 'New session created with token [{}]'.format(token))
+
         elif parsed_path == 'updatestate':
             if token not in memory:
                 self.send_response(400, 'Invalid token')
@@ -86,7 +87,7 @@ class requestHandler(SimpleHTTPRequestHandler):
                 self.send_response(400, 'Missing path parameter \"state\"')
                 self.end_headers()
                 return
-            state = params['state']
+            state = int(params['state'])
 
             if state == GAME_STARTED:
                 if 'maxgameseconds' not in params:
@@ -166,17 +167,20 @@ def start_up_check(cpath):
 def cleanup_loop():
     current_time = datetime.now()
     log(current_time, "Cleaning up sessions")
+    flagged_for_delete = []
     for key, value in memory.items():
         
         # Cleanup memory
         if value.state == FINISHED:
-            del memory[key]
-            log(current_time, "Deleting finished session with key {}".format(key))
+            flagged_for_delete.append(key)
+            log(current_time, "Deleting finished session with key [{}]".format(key))
 
         elif value.expire_time <= current_time:
-            del memory[key]
-            log(current_time, "Deleting expired session with key {}".format(key))
-    
+            flagged_for_delete.append(key)
+            log(current_time, "Deleting expired session with key [{}]".format(key))
+    for key in flagged_for_delete:
+        del memory[key]
+
     threading.Timer(60, cleanup_loop).start()
 
 def log(time, message):
