@@ -98,38 +98,36 @@ public class RockstarLevelManager : LevelManager
 
         // use battery's config values, or default values if running game by itself
         seed = !String.IsNullOrEmpty(rockstarConfig.Seed) ? rockstarConfig.Seed : DateTime.Now.ToString(); // if no seed provided, use current DateTime
-        maxGameTime = rockstarConfig.MaxGameTime > 0 ? rockstarConfig.MaxGameTime : 90f;
-        rockstarChangeFreq = rockstarConfig.RockstarChangeFreq > 0 ? rockstarConfig.RockstarChangeFreq : 1f;
-        rockstarVelocity = rockstarConfig.RockstarVelocity > 0 ? rockstarConfig.RockstarVelocity : 2.5f;
-        spotlightVelocity = rockstarConfig.SpotlightVelocity > 0 ? rockstarConfig.SpotlightVelocity : 3f;
-        meterChangeFreq = rockstarConfig.MeterChangeFreq > 0 ? rockstarConfig.MeterChangeFreq : 2f;
-        meterMinVel = rockstarConfig.MeterMinVel > 0 ? rockstarConfig.MeterMinVel : 5f;
-        meterMaxVel = rockstarConfig.MeterMaxVel > 0 ? rockstarConfig.MeterMaxVel : 30f;
-        meterUpVel = rockstarConfig.MeterUpVel > 0 ? rockstarConfig.MeterUpVel : 60f;
+        maxGameTime = rockstarConfig.MaxGameTime > 0 ? rockstarConfig.MaxGameTime : Default(90f, "MaxGameTime");
+        rockstarChangeFreq = rockstarConfig.RockstarChangeFreq > 0 ? rockstarConfig.RockstarChangeFreq : Default(1f, "RockstarChangeFreq");
+        bool dependencyCheck = 0 < rockstarConfig.RockstarVelocity && rockstarConfig.RockstarVelocity <= rockstarConfig.SpotlightVelocity;
+        rockstarVelocity = dependencyCheck ? rockstarConfig.RockstarVelocity : Default(2.5f, "RockstarVelocity");
+        spotlightVelocity = dependencyCheck ? rockstarConfig.SpotlightVelocity : Default(3f, "SpotlightVelocity");
+        meterChangeFreq = rockstarConfig.MeterChangeFreq > 0 ? rockstarConfig.MeterChangeFreq : Default(2f, "MeterChangeFreq");
+        dependencyCheck = 0 < rockstarConfig.MeterMinVel && rockstarConfig.MeterMinVel <= rockstarConfig.MeterMaxVel && rockstarConfig.MeterMaxVel < rockstarConfig.MeterUpVel;
+        meterMinVel = dependencyCheck ? rockstarConfig.MeterMinVel : Default(5f, "MeterMinVel");
+        meterMaxVel = dependencyCheck ? rockstarConfig.MeterMaxVel : Default(30f, "MeterMaxVel");
+        meterUpVel = dependencyCheck ? rockstarConfig.MeterUpVel : Default(60f, "MeterUpVel");
         // use default key if string cannot be parsed to keycode (or is null)
+        dependencyCheck = rockstarConfig.LeftKey != rockstarConfig.RightKey && rockstarConfig.LeftKey != rockstarConfig.UpKey && rockstarConfig.RightKey != rockstarConfig.UpKey;
         try {
             leftKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), rockstarConfig.LeftKey);
-            if (!KeyCodeDict.toString.ContainsKey(leftKey)) throw new Exception();
+            if (!KeyCodeDict.toString.ContainsKey(leftKey) || !dependencyCheck) throw new Exception();
         } catch (Exception) {
-            Debug.Log("Invalid KeyCode, using default value for leftkey");
-            leftKey = KeyCode.A;
+            leftKey = Default(KeyCode.A, "LeftKey");
         }
         try {
             rightKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), rockstarConfig.RightKey);
-            if (!KeyCodeDict.toString.ContainsKey(rightKey)) throw new Exception();
+            if (!KeyCodeDict.toString.ContainsKey(rightKey) || !dependencyCheck) throw new Exception();
         } catch (Exception) {
-            Debug.Log("Invalid KeyCode, using default value for rightkey");
-            rightKey = KeyCode.D;
+            rightKey = Default(KeyCode.D, "RightKey");
         }
         try {
             upKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), rockstarConfig.UpKey);
-            if (!KeyCodeDict.toString.ContainsKey(upKey)) throw new Exception();
+            if (!KeyCodeDict.toString.ContainsKey(upKey) || !dependencyCheck) throw new Exception();
         } catch (Exception) {
-            Debug.Log("Invalid KeyCode, using default value for upkey");
-            upKey = KeyCode.L;
+            upKey = Default(KeyCode.L, "UpKey");
         }
-
-        if (leftKey==rightKey || leftKey==upKey || upKey==rightKey) Debug.Log("Warning: same key assigned to multiple actions");
 
         // udpate battery config with actual/final values being used
         rockstarConfig.Seed = seed;

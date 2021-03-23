@@ -144,4 +144,22 @@ public abstract class LevelManager : MonoBehaviour
             Debug.Log("Post Success!");
         }
     }
+
+    public int Default(int val, string log)
+    {
+        Debug.LogFormat("Missing or invalid value for {0}, using {1}", log, val.ToString());
+        return val;
+    }
+
+    public float Default(float val, string log)
+    {
+        Debug.LogFormat("Missing or invalid value for {0}, using {1}", log, val.ToString());
+        return val;
+    }
+
+    public KeyCode Default(KeyCode val, string log)
+    {
+        Debug.LogFormat("Missing or invalid value for {0}, using {1}", log, val.ToString());
+        return val;
+    }
 }
