@@ -124,6 +124,12 @@ class requestHandler(SimpleHTTPRequestHandler):
         parsed_path = re.sub('^\/([A-Za-z]*)(\?.*)?$', r'\1', self.path)
 
         if parsed_path == 'output':
+            if 'token' not in params:
+                self.send_response(400, 'Missing path parameter \"token\"')
+                self.end_headers()
+                return
+            token = params['token']
+
             ctype, pdict = cgi.parse_header(self.headers.get('content-type'))
 
             if ctype != 'application/json':
@@ -186,6 +192,10 @@ def cleanup_loop():
 def log(time, message):
     print("[{}] {}".format(time.strftime('%Y-%m-%d_%H-%M-%S'), message))
 
+def run_server(server):
+    while (1):
+        server.handle_request()
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("file")
@@ -203,4 +213,5 @@ if __name__ == '__main__':
         log(current_time, "Server running on port 8000")
 
         cleanup_loop()
-        server.serve_forever()
+        run_server(server)
+

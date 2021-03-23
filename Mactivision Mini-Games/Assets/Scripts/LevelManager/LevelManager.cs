@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -135,9 +135,10 @@ public abstract class LevelManager : MonoBehaviour
         textBG_RArm.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, 0f, h*0.55f);
     }
 
+    // TODO: Refactor Server Code into Server Class or something
     public IEnumerator Post(string filename, string data)
     {
-        var post = new UnityWebRequest ("http://127.0.0.1:8000/post?filename=" + filename + "&token" + Battery.Instance.GetToken(), "POST");
+        var post = new UnityWebRequest ("http://127.0.0.1:8000/output?filename=" + filename + "&token=" + Battery.Instance.GetToken(), "POST");
         byte[] bytes = Encoding.UTF8.GetBytes(data);
         post.uploadHandler = new UploadHandlerRaw(bytes);
         post.downloadHandler = new DownloadHandlerBuffer();

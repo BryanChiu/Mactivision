@@ -14,9 +14,9 @@ public class EndScreen : MonoBehaviour
         StartCoroutine(Post("BatteryConfig.json", Battery.Instance.SerializedConfig()));
     }
 
-    IEnumerator Post(string filename, string data)
+    public IEnumerator Post(string filename, string data)
     {
-        var post = new UnityWebRequest ("http://127.0.0.1:8000/post?filename=" + filename, "POST");
+        var post = new UnityWebRequest ("http://127.0.0.1:8000/output?filename=" + filename + "&token=" + Battery.Instance.GetToken(), "POST");
         byte[] bytes = Encoding.UTF8.GetBytes(data);
         post.uploadHandler = new UploadHandlerRaw(bytes);
         post.downloadHandler = new DownloadHandlerBuffer();
@@ -25,7 +25,7 @@ public class EndScreen : MonoBehaviour
 
         if (post.result != UnityWebRequest.Result.Success)
         {
-            Debug.Log("Network Error\n" + post.error); 
+            Debug.Log("Network Error\n" + post.error);
         }
         else
         {
