@@ -10,13 +10,13 @@ enum ClientState
     CREATED = 0, // server does this by default
     GAME_STARTED = 1, 
     GAME_ENDED = 2,
-    FINISHED = 2,
+    FINISHED = 3,
 }
 
 public class ClientServer
 {
     private string Root = "http://127.0.0.1:8000/";
-    private string Output = "/output";
+    private string Output = "output";
     private string Update = "updatestate";
     
     private string OutputPath()
@@ -40,10 +40,10 @@ public class ClientServer
         return string.Join("&", list);
     }
 
-    public IEnumerator Post(string filename, string data)
+    private IEnumerator Post(string filename, string data, ClientState state)
     {
         var dict = new Dictionary<string, object>();
-        dict.Add("state", (int)ClientState.FINISHED);
+        dict.Add("state", (int)state);
         dict.Add("filename", filename);
         var query = QueryString(dict);
 
@@ -62,6 +62,16 @@ public class ClientServer
         {
             Debug.Log("Post Success!");
         }
+    }
+
+    public IEnumerator PostGameEnd(string filename, string data)
+    {
+        return Post(filename,data, ClientState.GAME_ENDED);
+    }
+
+    public IEnumerator PostFinished(string filename, string data)
+    {
+        return Post(filename,data, ClientState.FINISHED);
     }
 
     public IEnumerator UpdateServerState(IDictionary<string, object> dict)
@@ -87,11 +97,5 @@ public class ClientServer
         return UpdateServerState(dict);
     }
 
-    public IEnumerator UpdateServerGameEnded()
-    {
-        var dict = new Dictionary<string, object>();
-        dict.Add("state", (int)ClientState.GAME_ENDED);
-        return UpdateServerState(dict);
-    }
 }
 

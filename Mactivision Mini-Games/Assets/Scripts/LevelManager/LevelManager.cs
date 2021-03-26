@@ -70,7 +70,6 @@ public abstract class LevelManager : MonoBehaviour
     public void EndLevel(float delay)
     {
         lvlState = 3;
-        StartCoroutine(Client.UpdateServerGameEnded());
         StartCoroutine(WaitBeforeShowingOutro(delay)); // delays the end graphic to allow for animations, etc.
     }
 
@@ -138,6 +137,6 @@ public abstract class LevelManager : MonoBehaviour
 
     public IEnumerator Post(string fn, string data)
     {
-        return Client.Post(fn, data);
+        return Client.PostGameEnd(fn, data);
     }
 }
