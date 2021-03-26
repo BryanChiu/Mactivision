@@ -79,17 +79,17 @@ class RequestHandler(SimpleHTTPRequestHandler):
                 self.send_error(400, 'Invalid token')
                 return
             
-            if 'state' not in params:
+            if 'state' not in query:
                 self.send_error(400, 'Missing path parameter \"state\"')
                 return
             
-            state = int(params['state'])
+            state = int(query['state'])
 
             if state == GAME_STARTED:
-                if 'maxgameseconds' not in params:
+                if 'maxgameseconds' not in query:
                     self.send_error(400, 'Missing path parameter \"maxgameseconds\"')
                     return
-                maxgameseconds = params['maxgameseconds'] * 2
+                maxgameseconds = query['maxgameseconds'] * 2
                 Memory[token].set_state(state, current_time + timedelta(seconds=maxgameseconds))
             elif state == FINISHED:
                 Memory[token].set_state(state, current_time)
@@ -112,10 +112,10 @@ class RequestHandler(SimpleHTTPRequestHandler):
         action, query = self.split_url(self.path)
 
         if action == '/output':
-            if 'token' not in params:
+            if 'token' not in query:
                 self.send_error(400, 'Missing path parameter \"token\"')
                 return
-            token = params['token']
+            token = query['token']
 
             ctype, pdict = cgi.parse_header(self.headers.get('content-type'))
 
@@ -123,13 +123,13 @@ class RequestHandler(SimpleHTTPRequestHandler):
                 self.send_error(400, 'Content-Type must be application/json')
                 return
 
-            if 'filename' not in params:
+            if 'filename' not in query:
                 self.send_error(400, 'Missing path parameter \"filename\"')
                 return
 
             length = int(self.headers.get('content-length'))
             message = self.rfile.read(length)
-            fileName = params['filename']
+            fileName = query['filename']
 
             if token not in Memory:
                 self.send_error(400, 'Invalid token')

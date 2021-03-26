@@ -180,7 +180,7 @@ public abstract class LevelManager : MonoBehaviour
         }
     }
 
-    IEnumerator ServerStateCreted(int expected_game_length)
+    IEnumerator ServerStateCreated(int expected_game_length)
     {
         var dict = new Dictionary<string, object>();
         dict.Add("token", Battery.Instance.GetToken());
