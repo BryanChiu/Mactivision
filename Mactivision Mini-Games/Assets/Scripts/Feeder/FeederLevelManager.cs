@@ -159,7 +159,7 @@ public class FeederLevelManager : LevelManager
         sound.clip = bite_sound;
     }
 
-    // End game, finish recording metrics
+    // End game, stop animations, sounds, physics. Finish recording metrics
     void EndGame()
     {
         mcMetric.finishRecording();
