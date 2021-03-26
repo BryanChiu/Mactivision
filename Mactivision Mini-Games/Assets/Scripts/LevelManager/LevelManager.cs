@@ -1,4 +1,5 @@
-﻿using System.Text;
+using System;
+using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,6 +31,10 @@ public abstract class LevelManager : MonoBehaviour
 
     public string outputPath;               // output path of metric json data
 
+    public ClientServer Client;
+
+    public float maxGameTime;               // maximum length of the game
+
     // Must be added to Start() method of inherited classes.
     // Blurs the scene and displays the intro graphic/text.
     public void Setup()
@@ -42,6 +47,9 @@ public abstract class LevelManager : MonoBehaviour
         ChangeBlur(2f);
         lvlState = 0;
         outputPath = "Logs/";
+        Client = new ClientServer();
+
+        // TODO: Call standby here
     }
 
     // Call this to begin countdown and actual level.
@@ -54,6 +62,7 @@ public abstract class LevelManager : MonoBehaviour
         ResizeTextBG(GetRect(countdownText));
         sound.PlayDelayed(0.0f);
         StartCoroutine(CountDown());
+        StartCoroutine(Client.UpdateServerGameStarted(maxGameTime));
     }
 
     // Call this to end level
@@ -125,23 +134,9 @@ public abstract class LevelManager : MonoBehaviour
         textBG_RArm.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, 0f, h*0.55f);
     }
 
-    public IEnumerator Post(string filename, string data)
+    public IEnumerator Post(string fn, string data)
     {
-        var post = new UnityWebRequest ("http://127.0.0.1:8000/post?filename=" + filename, "POST");
-        byte[] bytes = Encoding.UTF8.GetBytes(data);
-        post.uploadHandler = new UploadHandlerRaw(bytes);
-        post.downloadHandler = new DownloadHandlerBuffer();
-        post.SetRequestHeader("Content-Type", "application/json");
-        yield return post.SendWebRequest();
-
-        if (post.result != UnityWebRequest.Result.Success)
-        {
-            Debug.Log("Network Error\n" + post.error);
-        }
-        else
-        {
-            Debug.Log("Post Success!");
-        }
+        return Client.PostGameEnd(fn, data);
     }
 
     public int Default(int val, string log)

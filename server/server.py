@@ -2,93 +2,216 @@ import os
 import argparse
 import cgi
 import json
-import urllib.parse
-import re
 import sys
-from http.server import HTTPServer, BaseHTTPRequestHandler
-from os import walk
-from datetime import datetime
-from os import mkdir
+import signal
+import threading
+from urllib import parse
+from http.server import HTTPServer, BaseHTTPRequestHandler, SimpleHTTPRequestHandler
+from datetime import datetime, timedelta
 
-folder = "recent"
-config = ""
-path = ""
+EXPIRE_DELTA = timedelta(minutes=20)
 
-class requestHandler(BaseHTTPRequestHandler):
+# Token: SessionObj
+Memory = {}
 
-    def do_OPTIONS(self):
+# Path to 'server.py'
+Root = os.path.dirname(sys.argv[0]) or '.'
+
+CREATED = 0; GAME_STARTED = 1; GAME_ENDED = 2; FINISHED = 3
+
+def get_state_str(state):
+    if state == CREATED: return 'CREATED'
+    if state == GAME_STARTED: return 'GAME_STARTED'
+    if state == GAME_ENDED: return 'GAME_ENDED'
+    if state == FINISHED: return 'FINISHED'
+
+class SessionObj():
+    def __init__(self, token, output_path):
+        self.token = token
+        self.output_path = output_path
+        self.set_state(CREATED, datetime.now() + EXPIRE_DELTA)
+    
+    def set_state(self, state, expire_time):
+        self.state = state
+        self.expire_time = expire_time
+        log("Session with token [{}] moved to state [{}]".format(self.token, get_state_str(self.state)))
+
+class RequestHandler(SimpleHTTPRequestHandler):
+
+    def do_CORS(self):
         self.send_response(200, "ok")
         self.send_header('Access-Control-Allow-Origin', '*')
         self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
         self.send_header('Access-Control-Allow-Headers', '*')
         self.end_headers()
 
-    def do_GET(self):
-        global folder, config, path
-        self.do_OPTIONS()
+    def split_url(self, path):
+        split = parse.urlsplit(path) 
+        action = split.path
+        query = dict(parse.parse_qsl(split.query))
+        return action, query
 
-        if self.path.endswith('/new'):
-            name = datetime.now().strftime('%Y-%m-%d_%H-%M-%S') 
+    def do_GET(self):
+        global config_json_bytes, config, Memory, EXPIRE_DELTA
+
+        current_time = datetime.now()
+        
+        action, query = self.split_url(self.path)
+
+        if 'token' not in query:
+            self.send_error(400, 'Missing path parameter \"token\"')
+            return
+
+        token = query['token']
+        
+        if action == '/new':
+            if token in Memory:
+                self.send_error(400, 'Invalid token')
+                return
+
+            name = current_time.strftime('%Y-%m-%d_%H-%M-%S') 
             try:
-                mkdir(path + "/output/" + name)
-                folder = name
+                output_path = Root + "/output/" + name
+                os.mkdir(output_path)
+                # folder = name
             except OSError as e:
-                folder = 'recent'
-            self.wfile.write(folder.encode())
-        elif self.path.endswith('/get'):
-            with open(config, 'rb') as f:
-                self.wfile.write(f.read())
+                # folder = 'recent'
+                self.send_error(500, 'Could not create output folder')
+                return
+            self.do_CORS()
+            self.wfile.write(config_json_bytes)
+            log('New session created with token [{}]'.format(token))
+            Memory[token] = SessionObj(token, output_path)
+
+        elif action == '/updatestate':
+            if token not in Memory:
+                self.send_error(400, 'Invalid token')
+                return
+            
+            if 'state' not in query:
+                self.send_error(400, 'Missing path parameter \"state\"')
+                return
+            
+            try:
+                state = int(query['state'])
+            except:
+                self.send_error(400, 'Invalid state [{}]'.format(query['state']))
+                return
+
+            if state == GAME_STARTED:
+                if 'maxgameseconds' not in query:
+                    self.send_error(400, 'Missing path parameter \"maxgameseconds\"')
+                    return
+                try:
+                    maxgameseconds = int(query['maxgameseconds']) * 2
+                except:
+                    self.send_error(400, 'Invalid maxgameseconds [{}]'.format(query['maxgameseconds']))
+                    return
+
+                Memory[token].set_state(state, current_time + timedelta(seconds=maxgameseconds))
+            elif state == FINISHED:
+                Memory[token].set_state(state, current_time)
+            elif state in [CREATED, GAME_ENDED]:
+                Memory[token].set_state(state, current_time + EXPIRE_DELTA)
+            else:
+                self.send_error(400, 'Invalid state')
+                return
+            
+            self.do_CORS()
+
+        elif action == '/' or action == '/Build' or action == '/TemplateData':
+            return SimpleHTTPRequestHandler.do_GET(self)
         else:
-            self.send_response(404)
-            self.end_headers()
+            self.send_error(404)
 
     def do_POST(self):
-        global folder, path
+        global Memory
 
-        param_dict = urllib.parse.parse_qs(self.path)
-        params = {}
-        for key in param_dict:
-            new_key = re.sub('^\/[A-Za-z]*\?', '', key)
-            params[new_key] = param_dict[key][0]
+        current_time = datetime.now()
 
-        parsed_path = re.sub('^\/([A-Za-z]*)(\?.*)?$', r'\1', self.path)
+        action, query = self.split_url(self.path)
 
-        if parsed_path == 'post':
+        if action == '/output':
+            if 'token' not in query:
+                self.send_error(400, 'Missing path parameter \"token\"')
+                return
+            token = query['token']
+
             ctype, pdict = cgi.parse_header(self.headers.get('content-type'))
 
             if ctype != 'application/json':
-                self.send_response(400, 'Content-Type must be application/json')
-                self.end_headers()
+                self.send_error(400, 'Content-Type must be application/json')
                 return
 
-            if 'filename' not in params:
-                self.send_response(400, 'Missing path parameter \"filename\"')
-                self.end_headers()
+            if 'filename' not in query:
+                self.send_error(400, 'Missing path parameter \"filename\"')
+                return
+
+            if 'state' not in query:
+                self.send_error(400, 'Missing path parameter \"state\"')
                 return
 
             length = int(self.headers.get('content-length'))
             message = self.rfile.read(length)
-            fileName = params['filename']
+            fileName = query['filename']
 
-            with open(path + "/output/" + folder + "/" + fileName, "wb") as f:
+            if token not in Memory:
+                self.send_error(400, 'Invalid token')
+                return
+            
+            try:
+                state = int(query['state'])
+            except:
+                self.send_error(400, 'Invalid state [{}]'.format(query['state']))
+                return
+            
+            session = Memory[token]
+            Memory[token].set_state(state, current_time + EXPIRE_DELTA)
+
+            with open(session.output_path + "/" + fileName, "wb") as f:
                 f.write(message)
+                log("Received output from session [{}], outputting to [{}]".format(token, session.output_path))
 
-            self.do_OPTIONS()
+            self.do_CORS()
         else:
-            self.send_response(404)
-            self.end_headers()
+            self.send_error(404)
 
 def start_up_check(cpath):
-    global path
+    global Root
 
-    if not os.path.exists(path + '/output'):
-        mkdir(path + "/output/")
-        print("Generating ./output folder which will contain battery logs.")
+    if not os.path.exists(Root + '/output'):
+        os.mkdir(Root + "/output/")
+        log("Generating ./output folder which will contain battery logs.")
    
     if not os.path.exists(cpath):
-        print("ERROR: Config at " + cpath + " does not exist.")
+        log("ERROR: Config at " + cpath + " does not exist.")
         return False
 
+    return True
+
+def cleanup_loop(delta):
+    log("Cleaning up sessions")
+    
+    current_time = datetime.now()
+
+    marked_for_del = []
+    for key, value in Memory.items():
+        if value.state == FINISHED or value.expire_time <= current_time:
+            marked_for_del.append(key)
+            log("Deleting expired session with key [{}]".format(key))
+    for key in marked_for_del:
+        del Memory[key]
+
+    threading.Timer(delta, cleanup_loop, args=[delta]).start()
+
+def log(message):
+    print("[{}] {}".format(datetime.now().strftime('%Y-%m-%d_%H-%M-%S'), message))
+
+def validateJSON(jsonData):
+    try:
+        json.loads(jsonData)
+    except ValueError as err:
+        return False
     return True
 
 if __name__ == '__main__':
@@ -98,10 +221,35 @@ if __name__ == '__main__':
     args = parser.parse_args()
     config = args.file
 
-    path = os.path.dirname(sys.argv[0]) or '.'
+    if not os.path.isfile(config):
+        log("ERROR: path {} is not a file".format(config))
+        exit()
 
-    if (start_up_check(config)):
-        print("Using " + config)
-        server = HTTPServer(('localhost', 8000), requestHandler)
-        print("Server running on port 8000")
+    with open(config, 'r') as f:
+        config_json = f.read()
+        if validateJSON(config_json):
+            config_json_bytes = config_json.encode()
+        else:
+            log("ERROR: path {} is not a valid JSON file".format(config))
+            exit()
+
+    if start_up_check(config):
+        log("Using " + config)
+        server = HTTPServer(('', 8000), RequestHandler)
+        log("Server running on port 8000")
+
+        cleanup_loop(60)
+
+        #Ensures that Ctrl-C cleanly kills all spawned threads
+        server.daemon_threads = True  
+
+        # A custom signal handle to allow us to Ctrl-C out of the process
+        def signal_handler(signal, frame):
+            log("Exiting http server (Ctrl+C pressed)")
+            os._exit(0)
+
+        # Install the keyboard interrupt handler
+        signal.signal(signal.SIGINT, signal_handler)
+
+        # Now loop forever
         server.serve_forever()

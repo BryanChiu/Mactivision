@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.IO;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ public class Battery
     private ConfigHandler Config;
     private SceneController Scene;
     private FileHandler FileHandle;
+    private string Token;
 
     // Config State
     private bool IsLoaded;
@@ -22,10 +24,17 @@ public class Battery
         Reset();
     }
 
+    public string GetToken()
+    {
+        return Token;
+    }
+
     public void Reset()
     {
         Config = new ConfigHandler();
         IsLoaded = false;
+        Guid token = Guid.NewGuid();
+        Token = token.ToString();
     }
 
     public string GetGameName()

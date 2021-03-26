@@ -16,6 +16,8 @@ public class StartScreen : MonoBehaviour
     // We can only start the battery if a configuration is loaded.
     private bool ConfigIsLoaded;
 
+    public ClientServer Client;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,9 +33,7 @@ public class StartScreen : MonoBehaviour
 
         GenerateButton.onClick.AddListener(GenerateButtonClicked); 
 
-        StartCoroutine(Get("get", GetBatteryConfig));
-        
-        StartCoroutine(Get("new", CreateOutputFolder));
+        StartCoroutine(Get("new", GetBatteryConfig));
         
         // helpful for developers but not needed for users
         if (!Application.isEditor)
@@ -44,7 +44,7 @@ public class StartScreen : MonoBehaviour
 
     IEnumerator Get(string slug, Action<string> method)
     {
-        UnityWebRequest get = UnityWebRequest.Get("http://127.0.0.1:8000/" + slug);
+        UnityWebRequest get = UnityWebRequest.Get("http://127.0.0.1:8000/" + slug + "?token=" + Battery.Instance.GetToken());
         yield return get.SendWebRequest();
 
         if (get.result != UnityWebRequest.Result.Success)
@@ -89,11 +89,6 @@ public class StartScreen : MonoBehaviour
         Debug.Log("Battery Config Loaded Successfully");
         ConfigIsLoaded = true;
         StartButton.interactable = true;
-    }
-
-    void CreateOutputFolder(string text)
-    {
-        Debug.Log("Folder = " + text); 
     }
     
     // Generate a configuration template if button is clicked.

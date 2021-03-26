@@ -22,7 +22,6 @@ public class RockstarLevelManager : LevelManager
     string seed;                    // optional manually entered seed
     System.Random randomSeed;       // seed of the current game
 
-    float maxGameTime;              // maximum length of the game
     float gameStartTime;
 
     float rockstarChangeFreq;       // how often the rockstar's destination changes
