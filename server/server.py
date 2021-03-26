@@ -94,8 +94,7 @@ class RequestHandler(SimpleHTTPRequestHandler):
             
             try:
                 state = int(query['state'])
-            except ValueError as e:
-                log("ERROR: {}".format(e))
+            except:
                 self.send_error(400, 'Invalid state [{}]'.format(query['state']))
                 return
 
@@ -128,6 +127,8 @@ class RequestHandler(SimpleHTTPRequestHandler):
     def do_POST(self):
         global Memory
 
+        current_time = datetime.now()
+
         action, query = self.split_url(self.path)
 
         if action == '/output':
@@ -146,6 +147,10 @@ class RequestHandler(SimpleHTTPRequestHandler):
                 self.send_error(400, 'Missing path parameter \"filename\"')
                 return
 
+            if 'state' not in query:
+                self.send_error(400, 'Missing path parameter \"state\"')
+                return
+
             length = int(self.headers.get('content-length'))
             message = self.rfile.read(length)
             fileName = query['filename']
@@ -154,7 +159,14 @@ class RequestHandler(SimpleHTTPRequestHandler):
                 self.send_error(400, 'Invalid token')
                 return
             
+            try:
+                state = int(query['state'])
+            except:
+                self.send_error(400, 'Invalid state [{}]'.format(query['state']))
+                return
+            
             session = Memory[token]
+            Memory[token].set_state(state, current_time + EXPIRE_DELTA)
 
             with open(session.output_path + "/" + fileName, "wb") as f:
                 f.write(message)
