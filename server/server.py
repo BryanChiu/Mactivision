@@ -2,15 +2,11 @@ import os
 import argparse
 import cgi
 import json
-import urllib.parse
-import re
 import sys
-from http.server import HTTPServer, BaseHTTPRequestHandler, SimpleHTTPRequestHandler
-from os import walk
-from datetime import datetime
-from datetime import timedelta
-from os import mkdir
 import threading
+from urllib import parse
+from http.server import HTTPServer, BaseHTTPRequestHandler, SimpleHTTPRequestHandler
+from datetime import datetime, timedelta
 
 EXPIRE_DELTA = timedelta(minutes=20)
 
@@ -30,69 +26,66 @@ class SessionObj():
 
 class requestHandler(SimpleHTTPRequestHandler):
 
-    def do_OPTIONS(self):
+    def do_CORS(self):
         self.send_response(200, "ok")
         self.send_header('Access-Control-Allow-Origin', '*')
         self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
         self.send_header('Access-Control-Allow-Headers', '*')
         self.end_headers()
 
+    def split_url(self, path):
+        split = parse.urlsplit(path) 
+        action = split.path
+        query = dict(parse.parse_qsl(split.query))
+        return action, query
+
     def do_GET(self):
         global folder, config, path, memory, EXPIRE_DELTA
 
         current_time = datetime.now()
-
-        param_dict = urllib.parse.parse_qs(self.path)
-        params = {}
-        for key in param_dict:
-            new_key = re.sub('^\/[A-Za-z]*\?', '', key)
-            params[new_key] = param_dict[key][0]
-
-        parsed_path = re.sub('^\/([A-Za-z]*)(\?.*)?$', r'\1', self.path)
         
-        if 'token' not in params:
-            self.send_response(400, 'Missing path parameter \"token\"')
-            self.end_headers()
+        action, query = self.split_url(self.path)
+
+        if 'token' not in query:
+            self.send_error(400, 'Missing path parameter \"token\"')
             return
-        token = params['token']
+
+        token = query['token']
         
-        if parsed_path == 'new':
+        if action == '/new':
             if token in memory:
-                self.send_response(400, 'Invalid token')
-                self.end_headers()
+                self.send_error(400, 'Invalid token')
                 return
 
             name = current_time.strftime('%Y-%m-%d_%H-%M-%S') 
             try:
                 output_path = path + "/output/" + name
-                mkdir(output_path)
+                os.mkdir(output_path)
                 # folder = name
             except OSError as e:
                 # folder = 'recent'
-                self.send_error(500)
+                self.send_error(500, 'Could not create output folder')
                 return
-            self.do_OPTIONS()
+            self.do_CORS()
             with open(config, 'rb') as f:
                 self.wfile.write(f.read())
             memory[token] = SessionObj(CREATED, current_time + EXPIRE_DELTA, output_path)
-            log(current_time, 'New session created with token [{}]'.format(token))
+            log('New session created with token [{}]'.format(token))
 
-        elif parsed_path == 'updatestate':
+        elif action == '/updatestate':
             if token not in memory:
-                self.send_response(400, 'Invalid token')
-                self.end_headers()
+                self.send_error(400, 'Invalid token')
                 return
             
             if 'state' not in params:
-                self.send_response(400, 'Missing path parameter \"state\"')
-                self.end_headers()
+                self.send_error(400, 'Missing path parameter \"state\"')
                 return
+            
             state = int(params['state'])
 
             if state == GAME_STARTED:
                 if 'maxgameseconds' not in params:
-                    self.send_response(400, 'Missing path parameter \"maxgameseconds\"')
-                    self.end_headers()
+                    self.send_error(400, 'Missing path parameter \"maxgameseconds\"')
                     return
                 maxgameseconds = params['maxgameseconds'] * 2
                 memory[token].set_state(state, current_time + timedelta(seconds=maxgameseconds))
@@ -101,13 +94,12 @@ class requestHandler(SimpleHTTPRequestHandler):
             elif state in [CREATED, STANDBY, GAME_ENDED]:
                 memory[token].set_state(state, current_time + EXPIRE_DELTA)
             else:
-                self.send_response(400, 'Invalid state')
-                self.end_headers()
+                self.error(400, 'Invalid state')
                 return
             
-            self.do_OPTIONS()
+            self.do_CORS()
 
-        elif self.path == ('/') or self.path.startswith('/Build') or self.path.startswith('/TemplateData'):
+        elif action == '/' or action == '/Build' or action == '/TemplateData':
             return SimpleHTTPRequestHandler.do_GET(self)
         else:
             self.send_error(404)
@@ -115,86 +107,66 @@ class requestHandler(SimpleHTTPRequestHandler):
     def do_POST(self):
         global folder, path
 
-        param_dict = urllib.parse.parse_qs(self.path)
-        params = {}
-        for key in param_dict:
-            new_key = re.sub('^\/[A-Za-z]*\?', '', key)
-            params[new_key] = param_dict[key][0]
+        action, query = self.split_url(self.path)
 
-        parsed_path = re.sub('^\/([A-Za-z]*)(\?.*)?$', r'\1', self.path)
-
-        if parsed_path == 'output':
+        if action == '\output':
             if 'token' not in params:
-                self.send_response(400, 'Missing path parameter \"token\"')
-                self.end_headers()
+                self.send_error(400, 'Missing path parameter \"token\"')
                 return
             token = params['token']
 
             ctype, pdict = cgi.parse_header(self.headers.get('content-type'))
 
             if ctype != 'application/json':
-                self.send_response(400, 'Content-Type must be application/json')
-                self.end_headers()
+                self.send_error(400, 'Content-Type must be application/json')
                 return
 
             if 'filename' not in params:
-                self.send_response(400, 'Missing path parameter \"filename\"')
-                self.end_headers()
+                self.send_error(400, 'Missing path parameter \"filename\"')
                 return
 
             length = int(self.headers.get('content-length'))
             message = self.rfile.read(length)
             fileName = params['filename']
 
+            if token not in memory:
+                self.send_error(400, 'Invalid token')
+                return
+            
             session = memory[token]
 
             with open(session.output_path + "/" + fileName, "wb") as f:
                 f.write(message)
 
-            self.do_OPTIONS()
-
+            self.do_CORS()
         else:
-            self.send_response(404)
-            self.end_headers()
+            self.send_error(404)
 
 def start_up_check(cpath):
     global path
 
     if not os.path.exists(path + '/output'):
-        mkdir(path + "/output/")
-        log(current_time, "Generating ./output folder which will contain battery logs.")
+        os.mkdir(path + "/output/")
+        log("Generating ./output folder which will contain battery logs.")
    
     if not os.path.exists(cpath):
-        log(current_time, "ERROR: Config at " + cpath + " does not exist.")
+        log("ERROR: Config at " + cpath + " does not exist.")
         return False
 
     return True
 
 def cleanup_loop():
-    current_time = datetime.now()
-    log(current_time, "Cleaning up sessions")
-    flagged_for_delete = []
+    log("Cleaning up sessions")
+    
     for key, value in memory.items():
-        
-        # Cleanup memory
-        if value.state == FINISHED:
-            flagged_for_delete.append(key)
-            log(current_time, "Deleting finished session with key [{}]".format(key))
-
-        elif value.expire_time <= current_time:
-            flagged_for_delete.append(key)
-            log(current_time, "Deleting expired session with key [{}]".format(key))
-    for key in flagged_for_delete:
-        del memory[key]
+        if value.state == FINISHED or value.expire_time <= current_time:
+            del memory[key]
+            log("Deleting expired session with key [{}]".format(key))
 
     threading.Timer(60, cleanup_loop).start()
 
-def log(time, message):
-    print("[{}] {}".format(time.strftime('%Y-%m-%d_%H-%M-%S'), message))
-
-def run_server(server):
-    while (1):
-        server.handle_request()
+def log(message):
+    print("[{}] {}".format(datetime.now().strftime('%Y-%m-%d_%H-%M-%S'), message))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -205,13 +177,10 @@ if __name__ == '__main__':
 
     path = os.path.dirname(sys.argv[0]) or '.'
 
-    current_time = datetime.now()
-
     if (start_up_check(config)):
-        log(current_time, "Using " + config)
+        log("Using " + config)
         server = HTTPServer(('', 8000), requestHandler)
-        log(current_time, "Server running on port 8000")
+        log("Server running on port 8000")
 
         cleanup_loop()
-        run_server(server)
-
+        server.serve_forever()
