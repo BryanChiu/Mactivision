@@ -3,6 +3,7 @@ import argparse
 import cgi
 import json
 import sys
+import signal
 import threading
 from urllib import parse
 from http.server import HTTPServer, BaseHTTPRequestHandler, SimpleHTTPRequestHandler
@@ -18,14 +19,23 @@ Root = os.path.dirname(sys.argv[0]) or '.'
 
 CREATED = 0; STANDBY = 1; GAME_STARTED = 2; GAME_ENDED = 3; FINISHED = 4
 
+def get_state_str(state):
+    if state == CREATED: return 'CREATED'
+    if state == STANDBY: return 'STANDBY'
+    if state == GAME_STARTED: return 'GAME_STARTED'
+    if state == GAME_ENDED: return 'GAME_ENDED'
+    if state == FINISHED: return 'FINISHED'
+
 class SessionObj():
-    def __init__(self, state, expire_time, output_path):
+    def __init__(self, token, output_path):
+        self.token = token
         self.output_path = output_path
-        self.set_state(state, expire_time)
+        self.set_state(CREATED, datetime.now() + EXPIRE_DELTA)
     
     def set_state(self, state, expire_time):
         self.state = state
         self.expire_time = expire_time
+        log("Session with token [{}] moved to state [{}]".format(self.token, get_state_str(self.state)))
 
 class RequestHandler(SimpleHTTPRequestHandler):
 
@@ -71,8 +81,8 @@ class RequestHandler(SimpleHTTPRequestHandler):
                 return
             self.do_CORS()
             self.wfile.write(config_json_bytes)
-            Memory[token] = SessionObj(CREATED, current_time + EXPIRE_DELTA, output_path)
             log('New session created with token [{}]'.format(token))
+            Memory[token] = SessionObj(token, output_path)
 
         elif action == '/updatestate':
             if token not in Memory:
@@ -83,20 +93,30 @@ class RequestHandler(SimpleHTTPRequestHandler):
                 self.send_error(400, 'Missing path parameter \"state\"')
                 return
             
-            state = int(query['state'])
+            try:
+                state = int(query['state'])
+            except ValueError as e:
+                log("ERROR: {}".format(e))
+                self.send_error(400, 'Invalid state [{}]'.format(query['state']))
+                return
 
             if state == GAME_STARTED:
                 if 'maxgameseconds' not in query:
                     self.send_error(400, 'Missing path parameter \"maxgameseconds\"')
                     return
-                maxgameseconds = query['maxgameseconds'] * 2
+                try:
+                    maxgameseconds = int(query['maxgameseconds']) * 2
+                except:
+                    self.send_error(400, 'Invalid maxgameseconds [{}]'.format(query['maxgameseconds']))
+                    return
+
                 Memory[token].set_state(state, current_time + timedelta(seconds=maxgameseconds))
             elif state == FINISHED:
                 Memory[token].set_state(state, current_time)
             elif state in [CREATED, STANDBY, GAME_ENDED]:
                 Memory[token].set_state(state, current_time + EXPIRE_DELTA)
             else:
-                self.error(400, 'Invalid state')
+                self.send_error(400, 'Invalid state')
                 return
             
             self.do_CORS()
@@ -139,6 +159,7 @@ class RequestHandler(SimpleHTTPRequestHandler):
 
             with open(session.output_path + "/" + fileName, "wb") as f:
                 f.write(message)
+                log("Received output from session [{}], outputting to [{}]".format(token, output_path))
 
             self.do_CORS()
         else:
@@ -206,5 +227,29 @@ if __name__ == '__main__':
         server = HTTPServer(('', 8000), RequestHandler)
         log("Server running on port 8000")
 
-        cleanup_loop(10)
-        server.serve_forever()
+        cleanup_loop(60)
+
+        #Ensures that Ctrl-C cleanly kills all spawned threads
+        server.daemon_threads = True  
+
+        # A custom signal handle to allow us to Ctrl-C out of the process
+        def signal_handler(signal, frame):
+            log("Exiting http server (Ctrl+C pressed)")
+            try:
+                if server: 
+                    server.server_close()
+            finally:
+                exit(0)
+
+        # Install the keyboard interrupt handler
+        signal.signal(signal.SIGINT, signal_handler)
+
+        # Now loop forever
+        try:
+            while True:
+                sys.stdout.flush()
+                server.serve_forever()
+        except KeyboardInterrupt:
+            pass
+
+        server.server_close()
