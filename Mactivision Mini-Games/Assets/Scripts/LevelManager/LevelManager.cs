@@ -40,7 +40,6 @@ public abstract class LevelManager : MonoBehaviour
         outroText.enabled = false;
         ResizeTextBG(GetRect(introText));
         ChangeBlur(2f);
-        sound = gameObject.GetComponent<AudioSource>();
         lvlState = 0;
         outputPath = "Logs/";
     }
@@ -152,6 +151,12 @@ public abstract class LevelManager : MonoBehaviour
     }
 
     public float Default(float val, string log)
+    {
+        Debug.LogFormat("Missing or invalid value for {0}, using {1}", log, val.ToString());
+        return val;
+    }
+
+    public bool Default(bool val, string log)
     {
         Debug.LogFormat("Missing or invalid value for {0}, using {1}", log, val.ToString());
         return val;

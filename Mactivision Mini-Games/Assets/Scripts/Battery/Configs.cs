@@ -53,7 +53,10 @@ public class RockstarConfig : GameConfig
     public float MeterMinVel {get; set;}
     public float MeterMaxVel {get; set;}
     public float MeterUpVel {get; set;}
+    public float MeterGoodRange {get; set;}
     public string LeftKey {get; set;}
     public string RightKey {get; set;}
     public string UpKey {get; set;}
+    public bool EnableAnimations {get; set;}
+    public int MusicTrack {get; set;}
 }

@@ -38,9 +38,12 @@
         "MeterMinVel": 0.0,
         "MeterMaxVel": 0.0,
         "MeterUpVel": 0.0,
+        "MeterGoodRange": 0.0,
         "LeftKey": null,
         "RightKey": null,
-        "UpKey": null
+        "UpKey": null,
+        "EnableAnimations": false,
+        "MusicTrack": 0
       }
     ]
   }
