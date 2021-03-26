@@ -82,11 +82,11 @@ public class FeederLevelManager : LevelManager
 
         // use battery's config values, or default values if running game by itself
         seed = !String.IsNullOrEmpty(feederConfig.Seed) ? feederConfig.Seed : DateTime.Now.ToString(); // if no seed provided, use current DateTime
-        maxGameTime = feederConfig.MaxGameTime > 0 ? feederConfig.MaxGameTime : 90f;
-        maxFoodDispensed = feederConfig.MaxFoodDispensed > 0 ? feederConfig.MaxFoodDispensed : 20;
-        uniqueFoods = feederConfig.UniqueFoods >= 2 && feederConfig.UniqueFoods <= dispenser.allFoods.Length ? feederConfig.UniqueFoods : 6;
-        avgUpdateFreq = feederConfig.AverageUpdateFrequency > 0 ? feederConfig.AverageUpdateFrequency : 3f;
-        updateFreqVariance = feederConfig.UpdateFreqVariance > 0 ? feederConfig.UpdateFreqVariance : 0.3f;
+        maxGameTime = feederConfig.MaxGameTime > 0 ? feederConfig.MaxGameTime : Default(90f, "MaxGameTime");
+        maxFoodDispensed = feederConfig.MaxFoodDispensed > 0 ? feederConfig.MaxFoodDispensed : Default(20, "MaxFoodDispensed");
+        uniqueFoods = feederConfig.UniqueFoods >= 2 && feederConfig.UniqueFoods <= dispenser.allFoods.Length ? feederConfig.UniqueFoods : Default(6, "UniqueFoods");
+        avgUpdateFreq = feederConfig.AverageUpdateFrequency > 0 ? feederConfig.AverageUpdateFrequency : Default(3f, "AverageUpdateFrequency");
+        updateFreqVariance = feederConfig.UpdateFreqVariance >= 0 && feederConfig.UpdateFreqVariance <= 1 ? feederConfig.UpdateFreqVariance : Default(0.3f, "UpdateFreqVariance");
 
         // udpate battery config with actual/final values being used
         feederConfig.Seed = seed;
@@ -158,7 +158,7 @@ public class FeederLevelManager : LevelManager
         sound.clip = bite_sound;
     }
 
-    // End game, finish recording metrics
+    // End game, stop animations, sounds, physics. Finish recording metrics
     void EndGame()
     {
         mcMetric.finishRecording();

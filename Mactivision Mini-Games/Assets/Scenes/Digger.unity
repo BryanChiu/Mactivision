@@ -3267,7 +3267,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 2}
+    oldSize: {x: 1.28, y: 2.56}
     newSize: {x: 1, y: 2}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -5249,7 +5249,7 @@ MonoBehaviour:
   textBG_Edge: {fileID: 1538848487}
   textBG_LArm: {fileID: 480893005}
   textBG_RArm: {fileID: 1190943280}
-  sound: {fileID: 0}
+  sound: {fileID: 1958587205}
   lvlState: 0
   outputPath: 
   player: {fileID: 1265911977}

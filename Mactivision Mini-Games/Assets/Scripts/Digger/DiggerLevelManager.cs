@@ -49,14 +49,13 @@ public class DiggerLevelManager : LevelManager
         }
 
         // use battery's config values, or default values if running game by itself
-        digAmount = diggerConfig.DigAmount > 0 ? Mathf.CeilToInt(diggerConfig.DigAmount/10f)*10 : 100;
-        maxGameTime = diggerConfig.MaxGameTime > 0 ? diggerConfig.MaxGameTime : digAmount;
+        digAmount = diggerConfig.DigAmount > 0 ? Mathf.CeilToInt(diggerConfig.DigAmount/10f)*10 : Default(100, "DigAmount");
+        maxGameTime = diggerConfig.MaxGameTime > 0 ? diggerConfig.MaxGameTime : Default(100f, "MaxGameTime");;
         try { // use default dig key if we cannot parse it from the config
             digKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), diggerConfig.DigKey);
             if (!KeyCodeDict.toString.ContainsKey(digKey)) throw new Exception();
         } catch (Exception) {
-            Debug.Log("Invalid KeyCode, using default value");
-            digKey = KeyCode.B;
+            digKey = Default(KeyCode.B, "DigKey");
         }
 
         // udpate battery config with actual/final values being used

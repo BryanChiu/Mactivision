@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Spotlight : MonoBehaviour
 {
-    float velocity;                             // just x velocity because y doesn't change
-    float minPos = -5.5f;                       // the minimum value for position (left)
-    float maxPos = 5.5f;                        // the maximum value for position (right)
+    float velocity;         // just x velocity because y doesn't change
+    float minPos = -3.9f;   // the minimum value for position (left)
+    float maxPos = 3.9f;    // the maximum value for position (right)
 
     // Initializes the spotlight
     public void Init(float v)
@@ -19,7 +19,7 @@ public class Spotlight : MonoBehaviour
         if (right && gameObject.transform.position.x <= maxPos) 
             gameObject.transform.Translate(Vector3.right*velocity*Time.deltaTime);
 
-        else if (gameObject.transform.position.x >= minPos) 
+        else if (!right && gameObject.transform.position.x >= minPos) 
             gameObject.transform.Translate(Vector3.left*velocity*Time.deltaTime);
     }
 

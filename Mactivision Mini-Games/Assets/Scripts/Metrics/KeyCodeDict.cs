@@ -1,3 +1,11 @@
+/*
+FOR CONFIG FILE CONFIGURATION:
+Use the keys of the dictionary entries without the word "KeyCode".
+Examples:
+"DigKey": "B"
+"LeftKey": "LeftArrow"
+*/
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

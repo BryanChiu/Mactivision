@@ -12,7 +12,12 @@ public class RockstarLevelManager : LevelManager
 
     public Rockstar rockstar;       // responsible for moving the rockstar
     public Spotlight spotlight;     // used to move the spotlight
-    public Meter meter;             // drops and raises the meter
+    public Meter meterL;            // drops and raises the left meter
+    public Meter meterR;            // drops and raises the right meter
+    public Animator background;     // toggles the background animation on/off
+
+    public AudioSource music;       // plays music
+    public AudioClip[] tracks;      // music tracks
     
     string seed;                    // optional manually entered seed
     System.Random randomSeed;       // seed of the current game
@@ -28,10 +33,14 @@ public class RockstarLevelManager : LevelManager
     float meterMinVel;              // minimum velocity the meter drops
     float meterMaxVel;              // maximum velocity the meter drops
     float meterUpVel;               // velocity the meter is raised by player
+    float meterGoodRange;           // arbitrary "good" range for meter level
 
     KeyCode leftKey;                // key that moves the spotlight left
     KeyCode rightKey;               // key that moves the spotlight right
     KeyCode upKey;                  // key that raises the meter
+
+    bool enableAnimations;          // (en/dis)able background animations
+    int musicTrack;                 // set music track (-1 is no music, 0 is defaulted to 1, 1 is first track)
 
     PositionMetric pMetric;         // records position data during the game
     LinearVariableMetric lvMetric;  // records linear data during the game
@@ -72,13 +81,15 @@ public class RockstarLevelManager : LevelManager
 
         rockstar.Init(seed, rockstarChangeFreq, rockstarVelocity);
         spotlight.Init(spotlightVelocity);
-        meter.Init(seed, meterChangeFreq, meterMinVel, meterMaxVel, meterUpVel, 0f, 100f, 75f);
+        meterL.Init(seed, meterChangeFreq, meterMinVel, meterMaxVel, meterUpVel, 0f, 100f, meterGoodRange, 50f);
+        meterR.Init(seed, meterChangeFreq, meterMinVel, meterMaxVel, meterUpVel, 0f, 100f, meterGoodRange, 50f);
         rockstar.enabled = false;
         spotlight.enabled = false;
-        meter.enabled = false;
+        meterL.enabled = false;
+        meterR.enabled = false;
 
         currMeterVel = 0f;
-        lastMeterLvl = 75f;
+        lastMeterLvl = 50f;
         currRockstarVel = 0f;
     }
 
@@ -97,38 +108,39 @@ public class RockstarLevelManager : LevelManager
 
         // use battery's config values, or default values if running game by itself
         seed = !String.IsNullOrEmpty(rockstarConfig.Seed) ? rockstarConfig.Seed : DateTime.Now.ToString(); // if no seed provided, use current DateTime
-        maxGameTime = rockstarConfig.MaxGameTime > 0 ? rockstarConfig.MaxGameTime : 90f;
-        rockstarChangeFreq = rockstarConfig.RockstarChangeFreq > 0 ? rockstarConfig.RockstarChangeFreq : 1f;
-        rockstarVelocity = rockstarConfig.RockstarVelocity > 0 ? rockstarConfig.RockstarVelocity : 2.5f;
-        spotlightVelocity = rockstarConfig.SpotlightVelocity > 0 ? rockstarConfig.SpotlightVelocity : 3f;
-        meterChangeFreq = rockstarConfig.MeterChangeFreq > 0 ? rockstarConfig.MeterChangeFreq : 2f;
-        meterMinVel = rockstarConfig.MeterMinVel > 0 ? rockstarConfig.MeterMinVel : 5f;
-        meterMaxVel = rockstarConfig.MeterMaxVel > 0 ? rockstarConfig.MeterMaxVel : 30f;
-        meterUpVel = rockstarConfig.MeterUpVel > 0 ? rockstarConfig.MeterUpVel : 60f;
+        maxGameTime = rockstarConfig.MaxGameTime > 0 ? rockstarConfig.MaxGameTime : Default(90f, "MaxGameTime");
+        rockstarChangeFreq = rockstarConfig.RockstarChangeFreq > 0 ? rockstarConfig.RockstarChangeFreq : Default(1f, "RockstarChangeFreq");
+        bool dependencyCheck = 0 < rockstarConfig.RockstarVelocity && rockstarConfig.RockstarVelocity <= rockstarConfig.SpotlightVelocity;
+        rockstarVelocity = dependencyCheck ? rockstarConfig.RockstarVelocity : Default(2.5f, "RockstarVelocity");
+        spotlightVelocity = dependencyCheck ? rockstarConfig.SpotlightVelocity : Default(3f, "SpotlightVelocity");
+        meterChangeFreq = rockstarConfig.MeterChangeFreq > 0 ? rockstarConfig.MeterChangeFreq : Default(2f, "MeterChangeFreq");
+        dependencyCheck = 0 < rockstarConfig.MeterMinVel && rockstarConfig.MeterMinVel <= rockstarConfig.MeterMaxVel && rockstarConfig.MeterMaxVel < rockstarConfig.MeterUpVel;
+        meterMinVel = dependencyCheck ? rockstarConfig.MeterMinVel : Default(5f, "MeterMinVel");
+        meterMaxVel = dependencyCheck ? rockstarConfig.MeterMaxVel : Default(30f, "MeterMaxVel");
+        meterUpVel = dependencyCheck ? rockstarConfig.MeterUpVel : Default(60f, "MeterUpVel");
+        meterGoodRange = rockstarConfig.MeterGoodRange > 0 && rockstarConfig.MeterGoodRange < 100 ? rockstarConfig.MeterGoodRange : 60f;
         // use default key if string cannot be parsed to keycode (or is null)
+        dependencyCheck = rockstarConfig.LeftKey != rockstarConfig.RightKey && rockstarConfig.LeftKey != rockstarConfig.UpKey && rockstarConfig.RightKey != rockstarConfig.UpKey;
         try {
             leftKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), rockstarConfig.LeftKey);
-            if (!KeyCodeDict.toString.ContainsKey(leftKey)) throw new Exception();
+            if (!KeyCodeDict.toString.ContainsKey(leftKey) || !dependencyCheck) throw new Exception();
         } catch (Exception) {
-            Debug.Log("Invalid KeyCode, using default value for leftkey");
-            leftKey = KeyCode.A;
+            leftKey = Default(KeyCode.A, "LeftKey");
         }
         try {
             rightKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), rockstarConfig.RightKey);
-            if (!KeyCodeDict.toString.ContainsKey(rightKey)) throw new Exception();
+            if (!KeyCodeDict.toString.ContainsKey(rightKey) || !dependencyCheck) throw new Exception();
         } catch (Exception) {
-            Debug.Log("Invalid KeyCode, using default value for rightkey");
-            rightKey = KeyCode.D;
+            rightKey = Default(KeyCode.D, "RightKey");
         }
         try {
             upKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), rockstarConfig.UpKey);
-            if (!KeyCodeDict.toString.ContainsKey(upKey)) throw new Exception();
+            if (!KeyCodeDict.toString.ContainsKey(upKey) || !dependencyCheck) throw new Exception();
         } catch (Exception) {
-            Debug.Log("Invalid KeyCode, using default value for upkey");
-            upKey = KeyCode.L;
+            upKey = Default(KeyCode.L, "UpKey");
         }
-
-        if (leftKey==rightKey || leftKey==upKey || upKey==rightKey) Debug.Log("Warning: same key assigned to multiple actions");
+        enableAnimations = tempConfig!=null ? rockstarConfig.EnableAnimations : Default(true, "EnableAnimations");
+        musicTrack = rockstarConfig.MusicTrack == -1 || (rockstarConfig.MusicTrack > 0 && rockstarConfig.MusicTrack <= tracks.Length) ? rockstarConfig.MusicTrack : Default(1, "MusicTrack");
 
         // udpate battery config with actual/final values being used
         rockstarConfig.Seed = seed;
@@ -140,9 +152,12 @@ public class RockstarLevelManager : LevelManager
         rockstarConfig.MeterMinVel = meterMinVel;
         rockstarConfig.MeterMaxVel = meterMaxVel;
         rockstarConfig.MeterUpVel = meterUpVel;
+        rockstarConfig.MeterGoodRange = meterGoodRange;
         rockstarConfig.LeftKey = leftKey.ToString();
         rockstarConfig.RightKey = rightKey.ToString();
         rockstarConfig.UpKey = upKey.ToString();
+        rockstarConfig.EnableAnimations = enableAnimations;
+        rockstarConfig.MusicTrack = musicTrack;
     }
 
     // Handles GUI events (keyboard, mouse, etc events)
@@ -194,10 +209,16 @@ public class RockstarLevelManager : LevelManager
         gameStartTime = Time.time;
         rockstar.enabled = true;
         spotlight.enabled = true;
-        meter.enabled = true;
+        meterL.enabled = true;
+        meterR.enabled = true;
+        if (enableAnimations) background.Play("Base Layer.rockstarbg_1");
+        if (musicTrack > -1) {
+            music.clip = tracks[musicTrack-1]; 
+            music.Play();
+        }
     }
 
-    // End game, finish recording metrics
+    // End game, stop animations, sounds. Finish recording metrics
     void EndGame()
     {
         pMetric.finishRecording();
@@ -211,7 +232,10 @@ public class RockstarLevelManager : LevelManager
 
         rockstar.enabled = false;
         spotlight.enabled = false;
-        meter.enabled = false;
+        meterL.enabled = false;
+        meterR.enabled = false;
+        background.speed = 0f;
+        music.Stop();
     }
 
     // Handles player keyboard input
@@ -225,8 +249,8 @@ public class RockstarLevelManager : LevelManager
     // Raise the meter and add a linear variable event
     void MeterUp()
     {
-        meter.Raise();
-        // lvMetric.recordEvent(new LinearVariableEvent(DateTime.Now, meter.level, meterUpVel*Time.deltaTime, 1));
+        meterL.Raise();
+        meterR.Raise();
     }
 
     // Move the spotlight left
@@ -244,22 +268,18 @@ public class RockstarLevelManager : LevelManager
     // Called each frame to add metric event
     void RecordMetricEvents()
     {
-        // pMetric.recordEvent(new PositionEvent(DateTime.Now, new List<Vector2>{rockstar.GetPosition(), spotlight.GetPosition()}));
-        // lvMetric.recordEvent(new LinearVariableEvent(DateTime.Now, meter.level, meter.velocity*Time.deltaTime, 0));
-
         if (Input.GetKeyDown(leftKey) || Input.GetKeyUp(leftKey) || Input.GetKeyDown(rightKey) || Input.GetKeyUp(rightKey) || !Mathf.Approximately(currRockstarVel, rockstar.currVelocity)) {
             pMetric.recordEvent(new PositionEvent(DateTime.Now, new List<Vector2>{rockstar.GetPosition(), spotlight.GetPosition()}));
             currRockstarVel = rockstar.currVelocity;
-            Debug.LogFormat("Rockstar {0}, Spotlight {1}", rockstar.GetPosition().x, spotlight.GetPosition().x);
         }
         if (Input.GetKeyDown(upKey) || Input.GetKeyUp(upKey)) {
-            lvMetric.recordEvent(new LinearVariableEvent(DateTime.Now, meter.level, meter.level-lastMeterLvl, 1));
-            lastMeterLvl = meter.level;
+            lvMetric.recordEvent(new LinearVariableEvent(DateTime.Now, meterL.level, meterL.level-lastMeterLvl, 1));
+            lastMeterLvl = meterL.level;
         }
-        if (!Mathf.Approximately(currMeterVel, meter.velocity)) {
-            lvMetric.recordEvent(new LinearVariableEvent(DateTime.Now, meter.level, meter.level-lastMeterLvl, 0));
-            currMeterVel = meter.velocity;
-            lastMeterLvl = meter.level;
+        if (!Mathf.Approximately(currMeterVel, meterL.velocity)) {
+            lvMetric.recordEvent(new LinearVariableEvent(DateTime.Now, meterL.level, meterL.level-lastMeterLvl, 0));
+            currMeterVel = meterL.velocity;
+            lastMeterLvl = meterL.level;
         }
     }
 }

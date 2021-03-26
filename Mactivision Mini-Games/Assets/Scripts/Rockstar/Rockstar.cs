@@ -5,13 +5,15 @@ using UnityEngine;
 // This class is responsible for randomly moving the rockstar
 public class Rockstar : MonoBehaviour
 {
+    public Animator rockstar;   // rockstar gameobject, used to animate red guy
+
     System.Random randomSeed;   // seed of the current game
     float changeFreq;           // how often the destination changes
     float velocity;             // just x velocity because y doesn't change
     float destination;          // rockstar's next destination position
 
-    float minPos = -5.5f;       // the minimum value for position (left)
-    float maxPos = 5.5f;        // the maximum value for position (right)
+    float minPos = -3.9f;       // the minimum value for position (left)
+    float maxPos = 3.9f;        // the maximum value for position (right)
 
     Vector3 startingPos;
     public float currVelocity { private set; get; }
@@ -40,8 +42,12 @@ public class Rockstar : MonoBehaviour
         gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position,
                                                             new Vector3(destination, startingPos.y, startingPos.z),
                                                             velocity*Time.deltaTime);
-        currVelocity = Mathf.Approximately(gameObject.transform.position.x, destination) ? 0f : 
+        float newVelocity = Mathf.Approximately(gameObject.transform.position.x, destination) ? 0f : 
                     (gameObject.transform.position.x < destination ? velocity : -velocity);
+
+        rockstar.SetFloat("Velocity", Mathf.Abs(newVelocity));
+        if (currVelocity != newVelocity && newVelocity != 0f) transform.localScale = newVelocity>0 ? Vector3.one*1.5f : Vector3.Reflect(Vector3.one, Vector3.right)*1.5f;
+        currVelocity = newVelocity;
     }
 
     // updates the destination the rockstar moves towards. Can be forced to update
