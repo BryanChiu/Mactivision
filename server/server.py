@@ -8,10 +8,13 @@ from urllib import parse
 from http.server import HTTPServer, BaseHTTPRequestHandler, SimpleHTTPRequestHandler
 from datetime import datetime, timedelta
 
-EXPIRE_DELTA = timedelta(minutes=20)
+EXPIRE_DELTA = timedelta(seconds=10)
 
 # Token: SessionObj
-memory = {}
+Memory = {}
+
+# Path to 'server.py'
+Root = os.path.dirname(sys.argv[0]) or '.'
 
 CREATED = 0; STANDBY = 1; GAME_STARTED = 2; GAME_ENDED = 3; FINISHED = 4
 
@@ -24,7 +27,7 @@ class SessionObj():
         self.state = state
         self.expire_time = expire_time
 
-class requestHandler(SimpleHTTPRequestHandler):
+class RequestHandler(SimpleHTTPRequestHandler):
 
     def do_CORS(self):
         self.send_response(200, "ok")
@@ -40,7 +43,7 @@ class requestHandler(SimpleHTTPRequestHandler):
         return action, query
 
     def do_GET(self):
-        global folder, config, path, memory, EXPIRE_DELTA
+        global config_json_bytes, config, Memory, EXPIRE_DELTA
 
         current_time = datetime.now()
         
@@ -53,13 +56,13 @@ class requestHandler(SimpleHTTPRequestHandler):
         token = query['token']
         
         if action == '/new':
-            if token in memory:
+            if token in Memory:
                 self.send_error(400, 'Invalid token')
                 return
 
             name = current_time.strftime('%Y-%m-%d_%H-%M-%S') 
             try:
-                output_path = path + "/output/" + name
+                output_path = Root + "/output/" + name
                 os.mkdir(output_path)
                 # folder = name
             except OSError as e:
@@ -67,13 +70,12 @@ class requestHandler(SimpleHTTPRequestHandler):
                 self.send_error(500, 'Could not create output folder')
                 return
             self.do_CORS()
-            with open(config, 'rb') as f:
-                self.wfile.write(f.read())
-            memory[token] = SessionObj(CREATED, current_time + EXPIRE_DELTA, output_path)
+            self.wfile.write(config_json_bytes)
+            Memory[token] = SessionObj(CREATED, current_time + EXPIRE_DELTA, output_path)
             log('New session created with token [{}]'.format(token))
 
         elif action == '/updatestate':
-            if token not in memory:
+            if token not in Memory:
                 self.send_error(400, 'Invalid token')
                 return
             
@@ -88,11 +90,11 @@ class requestHandler(SimpleHTTPRequestHandler):
                     self.send_error(400, 'Missing path parameter \"maxgameseconds\"')
                     return
                 maxgameseconds = params['maxgameseconds'] * 2
-                memory[token].set_state(state, current_time + timedelta(seconds=maxgameseconds))
+                Memory[token].set_state(state, current_time + timedelta(seconds=maxgameseconds))
             elif state == FINISHED:
-                memory[token].set_state(state, current_time)
+                Memory[token].set_state(state, current_time)
             elif state in [CREATED, STANDBY, GAME_ENDED]:
-                memory[token].set_state(state, current_time + EXPIRE_DELTA)
+                Memory[token].set_state(state, current_time + EXPIRE_DELTA)
             else:
                 self.error(400, 'Invalid state')
                 return
@@ -105,7 +107,7 @@ class requestHandler(SimpleHTTPRequestHandler):
             self.send_error(404)
 
     def do_POST(self):
-        global folder, path
+        global Memory
 
         action, query = self.split_url(self.path)
 
@@ -129,11 +131,11 @@ class requestHandler(SimpleHTTPRequestHandler):
             message = self.rfile.read(length)
             fileName = params['filename']
 
-            if token not in memory:
+            if token not in Memory:
                 self.send_error(400, 'Invalid token')
                 return
             
-            session = memory[token]
+            session = Memory[token]
 
             with open(session.output_path + "/" + fileName, "wb") as f:
                 f.write(message)
@@ -143,10 +145,10 @@ class requestHandler(SimpleHTTPRequestHandler):
             self.send_error(404)
 
 def start_up_check(cpath):
-    global path
+    global Root
 
-    if not os.path.exists(path + '/output'):
-        os.mkdir(path + "/output/")
+    if not os.path.exists(Root + '/output'):
+        os.mkdir(Root + "/output/")
         log("Generating ./output folder which will contain battery logs.")
    
     if not os.path.exists(cpath):
@@ -155,18 +157,30 @@ def start_up_check(cpath):
 
     return True
 
-def cleanup_loop():
+def cleanup_loop(delta):
     log("Cleaning up sessions")
     
-    for key, value in memory.items():
-        if value.state == FINISHED or value.expire_time <= current_time:
-            del memory[key]
-            log("Deleting expired session with key [{}]".format(key))
+    current_time = datetime.now()
 
-    threading.Timer(60, cleanup_loop).start()
+    marked_for_del = []
+    for key, value in Memory.items():
+        if value.state == FINISHED or value.expire_time <= current_time:
+            marked_for_del.append(key)
+            log("Deleting expired session with key [{}]".format(key))
+    for key in marked_for_del:
+        del Memory[key]
+
+    threading.Timer(delta, cleanup_loop, args=[delta]).start()
 
 def log(message):
     print("[{}] {}".format(datetime.now().strftime('%Y-%m-%d_%H-%M-%S'), message))
+
+def validateJSON(jsonData):
+    try:
+        json.loads(jsonData)
+    except ValueError as err:
+        return False
+    return True
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -175,12 +189,22 @@ if __name__ == '__main__':
     args = parser.parse_args()
     config = args.file
 
-    path = os.path.dirname(sys.argv[0]) or '.'
+    if not os.path.isfile(config):
+        log("ERROR: path {} is not a file".format(config))
+        exit()
 
-    if (start_up_check(config)):
+    with open(config, 'r') as f:
+        config_json = f.read()
+        if validateJSON(config_json):
+            config_json_bytes = config_json.encode()
+        else:
+            log("ERROR: path {} is not a valid JSON file".format(config))
+            exit()
+
+    if start_up_check(config):
         log("Using " + config)
-        server = HTTPServer(('', 8000), requestHandler)
+        server = HTTPServer(('', 8000), RequestHandler)
         log("Server running on port 8000")
 
-        cleanup_loop()
+        cleanup_loop(10)
         server.serve_forever()
