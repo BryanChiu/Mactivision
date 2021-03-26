@@ -159,7 +159,7 @@ class RequestHandler(SimpleHTTPRequestHandler):
 
             with open(session.output_path + "/" + fileName, "wb") as f:
                 f.write(message)
-                log("Received output from session [{}], outputting to [{}]".format(token, output_path))
+                log("Received output from session [{}], outputting to [{}]".format(token, session.output_path))
 
             self.do_CORS()
         else:
