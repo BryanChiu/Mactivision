@@ -8,7 +8,7 @@ from urllib import parse
 from http.server import HTTPServer, BaseHTTPRequestHandler, SimpleHTTPRequestHandler
 from datetime import datetime, timedelta
 
-EXPIRE_DELTA = timedelta(seconds=10)
+EXPIRE_DELTA = timedelta(minutes=20)
 
 # Token: SessionObj
 Memory = {}
