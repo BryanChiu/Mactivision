@@ -17,11 +17,10 @@ Memory = {}
 # Path to 'server.py'
 Root = os.path.dirname(sys.argv[0]) or '.'
 
-CREATED = 0; STANDBY = 1; GAME_STARTED = 2; GAME_ENDED = 3; FINISHED = 4
+CREATED = 0; GAME_STARTED = 1; GAME_ENDED = 2; FINISHED = 3
 
 def get_state_str(state):
     if state == CREATED: return 'CREATED'
-    if state == STANDBY: return 'STANDBY'
     if state == GAME_STARTED: return 'GAME_STARTED'
     if state == GAME_ENDED: return 'GAME_ENDED'
     if state == FINISHED: return 'FINISHED'
@@ -113,7 +112,7 @@ class RequestHandler(SimpleHTTPRequestHandler):
                 Memory[token].set_state(state, current_time + timedelta(seconds=maxgameseconds))
             elif state == FINISHED:
                 Memory[token].set_state(state, current_time)
-            elif state in [CREATED, STANDBY, GAME_ENDED]:
+            elif state in [CREATED, GAME_ENDED]:
                 Memory[token].set_state(state, current_time + EXPIRE_DELTA)
             else:
                 self.send_error(400, 'Invalid state')
@@ -235,21 +234,10 @@ if __name__ == '__main__':
         # A custom signal handle to allow us to Ctrl-C out of the process
         def signal_handler(signal, frame):
             log("Exiting http server (Ctrl+C pressed)")
-            try:
-                if server: 
-                    server.server_close()
-            finally:
-                exit(0)
+            os._exit(0)
 
         # Install the keyboard interrupt handler
         signal.signal(signal.SIGINT, signal_handler)
 
         # Now loop forever
-        try:
-            while True:
-                sys.stdout.flush()
-                server.serve_forever()
-        except KeyboardInterrupt:
-            pass
-
-        server.server_close()
+        server.serve_forever()
