@@ -111,7 +111,7 @@ class RequestHandler(SimpleHTTPRequestHandler):
 
         action, query = self.split_url(self.path)
 
-        if action == '\output':
+        if action == '/output':
             if 'token' not in params:
                 self.send_error(400, 'Missing path parameter \"token\"')
                 return
