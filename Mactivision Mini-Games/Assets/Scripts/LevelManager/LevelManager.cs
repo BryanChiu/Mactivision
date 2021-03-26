@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,15 +8,6 @@ using UnityEngine.Animations;
 using UnityEngine.Networking;
 using UnityEngine.Rendering.PostProcessing;
 using TMPro;
-
-enum ServerState
-{
-    CREATED = 0,
-    STANDBY = 1, 
-    GAME_STARTED = 2, 
-    GAME_ENDED = 3,
-    FINISHED = 4,
-}
 
 // This class provides methods to inherited classes for pre and post-game features. It starts the
 // scene with a blurred game scene with an introductory text, then a countdown, and a end game text.
@@ -39,6 +31,10 @@ public abstract class LevelManager : MonoBehaviour
 
     public string outputPath;               // output path of metric json data
 
+    public ClientServer Client;
+
+    public float maxGameTime;               // maximum length of the game
+
     // Must be added to Start() method of inherited classes.
     // Blurs the scene and displays the intro graphic/text.
     public void Setup()
@@ -52,6 +48,9 @@ public abstract class LevelManager : MonoBehaviour
         sound = gameObject.GetComponent<AudioSource>();
         lvlState = 0;
         outputPath = "Logs/";
+        Client = new ClientServer();
+
+        // TODO: Call standby here
     }
 
     // Call this to begin countdown and actual level.
@@ -64,12 +63,14 @@ public abstract class LevelManager : MonoBehaviour
         ResizeTextBG(GetRect(countdownText));
         sound.PlayDelayed(0.0f);
         StartCoroutine(CountDown());
+        StartCoroutine(Client.UpdateServerGameStarted(maxGameTime));
     }
 
     // Call this to end level
     public void EndLevel(float delay)
     {
         lvlState = 3;
+        StartCoroutine(Client.UpdateServerGameEnded());
         StartCoroutine(WaitBeforeShowingOutro(delay)); // delays the end graphic to allow for animations, etc.
     }
 
@@ -135,56 +136,8 @@ public abstract class LevelManager : MonoBehaviour
         textBG_RArm.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Bottom, 0f, h*0.55f);
     }
 
-    // TODO: Refactor Server Code into Server Class or something
-    public IEnumerator Post(string filename, string data)
+    public IEnumerator Post(string fn, string data)
     {
-        var post = new UnityWebRequest ("http://127.0.0.1:8000/output?filename=" + filename + "&token=" + Battery.Instance.GetToken(), "POST");
-        byte[] bytes = Encoding.UTF8.GetBytes(data);
-        post.uploadHandler = new UploadHandlerRaw(bytes);
-        post.downloadHandler = new DownloadHandlerBuffer();
-        post.SetRequestHeader("Content-Type", "application/json");
-        yield return post.SendWebRequest();
-
-        if (post.result != UnityWebRequest.Result.Success)
-        {
-            Debug.Log("Network Error\n" + post.error);
-        }
-        else
-        {
-            Debug.Log("Post Success!");
-        }
+        return Client.Post(fn, data);
     }
-
-    public static string QueryString(IDictionary<string, object> dict)
-    {
-        var list = new List<string>();
-        foreach(var item in dict)
-        {
-            list.Add(item.Key + "=" + item.Value);
-        }
-        return string.Join("&", list);
-    }
-
-    IEnumerator UpdateServerState(IDictionary<string, object> dict)
-    {
-        UnityWebRequest get = UnityWebRequest.Get("http://127.0.0.1:8000/updatestate?" + QueryString(dict));
-        yield return get.SendWebRequest();
-
-        if (get.result != UnityWebRequest.Result.Success)
-        {
-            Debug.Log("Network Error\n" + get.error);
-        }
-        else
-        {
-            Debug.Log("Update Server Success!");
-        }
-    }
-
-    IEnumerator ServerStateCreated(int expected_game_length)
-    {
-        var dict = new Dictionary<string, object>();
-        dict.Add("token", Battery.Instance.GetToken());
-        dict.Add("maxlength", expected_game_length);
-        return UpdateServerState(dict);
-    }    
 }

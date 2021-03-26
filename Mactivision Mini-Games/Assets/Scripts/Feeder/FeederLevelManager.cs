@@ -25,7 +25,6 @@ public class FeederLevelManager : LevelManager
     float avgUpdateFreq;                    // average number of foods dispensed between each food update
     float updateFreqVariance;               // variance of `avgUpdateFreq`
 
-    float maxGameTime;                      // maximum length of the game
     float gameStartTime;
 
     int maxFoodDispensed;                   // maximum foods dispensed before game ends

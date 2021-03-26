@@ -16,6 +16,8 @@ public class StartScreen : MonoBehaviour
     // We can only start the battery if a configuration is loaded.
     private bool ConfigIsLoaded;
 
+    public ClientServer Client;
+
     // Start is called before the first frame update
     void Start()
     {
