@@ -9,8 +9,6 @@ public class DiggerLevelManager : LevelManager
     public PlayerController player; // the player object in Unity
     public ChestAnimator chest;     // the chest object in Unity
 
-    float gameStartTime;
-    
     int digAmount;                  // total amount of presses required; must be > 0, rounds up to nearest 10
     KeyCode digKey;                 // keyboard key used to dig
 

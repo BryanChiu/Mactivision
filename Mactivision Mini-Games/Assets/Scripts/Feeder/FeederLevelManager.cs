@@ -18,14 +18,9 @@ public class FeederLevelManager : LevelManager
     public AudioClip plate_down;            // brrrrrr
     public AudioClip bite_sound;            // nom nom nom
     
-    string seed;                            // optional manually entered seed
-    System.Random randomSeed;               // seed of the current game
-
     int uniqueFoods;                         // number of foods to be used in the current game
     float avgUpdateFreq;                    // average number of foods dispensed between each food update
     float updateFreqVariance;               // variance of `avgUpdateFreq`
-
-    float gameStartTime;
 
     int maxFoodDispensed;                   // maximum foods dispensed before game ends
     int foodDispensed;

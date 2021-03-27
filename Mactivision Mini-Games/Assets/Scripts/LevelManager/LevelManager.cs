@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Text;
 using System.Collections;
 using System.Collections.Generic;
@@ -34,6 +34,10 @@ public abstract class LevelManager : MonoBehaviour
     public ClientServer Client;
 
     public float maxGameTime;               // maximum length of the game
+    public float gameStartTime;             // game start time
+
+    public string seed;                     // optional manually entered seed
+    public System.Random randomSeed;        // seed of the current game
 
     // Must be added to Start() method of inherited classes.
     // Blurs the scene and displays the intro graphic/text.

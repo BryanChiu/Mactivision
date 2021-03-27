@@ -18,11 +18,6 @@ public class RockstarLevelManager : LevelManager
 
     public AudioSource music;       // plays music
     public AudioClip[] tracks;      // music tracks
-    
-    string seed;                    // optional manually entered seed
-    System.Random randomSeed;       // seed of the current game
-
-    float gameStartTime;
 
     float rockstarChangeFreq;       // how often the rockstar's destination changes
     float rockstarVelocity;         // speed the rockstar moves
