@@ -14,13 +14,12 @@ using TMPro;
 public abstract class LevelManager : MonoBehaviour
 {
     public PostProcessVolume postprocess;   // graphical effects, used for blurring the scene
-    public GameObject introText;            // text object displayed before actual game begins
-    public GameObject outroText;            // text object displayed after game ends
-    public GameObject countdownText;        // text object displaying countdown to begin actual game
-    public string countDoneText = "Start!"; // text instead of "0" after "3, 2, 1"
     public GameObject instructionParent;    // parent group for instructions
     public GameObject[] instructions;       // game instructions displayed before game starts
     public int instructionCount;            // keeps track of which instruction we're on
+    public GameObject countdownText;        // text object displaying countdown to begin actual game
+    public string countDoneText = "Start!"; // text instead of "0" after "3, 2, 1"
+    public GameObject outroText;            // text object displayed after game ends
 
     public GameObject textBG;               // parent group for graphics displayed behind text
     public RectTransform textBG_Main;
