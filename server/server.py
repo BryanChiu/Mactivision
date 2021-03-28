@@ -62,40 +62,38 @@ class RequestHandler(SimpleHTTPRequestHandler):
             self.send_error(400, 'Missing path parameter \"token\"')
             return
 
+        if 'state' not in query:
+            self.send_error(400, 'Missing path parameter \"state\"')
+            return
+        
+        try:
+            state = int(query['state'])
+        except:
+            self.send_error(400, 'Invalid state [{}]'.format(query['state']))
+            return
+
         token = query['token']
         
-        if action == '/new':
-            if token in Memory:
-                self.send_error(400, 'Invalid token')
-                return
-
-            name = current_time.strftime('%Y-%m-%d_%H-%M-%S') 
-            try:
-                output_path = Root + "/output/" + name
-                os.mkdir(output_path)
-                # folder = name
-            except OSError as e:
-                # folder = 'recent'
-                self.send_error(500, 'Could not create output folder')
-                return
-            self.do_CORS()
-            self.wfile.write(config_json_bytes)
-            log('New session created with token [{}]'.format(token))
-            Memory[token] = SessionObj(token, output_path)
-
-        elif action == '/updatestate':
+        if action == '/update':
+            if state == CREATED:
+                name = current_time.strftime('%Y-%m-%d_%H-%M-%S') 
+                try:
+                    output_path = Root + "/output/" + name
+                    os.mkdir(output_path)
+                    # folder = name
+                except OSError as e:
+                    # folder = 'recent'
+                    self.send_error(500, 'Could not create output folder')
+                    return
+                self.do_CORS()
+                self.wfile.write(config_json_bytes)
+                log('New session created with token [{}]'.format(token))
+                Memory[token] = SessionObj(token, output_path)
+                Memory[token].set_state(state, current_time + EXPIRE_DELTA)
+                return 
+            
             if token not in Memory:
                 self.send_error(400, 'Invalid token')
-                return
-            
-            if 'state' not in query:
-                self.send_error(400, 'Missing path parameter \"state\"')
-                return
-            
-            try:
-                state = int(query['state'])
-            except:
-                self.send_error(400, 'Invalid state [{}]'.format(query['state']))
                 return
 
             if state == GAME_STARTED:
@@ -111,7 +109,7 @@ class RequestHandler(SimpleHTTPRequestHandler):
                 Memory[token].set_state(state, current_time + timedelta(seconds=maxgameseconds))
             elif state == FINISHED:
                 Memory[token].set_state(state, current_time)
-            elif state in [CREATED, GAME_ENDED]:
+            elif state == GAME_ENDED:
                 Memory[token].set_state(state, current_time + EXPIRE_DELTA)
             else:
                 self.send_error(400, 'Invalid state')

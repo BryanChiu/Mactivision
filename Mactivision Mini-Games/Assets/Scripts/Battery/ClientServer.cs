@@ -7,7 +7,7 @@ using UnityEngine.Networking;
 
 enum ClientState
 {
-    CREATED = 0, // server does this by default
+    CREATED = 0,
     GAME_STARTED = 1, 
     GAME_ENDED = 2,
     FINISHED = 3,
@@ -17,7 +17,7 @@ public class ClientServer
 {
     private string Root = "http://127.0.0.1:8000/";
     private string Output = "output";
-    private string Update = "updatestate";
+    private string Update = "update";
     
     private string OutputPath()
     {
@@ -29,9 +29,20 @@ public class ClientServer
         return Root + Update;
     }
 
+    public UnityWebRequest UpdateServerCreateRequest()
+    {
+        // return a request instead of doing the whole thing so that
+        // we can send error messages to the start screen console.
+        var dict = new Dictionary<string, object>();
+        dict.Add("state", (int)ClientState.CREATED);
+        var query = QueryString(dict);
+        return UnityWebRequest.Get(UpdatePath() + "?" + query);
+    }
+
     private static string QueryString(IDictionary<string, object> dict)
     {
-        dict.Add("token", Battery.Instance.GetToken()); // always send a token
+        // always send a token
+        dict.Add("token", Battery.Instance.GetToken());
         var list = new List<string>();
         foreach(var item in dict)
         {
@@ -47,7 +58,7 @@ public class ClientServer
         dict.Add("filename", filename);
         var query = QueryString(dict);
 
-        var post = new UnityWebRequest (OutputPath() + "?" + query, "POST");
+        var post = new UnityWebRequest(OutputPath() + "?" + query, "POST");
         byte[] bytes = Encoding.UTF8.GetBytes(data);
         post.uploadHandler = new UploadHandlerRaw(bytes);
         post.downloadHandler = new DownloadHandlerBuffer();
@@ -76,7 +87,8 @@ public class ClientServer
 
     public IEnumerator UpdateServerState(IDictionary<string, object> dict)
     {
-        UnityWebRequest get = UnityWebRequest.Get("http://127.0.0.1:8000/updatestate?" + QueryString(dict));
+        var query = QueryString(dict);
+        UnityWebRequest get = UnityWebRequest.Get(UpdatePath() + "?" + query);
         yield return get.SendWebRequest();
 
         if (get.result != UnityWebRequest.Result.Success)
@@ -93,7 +105,8 @@ public class ClientServer
     {
         var dict = new Dictionary<string, object>();
         dict.Add("state", (int)ClientState.GAME_STARTED);
-        dict.Add("maxgameseconds", (int)Math.Round(expected_game_length)); // better to send an int over urls then a large float
+        // better to send an int over urls then a large float
+        dict.Add("maxgameseconds", (int)Math.Round(expected_game_length)); 
         return UpdateServerState(dict);
     }
 

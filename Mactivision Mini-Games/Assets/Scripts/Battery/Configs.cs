@@ -6,7 +6,6 @@ using Newtonsoft.Json.Converters;
 
 public class BatteryConfig
 {
-    public string PlayerName {get; set;}
     public string StartTime {get; set;}
     public string EndTime {get; set;}
 
