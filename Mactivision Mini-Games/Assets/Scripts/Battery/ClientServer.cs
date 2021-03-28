@@ -15,20 +15,8 @@ enum ClientState
 
 public class ClientServer
 {
-    private string Root = "http://127.0.0.1:8000/";
-    private string Output = "output";
-    private string Update = "update";
+    private string URL = "http://127.0.0.1:8000/connect";
     
-    private string OutputPath()
-    {
-        return Root + Output;
-    }
-
-    private string UpdatePath()
-    {
-        return Root + Update;
-    }
-
     public UnityWebRequest UpdateServerCreateRequest()
     {
         // return a request instead of doing the whole thing so that
@@ -36,7 +24,7 @@ public class ClientServer
         var dict = new Dictionary<string, object>();
         dict.Add("state", (int)ClientState.CREATED);
         var query = QueryString(dict);
-        return UnityWebRequest.Get(UpdatePath() + "?" + query);
+        return UnityWebRequest.Get(URL + "?" + query);
     }
 
     private static string QueryString(IDictionary<string, object> dict)
@@ -58,7 +46,7 @@ public class ClientServer
         dict.Add("filename", filename);
         var query = QueryString(dict);
 
-        var post = new UnityWebRequest(OutputPath() + "?" + query, "POST");
+        var post = new UnityWebRequest(URL + "?" + query, "POST");
         byte[] bytes = Encoding.UTF8.GetBytes(data);
         post.uploadHandler = new UploadHandlerRaw(bytes);
         post.downloadHandler = new DownloadHandlerBuffer();
@@ -88,7 +76,7 @@ public class ClientServer
     public IEnumerator UpdateServerState(IDictionary<string, object> dict)
     {
         var query = QueryString(dict);
-        UnityWebRequest get = UnityWebRequest.Get(UpdatePath() + "?" + query);
+        UnityWebRequest get = UnityWebRequest.Get(URL + "?" + query);
         yield return get.SendWebRequest();
 
         if (get.result != UnityWebRequest.Result.Success)
