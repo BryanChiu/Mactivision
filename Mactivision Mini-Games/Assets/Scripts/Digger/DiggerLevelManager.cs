@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using TMPro;
 
 // This class manages the majority of the game functionality
 public class DiggerLevelManager : LevelManager
 {
+    public TMP_Text digkeyText;     // text that contain instructions for digKey bind 
+
     public PlayerController player; // the player object in Unity
     public ChestAnimator chest;     // the chest object in Unity
 
@@ -24,8 +27,8 @@ public class DiggerLevelManager : LevelManager
         InitConfigurable(); // initialize configurable values
 
         // set the digKey for the intro instructions
-        int tempIdx = introText.text.IndexOf("KEY");
-        introText.text = introText.text.Substring(0, tempIdx) + KeyCodeDict.toString[digKey] + introText.text.Substring(tempIdx+3);
+        int tempIdx = digkeyText.text.IndexOf("KEY");
+        digkeyText.text = digkeyText.text.Substring(0, tempIdx) + KeyCodeDict.toString[digKey] + digkeyText.text.Substring(tempIdx+3);
 
         countDoneText = "Dig!";
         keysDown = new List<KeyCode>();
@@ -101,7 +104,7 @@ public class DiggerLevelManager : LevelManager
     {
         Event e = Event.current;
         // start level when user presses `digKey`
-        if (lvlState==0 && e.keyCode==digKey) StartLevel();
+        if (lvlState==0 && e.keyCode==digKey) ShowInstruction(++instructionCount);
 
         // record every key press and key release, regardless if it's `digKey`
         if (lvlState==2 && e.keyCode!=KeyCode.None) KeyEvent(e);

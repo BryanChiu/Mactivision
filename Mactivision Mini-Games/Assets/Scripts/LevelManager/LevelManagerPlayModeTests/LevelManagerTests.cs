@@ -19,9 +19,9 @@ public class LevelManagerTests
         testObj = new GameObject();
         testObj_lm = testObj.AddComponent<LevelManagerInheritor>() as LevelManagerInheritor;
         testObj_lm.postprocess = new GameObject().AddComponent<PostProcessVolume>();
-        testObj_lm.introText = new GameObject().AddComponent<TextMeshPro>();
-        testObj_lm.outroText = new GameObject().AddComponent<TextMeshPro>();
-        testObj_lm.countdownText = new GameObject().AddComponent<TextMeshPro>();
+        testObj_lm.introText = new GameObject();
+        testObj_lm.outroText = new GameObject();
+        testObj_lm.countdownText = new GameObject();
         testObj_lm.textBG = new GameObject();
         testObj_lm.textBG.AddComponent<RectTransform>();
         testObj_lm.textBG_Main = new GameObject().AddComponent<RectTransform>();
@@ -73,11 +73,11 @@ public class LevelManagerTests
     {
         testObj_lm.StartLevel();
         Assert.AreEqual(1, testObj_lm.lvlState);
-        Assert.IsTrue(testObj_lm.countdownText.enabled);
+        Assert.IsTrue(testObj_lm.countdownText.activeInHierarchy);
 
         yield return new WaitForSeconds(4.1f);
         Assert.AreEqual(2, testObj_lm.lvlState);
-        Assert.IsFalse(testObj_lm.countdownText.enabled);
+        Assert.IsFalse(testObj_lm.countdownText.activeInHierarchy);
 
     }
 
@@ -88,7 +88,7 @@ public class LevelManagerTests
         testObj_lm.EndLevel(0f);
         yield return null;
         Assert.AreEqual(4, testObj_lm.lvlState);
-        Assert.IsTrue(testObj_lm.outroText.enabled);
+        Assert.IsTrue(testObj_lm.outroText.activeInHierarchy);
     }
 
     // EndLevel should change the lvlState to 3 and a second later to 4 if passed 1
@@ -100,7 +100,7 @@ public class LevelManagerTests
 
         yield return new WaitForSeconds(1f);
         Assert.AreEqual(4, testObj_lm.lvlState);
-        Assert.IsTrue(testObj_lm.outroText.enabled);
+        Assert.IsTrue(testObj_lm.outroText.activeInHierarchy);
     }
 
     // EndLevel should change the lvlState to 4 instantly if passed a negative number
@@ -110,6 +110,6 @@ public class LevelManagerTests
         testObj_lm.EndLevel(-1f);
         yield return null;
         Assert.AreEqual(4, testObj_lm.lvlState);
-        Assert.IsTrue(testObj_lm.outroText.enabled);
+        Assert.IsTrue(testObj_lm.outroText.activeInHierarchy);
     }
 }
