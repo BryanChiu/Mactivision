@@ -15,7 +15,6 @@ public class RockstarLevelManager : LevelManager
     public Meter meterL;            // drops and raises the left meter
     public Meter meterR;            // drops and raises the right meter
     public Animator background;     // toggles the background animation on/off
-
     public AudioSource music;       // plays music
     public AudioClip[] tracks;      // music tracks
 

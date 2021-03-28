@@ -24,10 +24,10 @@ public class FeederLevelManager : LevelManager
     KeyCode feedKey = KeyCode.RightArrow;   // press to feed monster
     KeyCode trashKey = KeyCode.LeftArrow;   // press to throw away
 
-    float tiltPlateTo;                      // angle to tilt the plate (food will slide into trash or monster's mouth)
-
     MemoryChoiceMetric mcMetric;            // records choice data during the game
     MetricJSONWriter metricWriter;          // outputs recording metric (mcMetric) as a json file
+
+    float tiltPlateTo;                      // angle to tilt the plate (food will slide into trash or monster's mouth)
 
     // Represents the state of the game cycle
     enum GameState {

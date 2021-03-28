@@ -19,9 +19,9 @@ public class LevelManagerTests
         testObj = new GameObject();
         testObj_lm = testObj.AddComponent<LevelManagerInheritor>() as LevelManagerInheritor;
         testObj_lm.postprocess = new GameObject().AddComponent<PostProcessVolume>();
-        testObj_lm.introText = new GameObject();
-        testObj_lm.outroText = new GameObject();
+        testObj_lm.instructionParent = new GameObject();
         testObj_lm.countdownText = new GameObject();
+        testObj_lm.outroText = new GameObject();
         testObj_lm.textBG = new GameObject();
         testObj_lm.textBG.AddComponent<RectTransform>();
         testObj_lm.textBG_Main = new GameObject().AddComponent<RectTransform>();
@@ -46,7 +46,7 @@ public class LevelManagerTests
     [Test]
     public void LevelManagerResizeTextBG()
     {
-        Rect rect = testObj_lm.GetRect(testObj_lm.introText);
+        Rect rect = testObj_lm.GetRect(testObj_lm.instructionParent);
         testObj_lm.ResizeTextBG(rect);
         Rect bgRect = testObj_lm.textBG.GetComponent<RectTransform>().rect;
 

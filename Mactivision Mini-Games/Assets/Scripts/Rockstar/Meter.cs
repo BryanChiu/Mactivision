@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class Meter : MonoBehaviour
 {
-    public GameObject firework;
     public GameObject meterGR;     // the "good range"
     public Transform meterTop;
     public Transform meterBottom;
     public float meterLevel;
+    public GameObject firework;
+    public AudioSource firework_sound;
 
     System.Random randomSeed;   // seed of the current game
     float changeFreq;           // how often the velocity changes
@@ -81,10 +82,11 @@ public class Meter : MonoBehaviour
     public void Raise()
     {
         level = Mathf.MoveTowards(level, maxLvl, upVel*Time.deltaTime);
-        if (Random.value<0.03f) {
+        if (Random.value<0.02f) {
             GameObject fw = Instantiate(firework, new Vector3(Random.Range(-9f, 9f), Random.Range(-5f, 5f), -3f), transform.rotation);
             fw.transform.localScale = Vector3.one * ((float)randomSeed.NextDouble() * 0.3f + 0.5f);
             fw.GetComponent<SpriteRenderer>().color = Color.HSVToRGB((float)randomSeed.NextDouble(), 1f, 1f);
+            firework_sound.Play();
             Destroy(fw, 1);
         }
     }
