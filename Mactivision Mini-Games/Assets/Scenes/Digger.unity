@@ -5240,10 +5240,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   postprocess: {fileID: 339341186}
-  introText: {fileID: 158730860}
-  outroText: {fileID: 1311983253}
-  countdownText: {fileID: 720354454}
+  introText: {fileID: 0}
+  outroText: {fileID: 1311983252}
+  countdownText: {fileID: 720354453}
   countDoneText: Start!
+  instructionParent: {fileID: 158730858}
+  instructions:
+  - {fileID: 158730858}
+  instructionCount: 0
   textBG: {fileID: 1875444285}
   textBG_Main: {fileID: 473482976}
   textBG_Edge: {fileID: 1538848487}
@@ -5251,7 +5255,11 @@ MonoBehaviour:
   textBG_RArm: {fileID: 1190943280}
   sound: {fileID: 1958587205}
   lvlState: 0
+  maxGameTime: 0
+  gameStartTime: 0
+  seed: 
   outputPath: 
+  digkeyText: {fileID: 158730860}
   player: {fileID: 1265911977}
   chest: {fileID: 1377675679}
 --- !u!4 &1958587204
