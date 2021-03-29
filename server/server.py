@@ -206,6 +206,7 @@ class RequestHandler(SimpleHTTPRequestHandler):
         elif request == "post":
             if state == GAME_ENDED:
                 self.state_game_ended(token, query)
+                return
             elif state == FINISHED:
                 self.state_game_finished(token, query)
                 return
