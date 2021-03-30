@@ -200,7 +200,7 @@ class RequestHandler(SimpleHTTPRequestHandler):
                 self.state_game_started(token, query)
                 return
             else:
-                log("ERROR: Bad state in POST");
+                log("ERROR: Bad state in GET");
 
         # do_POST
         elif request == "post":
