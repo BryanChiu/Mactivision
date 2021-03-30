@@ -1918,6 +1918,8 @@ Table #2 Traceability Matrix between functional requirements and modules
 | [Memory Choice Metric Module](#4323-memory-choice-metric-module)           | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Scripts/Metrics/MemoryChoiceMetric.cs)    | F-1, F-2, f-6, F-7, F-13 |
 | [Linear Variable Metric Module](#4324-linear-variable-metric-module)       | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Scripts/Metrics/LinearVariableMetric.cs)    | F-1, F-2, F-6, F-14 |
 | [Metric JSON Writer Module](#433-metric-json-writer-module)                | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Scripts/Metrics/MetricJSONWriter.cs)    | F-13 |
+| [Request Handler Module](#441-request-handler-module)                | [Code](https://github.com/BryanChiu/Mactivision/blob/master/server/server.py)    | F-15 |
+| [Session Module](#442-session-module)                | [Code](https://github.com/BryanChiu/Mactivision/blob/master/server/server.py)    | F-15 |
 | [Start Screen Module](#45-start-screen-module)                             | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Scripts/Battery/StartScreen.cs)    | F-9 |
 | [End Screen Module](46-end-screen-module)                                  | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Scripts/Battery/EndScreen.cs)    | F-9 |
 
