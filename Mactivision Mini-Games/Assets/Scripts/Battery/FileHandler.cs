@@ -3,26 +3,17 @@ using System.IO;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class FileHandler
 {
-    string ConfigPath = "./Assets/Resources/";
+    string ConfigPath = "./Assets/Configs/";
     string GeneratedFile = "GeneratedTemplate.json";
-    string ConfigFile = "BatteryConfig.json";
     string MetaFile = "GeneratedTemplate.meta";
-
-    public FileHandler()
-    {
-
-    }
-
-    public string[] ListConfigFiles()
-    {
-        return Directory.GetFiles(ConfigPath, "*.json").Select(filename => Path.GetFileNameWithoutExtension(filename)).ToArray();
-    }
 
     public void DeleteGeneratedConfig()
     {
+        // Mostly used for testing.
         File.Delete(ConfigPath + GeneratedFile);
 
         // Delete the meta file otherwise Unity will complain.
@@ -32,11 +23,6 @@ public class FileHandler
     public bool DirectoryExists(string path)
     {
         return Directory.Exists(path);
-    }
-
-    public bool ConfigFileExists(string path)
-    {
-        return File.Exists(path + ConfigFile);
     }
 
     public bool GeneratedConfigExists()
@@ -60,11 +46,7 @@ public class FileHandler
     public void WriteGenerated(string json)
     {
         WriteFile(ConfigPath, GeneratedFile, json);
-    }
-
-    public void WriteConfig(string path, string json)
-    {
-        WriteFile(path, ConfigFile, json); 
+        Debug.Log("Wrote Generated Config.");
     }
 
     private void WriteFile(string path, string filename, string text)

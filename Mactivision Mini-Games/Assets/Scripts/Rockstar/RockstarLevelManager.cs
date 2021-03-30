@@ -7,15 +7,14 @@ using TMPro;
 // This class manages the majority of the game functionality
 public class RockstarLevelManager : LevelManager
 {
-    public TMP_Text introText2;     // a second text block b/c lots of info
-    bool showIntro2;
+    public TMP_Text lrkeyText;      // text that contain instructions for leftKey and rightKey bind  
+    public TMP_Text ukeyText;       // text that contain instructions for upKey bind 
 
     public Rockstar rockstar;       // responsible for moving the rockstar
     public Spotlight spotlight;     // used to move the spotlight
     public Meter meterL;            // drops and raises the left meter
     public Meter meterR;            // drops and raises the right meter
     public Animator background;     // toggles the background animation on/off
-
     public AudioSource music;       // plays music
     public AudioClip[] tracks;      // music tracks
 
@@ -55,19 +54,17 @@ public class RockstarLevelManager : LevelManager
         randomSeed = new System.Random(seed.GetHashCode());
 
         // set the leftKey for the intro instructions
-        int tempIdx = introText.text.IndexOf("LKEY");
-        introText.text = introText.text.Substring(0, tempIdx) + KeyCodeDict.toString[leftKey] + introText.text.Substring(tempIdx+4);
+        int tempIdx = lrkeyText.text.IndexOf("LKEY");
+        lrkeyText.text = lrkeyText.text.Substring(0, tempIdx) + KeyCodeDict.toString[leftKey] + lrkeyText.text.Substring(tempIdx+4);
 
         // set the rightKey for the intro instructions
-        tempIdx = introText.text.IndexOf("RKEY");
-        introText.text = introText.text.Substring(0, tempIdx) + KeyCodeDict.toString[rightKey] + introText.text.Substring(tempIdx+4);
+        tempIdx = lrkeyText.text.IndexOf("RKEY");
+        lrkeyText.text = lrkeyText.text.Substring(0, tempIdx) + KeyCodeDict.toString[rightKey] + lrkeyText.text.Substring(tempIdx+4);
 
         // set the upKey for the intro instructions
-        tempIdx = introText2.text.IndexOf("UKEY");
-        introText2.text = introText2.text.Substring(0, tempIdx) + KeyCodeDict.toString[upKey] + introText2.text.Substring(tempIdx+4);
+        tempIdx = ukeyText.text.IndexOf("UKEY");
+        ukeyText.text = ukeyText.text.Substring(0, tempIdx) + KeyCodeDict.toString[upKey] + ukeyText.text.Substring(tempIdx+4);
 
-        introText2.enabled = false;
-        showIntro2 = false;
         countDoneText = "Rock!";
 
         pMetric = new PositionMetric(new List<string>{"rockstar", "spotlight"}); // initialize position metric recorder
@@ -159,19 +156,16 @@ public class RockstarLevelManager : LevelManager
     void OnGUI()
     {
         Event e = Event.current;
-        // this is the "Press any key to continue" before the start of the game
+        // navigate through the instructions before the game starts
         if (lvlState==0 && e.type == EventType.KeyUp) {
-            if (!showIntro2) {
-                showIntro2 = true;
-                introText.enabled = false;
-                introText2.enabled = true;
-                ResizeTextBG(GetRect(introText2));
-            } else {
-                introText2.enabled = false;
-                StartLevel();
+            if (e.keyCode == KeyCode.B && instructionCount>0) {
+                ShowInstruction(--instructionCount);
+            } else if (e.keyCode == KeyCode.N && instructionCount<instructions.Length) {
+                ShowInstruction(++instructionCount);
             }
         }
 
+        // game is over, go to next game/finish battery
         if (lvlState==4 && e.type == EventType.KeyUp) {
             Battery.Instance.LoadNextScene();
         }

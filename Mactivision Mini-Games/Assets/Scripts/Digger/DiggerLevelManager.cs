@@ -2,19 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using TMPro;
 
 // This class manages the majority of the game functionality
 public class DiggerLevelManager : LevelManager
 {
+    public TMP_Text digkeyText;     // text that contain instructions for digKey bind 
+
     public PlayerController player; // the player object in Unity
     public ChestAnimator chest;     // the chest object in Unity
+    public Transform hole;          // reveals hole dug, and is bottom of the hole the player stands on
+    public Transform holeTop;       // coordinates of the top of the hole to be dug
+    public Transform holeBot;       // coordinates of the bottom of the hole to be dug
 
     int digAmount;                  // total amount of presses required; must be > 0, rounds up to nearest 10
     KeyCode digKey;                 // keyboard key used to dig
 
-    List<KeyCode> keysDown;         // List of keys currently held down (not full history)
     ButtonPressingMetric bpMetric;  // records button pressing data during the game
     MetricJSONWriter metricWriter;  // outputs recording metric (bpMetric) as a json file
+    
+    List<KeyCode> keysDown;         // List of keys currently held down (not full history)
+    int dugCount;                   // dug/presses counter
+    float digDepth;                 // depth dug for each dig/press
 
     // Start is called before the first frame update
     void Start()
@@ -24,13 +33,16 @@ public class DiggerLevelManager : LevelManager
         InitConfigurable(); // initialize configurable values
 
         // set the digKey for the intro instructions
-        int tempIdx = introText.text.IndexOf("KEY");
-        introText.text = introText.text.Substring(0, tempIdx) + KeyCodeDict.toString[digKey] + introText.text.Substring(tempIdx+3);
+        int tempIdx = digkeyText.text.IndexOf("KEY");
+        digkeyText.text = digkeyText.text.Substring(0, tempIdx) + KeyCodeDict.toString[digKey] + digkeyText.text.Substring(tempIdx+3);
 
         countDoneText = "Dig!";
-        keysDown = new List<KeyCode>();
 
         bpMetric = new ButtonPressingMetric(); // initialize metric recorder
+
+        keysDown = new List<KeyCode>();
+        dugCount = 0;
+        digDepth = (holeTop.position.y - holeBot.position.y) / digAmount;
     }
 
     // Initialize values using config file, or default values if config values not specified
@@ -47,7 +59,7 @@ public class DiggerLevelManager : LevelManager
         }
 
         // use battery's config values, or default values if running game by itself
-        digAmount = diggerConfig.DigAmount > 0 ? Mathf.CeilToInt(diggerConfig.DigAmount/10f)*10 : Default(100, "DigAmount");
+        digAmount = diggerConfig.DigAmount > 0 ? diggerConfig.DigAmount : Default(100, "DigAmount");
         maxGameTime = diggerConfig.MaxGameTime > 0 ? diggerConfig.MaxGameTime : Default(100f, "MaxGameTime");;
         try { // use default dig key if we cannot parse it from the config
             digKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), diggerConfig.DigKey);
@@ -79,7 +91,6 @@ public class DiggerLevelManager : LevelManager
     {
         bpMetric.startRecording();
         metricWriter = new MetricJSONWriter("Digger", DateTime.Now); // initialize metric data writer
-        SetDigAmountForGround();
         gameStartTime = Time.time;
     
     }
@@ -101,7 +112,7 @@ public class DiggerLevelManager : LevelManager
     {
         Event e = Event.current;
         // start level when user presses `digKey`
-        if (lvlState==0 && e.keyCode==digKey) StartLevel();
+        if (lvlState==0 && e.keyCode==digKey) ShowInstruction(++instructionCount);
 
         // record every key press and key release, regardless if it's `digKey`
         if (lvlState==2 && e.keyCode!=KeyCode.None) KeyEvent(e);
@@ -118,7 +129,10 @@ public class DiggerLevelManager : LevelManager
         if (e.type == EventType.KeyDown && !keysDown.Contains(e.keyCode)) {
             keysDown.Add(e.keyCode);
             bpMetric.recordEvent(new ButtonPressingEvent(DateTime.Now, e.keyCode, true));
-            if (e.keyCode==digKey) player.DigDown();
+            if (e.keyCode==digKey) {
+                player.DigDown();
+                DigGround();
+            }
         // Remove key from list
         } else if (e.type == EventType.KeyUp) {
             keysDown.Remove(e.keyCode);
@@ -127,13 +141,13 @@ public class DiggerLevelManager : LevelManager
         }
     }
 
-    // For all blocks to be dug, set the amount of "digs"/key-presses it will take to completely break.
-    // Since there are 10 blocks to be dug, the dig amount for each block is a tenth of the `digAmount`,
-    // rounded up. Will be at least 1, as `digAmount` must be > 0
-    void SetDigAmountForGround() {
-        GameObject[] groundBlocks = GameObject.FindGameObjectsWithTag("GroundBlock");
-        foreach (GameObject block in groundBlocks) {
-            block.GetComponent<GroundBreaker>().hitsToBreak = digAmount/10;
+    void DigGround()
+    {
+        if (++dugCount<digAmount) {
+            hole.Translate(Vector3.down*digDepth);
+        } else if (dugCount==digAmount) {
+            hole.position = Vector3.down*8.62f;
         }
+        
     }
 }

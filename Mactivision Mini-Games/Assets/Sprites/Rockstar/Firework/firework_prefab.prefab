@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6764068119707213090}
   m_Layer: 0
   m_Name: firework_prefab
-  m_TagString: Untagged
+  m_TagString: Firework
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
