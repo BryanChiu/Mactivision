@@ -1647,12 +1647,11 @@ Table #1 Functional requirements and descriptions from [SRS](https://github.com/
 Table #2 Traceability Matrix between functional requirements and modules
 | Module Name                    | Code      | Requirements |
 |--------------------------------|-----------|----------------------|
-| [Battery Module](#41-battery-module)                                       | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Scripts/Battery.meta)    | F-9 |
-| [Abstract Level Manager Module](#420-abstract-level-manager-module)        | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Scripts/LevelManager.meta)    | F-12 |
-| [Digger Level Manager Module](#4211-digger-level-manager-module)           | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Digger/Scripts/DiggerLevelManager.meta)    | F-1, F-2, F-3, F-4, F-5, F-6, F-7, F-8, F-11, F-15 |
-| [Digger Player Controller Module](#4212-digger-player-controller-module)   | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Digger/Scripts/PlayerController.cs)    | F-5 |
-| [Ground Breaker Module](#4213-ground-breaker-module)                       | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Digger/Scripts/GroundBreaker.cs)    | F-1, F-11, F-15 |
-| [Chest Animator Module](#4214-chest-animator-module)                       | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Digger/Scripts/ChestAnimator.cs)    | F-12, F-16 |
+| [Battery Module](#41-battery-module)                                       | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Scripts/Battery/Battery.cs)    | F-9 |
+| [Abstract Level Manager Module](#420-abstract-level-manager-module)        | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Scripts/LevelManager/LevelManager.cs)    | F-12 |
+| [Digger Level Manager Module](#4211-digger-level-manager-module)           | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Digger/Scripts/Digger/DiggerLevelManager.cs)    | F-1, F-2, F-3, F-4, F-5, F-6, F-7, F-8, F-11, F-15 |
+| [Digger Player Controller Module](#4212-digger-player-controller-module)   | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Digger/Scripts/Digger/PlayerController.cs)    | F-5 |
+| [Chest Animator Module](#4214-chest-animator-module)                       | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Digger/Scripts/Digger/ChestAnimator.cs)    | F-12, F-16 |
 | [Feeder Level Manager Module](#4221-feeder-level-manager-module)           | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Feeder/Scripts/FeederLevelManager.cs)    | F-1, F-2, F-3, F-4, F-5, F-6, F-7, F-8, F-11, F-15 |
 | [Food Dispenser Module](#4222-food-dispenser-module)                       | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Feeder/Scripts/Dispenser.cs)    | F-2, F-15 |
 | [Rockstar Level Manager Module](#4231-rockstar-level-manager-module)       |     | F-1, F-2, F-3, F-4, F-5, F-6, F-7, F-10, F-14, F-16 |
