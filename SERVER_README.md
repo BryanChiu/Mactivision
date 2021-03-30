@@ -33,6 +33,15 @@
 
 ## Server Documentation
 
+### `server.py` Architecture
+`server.py` is a simple HTTP server written in Python 3 which manages all client sessions from incoming requests with a dictionary of `Session()` objects. 
+
+Each session in the dictionary `SESSIONS` is addressed by a UUID token, which is generated and sent by the client in the initial `GET/connect` request. Every future request by each client **must** contain the same token so the server knows which client is making the request. 
+
+The server cleans up sessions every 60 seconds by iterating through each session in `SESSIONS`, and checking if its `expire_time` is less than the current time (meaning the session has expired). If so, that session is removed from `SESSIONS`, and any incoming requests with the token of the expired session will no longer be accepted.
+
+Each request sent from a client will move the session to a new state (outlined in [server.py State Diagram](#serverpy-state-diagram)) and set `expire_time` to 20 minutes from the current time. In the case of a session moving to the state `GAME_STARTED`, `expire_time` will be `2 * maxgameseconds + current_time`, where `maxgameseconds` is passed in the request.
+
 ### `server.py` Endpoints
 The server listens for incomming HTTP requests on the following endpoints:
 
