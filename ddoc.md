@@ -1652,12 +1652,13 @@ Table #2 Traceability Matrix between functional requirements and modules
 | [Digger Level Manager Module](#4211-digger-level-manager-module)           | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Digger/Scripts/Digger/DiggerLevelManager.cs)    | F-1, F-2, F-3, F-4, F-5, F-6, F-7, F-8, F-11, F-15 |
 | [Digger Player Controller Module](#4212-digger-player-controller-module)   | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Digger/Scripts/Digger/PlayerController.cs)    | F-5 |
 | [Chest Animator Module](#4214-chest-animator-module)                       | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Digger/Scripts/Digger/ChestAnimator.cs)    | F-12, F-16 |
-| [Feeder Level Manager Module](#4221-feeder-level-manager-module)           | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Feeder/Scripts/FeederLevelManager.cs)    | F-1, F-2, F-3, F-4, F-5, F-6, F-7, F-8, F-11, F-15 |
-| [Food Dispenser Module](#4222-food-dispenser-module)                       | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Feeder/Scripts/Dispenser.cs)    | F-2, F-15 |
-| [Rockstar Level Manager Module](#4231-rockstar-level-manager-module)       |     | F-1, F-2, F-3, F-4, F-5, F-6, F-7, F-10, F-14, F-16 |
-| [Spotlight Module](#4232-spotlight-module)                                 |     | F-10 |
-| [Rockstar Module](#4233-rockstar-module)                                   |     | F-1, F-5, F-7, F-15 |
-| [Meter Module](#4234-meter-module)                                         |     | F-16 |
+| [Feeder Level Manager Module](#4221-feeder-level-manager-module)           | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Feeder/Scripts/Feeder/FeederLevelManager.cs)    | F-1, F-2, F-3, F-4, F-5, F-6, F-7, F-8, F-11, F-15 |
+| [Food Dispenser Module](#4222-food-dispenser-module)                       | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Feeder/Scripts/Feeder/Dispenser.cs)    | F-2, F-15 |
+| [Rockstar Level Manager Module](#4231-rockstar-level-manager-module)       | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Feeder/Scripts/Rockstar/RockstarLevelManager.cs
+)    | F-1, F-2, F-3, F-4, F-5, F-6, F-7, F-10, F-14, F-16 |
+| [Spotlight Module](#4232-spotlight-module)                                 | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Feeder/Scripts/Rockstar/Spotlight.cs    | F-10 |
+| [Rockstar Module](#4233-rockstar-module)                                   | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Feeder/Scripts/Rockstar/Rockstar.cs    | F-1, F-5, F-7, F-15 |
+| [Meter Module](#4234-meter-module)                                         | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Feeder/Scripts/Rockstar/Meter.cs    | F-16 |
 | [Abstract Metric Event Module](#431-abstract-metric-event-module)          | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Scripts/Metrics/AbstractMetricEvent.cs)    | F-2 |
 | [Button Pressing Event Module](#4311-button-pressing-event-module)       | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Scripts/Metrics/ButtonPressingEvent.cs)    | F-1, F-2 |
 | [Position Event Module](#4312-position-event-module)                       |     | F-1, F-2, F-7 |
