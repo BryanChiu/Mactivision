@@ -15,8 +15,13 @@ enum ClientState
 
 public class ClientServer
 {
-    private string URL = "http://127.0.0.1:8000/connect";
-    
+    private string URL = "";
+
+    public ClientServer()
+    {
+        URL = Battery.Instance.GetServerURL();
+    }
+
     public UnityWebRequest UpdateServerCreateRequest()
     {
         // return a request instead of doing the whole thing so that
@@ -56,6 +61,9 @@ public class ClientServer
         if (post.result != UnityWebRequest.Result.Success)
         {
             Debug.Log("Network Error\n" + post.error);
+            Debug.Log("Sending Player back to Start Screen \n");
+            Battery.Instance.Reset();
+            Battery.Instance.LoadScene("Battery Start");
         }
         else
         {
@@ -82,6 +90,9 @@ public class ClientServer
         if (get.result != UnityWebRequest.Result.Success)
         {
             Debug.Log("Network Error\n" + get.error);
+            Debug.Log("Sending Player back to Start Screen \n");
+            Battery.Instance.Reset();
+            Battery.Instance.LoadScene("Battery Start");
         }
         else
         {
