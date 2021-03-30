@@ -1,6 +1,5 @@
 {
   "$type": "BatteryConfig, Battery",
-  "PlayerName": null,
   "StartTime": null,
   "EndTime": null,
   "Games": {
