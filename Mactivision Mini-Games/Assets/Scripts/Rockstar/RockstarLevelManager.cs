@@ -12,8 +12,7 @@ public class RockstarLevelManager : LevelManager
 
     public Rockstar rockstar;       // responsible for moving the rockstar
     public Spotlight spotlight;     // used to move the spotlight
-    public Meter meterL;            // drops and raises the left meter
-    public Meter meterR;            // drops and raises the right meter
+    public Meter meter;             // drops and raises the meters
     public Animator background;     // toggles the background animation on/off
     public AudioSource music;       // plays music
     public AudioClip[] tracks;      // music tracks
@@ -73,12 +72,10 @@ public class RockstarLevelManager : LevelManager
 
         rockstar.Init(seed, rockstarChangeFreq, rockstarVelocity);
         spotlight.Init(spotlightVelocity);
-        meterL.Init(seed, meterChangeFreq, meterMinVel, meterMaxVel, meterUpVel, 0f, 100f, meterGoodRange, 50f);
-        meterR.Init(seed, meterChangeFreq, meterMinVel, meterMaxVel, meterUpVel, 0f, 100f, meterGoodRange, 50f);
+        meter.Init(seed, meterChangeFreq, meterMinVel, meterMaxVel, meterUpVel, 0f, 100f, meterGoodRange, 50f);
         rockstar.enabled = false;
         spotlight.enabled = false;
-        meterL.enabled = false;
-        meterR.enabled = false;
+        meter.enabled = false;
 
         currMeterVel = 0f;
         lastMeterLvl = 50f;
@@ -198,8 +195,7 @@ public class RockstarLevelManager : LevelManager
         gameStartTime = Time.time;
         rockstar.enabled = true;
         spotlight.enabled = true;
-        meterL.enabled = true;
-        meterR.enabled = true;
+        meter.enabled = true;
         if (enableAnimations) background.Play("Base Layer.rockstarbg_1");
         if (musicTrack > -1) {
             music.clip = tracks[musicTrack-1]; 
@@ -221,8 +217,7 @@ public class RockstarLevelManager : LevelManager
 
         rockstar.enabled = false;
         spotlight.enabled = false;
-        meterL.enabled = false;
-        meterR.enabled = false;
+        meter.enabled = false;
         background.speed = 0f;
         music.Stop();
     }
@@ -238,8 +233,7 @@ public class RockstarLevelManager : LevelManager
     // Raise the meter and add a linear variable event
     void MeterUp()
     {
-        meterL.Raise();
-        meterR.Raise();
+        meter.Raise();
     }
 
     // Move the spotlight left
@@ -262,13 +256,13 @@ public class RockstarLevelManager : LevelManager
             currRockstarVel = rockstar.currVelocity;
         }
         if (Input.GetKeyDown(upKey) || Input.GetKeyUp(upKey)) {
-            lvMetric.recordEvent(new LinearVariableEvent(DateTime.Now, meterL.level, meterL.level-lastMeterLvl, 1));
-            lastMeterLvl = meterL.level;
+            lvMetric.recordEvent(new LinearVariableEvent(DateTime.Now, meter.level, meter.level-lastMeterLvl, 1));
+            lastMeterLvl = meter.level;
         }
-        if (!Mathf.Approximately(currMeterVel, meterL.velocity)) {
-            lvMetric.recordEvent(new LinearVariableEvent(DateTime.Now, meterL.level, meterL.level-lastMeterLvl, 0));
-            currMeterVel = meterL.velocity;
-            lastMeterLvl = meterL.level;
+        if (!Mathf.Approximately(currMeterVel, meter.velocity)) {
+            lvMetric.recordEvent(new LinearVariableEvent(DateTime.Now, meter.level, meter.level-lastMeterLvl, 0));
+            currMeterVel = meter.velocity;
+            lastMeterLvl = meter.level;
         }
     }
 }
