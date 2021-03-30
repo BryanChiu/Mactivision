@@ -20,7 +20,7 @@ public class Battery
     private const string GeneratedFileName = "GeneratedTemplate.json";
 
     // Name the same as generated file name for clean up purposes.
-    private string GeneratedMetaFileName = "GeneratedTemplate.meta";
+    private const string GeneratedMetaFileName = "GeneratedTemplate.meta";
 
     // List of actual games currently implemented
     static private Dictionary<string,GameConfig> GameList = new Dictionary<string,GameConfig>
@@ -78,7 +78,7 @@ public class Battery
         {
             return Config.GetTestName(Scene.Current());
         }
-        return null;
+        return "";
     }
 
     // Returns the GameConfig interface type. Specific games will have to cast the GameConfig to their respective Config class in order to child parameters. 

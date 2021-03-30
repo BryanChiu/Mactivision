@@ -3,16 +3,16 @@ using System.Collections;
 
 public class SceneController
 {
-    private int Index;
+    private int Index = -1; // < 0 are Start Screens
     private string Start;
     private string End;
     private List<string> Games;
-    private int Max;
+
+    // Unlikely to ever hit max, just there to prevent bugs.
+    private int Max = 100;
 
     public SceneController(string start, string end, List<string> games)
     {
-        Max = 100;      // Unlikely to ever hit max, just there to prevent bugs.
-        Index = -1;     // < 0 are Start Screens
         Start = start;
         End = end;
         Games = games;
