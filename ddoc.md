@@ -1876,20 +1876,20 @@ Table #1 Functional requirements and descriptions from [SRS](https://github.com/
 | ID | Description |
 |----|-------------|
 | F-1 | Record input from player. |
-| F-2 | Objective Timers and Game Timers. |
-| F-3 | Request the player complete a sequence of inputs. |
-| F-4 | How close is the player to completing the objective. |
-| F-5 | Change player controls during game. |
+| F-2 | Record start and end times for each game. |
+| F-3 | Display game instructions. |
+| F-4 | Show post game instructions |
+| F-5 | Use different configurations for each game. |
 | F-6 | Output the measurements collected for each game session. |
-| F-7 | Record the start and end of objectives. How long did the player take and how successful was the player? |
-| F-8 | All the player to move around the game world. Allow the game to move the player. |
-| F-9 | Start and end game. |
-| F-10 | Move the camera around the game world. |
-| F-11 | Move the object around the game world. |
-| F-12 | Be able to change game scene. |
-| F-13 | Read measurement data from JSON files. |
-| F-14 | Present data. |
-| F-15 | Entity Manager. |
+| F-7 | Save different configurations for each game after Battery |
+| F-8 | Multiple users can run the Battery at once. |
+| F-9 | A Mini-game needs to switch between states. |
+| F-10 | Battery and Mini-game Instructions. |
+| F-11 | Use game entities to interact with the Player. |
+| F-12 | Battery can switch between Mini-games. |
+| F-13 | Provide a mechanism to generate a blank configurations. |
+| F-14 | Ability to measure Cognitive and Physical abilities during a Mini-game. |
+| F-15 | Send GET and POST requests between Battery and Server. |
 | F-16 | Animation Manager. |
 | F-17 | Physics Manager. |
 
