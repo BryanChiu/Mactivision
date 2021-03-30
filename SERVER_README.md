@@ -2,6 +2,7 @@
 1. Build the project
     * In the Unity Editor window, go to `File > Build Settings...`
     * You should see the following dialog box:
+    
         ![](Repo%20Assets/unity_build.PNG)
     * Make sure all 5 scenes are checked at the top, as shown above, and click `Build`, and follow the on-screen instructions to build as WebGL.
 2. Move the build to the G-ScalE Lab server
@@ -18,6 +19,7 @@
 2. Check if `server.py` is already running:
     * `ps -aux | grep server.py`
     * If it is running, you will see something like this:
+
         ![](Repo%20Assets/server_check_if_running.PNG)
     * In the case it is running and you would like to restart it, terminate it:
         * `kill -2 <pid>`
@@ -27,6 +29,7 @@
     * `cd ~/build`
     * `nohup python3 server.py input/Battery.json &`
     * You should see something like this:
+    
         ![](Repo%20Assets/server_start_nohup.PNG)
     * You can verify that the server has started with:
         * `ps -aux | grep server.py`
