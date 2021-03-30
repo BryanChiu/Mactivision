@@ -16,12 +16,14 @@ public class TestBatteryStart
     [OneTimeSetUp]
     public void SetupBattery()
     {
+        /*
         File = new FileHandler();
         SceneManager.LoadScene("Battery Start", LoadSceneMode.Single);
         ConfigHandler Config = new ConfigHandler();
 
         // If tests error the file can get out of sync so always create it.
         File.WriteGenerated(Config.Generate());
+        */
     }
 
     [UnityTest]

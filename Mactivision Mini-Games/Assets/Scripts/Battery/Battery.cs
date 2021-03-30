@@ -10,7 +10,25 @@ using Newtonsoft.Json;
 public class Battery
 {
     // Configuration
-    private string ServerURL = "http://127.0.0.1:8000/connect";
+    private const string ServerURL = "http://127.0.0.1:8000/connect";
+    private const string StartScene = "Battery Start";
+    private const string EndScene = "Battery End";
+    private const string ConfigFileName = "BatteryConfig.json";
+
+    // Where Generated Configs are Placed
+    private const string ConfigPath = "./Assets/Configs/";
+    private const string GeneratedFileName = "GeneratedTemplate.json";
+
+    // Name the same as generated file name for clean up purposes.
+    private string GeneratedMetaFileName = "GeneratedTemplate.meta";
+
+    // List of actual games currently implemented
+    static private Dictionary<string,GameConfig> GameList = new Dictionary<string,GameConfig>
+    {
+        {"Digger", new DiggerConfig()},
+        {"Feeder", new FeederConfig()},
+        {"Rockstar", new RockstarConfig()}
+    };
 
     // Helpers
     private ConfigHandler Config;
@@ -21,10 +39,17 @@ public class Battery
     // Config State
     private bool IsLoaded;
 
+    // Singleton
     public static readonly Battery Instance = new Battery(); 
+
     private Battery()
     { 
         Reset();
+    }
+    
+    public string GetConfigFileName()
+    {
+        return ConfigFileName;
     }
 
     public string GetServerURL()
@@ -39,8 +64,8 @@ public class Battery
 
     public void Reset()
     {
-        File = new FileHandler();
-        Config = new ConfigHandler();
+        Config = new ConfigHandler(GameList);
+        File = new FileHandler(ConfigPath, GeneratedFileName, GeneratedMetaFileName);
         IsLoaded = false;
         Guid token = Guid.NewGuid();
         Token = token.ToString();
@@ -70,7 +95,7 @@ public class Battery
     public void LoadBattery(string json)
     {
         Config.Load(json);
-        Scene = new SceneController("Battery Start", "Battery End", Config.GameScenes());
+        Scene = new SceneController(StartScene, EndScene, Config.GameScenes());
         IsLoaded = true;
     }
 
@@ -129,7 +154,7 @@ public class Battery
     }
 
     // Lists the games that player will play during the battery session. Useful for testings.
-    public List<string> GetGameList()
+    public List<string> GetBatteryGameList()
     {
         if (IsLoaded)
         {

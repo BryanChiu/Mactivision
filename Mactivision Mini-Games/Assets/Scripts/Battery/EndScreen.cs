@@ -9,11 +9,10 @@ public class EndScreen : MonoBehaviour
 {
     ClientServer Client;
 
-    // Start is called before the first frame update
     void Start()
     {
         Battery.Instance.EndBattery();
-        Client = new ClientServer();
-        StartCoroutine(Client.PostFinished("BatteryConfig.json", Battery.Instance.SerializedConfig()));
+        Client = new ClientServer(Battery.Instance.GetServerURL());
+        StartCoroutine(Client.PostFinished(Battery.Instance.GetConfigFileName(), Battery.Instance.SerializedConfig()));
     }
 }

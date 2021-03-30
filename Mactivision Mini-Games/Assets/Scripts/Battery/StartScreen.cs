@@ -41,7 +41,7 @@ public class StartScreen : MonoBehaviour
 
     IEnumerator GetConfigFromServer(Action<string> method)
     {
-        ClientServer Client = new ClientServer();
+        ClientServer Client = new ClientServer(Battery.Instance.GetServerURL());
         
         UnityWebRequest get = Client.UpdateServerCreateRequest();
         yield return get.SendWebRequest();
@@ -94,9 +94,10 @@ public class StartScreen : MonoBehaviour
     void GenerateButtonClicked()
     {
         Battery.Instance.WriteExampleConfig();
+        Console.text = "Empty Config File Written.";
     }
 
-    void ClearDevOuput()
+    void ClearConsole()
     {
         Console.text = "";
     }

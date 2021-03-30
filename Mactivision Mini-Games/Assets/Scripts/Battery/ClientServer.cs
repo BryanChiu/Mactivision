@@ -17,9 +17,9 @@ public class ClientServer
 {
     private string URL = "";
 
-    public ClientServer()
+    public ClientServer(string server_url)
     {
-        URL = Battery.Instance.GetServerURL();
+        URL = server_url;
     }
 
     public UnityWebRequest UpdateServerCreateRequest()
