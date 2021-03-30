@@ -1,7 +1,20 @@
+## Uploading a Build of the Project
+1. Build the project
+    * In the Unity Editor window, go to `File > Build Settings...`
+    * You should see the following dialog box:
+        ![](Repo%20Assets/unity_build.png)
+    * Make sure all 5 scenes are checked at the top, as shown above, and click `Build`, and follow the on-screen instructions to build as WebGL.
+2. Move the build to the G-ScalE Lab server
+    * Navigate to the output directory of the successful build.
+    * Login to the G-ScalE Lab server to backup and remove the old build files from `~/build`
+        * `index.html`
+        * `Build/`
+        * `TemplateData/`
+    * Use `scp` or a similar program to move the contents of the build directory to `~/build` on the G-ScalE Lab server.
+3. Follow the steps in [Starting the Server](#starting-the-server) to start the server with the new build.
+
 ## Starting the Server
-1. Login to the G-ScalE Lab server:
-    * `ssh <user>@130.113.68.238`
-    * Enter password for `<user>`
+1. Login to the G-ScalE Lab server
 2. Check if `server.py` is already running:
     * `ps -aux | grep server.py`
     * If it is running, you will see something like this:
