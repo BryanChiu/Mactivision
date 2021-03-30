@@ -14,10 +14,12 @@ using TMPro;
 public abstract class LevelManager : MonoBehaviour
 {
     public PostProcessVolume postprocess;   // graphical effects, used for blurring the scene
-    public TMP_Text introText;              // text object displayed before actual game begins
-    public TMP_Text outroText;              // text object displayed after game ends
-    public TMP_Text countdownText;          // text object displaying countdown to begin actual game
+    public GameObject instructionParent;    // parent group for instructions
+    public GameObject[] instructions;       // game instructions displayed before game starts
+    public int instructionCount;            // keeps track of which instruction we're on
+    public GameObject countdownText;        // text object displaying countdown to begin actual game
     public string countDoneText = "Start!"; // text instead of "0" after "3, 2, 1"
+    public GameObject outroText;            // text object displayed after game ends
 
     public GameObject textBG;               // parent group for graphics displayed behind text
     public RectTransform textBG_Main;
@@ -29,25 +31,25 @@ public abstract class LevelManager : MonoBehaviour
 
     public int lvlState;                    // 0: intro; 1: countdown; 2: gameplay; 3: game ending; 4: game end
 
-    public string outputPath;               // output path of metric json data
-
-    public ClientServer Client;
-
     public float maxGameTime;               // maximum length of the game
     public float gameStartTime;             // game start time
 
     public string seed;                     // optional manually entered seed
     public System.Random randomSeed;        // seed of the current game
 
+    public string outputPath;               // output path of metric json data
+
+    public ClientServer Client;
+
     // Must be added to Start() method of inherited classes.
     // Blurs the scene and displays the intro graphic/text.
     public void Setup()
     {
         textBG.SetActive(true);
-        introText.enabled = true;
-        countdownText.enabled = false;
-        outroText.enabled = false;
-        ResizeTextBG(GetRect(introText));
+        countdownText.SetActive(false);
+        outroText.SetActive(false);
+        ShowInstruction(0);
+        instructionCount = 0;
         ChangeBlur(2f);
         lvlState = 0;
         outputPath = "Logs/";
@@ -56,13 +58,25 @@ public abstract class LevelManager : MonoBehaviour
         // TODO: Call standby here
     }
 
+    public void ShowInstruction(int idx)
+    {
+        for (int i=0; i<instructions.Length; i++) {
+            instructions[i].SetActive(i==idx);
+        }
+
+        if (idx<instructions.Length) {
+            ResizeTextBG(GetRect(instructionParent));
+        } else {
+            StartLevel();
+        }
+    }
+
     // Call this to begin countdown and actual level.
     // Hides intro text and displays countdown text and plays countdown sound.
     public void StartLevel()
     {
         lvlState = 1;
-        introText.enabled = false;
-        countdownText.enabled = true;
+        countdownText.SetActive(true);
         ResizeTextBG(GetRect(countdownText));
         sound.PlayDelayed(0.0f);
         StartCoroutine(CountDown());
@@ -79,16 +93,16 @@ public abstract class LevelManager : MonoBehaviour
     // Displays the countdown before the actual game begins
     IEnumerator CountDown()
     {
-        countdownText.text = "3";
+        countdownText.GetComponent<TMP_Text>().text = "3";
         yield return new WaitForSeconds(1);
-        countdownText.text = "2";
+        countdownText.GetComponent<TMP_Text>().text = "2";
         yield return new WaitForSeconds(1);
-        countdownText.text = "1";
+        countdownText.GetComponent<TMP_Text>().text = "1";
         yield return new WaitForSeconds(1);
-        countdownText.text = countDoneText;
+        countdownText.GetComponent<TMP_Text>().text = countDoneText;
         yield return new WaitForSeconds(1);
         lvlState = 2;
-        countdownText.enabled = false;
+        countdownText.SetActive(false);
         textBG.SetActive(false);
         ChangeBlur(10f);
     }
@@ -99,7 +113,7 @@ public abstract class LevelManager : MonoBehaviour
         yield return new WaitForSeconds(delay);
         ChangeBlur(2f);
         textBG.SetActive(true);
-        outroText.enabled = true;
+        outroText.SetActive(true);
         ResizeTextBG(GetRect(outroText));
         lvlState = 4;
     }
@@ -117,9 +131,9 @@ public abstract class LevelManager : MonoBehaviour
     }
 
     // Returns a text object's bounding box
-    public Rect GetRect(TMP_Text text) 
+    public Rect GetRect(GameObject obj) 
     {
-        return text.gameObject.GetComponent<RectTransform>().rect;
+        return obj.GetComponent<RectTransform>().rect;
     }
 
     // Resizes the red background according to text's bounding box

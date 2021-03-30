@@ -9,10 +9,13 @@ using Newtonsoft.Json;
 
 public class Battery
 {
+    // Configuration
+    private string ServerURL = "http://127.0.0.1:8000/connect";
+
     // Helpers
     private ConfigHandler Config;
     private SceneController Scene;
-    private FileHandler FileHandle;
+    private FileHandler File;
     private string Token;
 
     // Config State
@@ -24,6 +27,11 @@ public class Battery
         Reset();
     }
 
+    public string GetServerURL()
+    {
+        return ServerURL;
+    }
+
     public string GetToken()
     {
         return Token;
@@ -31,6 +39,7 @@ public class Battery
 
     public void Reset()
     {
+        File = new FileHandler();
         Config = new ConfigHandler();
         IsLoaded = false;
         Guid token = Guid.NewGuid();
@@ -119,7 +128,7 @@ public class Battery
         return Scene.Name();
     }
 
-    // Lists the games that player will play during the battery session. Undecided if it will be a more than just useful for debugging.
+    // Lists the games that player will play during the battery session. Useful for testings.
     public List<string> GetGameList()
     {
         if (IsLoaded)
@@ -132,6 +141,6 @@ public class Battery
     // As the configurable variables are added, deleted or renamed during development in order not have to constantly sync these names with the configuration files this function can be used to generate a blank configuration file based off those variables. 
     public void WriteExampleConfig()
     {
-        // TODO: reimplement FileHandle.WriteGenerated(Config.Generate());
+        File.WriteGenerated(Config.Generate());
     }
 }

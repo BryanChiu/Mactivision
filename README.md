@@ -1,4 +1,4 @@
-![Mactivision logo](https://github.com/BryanChiu/Mactivision/blob/master/Repo%20Assets/Mactivision.png)
+![Mactivision logo](/Repo%20Assets/Mactivision.png)
 CS4ZP6 2020-21 Capstone group. Mini-games
 
 **Team Members**:
@@ -37,18 +37,18 @@ performance when using different mini-game parameters.
 
 ### Digger
 
-Image
+![Digger screenshot](/Repo%20Assets/digger.png)
 
 The digger game measures finger pressing ability. The player digs downwards by mashing a button as quickly as they can. Once the player reaches the treasure the game is over. The button pressing event module records all the button input by the user, the state of those inputs and the time each button was pressed.
 
 ### Feeder
 
-Image
+![Feeder screenshot](/Repo%20Assets/feeder.png)
 
 The feeder game measures updating working memory ability. The player will be asked to feed a monster some food. The list of food the monster likes and dislikes changes over time. As food items are dispensed one at a time, the player must remember the monster's preference changes and correctly feed or discard the food. The memory choice event module will record whether the player correctly remembers to feed the monster the food it wants.
 
 ### Rockstar
 
-Image
+![Rockstar screenshot](/Repo%20Assets/rockstar.png)
 
 The rockstar game measures divided attention ability. In this mini-game, the player works backstage to help the rockstar perform their show. As the rockstar performs, the player must control the spotlight, keeping it on the rockstar. At the same time a gauge will measure the excitement of the crowd. The player has to monitor and keep the crowd energy at a comfortable level by deploying an adequate amount of fireworks. The player must manage these two tasks simultaneously. The position event module will be used to record the player position and the spotlight position. The linear variable metric event module used to record the fluctuations of the crowd gauge.

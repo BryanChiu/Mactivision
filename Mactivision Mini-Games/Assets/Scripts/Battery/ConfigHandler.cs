@@ -25,10 +25,6 @@ public class ConfigHandler
         return GameList;
     }
 
-    public ConfigHandler()
-    {
-    }
-
     public List<string> GameScenes()
     {   
         var list = new List<string>();

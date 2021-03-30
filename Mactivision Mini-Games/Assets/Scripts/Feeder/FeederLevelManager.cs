@@ -2,14 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using TMPro;
 
 // This class manages the majority of the game functionality
 public class FeederLevelManager : LevelManager
 {
-    public TMP_Text introText2;             // a second text block b/c lots of info
-    bool showIntro2;
-
     public Animator monster;                // monster that eats food
     public Transform plate;                 // plate that the food GameObject falls onto, will be tilted
     public Transform lever;                 // purely for animation purposes
@@ -28,10 +24,10 @@ public class FeederLevelManager : LevelManager
     KeyCode feedKey = KeyCode.RightArrow;   // press to feed monster
     KeyCode trashKey = KeyCode.LeftArrow;   // press to throw away
 
-    float tiltPlateTo;                      // angle to tilt the plate (food will slide into trash or monster's mouth)
-
     MemoryChoiceMetric mcMetric;            // records choice data during the game
     MetricJSONWriter metricWriter;          // outputs recording metric (mcMetric) as a json file
+
+    float tiltPlateTo;                      // angle to tilt the plate (food will slide into trash or monster's mouth)
 
     // Represents the state of the game cycle
     enum GameState {
@@ -53,9 +49,7 @@ public class FeederLevelManager : LevelManager
         foodDispensed = 0;
         gameState = GameState.FoodExpended;
 
-        introText2.enabled = false;
-        showIntro2 = false;
-        countDoneText = "Start!";
+        countDoneText = "Feed!";
 
         mcMetric = new MemoryChoiceMetric(); // initialize metric recorder
 
@@ -96,19 +90,16 @@ public class FeederLevelManager : LevelManager
     void OnGUI()
     {
         Event e = Event.current;
-        // this is the "Press any key to continue" before the start of the game
+        // navigate through the instructions before the game starts
         if (lvlState==0 && e.type == EventType.KeyUp) {
-            if (!showIntro2) {
-                showIntro2 = true;
-                introText.enabled = false;
-                introText2.enabled = true;
-                ResizeTextBG(GetRect(introText2));
-            } else {
-                introText2.enabled = false;
-                StartLevel();
+            if (e.keyCode == KeyCode.B && instructionCount>0) {
+                ShowInstruction(--instructionCount);
+            } else if (e.keyCode == KeyCode.N && instructionCount<instructions.Length) {
+                ShowInstruction(++instructionCount);
             }
         }
 
+        // game is over, go to next game/finish battery
         if (lvlState==4 && e.type == EventType.KeyUp) {
             Battery.Instance.LoadNextScene();
         }

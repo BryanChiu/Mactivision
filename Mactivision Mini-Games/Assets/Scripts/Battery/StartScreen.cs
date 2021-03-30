@@ -16,8 +16,6 @@ public class StartScreen : MonoBehaviour
     // We can only start the battery if a configuration is loaded.
     private bool ConfigIsLoaded;
 
-    public ClientServer Client;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -30,21 +28,22 @@ public class StartScreen : MonoBehaviour
         StartButton.interactable = false;
         
         StartButton.onClick.AddListener(StartButtonClicked);
-
         GenerateButton.onClick.AddListener(GenerateButtonClicked); 
 
-        StartCoroutine(Get("new", GetBatteryConfig));
+        StartCoroutine(GetConfigFromServer(GetBatteryConfig));
         
         // helpful for developers but not needed for users
         if (!Application.isEditor)
-        {
+        { 
             GenerateButton.gameObject.SetActive(false);
         }
     }
 
-    IEnumerator Get(string slug, Action<string> method)
+    IEnumerator GetConfigFromServer(Action<string> method)
     {
-        UnityWebRequest get = UnityWebRequest.Get("http://127.0.0.1:8000/" + slug + "?token=" + Battery.Instance.GetToken());
+        ClientServer Client = new ClientServer();
+        
+        UnityWebRequest get = Client.UpdateServerCreateRequest();
         yield return get.SendWebRequest();
 
         if (get.result != UnityWebRequest.Result.Success)
@@ -67,22 +66,22 @@ public class StartScreen : MonoBehaviour
         {
             if (e is EmptyConfigException)
             {
-                SetErrorMessage("Config is empty.");
+                Console.text = "ERR: Config is empty.";
                 return;
             }
             else if(e is InvalidScenesException)
             {
-                SetErrorMessage("Config has invalid scenes.");
+                Console.text = "ERR: Config has invalid scenes.";
                 return;
             }
             else if(e is BadConfigException)
             {
-                SetErrorMessage("Config could not be parsed, check param types and json format."); 
+                Console.text = "ERR: Config could not be parsed, check param types and json format."; 
                 return;
             }
             else
             {
-                SetErrorMessage("Config raised " + e.Message);
+                Console.text = "ERR: Config raised " + e.Message;
                 return;
             }
         }
@@ -97,14 +96,9 @@ public class StartScreen : MonoBehaviour
         Battery.Instance.WriteExampleConfig();
     }
 
-    void SetErrorMessage(string msg)
-    {
-        Console.text = "Error\n" + msg; 
-    }
-
     void ClearDevOuput()
     {
-        Console.text = "Debug Console";
+        Console.text = "";
     }
 
     void StartButtonClicked()
