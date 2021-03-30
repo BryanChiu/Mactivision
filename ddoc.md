@@ -24,9 +24,8 @@ Table of Contents
     * 4.2.0 [Abstract Level Manager Module](#420-abstract-level-manager-module)
     * 4.2.1 [Digger Modules](#421-digger-modules)
       * 4.2.1.1 [Digger Level Manager Module](#4211-digger-level-manager-module)
-      * 4.2.1.2 [Digger Player Controller Module](#4212-digger-player-controller-module)
-      * 4.2.1.3 [Ground Breaker Module](#4213-ground-breaker-module)
-      * 4.2.1.4 [Chest Animator Module](#4214-chest-animator-module)
+      * 4.2.1.2 [Player Controller Module](#4212-player-controller-module)
+      * 4.2.1.3 [Chest Animator Module](#4213-chest-animator-module)
     * 4.2.2 [Feeder Modules](#422-feeder-modules)
       * 4.2.2.1 [Feeder Level Manager Module](#4221-feeder-level-manager-module)
       * 4.2.2.2 [Food Dispenser Module](#4222-food-dispenser-module)
@@ -284,11 +283,13 @@ None
 window: The game window
 
 #### State Variables
-`sessionID`: `string`\
-`lvlState`: `ℕ`
+`lvlState`: `ℕ`\
+`maxGameTime`: `ℝ`\
+`gameStartTime`: `ℝ`\
+`seed`: `string`
 
 #### State Invariant
-`lvlState`∈ {0..3}
+`lvlState`∈ {0..4}
 
 #### Assumptions
 None
@@ -319,7 +320,7 @@ This section of modules are used in the Digger game. In this mini-game, the play
 `DiggerLevelManager` module inherits [`LevelManager`](#420-abstract-level-manager-module)
 
 ### Uses
-[`DiggerPlayerController`](#4212-feeder-player-controller-module), [`GroundBreaker`](#4213-ground-breaker-module), [`ChestAnimator`](#4214-chest-animator-module), [`ButtonPressingMetric`](#button-pressing-metric-module), [`ButtonPressingEvent`](#button-pressing-event-module), [`MetricJSONWriter`](#433-metric-json-writer-module), `UnityEngine.Event`, `UnityEngine.KeyCode`, `System.DateTime`
+[`PlayerController`](#4212-player-controller-module), [`ChestAnimator`](#4213-chest-animator-module), [`ButtonPressingMetric`](#4321-button-pressing-metric-module), [`ButtonPressingEvent`](#4311-button-pressing-event-module), [`MetricJSONWriter`](#433-metric-json-writer-module), `UnityEngine.Event`, `UnityEngine.KeyCode`, `UnityEngine.Time`, `System.DateTime`
 
 ### Syntax
 #### Exported Constants
@@ -345,11 +346,13 @@ window: The game window
 `metricWriter`: [`MetricJSONWriter`](#433-metric-json-writer-module)\
 `bpMetric`: [`ButtonPressingMetric`](#4321-button-pressing-metric-module)\
 `recording`: `𝔹`\
-`player`: [`DiggerPlayerController`](#4212-feeder-player-controller-module)\
-`chest`: [`ChestAnimator`](#4214-chest-animator-module)\
+`player`: [`PlayerController`](#4212-player-controller-module)\
+`chest`: [`ChestAnimator`](#4213-chest-animator-module)\
 `digAmount`: `ℕ`\
 `digKey`: `KeyCode`\
-`lvlState`: `ℕ` (inherited from [`LevelManager`](#420-abstract-level-manager-module))
+`lvlState`: `ℕ` (inherited from [`LevelManager`](#420-abstract-level-manager-module))\
+`maxGameTime`: `ℝ` (inherited from [`LevelManager`](#420-abstract-level-manager-module))\
+`gameStartTime`: `ℝ` (inherited from [`LevelManager`](#420-abstract-level-manager-module))
 
 #### State Invariant
 None
@@ -373,6 +376,8 @@ This module manages the majority of functionality in the game. The `digAmount` i
    |`recording`|`false`|
    |`digAmount`|100|
    |`digKey`|`KeyCode.B`|
+   |`maxGameTime`|100|
+   |`gameStartTime`|`Time.time`|
    |window|An introductory text is displayed over a blurred game screen|
 
 `Update()`
@@ -380,7 +385,7 @@ This module manages the majority of functionality in the game. The `digAmount` i
    ||⇒|
    |---|---|
    | ¬`recording` | `recording` := `true`. `bpMetric.startRecording()`. `SetDigKeyForGround()`. `SetDigAmountForGround()`|
-   | `chest.opened` | `bpMetric.finishRecording()`. `EndLevel()`(inherited from [`LevelManager`](#420-abstract-level-manager-module)).<br>`metricWriter.logMetrics("digger_{DateTime.Now.ToString()}.JSON", DateTime.Now, [bpMetric])` |
+   | `chest.opened` || `Time.time-gameStartTime`>=`maxGameTime` | `bpMetric.finishRecording()`. `EndLevel()`(inherited from [`LevelManager`](#420-abstract-level-manager-module)).<br>`metricWriter.logMetrics("digger_{DateTime.Now.ToString()}.JSON", DateTime.Now, [bpMetric])` |
 
 `OnGUI()`
 - transition: `e.isKey` ⇒
@@ -391,11 +396,8 @@ This module manages the majority of functionality in the game. The `digAmount` i
    | `lvlState`==2 ∧ `e.keyCode`==`digKey` ∧ release | `bpMetric.recordEvent(new ButtonPressingEvent(DateTime.Now, e.keyCode, false))`. `player.DigUp()` |
 
 #### Local Routine Semantics
-`SetDigKeyForGround()`
-- transition: ∀ b:[`GroundBreaker`](#4213-ground-breaker-module)| b.`SetDigKey(digKey)`
-
-`SetDigAmountForGround()`
-- transition: ∀ b:[`GroundBreaker`](#4213-ground-breaker-module)| b.`SetHitsToBreak( ⌈digAmount/10⌉ )`
+`DigGround()`
+- transition: window := hole gets deeper, player drops to bottom of hole
 
 
 ## 4.2.1.2 Player Controller Module
@@ -442,71 +444,7 @@ This module controls the digging action of the player.
 - transition: window := The location of the jackhammer is set to `hammerRest`. A dust sprite is generated in a random position near the jackhammer.
 
 
-## 4.2.1.3 Ground Breaker Module
-`GroundBreaker` inherits MonoBehaviour
-
-### Uses
-[`DiggerPlayerController`](#4212-digger-player-controller-module), `UnityEngine.KeyCode`, `UnityEngine.Input`, `UnityEngine.Collider2D`
-
-### Syntax
-#### Exported Constants
-None
-
-#### Exported Types
-None
-
-#### Exported Access Programs
-| Routine Name | In | Out | Exceptions |
-|---|---|---|---|
-| `Start` ||||
-| `Update` ||||
-| `OnTriggerStay2D` | `Collider2D` |||
-| `SetDigKey` | `KeyCode` |||
-| `SetHitsToBreak` | `ℕ` |||
-
-### Semantics
-#### Environment Variables
-window: The game window
-
-#### State Variables
-`player`: [`DiggerPlayerController`](#4212-digger-player-controller-module)\
-`digKey`: `KeyCode`\
-`hitsToBreak`: `ℕ`\
-`hits`: `ℕ`\
-`touching`: `𝔹`
-
-#### State Invariant
-`hits`<`hitsToBreak`
-
-#### Assumptions
-`Start` is called at the beginning of the scene\
-`Update` is called once each game cycle\
-`OnTriggerStay2D` is called when a trigger gameobject is touching another gameobject; it is called before `Update` in the game cycle.
-
-#### Design Decisions
-This module controls the breaking of an individual ground block. By default, each block has 10 visual states of breaking and `hitsToBreak` is 10. If `hitsToBreak` is less than 10, then not all visual states will be shown, and if greater than 10, then some/all visual states will take more than one button press to advance.
-
-#### Access Routine Semantics
-`Start()`
-- transition: `hits`, `touching` := 0, `false`
-
-`Update()`
-- transition: `touching` ∧ `Input.GetKeyDown(digKey)` ⇒
-   ||⇒|
-   |---|---|
-   | `hits`<`hitsToBreak`-1 | window := Progress the break animation of this block. |
-   | `hits`==`hitsToBreak`-1 | window := Remove this block from the scene. The player falls down to the next block/platform. |
-
-`OnTriggerStay2D(c)`
-- transition: `c.gameObject.name`==`player.gameObject.name` ⇒ `touching` := `true`
-
-`SetDigKey(key)`
-- transition: `digKey` := `key`
-
-`SetHitsToBreak(hits)`
-- transition: `hitsToBreak` := `hits`
-
-## 4.2.1.4 Chest Animator Module
+## 4.2.1.3 Chest Animator Module
 `ChestAnimator` inherits MonoBehaviour
 
 ### Uses
@@ -567,7 +505,7 @@ This section of modules are used in the Feeder game. In this mini-game, the play
 `FeederLevelManager` module inherits [`LevelManager`](#420-abstract-level-manager-module)
 
 ### Uses
-[`FoodDispenser`](#4222-food-dispenser-module), [`MemoryChoiceMetric`](#4323-memory-choice-metric-module), [`MemoryChoiceEvent`](#4313-memory-choice-event-module), [`MetricJSONWriter`](#433-metric-json-writer-module), `UnityEngine.Event`, `UnityEngine.KeyCode`, `System.DateTime`
+[`FoodDispenser`](#4222-food-dispenser-module), [`MemoryChoiceMetric`](#4323-memory-choice-metric-module), [`MemoryChoiceEvent`](#4313-memory-choice-event-module), [`MetricJSONWriter`](#433-metric-json-writer-module), `UnityEngine.Event`, `UnityEngine.KeyCode`, `UnityEngine.Time`, `System.DateTime`
 
 ### Syntax
 #### Exported Constants
@@ -598,10 +536,11 @@ window: The game window
 `changeFreq`: `ℕ`\
 `goodKey`: `KeyCode`\
 `badKey`: `KeyCode`\
-`maxGameTime`: `ℕ`\
-`elapsedGameTime`: `ℝ`\
 `dispenser`: [`FoodDispenser`](#4222-food-dispenser-module)\
 `lvlState`: `ℕ` (inherited from [`LevelManager`](#420-abstract-level-manager-module))\
+`maxGameTime`: `ℝ` (inherited from [`LevelManager`](#420-abstract-level-manager-module))\
+`gameStartTime`: `ℝ` (inherited from [`LevelManager`](#420-abstract-level-manager-module))\
+`seed`: `string` (inherited from [`LevelManager`](#420-abstract-level-manager-module))
 
 #### State Invariant
 None
@@ -628,8 +567,8 @@ This module manages the majority of functionality in the game. `totalFoods` is t
    |`changeFreq`|3|
    |`goodKey`|`KeyCode.DownArrow`|
    |`badKey`|`KeyCode.UpArrow`|
-   |`maxGameTime`|120|
-   |`elapsedGameTime`|0|
+   |`maxGameTime`|90|
+   |`gameStartTime`|`Time.time`|
    |window|An introductory text is displayed over a blurred game screen|
    
    `dispenser.Init(totalFoods, changeFreq)`
@@ -639,7 +578,7 @@ This module manages the majority of functionality in the game. `totalFoods` is t
    ||⇒|
    |---|---|
    | ¬`recording` | `recording` := `true`. `mcMetric.startRecording()` |
-   | `elaspedGameTime`>`maxGameTime` | `mcMetric.finishRecording()`. `EndLevel()`.<br>`metricWriter.logMetrics("feeder_{DateTime.Now.ToString()}.JSON", DateTime.Now, [mcMetric])`
+   | `Time.time-gameStartTime`>=`maxGameTime` | `mcMetric.finishRecording()`. `EndLevel()`.<br>`metricWriter.logMetrics("feeder_{DateTime.Now.ToString()}.JSON", DateTime.Now, [mcMetric])`
 
 `OnGUI()`
 - transition: `e.isKey` ⇒
@@ -730,7 +669,7 @@ This section of modules are used in the Rockstar game. In this mini-game, the pl
 `RockstarLevelManager` module inherits [`LevelManager`](#420-abstract-level-manager-module)
 
 ### Uses
-[`Spotlight`](#4222-spotlight-module), [`Rockstar`](#4223-rockstar-module), [`Meter`](#4224-meter-module), [`PositionMetric`](#4322-position-metric-module), [`PositionEvent`](#4312-position-event-module), [`LinearVariableMetric`](#4324-linear-variable-metric-module), [`LinearVariableEvent`](#4314-linear-variable-event-module), [`MetricJSONWriter`](#433-metric-json-writer-module), `UnityEngine.Event`, `UnityEngine.KeyCode`, `System.DateTime`
+[`Spotlight`](#4222-spotlight-module), [`Rockstar`](#4223-rockstar-module), [`Meter`](#4224-meter-module), [`PositionMetric`](#4322-position-metric-module), [`PositionEvent`](#4312-position-event-module), [`LinearVariableMetric`](#4324-linear-variable-metric-module), [`LinearVariableEvent`](#4314-linear-variable-event-module), [`MetricJSONWriter`](#433-metric-json-writer-module), `UnityEngine.Event`, `UnityEngine.KeyCode`, `UnityEngine.Time`, `System.DateTime`
 
 ### Syntax
 #### Exported Constants
@@ -757,7 +696,6 @@ window: The game window
 `pMetric`: [`PositionMetric`](#4322-position-metric-module)\
 `lvMetric`: [`LinearVariableMetric`](#4324-linear-variable-metric-module)\
 `recording`: `𝔹`\
-`seed`: `ℕ`\
 `rockstarChangeFreq`: `ℝ`\
 `rockstarVel`: `ℝ`\
 `lightVel`: `ℝ`\
@@ -765,15 +703,17 @@ window: The game window
 `meterMinVel`: `ℝ`\
 `meterMaxVel`: `ℝ`\
 `meterUpVel`: `ℝ`\
+`meterGoodRange`: `ℝ`\
 `leftKey`: `KeyCode`\
 `rightKey`: `KeyCode`\
 `upKey`: `KeyCode`\
-`maxGameTime`: `ℕ`\
-`elapsedGameTime`: `ℝ`\
 `spotlight`: [`Spotlight`](#4222-spotlight-module)\
 `rockstar`: [`Rockstar`](#4223-rockstar-module)\
 `meter`: [`Meter`](#4224-meter-module)\
-`lvlState`: `ℕ` (inherited from [`LevelManager`](#420-abstract-level-manager-module))
+`lvlState`: `ℕ` (inherited from [`LevelManager`](#420-abstract-level-manager-module))\
+`maxGameTime`: `ℝ` (inherited from [`LevelManager`](#420-abstract-level-manager-module))\
+`gameStartTime`: `ℝ` (inherited from [`LevelManager`](#420-abstract-level-manager-module))\
+`seed`: `string` (inherited from [`LevelManager`](#420-abstract-level-manager-module))
 
 #### State Invariant
 None
@@ -797,18 +737,19 @@ This module manages the majority of functionality in the game. `rockstarChangeFr
    |`pMetric`|new [`PositionMetric(["rockstar", "spotlight"])`](#4322-position-metric-module)|
    |`lvMetric`|new [`LinearVariableMetric(0.0, 100.0, 75.0, ["gameDrop", "playerRaise"])`](#4324-linear-variable-metric-module)|
    |`recording`|`false`|
-   |`rockstarChangeFreq`|5.0|
+   |`rockstarChangeFreq`|1.0|
    |`rockstarVel`|2.5|
-   |`lightVel`|2.75|
+   |`lightVel`|3.0|
    |`meterChangeFreq`|2.0|
    |`meterMinVel`|5.0|
-   |`meterMaxVel`|25.0|
-   |`meterUpVel`|30.0|
+   |`meterMaxVel`|30.0|
+   |`meterUpVel`|60.0|
+   |`meterGoodRange`|60.0|
    |`leftKey`|`KeyCode.LeftArrow`|
    |`rightKey`|`KeyCode.RightArrow`|
    |`upKey`|`KeyCode.UpArrow`|
-   |`maxGameTime`|120|
-   |`elapsedGameTime`|0|
+   |`maxGameTime`|90|
+   |`gameStartTime`|`Time.time`|
    |window|An introductory text is displayed over a blurred game screen|
    
    `spotlight.Init(lightVel)`. `rockstar.Init(rockstarChangeFreq, rockstarVel)`. `meter.Init(meterChangeFreq, meterMinVel, meterMaxVel, meterUpVel,)`
@@ -819,7 +760,7 @@ This module manages the majority of functionality in the game. `rockstarChangeFr
    |---|---|
    | ¬`recording` | `recording` := `true`. `pMetric.startRecording()`. `lvMetric.startRecording()` |
    | `recording` | `pMetric.recordEvent(new PositionEvent(DateTime.Now, [rockstar.GetPosition(), spotlight.GetPosition()]))`.<br>`lvMetric.recordEvent(new LinearVariable(DateTime.Now, meter.Drop(), meter.GetVelocity(), 0))` |
-   | `elaspedGameTime`>`maxGameTime` | `pMetric.finishRecording()`. `lvMetric.finishRecording()`. `EndLevel()`.<br>`metricWriter.logMetrics("rockstar_{DateTime.Now.ToString()}.JSON", DateTime.Now, [pMetric, lvMetric])`
+   | `Time.time-gameStartTime`>=`maxGameTime` | `pMetric.finishRecording()`. `lvMetric.finishRecording()`. `EndLevel()`.<br>`metricWriter.logMetrics("rockstar_{DateTime.Now.ToString()}.JSON", DateTime.Now, [pMetric, lvMetric])`
 
 `OnGUI()`
 - transition: `e.isKey` ⇒
