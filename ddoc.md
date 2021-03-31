@@ -2309,6 +2309,12 @@ Table #2 Traceability Matrix between functional requirements and modules
 | Module Name                    | Code      | Requirements |
 |--------------------------------|-----------|----------------------|
 | [Battery Module](#41-battery-module)                                       | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Scripts/Battery/Battery.cs)    | F-9 |
+| [Start Screen Module](#411-start-screen-module)                             | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Scripts/Battery/StartScreen.cs)    | F-9 |
+| [End Screen Module](#412-end-screen-module)                                  | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Scripts/Battery/EndScreen.cs)    | F-9 |
+| [Scene Controller Module](#413-scene-controller-module)                                       | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Scripts/Battery/SceneController.cs)    | F-9 |
+| [Client Server Module](#414-client-server-module)                                       | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Scripts/Battery/ClientServer.cs)    | F-9 |
+| [File Handler Module](#415-file-handler-module)                                       | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Scripts/Battery/FileHandler.cs)    | F-9 |
+| [Config Handler Module](#416-config-handler-module)                                       | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Scripts/Battery/ConfigHandler.cs)    | F-9 |
 | [Abstract Level Manager Module](#420-abstract-level-manager-module)        | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Scripts/LevelManager/LevelManager.cs)    | F-12 |
 | [Digger Level Manager Module](#4211-digger-level-manager-module)           | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Scripts/Digger/DiggerLevelManager.cs)    | F-1, F-2, F-3, F-4, F-5, F-6, F-7, F-8, F-11, F-15 |
 | [Digger Player Controller Module](#4212-digger-player-controller-module)   | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Scripts/Digger/PlayerController.cs)    | F-5 |
@@ -2332,8 +2338,7 @@ Table #2 Traceability Matrix between functional requirements and modules
 | [Metric JSON Writer Module](#433-metric-json-writer-module)                | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Scripts/Metrics/MetricJSONWriter.cs)    | F-13 |
 | [Request Handler Module](#441-request-handler-module)                | [Code](https://github.com/BryanChiu/Mactivision/blob/master/server/server.py)    | F-15 |
 | [Session Module](#442-session-module)                | [Code](https://github.com/BryanChiu/Mactivision/blob/master/server/server.py)    | F-15 |
-| [Start Screen Module](#411-start-screen-module)                             | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Scripts/Battery/StartScreen.cs)    | F-9 |
-| [End Screen Module](#412-end-screen-module)                                  | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Scripts/Battery/EndScreen.cs)    | F-9 |
+
 
 # 6. List of Changes to SRS
 
