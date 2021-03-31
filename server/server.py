@@ -223,7 +223,7 @@ class RequestHandler(SimpleHTTPRequestHandler):
         
         if action == '/connect':
             self.handle_request("get", query)
-        elif action == '/' or action == '/Build' or action == '/TemplateData':
+        elif action == '/' or action.startswith('/Build') or action.startswith('/TemplateData'):
             return SimpleHTTPRequestHandler.do_GET(self)
         else:
             self.send_error(404)
