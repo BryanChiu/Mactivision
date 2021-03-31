@@ -17,7 +17,7 @@ understood through the concepts of mechanical achievability. That is to say,
 is it possible, given a player’s profile of cognitive and motor abilities,
 that they can complete the game’s challenges?
 
-The Games Scalability Environment (G-ScalE) is a research team that focuses
+The [Games Scalability Environment (G-ScalE)](http://gscale.mcmaster.ca/) is a research team that focuses
 on understanding the fundamental science behind video games. Our capstone
 team (Mactivision) has developed various cognitive tests disguised as
 mini-games which will measure users’ strengths and weaknesses in performing
