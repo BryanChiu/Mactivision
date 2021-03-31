@@ -52,7 +52,9 @@ Table of Contents
       * 4.3.2.3 [Memory Choice Metric Module](#4323-memory-choice-metric-module)
       * 4.3.2.4 [Linear Variable Metric Module](#4324-linear-variable-metric-module)
     * 4.3.3 [Metric JSON Writer Module](#433-metric-json-writer-module)
-  * 4.4 [Server Modules](#44-server-modules)
+  * 4.4 [Server Module](#44-server-module)
+    * 4.4.1 [Request Handler Module](#441-request-handler-module)
+    * 4.4.2 [Session Module](#442-session-module)
 * 5 [Traceability Matrix](#5-traceability-matrix)
 * 6 [List of Changes to SRS](#6-list-of-changes-to-srs)
 * 7 [Module Relationship Diagram](#7-module-relationship-diagram)
@@ -2030,8 +2032,256 @@ This module represents the class `MetricJSONWriter`. It will be instantiated by 
 * output: _out_ := none
 * exceptions: `CannotWriteToFileException`
 
-## 4.4 Server Modules
+## 4.4 Server Module
+This module handles the server which accepts HTTP requests from the `ClientServer Module`.
 
+### Module
+Server 
+
+### Uses
+* `os`
+* `argparse`
+* `cgi`
+* `json`
+* `sys`
+* `signal`
+* `threading`
+* `urllib`
+* `http.server`
+* `datetime`
+
+### Syntax
+
+#### __Exported Constants__
+None
+
+#### __Exported Types__
+* `Session`
+* `RequestHandler`
+
+#### __Exported Access Programs__
+|Routine Name|In |Out |Exceptions |
+|---|---|---|---|
+|`get_state_str`|`{0,1,2,3}`|`string`||
+|`log`|`string`|||
+|`cleanup_loop`|`ℕ`|||
+
+### Semantics
+
+#### __Environment Variables__
+* `file`: `string`, passed as input to module
+* `ROOT`: `string`, passed as input to module
+
+#### __State Variables__
+* `SESSIONS`: `dict of {string: Session}`
+
+#### __Constants__
+* `IP = ''`
+* `PORT = 8000`
+* `EXPIRE_TIME: timedelta = 20 minutes`
+* `CREATED = 0`
+* `GAME_STARTED = 1`
+* `GAME_FINISHED = 2`
+* `FINISHED = 3`
+* `CLEANUP_TIME = 60`
+
+#### __Assumptions__
+None
+
+#### __Design Decisions__
+The Server Module is used to receive and store data from client sessions. Data generated from `Measurement Modules` is sent from `ClientServer Module` to `Server Module` via the singleton `RequestHandler Module`.
+
+#### __Access Routine Semantics__
+
+`get_state_str(st)`
+* transition: None
+* output: `'CREATED'` if `st = 0`, `'GAME_STARTED'` if `st = 1`, `'GAME_ENDED'` if `st = 2`, `'FINISHED'` if `st = 3`
+* exception: None
+
+`log(str)`
+* transition: None
+* output: None
+* exception: None
+
+`cleanup_loop(dt)`
+* transition: Removes elements from Session dict
+* output: None
+* exception: None
+
+## 4.4.1 Request Handler Module
+
+This module handles the server which accepts HTTP requests from the `ClientServer Module`.
+
+### Module inherits SimpleHTTPRequestHandler
+RequestHandler 
+
+### Uses
+* `os`
+* `argparse`
+* `cgi`
+* `json`
+* `sys`
+* `signal`
+* `threading`
+* `urllib`
+* `http.server`
+* `datetime`
+
+* `Server Module`
+
+### Syntax
+
+#### __Exported Constants__
+None
+
+#### __Exported Types__
+None
+
+#### __Exported Access Programs__
+|Routine Name|In |Out |Exceptions |
+|---|---|---|---|
+|`do_CORS`||||
+|`split_url`|`string`|`string`, `dict of {string: string}`||
+|`get_url_query`|`string`|`dict of {string: string}`||
+|`state_created`|`string, dict of {string: string}`|`HTTP Error Code`|
+|`state_game_started`|`string, dict of {string: string}`|`HTTP Error Code`|
+|`state_game_ended`|`string, dict of {string: string}`||
+|`post_data`|`string, dict of {string: string}`|`HTTP Error Code`|
+|`state_game_finished`|`string, dict of {string: string}`||
+|`handle_request`|`string, dict of {string: string}`|`HTTP Error Code`|
+|`do_GET`||||
+|`do_POST`||||
+
+### Semantics
+
+#### __Environment Variables__
+None
+
+#### __State Variables__
+None
+
+#### __Constants__
+None
+
+#### __Assumptions__
+None
+
+#### __Design Decisions__
+The RequestHandler Module is used to receive and store data from client sessions using HTTP.
+
+#### __Access Routine Semantics__
+
+`do_CORS()`
+* transition: None
+* output: 200
+* exception: None
+
+`split_url(path)`
+* transition: None
+* output: `action, query`
+* exception: None
+
+`get_url_query(path)`
+* transition: None
+* output: `query`
+* exception: None
+
+`state_created(token, query)`
+* transition: None
+* output: `do_CORS()`
+* exception: `500, 'Could not create new folder'` if folder cannot be created
+
+`state_game_started(token, query)`
+* transition: None
+* output: `do_CORS()`
+* exception: `400, 'Invalid maxgameseconds ' + query['maxgameseconds']` if `query['maxgameseconds']` invalid
+
+`post_data(token, query)`
+* transition: None
+* output: `do_CORS()`
+* exception: `400, 'Missing path parameter \"filename\"'` if `'filename' not in query` or `400, 'Content-Type must be application/json'`
+
+`state_game_ended(token, query)`
+* transition: None
+* output: `do_CORS()`
+* exception: None
+
+`state_game_finished(token, query)`
+* transition: None
+* output: `do_CORS()`
+* exception: None
+
+`handle_request(action, query)`
+* transition: None
+* output: one of: {`state_created()`, `state_game_started()`, `state_game_ended()`, `state_game_finished()`}
+* exception: `400, 'Missing path parameter \"token\"'` if `'token' not in query` or `400, 'Missing path parameter \"state\"'` if `'state' not in query` or `400, 'Bad state type ' + query['state']` if `query['state'] not ℕ` or `400, 'Bad state value ' + query['state']` if `query['state'] not in {CREATED, GAME_STARTED, GAME_ENDED, FINISHED}` or `400, 'Invalid token'` if `token not in SESSIONS and token != CREATED`
+
+`do_GET()`
+* transition: None
+* output: `handle_request('get', query)`
+* exception: `404`
+
+`go_POST()`
+* transition: None
+* output: `handle_request('post', query)`
+* exception `404`
+
+## 4.4.2 Session Module
+
+This module is a blueprint for `Session` objects, which are used by `Server` and `RequestHandler` modules.
+
+### Module
+Session
+
+### Uses
+* `datetime`
+
+### Syntax
+
+#### __Exported Constants__
+None
+
+#### __Exported Types__
+None
+
+#### __Exported Access Programs__
+|Routine Name|In |Out |Exceptions |
+|---|---|---|---|
+|`Session`|`string, string`|`Session`||
+|`set_state`|`ℕ`, `datetime`|||
+
+### Semantics
+
+#### __Environment Variables__
+None
+
+#### __State Variables__
+* `token: string`
+* `output_path: string`
+* `expire_time: datetime`
+* `state: ℕ: {0,1,2,3}`
+
+#### __Constants__
+None
+
+#### __Assumptions__
+`Session` is called before any other access routines.
+
+#### __Design Decisions__
+The `Session` Module stores data for a single `Session` object.
+
+#### __Access Routine Semantics__
+
+`Session(tkn, out)`
+* Transition: `token, output_path := tkn, out`
+* Output: `self`
+* Exceptions: None
+
+`set_state(st, ex)`
+* Transition: `state, expire_time := st, current_time + ex`
+* Output: None
+* Exceptions: None
+* 
 # 5. Traceability Matrix
 
 Table #1 Functional requirements and descriptions from [SRS](https://github.com/BryanChiu/Mactivision/wiki/Software-Requirements-Specification#32-functional)
