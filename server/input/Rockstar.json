@@ -11,7 +11,7 @@
         "TestName": null,
         "Scene": "Rockstar",
         "Seed": null,
-        "MaxGameTime": 1.0,
+        "MaxGameTime": 90.0,
         "RockstarChangeFreq": 1.0,
         "RockstarVelocity": 2.5,
         "SpotlightVelocity": 3.0,
@@ -19,9 +19,12 @@
         "MeterMinVel": 5.0,
         "MeterMaxVel": 30.0,
         "MeterUpVel": 60.0,
+        "MeterGoodRange": 60.0,
         "LeftKey": "A",
         "RightKey": "D",
-        "UpKey": "L"
+        "UpKey": "L",
+        "EnableAnimations": true,
+        "MusicTrack": 1
       }
     ]
   }

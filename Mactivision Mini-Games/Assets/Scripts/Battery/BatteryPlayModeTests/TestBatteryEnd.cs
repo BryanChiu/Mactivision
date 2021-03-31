@@ -16,8 +16,10 @@ public class TestBatteryEnd
     [OneTimeSetUp]
     public void SetupBattery()
     {
+        /*
         File = new FileHandler();
         SceneManager.LoadScene("Battery End", LoadSceneMode.Single);
+        */
     }
 
     [UnityTest]

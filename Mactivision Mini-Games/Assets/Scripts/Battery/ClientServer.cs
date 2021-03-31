@@ -17,9 +17,9 @@ public class ClientServer
 {
     private string URL = "";
 
-    public ClientServer()
+    public ClientServer(string server_url)
     {
-        URL = Battery.Instance.GetServerURL();
+        URL = server_url;
     }
 
     public UnityWebRequest UpdateServerCreateRequest()
@@ -62,8 +62,14 @@ public class ClientServer
         {
             Debug.Log("Network Error\n" + post.error);
             Debug.Log("Sending Player back to Start Screen \n");
-            Battery.Instance.Reset();
-            Battery.Instance.LoadScene("Battery Start");
+
+            // Kick player to start screen if server is dead
+            // But, don't for when developing.
+            if (!Application.isEditor)
+            { 
+                Battery.Instance.Reset();
+                Battery.Instance.LoadScene("Battery Start");
+            }
         }
         else
         {
@@ -91,8 +97,14 @@ public class ClientServer
         {
             Debug.Log("Network Error\n" + get.error);
             Debug.Log("Sending Player back to Start Screen \n");
-            Battery.Instance.Reset();
-            Battery.Instance.LoadScene("Battery Start");
+            
+            // Kick player to start screen if server is dead
+            // But, don't for when developing.
+            if (!Application.isEditor)
+            { 
+                Battery.Instance.Reset();
+                Battery.Instance.LoadScene("Battery Start");
+            }
         }
         else
         {

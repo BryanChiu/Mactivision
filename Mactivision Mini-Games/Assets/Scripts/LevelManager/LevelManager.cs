@@ -53,7 +53,7 @@ public abstract class LevelManager : MonoBehaviour
         ChangeBlur(2f);
         lvlState = 0;
         outputPath = "Logs/";
-        Client = new ClientServer();
+        Client = new ClientServer(Battery.Instance.GetServerURL());
 
         // TODO: Call standby here
     }

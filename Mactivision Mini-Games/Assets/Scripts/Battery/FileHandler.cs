@@ -7,9 +7,16 @@ using UnityEngine;
 
 public class FileHandler
 {
-    string ConfigPath = "./Assets/Configs/";
-    string GeneratedFile = "GeneratedTemplate.json";
-    string MetaFile = "GeneratedTemplate.meta";
+    private string ConfigPath;
+    private string GeneratedFile;
+    private string MetaFile;
+
+    public FileHandler(string Path, string FileName, string MetaFileName)
+    {
+        ConfigPath = Path;    
+        GeneratedFile = FileName;
+        MetaFile = MetaFileName;
+    }
 
     public void DeleteGeneratedConfig()
     {

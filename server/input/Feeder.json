@@ -11,11 +11,11 @@
         "TestName": null,
         "Scene": "Feeder",
         "Seed": null,
-        "MaxGameTime": 1.0,
-        "MaxFoodDispensed": 25,
-        "TotalFoods": 6,
+        "MaxGameTime": 90.0,
+        "MaxFoodDispensed": 20,
+        "UniqueFoods": 6,
         "AverageUpdateFrequency": 3.0,
-        "StandardDeviationUpdateFreq": 2.8
+        "UpdateFreqVariance": 0.3
       }
     ]
   }

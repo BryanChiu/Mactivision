@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections;
 using System.IO;
 using Newtonsoft.Json;
+using UnityEngine;
 
 public class EmptyConfigException : Exception{}
 public class BadConfigException : Exception{}
@@ -10,15 +11,15 @@ public class InvalidScenesException : Exception{}
 
 public class ConfigHandler
 {   
-    static private Dictionary<string,GameConfig> GameList = new Dictionary<string,GameConfig>
-    {
-        {"Digger", new DiggerConfig()},
-        {"Feeder", new FeederConfig()},
-        {"Rockstar", new RockstarConfig()}
-    };
+    static private Dictionary<string,GameConfig> GameList;
     
     private BatteryConfig Config;
     private bool ConfigLoaded;
+
+    public ConfigHandler(Dictionary<string,GameConfig> Games)
+    {
+        GameList = Games;
+    }
 
     public Dictionary<string,GameConfig>GetGameList()
     {
