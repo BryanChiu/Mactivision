@@ -55,6 +55,11 @@ public class TestBatteryStart
     [UnityTest]
     public IEnumerator TestStartBattery()
     {
+
+        var gen = System.IO.File.ReadAllText("./Assets/Configs/GeneratedTemplate.json");
+
+        Battery.Instance.LoadBattery(gen);
+
         var button = GameObject.Find("Start Button").GetComponent<Button>();
 
         Assert.AreEqual(Battery.Instance.GetStartTime(), null);
