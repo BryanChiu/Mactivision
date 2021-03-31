@@ -141,6 +141,6 @@ public class TestPositionMetric
         
         JArray json2p = (JArray) json2["eventList"];
         Assert.AreEqual(1, json2p.Count);
-        Assert.AreEqual("2/1/2021 12:00:00 AM", json2p[0]["eventTime"].ToString());
+        Assert.AreEqual("2021-02-01 12:00:00 AM", json2p[0]["eventTime"].ToString());
     }
 }
