@@ -10,23 +10,26 @@
         "$type": "DiggerConfig, Battery",
         "TestName": null,
         "Scene": "Digger",
-        "DigAmount": 8,
+        "MaxGameTime": 100.0,
+        "DigAmount": 100,
+        "DigKey": "A"
+      },
+      {
+        "$type": "DiggerConfig, Battery",
+        "TestName": null,
+        "Scene": "Digger",
+        "MaxGameTime": 100.0,
+        "DigAmount": 100,
         "DigKey": "B"
       },
       {
         "$type": "DiggerConfig, Battery",
         "TestName": null,
         "Scene": "Digger",
-        "DigAmount": 4,
+        "MaxGameTime": 100.0,
+        "DigAmount": 100,
         "DigKey": "C"
-      },
-      {
-        "$type": "DiggerConfig, Battery",
-        "TestName": null,
-        "Scene": "Digger",
-        "DigAmount": 2,
-        "DigKey": "D"
-      }    
+      }
     ]
   }
 }

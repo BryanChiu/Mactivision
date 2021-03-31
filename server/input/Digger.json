@@ -10,7 +10,8 @@
         "$type": "DiggerConfig, Battery",
         "TestName": null,
         "Scene": "Digger",
-        "DigAmount": 10,
+        "MaxGameTime": 100.0,
+        "DigAmount": 100,
         "DigKey": "B"
       }
     ]
