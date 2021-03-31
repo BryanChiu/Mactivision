@@ -22,7 +22,6 @@ public class TestBattery
         Assert.DoesNotThrow(() => Battery.Instance.GetCurrentConfig());
         Assert.DoesNotThrow(() => Battery.Instance.GetGameName());
         Assert.DoesNotThrow(() => Battery.Instance.WriteExampleConfig());
-        //Assert.DoesNotThrow(() => Battery.Instance.GetGameList());
         Assert.DoesNotThrow(() => Battery.Instance.LoadNextScene());
     }
 }

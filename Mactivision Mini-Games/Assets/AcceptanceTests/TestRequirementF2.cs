@@ -34,35 +34,22 @@ public class TestRequirementF2
         yield return null;
         var levelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
         DiggerLevelManager diggerLevelManager = levelManager.GetComponent<DiggerLevelManager>();
+        diggerLevelManager.Client = new ClientServerMock();
         Assert.NotNull(levelManager);
         Assert.NotNull(diggerLevelManager);
 
-        string[] filesBefore = Directory.GetFiles("./Logs/", "digger_*.json").Select(filename => Path.GetFileName(filename)).ToArray();
+        diggerLevelManager.StartGame();
+        diggerLevelManager.EndGame();
 
-        diggerLevelManager.chest.opened = true;
-        diggerLevelManager.lvlState = 2;
-
-        yield return null;
-        string[] filesAfter = Directory.GetFiles("./Logs/", "digger_*.json").Select(filename => Path.GetFileName(filename)).ToArray();
-        Assert.AreEqual(1, filesAfter.Count() - filesBefore.Count());
-
-        string newFile = "";
-        foreach (string file in filesAfter) {
-            if (!filesBefore.Contains(file)) {
-                newFile = file;
-            }
-        }
-        Assert.AreNotEqual("", newFile);
+        string filename = ((ClientServerMock) diggerLevelManager.Client).filename;
+        string data = ((ClientServerMock) diggerLevelManager.Client).data;
 
         // read file and test if start and end times are outputted
-        string json = File.ReadAllText("./Logs/" + newFile);
-        JObject jsonObject = JsonConvert.DeserializeObject<JObject>(json);
+        JObject jsonObject = JsonConvert.DeserializeObject<JObject>(data);
         Assert.IsNotNull(jsonObject);
         Assert.IsNotNull(jsonObject["startTime"].ToString());
         Assert.IsNotNull(jsonObject["endTime"].ToString());
         Assert.AreNotEqual("", jsonObject["startTime"].ToString());
         Assert.AreNotEqual("", jsonObject["endTime"].ToString());
-
-        File.Delete("./Logs/" + newFile);
     }
 }

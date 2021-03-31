@@ -77,7 +77,7 @@ public class ClientServer
         }
     }
 
-    public IEnumerator PostGameEnd(string filename, string data)
+    public virtual IEnumerator PostGameEnd(string filename, string data)
     {
         return Post(filename,data, ClientState.GAME_ENDED);
     }

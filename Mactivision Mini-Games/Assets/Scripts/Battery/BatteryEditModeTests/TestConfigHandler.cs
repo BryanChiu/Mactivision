@@ -20,10 +20,16 @@ public class TestConfigHandler
     [SetUp]
     public void AutoGenerateAndLoad()
     {
-        /*
-        Config = new ConfigHandler();
+
+        var GameList = new Dictionary<string,GameConfig>
+        {
+            {"Digger", new DiggerConfig()},
+            {"Feeder", new FeederConfig()},
+            {"Rockstar", new RockstarConfig()}
+        };
+
+        Config = new ConfigHandler(GameList);
         Config.Load(Config.Generate());
-        */
     }
 
     [Test]

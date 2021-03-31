@@ -25,16 +25,24 @@
         "DigKey": null
       },
       {
-        "$type": "RockStarConfig, Battery",
+        "$type": "RockstarConfig, Battery",
         "TestName": null,
-        "Scene": null,
+        "Scene": "Rockstar",
         "Seed": null,
         "MaxGameTime": 0.0,
-        "MeterMax": 0,
-        "MeterMin": 0,
-        "MeterIncrement": 0,
-        "ChangeFrequency": 0.0,
-        "LightVelocity": 0.0
+        "RockstarChangeFreq": 0.0,
+        "RockstarVelocity": 0.0,
+        "SpotlightVelocity": 0.0,
+        "MeterChangeFreq": 0.0,
+        "MeterMinVel": 0.0,
+        "MeterMaxVel": 0.0,
+        "MeterUpVel": 0.0,
+        "MeterGoodRange": 0.0,
+        "LeftKey": null,
+        "RightKey": null,
+        "UpKey": null,
+        "EnableAnimations": false,
+        "MusicTrack": 0
       }
     ]
   }
