@@ -2281,7 +2281,7 @@ The `Session` Module stores data for a single `Session` object.
 * Transition: `state, expire_time := st, current_time + ex`
 * Output: None
 * Exceptions: None
-* 
+
 # 5. Traceability Matrix
 
 Table #1 Functional requirements and descriptions from [SRS](https://github.com/BryanChiu/Mactivision/wiki/Software-Requirements-Specification#32-functional)
@@ -2332,8 +2332,8 @@ Table #2 Traceability Matrix between functional requirements and modules
 | [Metric JSON Writer Module](#433-metric-json-writer-module)                | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Scripts/Metrics/MetricJSONWriter.cs)    | F-13 |
 | [Request Handler Module](#441-request-handler-module)                | [Code](https://github.com/BryanChiu/Mactivision/blob/master/server/server.py)    | F-15 |
 | [Session Module](#442-session-module)                | [Code](https://github.com/BryanChiu/Mactivision/blob/master/server/server.py)    | F-15 |
-| [Start Screen Module](#45-start-screen-module)                             | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Scripts/Battery/StartScreen.cs)    | F-9 |
-| [End Screen Module](46-end-screen-module)                                  | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Scripts/Battery/EndScreen.cs)    | F-9 |
+| [Start Screen Module](#411-start-screen-module)                             | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Scripts/Battery/StartScreen.cs)    | F-9 |
+| [End Screen Module](#412-end-screen-module)                                  | [Code](https://github.com/BryanChiu/Mactivision/blob/master/Mactivision%20Mini-Games/Assets/Scripts/Battery/EndScreen.cs)    | F-9 |
 
 # 6. List of Changes to SRS
 
