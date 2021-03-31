@@ -48,106 +48,99 @@ public class TestPositionMetric
         //Assert.AreEqual(System.DateTime.MaxValue, pe4.eventTime);
     }
 
-    // TODO: Fix this test
     [Test]
     public void TestConstructor()
     {
-        // PositionMetric pm = new PositionMetric();
-        // Assert.IsFalse(pm.isRecording);
-        // Assert.IsNotNull(pm.eventList);
-        // Assert.IsEmpty(pm.eventList);
+        PositionMetric pm = new PositionMetric(new List<string> {"1", "2"});
+        Assert.IsFalse(pm.isRecording);
+        Assert.IsNotNull(pm.eventList);
+        Assert.IsEmpty(pm.eventList);
     }
 
-    // TODO: Fix this test
     [Test]
     public void TestStartFinishRecording()
     {
-        // PositionMetric pm = new PositionMetric();
-        // Assert.IsFalse(pm.isRecording);
+        PositionMetric pm = new PositionMetric(new List<string> {"1", "2"});
+        Assert.IsFalse(pm.isRecording);
 
-        // pm.startRecording();
-        // Assert.IsTrue(pm.isRecording);
+        pm.startRecording();
+        Assert.IsTrue(pm.isRecording);
 
-        // pm.finishRecording();
-        // Assert.IsFalse(pm.isRecording);
+        pm.finishRecording();
+        Assert.IsFalse(pm.isRecording);
     }
 
-    // TODO: Fix this test
     [Test]
     public void TestRecordEvent()
     {
-        // PositionMetric pm1 = new PositionMetric();
-        // pm1.startRecording();
-        // Assert.IsEmpty(pm1.eventList);
-        // Assert.IsTrue(pm1.isRecording);
+        PositionMetric pm1 = new PositionMetric(new List<string> {"1", "2"});
+        pm1.startRecording();
+        Assert.IsEmpty(pm1.eventList);
+        Assert.IsTrue(pm1.isRecording);
         
-        // pm1.recordEvent(null);
-        // Assert.IsEmpty(pm1.eventList);
+        pm1.recordEvent(null);
+        Assert.IsEmpty(pm1.eventList);
 
-        // // Test adding events to a PositionMetric which has not started recording
-        // PositionMetric pm2 = new PositionMetric();
-        // Assert.IsFalse(pm2.isRecording);
-        // Assert.IsEmpty(pm2.eventList);
+        // Test adding events to a PositionMetric which has not started recording
+        PositionMetric pm2 = new PositionMetric(new List<string> {"1", "2"});
+        Assert.IsFalse(pm2.isRecording);
+        Assert.IsEmpty(pm2.eventList);
 
-        // List<Vector2> v1 = new List<Vector2>();
-        // v1.Add(new Vector2(10, 10));
-        // v1.Add(new Vector2(0, 0));
-        // pm2.recordEvent(new PositionEvent(new System.DateTime(2021, 2, 1), v1));
-        // Assert.IsEmpty(pm2.eventList);
+        List<Vector2> v1 = new List<Vector2>();
+        v1.Add(new Vector2(10, 10));
+        v1.Add(new Vector2(0, 0));
+        pm2.recordEvent(new PositionEvent(new System.DateTime(2021, 2, 1), v1));
+        Assert.IsEmpty(pm2.eventList);
 
-        // Test adding valid events to a PositionMetric which has started recording
-        //PositionMetric pm3 = new PositionMetric();
-        //pm3.startRecording();
-        //Assert.IsTrue(pm3.isRecording);
-        //Assert.IsEmpty(pm3.eventList);
+        //Test adding valid events to a PositionMetric which has started recording
+        // PositionMetric pm3 = new PositionMetric(new List<string> {"1", "2"});
+        // pm3.startRecording();
+        // Assert.IsTrue(pm3.isRecording);
+        // Assert.IsEmpty(pm3.eventList);
 
-        //pm3.recordEvent(new PositionEvent(new System.DateTime(2021, 2, 1), new Vector2(new Vector2(100, 100), new Vector2(0, 0))));
-        //pm3.recordEvent(new PositionEvent(new System.DateTime(2021, 2, 2), new Vector2(new Vector2(0, 0), new Vector2(20, 20))));
-        //pm3.recordEvent(new PositionEvent(new System.DateTime(2021, 2, 3), new Vector2(new Vector2(20, 20), new Vector2(20, 30))));
+        // pm3.recordEvent(new PositionEvent(new System.DateTime(2021, 2, 1), new Vector2(new Vector2(100, 100), new Vector2(0, 0))));
+        // pm3.recordEvent(new PositionEvent(new System.DateTime(2021, 2, 2), new Vector2(new Vector2(0, 0), new Vector2(20, 20))));
+        // pm3.recordEvent(new PositionEvent(new System.DateTime(2021, 2, 3), new Vector2(new Vector2(20, 20), new Vector2(20, 30))));
         
-        //Assert.AreEqual(3, pm3.eventList.Count);
-        //Assert.AreEqual(new System.DateTime(2021, 2, 1), pm3.eventList[0].eventTime);
-        //Assert.AreEqual(new Vector2(new Vector2(100, 100), new Vector2(0, 0)), pm3.eventList[0].positions);
+        // Assert.AreEqual(3, pm3.eventList.Count);
+        // Assert.AreEqual(new System.DateTime(2021, 2, 1), pm3.eventList[0].eventTime);
+        // Assert.AreEqual(new Vector2(new Vector2(100, 100), new Vector2(0, 0)), pm3.eventList[0].positions);
 
-        //Assert.AreEqual(new System.DateTime(2021, 2, 2), pm3.eventList[1].eventTime);
-        //Assert.AreEqual(new Vector2(new Vector2(0, 0), new Vector2(20, 20)), pm3.eventList[1].positions);
+        // Assert.AreEqual(new System.DateTime(2021, 2, 2), pm3.eventList[1].eventTime);
+        // Assert.AreEqual(new Vector2(new Vector2(0, 0), new Vector2(20, 20)), pm3.eventList[1].positions);
 
-        //Assert.AreEqual(new System.DateTime(2021, 2, 3), pm3.eventList[2].eventTime);
-        //Assert.AreEqual(new Vector2(new Vector2(20, 20), new Vector2(20, 30)), pm3.eventList[2].positions);
+        // Assert.AreEqual(new System.DateTime(2021, 2, 3), pm3.eventList[2].eventTime);
+        // Assert.AreEqual(new Vector2(new Vector2(20, 20), new Vector2(20, 30)), pm3.eventList[2].positions);
     }
 
-    // TODO: Fix this test
     [Test]
     public void TestGetJSON()
     {
-        // // Test getJSON() when metric has no records
-        // PositionMetric pm1 = new PositionMetric();
-        // Assert.IsEmpty(pm1.eventList);
+        // Test getJSON() when metric has no records
+        PositionMetric pm1 = new PositionMetric(new List<string> {"1", "2"});
+        Assert.IsEmpty(pm1.eventList);
 
-        // JObject json1 = pm1.getJSON();
-        // Assert.IsNotNull(json1);
-        // Assert.IsNotNull(json1["positions"]);      
-        // Assert.IsEmpty(json1["positions"]);
+        JObject json1 = pm1.getJSON();
+        Assert.IsNotNull(json1);
 
-        // // Test getJSON() with one record
-        // PositionMetric pm2 = new PositionMetric();
-        // pm2.startRecording();
-        // Assert.IsTrue(pm2.isRecording);
-        // Assert.IsEmpty(pm2.eventList);
+        // Test getJSON() with one record
+        PositionMetric pm2 = new PositionMetric(new List<string> {"1", "2"});
+        pm2.startRecording();
+        Assert.IsTrue(pm2.isRecording);
+        Assert.IsEmpty(pm2.eventList);
 
-        //List<Vetcor2> v1 = new List<Vector2>();
-        //v1.Add(new Vector2(20, 20));
-        //v1.Add(new Vector2(20, 30));
-        //pm2.recordEvent(new PositionEvent(new System.DateTime(2021, 2, 1), v1));
-        //pm2.finishRecording();
+        List<Vector2> v1 = new List<Vector2>();
+        v1.Add(new Vector2(20, 20));
+        v1.Add(new Vector2(20, 30));
+        pm2.recordEvent(new PositionEvent(new System.DateTime(2021, 2, 1), v1));
+        pm2.finishRecording();
 
-        //JObject json2 = pm2.getJSON(); 
-        //Assert.AreEqual(1, pm2.eventList.Count);
-        //Assert.IsNotNull(json2);
-        //Assert.IsNotNull(json2["positions"]);
+        JObject json2 = pm2.getJSON(); 
+        Assert.AreEqual(1, pm2.eventList.Count);
+        Assert.IsNotNull(json2);
         
-        //JArray json2p = (JArray) json2["positions"];
-        //Assert.AreEqual(1, json2p.Count);
-        //Assert.AreEqual("2021-02-01 12:00:00 AM", json2p[0]["eventTime"].ToString());
+        JArray json2p = (JArray) json2["eventList"];
+        Assert.AreEqual(1, json2p.Count);
+        Assert.AreEqual("2/1/2021 12:00:00 AM", json2p[0]["eventTime"].ToString());
     }
 }

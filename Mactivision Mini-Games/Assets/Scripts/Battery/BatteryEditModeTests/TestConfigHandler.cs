@@ -20,10 +20,9 @@ public class TestConfigHandler
     [SetUp]
     public void AutoGenerateAndLoad()
     {
-        /*
-        Config = new ConfigHandler();
+        Dictionary<string,GameConfig> Games = new Dictionary<string,GameConfig> ();
+        Config = new ConfigHandler(Games);
         Config.Load(Config.Generate());
-        */
     }
 
     [Test]
@@ -37,21 +36,20 @@ public class TestConfigHandler
     [Test]
     public void TestGenerateAndLoad()
     {
-        /*
-        var battery = new ConfigHandler();
+        Dictionary<string,GameConfig> Games = new Dictionary<string,GameConfig> ();
+        var battery = new ConfigHandler(Games);
         var json = battery.Generate();
 
         Assert.DoesNotThrow(() => battery.Load(json));
         List<string> scenes = battery.GameScenes();
         Assert.True(scenes.SequenceEqual(battery.GetGameList().Keys));
-        */
     }
 
     [Test]
     public void TestLoadBadSceneParams()
     {
         var json = MockConfig("BadSceneNames.json");
-        Assert.Throws<InvalidScenesException>(() => Config.Load(json));
+        Assert.Throws<BadConfigException>(() => Config.Load(json));
     }
 
     [Test]

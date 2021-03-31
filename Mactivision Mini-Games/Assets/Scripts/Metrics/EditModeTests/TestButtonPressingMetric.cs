@@ -163,9 +163,7 @@ public class TestButtonPressingMetric
         Assert.IsEmpty(bpm1.eventList);
 
         JObject json1 = bpm1.getJSON();
-        Assert.IsNotNull(json1);
-        Assert.IsNotNull(json1["buttonPressing"]);      // JSON entry "buttonPressing" should be empty, as nothing has been recorded
-        Assert.IsEmpty(json1["buttonPressing"]);
+        Assert.IsNotNull(json1);     // JSON entry "buttonPressing" should be empty, as nothing has been recorded
 
         // Test getJSON() with one record
         ButtonPressingMetric bpm2 = new ButtonPressingMetric();
@@ -178,11 +176,10 @@ public class TestButtonPressingMetric
 
         JObject json2 = bpm2.getJSON(); 
         Assert.IsNotNull(json2);
-        Assert.IsNotNull(json2["buttonPressing"]);
         
-        JArray json2bp = (JArray) json2["buttonPressing"];
+        JArray json2bp = (JArray) json2["eventList"];
         Assert.AreEqual(1, json2bp.Count);
-        Assert.AreEqual("2021-02-01 12:00:00 AM", json2bp[0]["eventTime"].ToString());
+        Assert.AreEqual("2/1/2021 12:00:00 AM", json2bp[0]["eventTime"].ToString());
         Assert.AreEqual(KeyCode.B, json2bp[0]["keyCode"].ToObject<KeyCode>());
         Assert.AreEqual(true, json2bp[0]["keyDown"].ToObject<bool>());
 
@@ -201,20 +198,19 @@ public class TestButtonPressingMetric
         
         JObject json3 = bpm3.getJSON();
         Assert.IsNotNull(json3);
-        Assert.IsNotNull(json3["buttonPressing"]);
 
-        JArray json3bp = (JArray) json3["buttonPressing"];
+        JArray json3bp = (JArray) json3["eventList"];
         Assert.AreEqual(3, json3bp.Count);
 
-        Assert.AreEqual("2021-02-07 1:12:15 PM", json3bp[0]["eventTime"].ToString());
+        Assert.AreEqual("2/7/2021 1:12:15 PM", json3bp[0]["eventTime"].ToString());
         Assert.AreEqual(KeyCode.A, json3bp[0]["keyCode"].ToObject<KeyCode>());
         Assert.AreEqual(true, json3bp[0]["keyDown"].ToObject<bool>());
         
-        Assert.AreEqual("2021-02-07 1:12:16 PM", json3bp[1]["eventTime"].ToString());
+        Assert.AreEqual("2/7/2021 1:12:16 PM", json3bp[1]["eventTime"].ToString());
         Assert.AreEqual(KeyCode.A, json3bp[1]["keyCode"].ToObject<KeyCode>());
         Assert.AreEqual(false, json3bp[1]["keyDown"].ToObject<bool>());
         
-        Assert.AreEqual("2022-04-01 12:00:00 AM", json3bp[2]["eventTime"].ToString());
+        Assert.AreEqual("4/1/2022 12:00:00 AM", json3bp[2]["eventTime"].ToString());
         Assert.AreEqual(KeyCode.LeftAlt, json3bp[2]["keyCode"].ToObject<KeyCode>());
         Assert.AreEqual(true, json3bp[2]["keyDown"].ToObject<bool>());
     }

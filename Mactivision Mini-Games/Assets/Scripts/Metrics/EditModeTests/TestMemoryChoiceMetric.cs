@@ -219,9 +219,7 @@ public class TestMemoryChoice
         Assert.IsEmpty(mcm1.eventList);
 
         JObject json1 = mcm1.getJSON();
-        Assert.IsNotNull(json1);
-        Assert.IsNotNull(json1["memoryChoice"]);      // JSON entry "memoryChoice" should be empty, as nothing has been recorded
-        Assert.IsEmpty(json1["memoryChoice"]);
+        Assert.IsNotNull(json1);      // JSON entry "memoryChoice" should be empty, as nothing has been recorded
 
         // Test getJSON() with one record
         MemoryChoiceMetric mcm2 = new MemoryChoiceMetric();
@@ -234,11 +232,10 @@ public class TestMemoryChoice
 
         JObject json2 = mcm2.getJSON(); 
         Assert.IsNotNull(json2);
-        Assert.IsNotNull(json2["memoryChoice"]);
         
-        JArray json2mc = (JArray) json2["memoryChoice"];
+        JArray json2mc = (JArray) json2["eventList"];
         Assert.AreEqual(1, json2mc.Count);
-        Assert.AreEqual("2021-02-01 12:00:00 AM", json2mc[0]["eventTime"].ToString());
+        Assert.AreEqual("2/1/2021 12:00:00 AM", json2mc[0]["eventTime"].ToString());
         Debug.Log(json2);
         JArray json2mc0os = (JArray) json2mc[0]["objectsSet"];
         Assert.IsNotEmpty(json2mc0os);
@@ -246,7 +243,7 @@ public class TestMemoryChoice
         Assert.AreEqual("apple", json2mc0os[0].ToString());
         Assert.AreEqual("pear", json2mc[0]["_object"].ToString());
         Assert.AreEqual(false, json2mc[0]["choice"].ToObject<bool>());
-        Assert.AreEqual("2021-02-01 1:02:03 AM", json2mc[0]["choiceTime"].ToString());
+        Assert.AreEqual("2/1/2021 1:02:03 AM", json2mc[0]["choiceTime"].ToString());
 
 
         // Test getJSON() with multiple records
@@ -264,12 +261,11 @@ public class TestMemoryChoice
         
         JObject json3 = mcm3.getJSON();
         Assert.IsNotNull(json3);
-        Assert.IsNotNull(json3["memoryChoice"]);
 
-        JArray json3mc = (JArray) json3["memoryChoice"];
+        JArray json3mc = (JArray) json3["eventList"];
         Assert.AreEqual(3, json3mc.Count);
 
-        Assert.AreEqual("2021-02-01 12:00:00 AM", json3mc[0]["eventTime"].ToString());
+        Assert.AreEqual("2/1/2021 12:00:00 AM", json3mc[0]["eventTime"].ToString());
         JArray json3mc0os = (JArray) json3mc[0]["objectsSet"];
         Assert.IsNotEmpty(json3mc0os);
         Assert.AreEqual(2, json3mc0os.Count);
@@ -277,24 +273,24 @@ public class TestMemoryChoice
             Assert.AreEqual("pear", json3mc0os[1].ToString());
         Assert.AreEqual("banana", json3mc[0]["_object"].ToString());
         Assert.AreEqual(false, json3mc[0]["choice"].ToObject<bool>());
-        Assert.AreEqual("2021-02-01 1:02:03 AM", json3mc[0]["choiceTime"].ToString());
+        Assert.AreEqual("2/1/2021 1:02:03 AM", json3mc[0]["choiceTime"].ToString());
 
-        Assert.AreEqual("2021-02-02 12:00:00 AM", json3mc[1]["eventTime"].ToString());
+        Assert.AreEqual("2/2/2021 12:00:00 AM", json3mc[1]["eventTime"].ToString());
         JArray json3mc1os = (JArray) json3mc[1]["objectsSet"];
         Assert.IsNotEmpty(json3mc1os);
         Assert.AreEqual(1, json3mc1os.Count);
             Assert.AreEqual("apple", json3mc1os[0].ToString());
         Assert.AreEqual("pear", json3mc[1]["_object"].ToString());
         Assert.AreEqual(false, json3mc[1]["choice"].ToObject<bool>());
-        Assert.AreEqual("2021-02-02 1:02:03 AM", json3mc[1]["choiceTime"].ToString());
+        Assert.AreEqual("2/2/2021 1:02:03 AM", json3mc[1]["choiceTime"].ToString());
 
-        Assert.AreEqual("2021-02-03 12:00:00 AM", json3mc[2]["eventTime"].ToString());
+        Assert.AreEqual("2/3/2021 12:00:00 AM", json3mc[2]["eventTime"].ToString());
         JArray json3mc2os = (JArray) json3mc[2]["objectsSet"];
         Assert.IsNotEmpty(json3mc2os);
         Assert.AreEqual(1, json3mc2os.Count);
             Assert.AreEqual("orange", json3mc2os[0].ToString());
         Assert.AreEqual("grapes", json3mc[2]["_object"].ToString());
         Assert.AreEqual(true, json3mc[2]["choice"].ToObject<bool>());
-        Assert.AreEqual("2021-02-03 1:02:03 AM", json3mc[2]["choiceTime"].ToString());
+        Assert.AreEqual("2/3/2021 1:02:03 AM", json3mc[2]["choiceTime"].ToString());
     }
 }
