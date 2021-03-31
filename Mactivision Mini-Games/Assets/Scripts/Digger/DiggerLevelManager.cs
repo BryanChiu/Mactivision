@@ -87,7 +87,7 @@ public class DiggerLevelManager : LevelManager
     }
 
     // Begin the actual game, start recording metrics
-    void StartGame()
+    public void StartGame()
     {
         bpMetric.startRecording();
         metricWriter = new MetricJSONWriter("Digger", DateTime.Now); // initialize metric data writer
@@ -96,7 +96,7 @@ public class DiggerLevelManager : LevelManager
     }
 
     // End game, finish recording metrics
-    void EndGame()
+    public void EndGame()
     {
         bpMetric.finishRecording();
         var str = metricWriter.GetLogMetrics( 
