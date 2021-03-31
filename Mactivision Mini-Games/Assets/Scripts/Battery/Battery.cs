@@ -73,7 +73,7 @@ public class Battery
 
     public string GetGameName()
     {
-        // Game name is part of the GameConfig interface so does not require casting to the specific game config. Useful to generating log files by name. Name is not the name of the game but that specific test of a game. TODO: Better naming.
+        // Game name is part of the GameConfig interface so does not require casting to the specific game config. Useful to generating log files by name. Name is not the name of the game but that specific test of a game.
         if (IsLoaded)
         {
             return Config.GetTestName(Scene.Current());

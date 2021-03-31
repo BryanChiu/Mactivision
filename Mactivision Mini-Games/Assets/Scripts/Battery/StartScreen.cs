@@ -16,6 +16,9 @@ public class StartScreen : MonoBehaviour
     // We can only start the battery if a configuration is loaded.
     private bool ConfigIsLoaded;
 
+    // For testing
+    public bool RunWithServer = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,7 +33,10 @@ public class StartScreen : MonoBehaviour
         StartButton.onClick.AddListener(StartButtonClicked);
         GenerateButton.onClick.AddListener(GenerateButtonClicked); 
 
-        StartCoroutine(GetConfigFromServer(GetBatteryConfig));
+        if (RunWithServer)
+        {
+            StartCoroutine(GetConfigFromServer(GetBatteryConfig));
+        }
         
         // helpful for developers but not needed for users
         if (!Application.isEditor)
