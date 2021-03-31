@@ -45,19 +45,22 @@ public class Rockstar : MonoBehaviour
         float newVelocity = Mathf.Approximately(gameObject.transform.position.x, destination) ? 0f : 
                     (gameObject.transform.position.x < destination ? velocity : -velocity);
 
+        // flip the sprite so it's facing the way it's moving
         rockstar.SetFloat("Velocity", Mathf.Abs(newVelocity));
         if (currVelocity != newVelocity && newVelocity != 0f) transform.localScale = newVelocity>0 ? Vector3.one*1.5f : Vector3.Reflect(Vector3.one, Vector3.right)*1.5f;
         currVelocity = newVelocity;
     }
 
-    // updates the destination the rockstar moves towards. Can be forced to update
+    // Updates the destination the rockstar moves towards. Can be forced to update
     void UpdateDestination(bool force)
     {
+        // only update if forced, or randomly based on `changeFreq`
         if (force || randomSeed.NextDouble() < Time.deltaTime/changeFreq) {
             destination = (float)randomSeed.NextDouble()*(maxPos-minPos) + minPos;
         }
     }
 
+    // Returns the position of the rockstar
     public Vector2 GetPosition()
     {
         Vector2 pos = gameObject.transform.position;

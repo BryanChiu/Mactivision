@@ -44,7 +44,7 @@ public class DispenserTests
     [Test]
     public void TestInit0()
     {
-        testObj_dispenser.Init("imaseed", 0, 2.5f, 3f);
+        testObj_dispenser.Init("imaseed", 0, 2.5f, 0f);
         Assert.AreEqual(0, testObj_dispenser.goodFoods.Length);
         Assert.AreEqual(null, testObj_dispenser.currentFood);
     }
@@ -53,7 +53,7 @@ public class DispenserTests
     [Test]
     public void TestInit5()
     {
-        testObj_dispenser.Init("imaseed", 5, 2.5f, 3f);
+        testObj_dispenser.Init("imaseed", 5, 2.5f, 0f);
         Assert.AreEqual(5, testObj_dispenser.goodFoods.Length);
         foreach (string food in testObj_dispenser.goodFoods) {
             Assert.AreEqual("", food);
@@ -65,7 +65,7 @@ public class DispenserTests
     [UnityTest]
     public IEnumerator TestDispenseNext()
     {
-        testObj_dispenser.Init("imaseed", 5, 2.5f, 3f);
+        testObj_dispenser.Init("imaseed", 5, 2.5f, 0f);
         testObj_dispenser.DispenseNext();
 
         yield return new WaitForSeconds(1.75f);
@@ -82,7 +82,7 @@ public class DispenserTests
     [UnityTest]
     public IEnumerator TestDispenseNext6()
     {
-        testObj_dispenser.Init("imaseed", 5, 6f, 15f);
+        testObj_dispenser.Init("imaseed", 5, 6f, 0f);
         testObj_dispenser.DispenseNext();
         yield return new WaitForSeconds(1.75f);
 
@@ -110,7 +110,7 @@ public class DispenserTests
     [UnityTest]
     public IEnumerator TestMakeChoice1()
     {
-        testObj_dispenser.Init("imaseed", 1, 2.5f, 3f);
+        testObj_dispenser.Init("imaseed", 1, 2.5f, 0f);
         testObj_dispenser.DispenseNext();
 
         yield return new WaitForSeconds(1.75f);
@@ -121,7 +121,7 @@ public class DispenserTests
     [UnityTest]
     public IEnumerator TestMakeChoice2()
     {
-        testObj_dispenser.Init("imaseed", 2, 1f, 15f);
+        testObj_dispenser.Init("imaseed", 2, 1f, 0f);
         testObj_dispenser.DispenseNext();
         yield return new WaitForSeconds(1.75f);
         testObj_dispenser.DispenseNext();

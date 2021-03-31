@@ -20,8 +20,13 @@ public class LevelManagerTests
         testObj_lm = testObj.AddComponent<LevelManagerInheritor>() as LevelManagerInheritor;
         testObj_lm.postprocess = new GameObject().AddComponent<PostProcessVolume>();
         testObj_lm.instructionParent = new GameObject();
+        testObj_lm.instructionParent.AddComponent<RectTransform>();
+        testObj_lm.instructions = new GameObject[]{new GameObject()};
         testObj_lm.countdownText = new GameObject();
+        testObj_lm.countdownText.AddComponent<RectTransform>();
+        testObj_lm.countdownText.AddComponent<TextMeshProUGUI>();
         testObj_lm.outroText = new GameObject();
+        testObj_lm.outroText.AddComponent<RectTransform>();
         testObj_lm.textBG = new GameObject();
         testObj_lm.textBG.AddComponent<RectTransform>();
         testObj_lm.textBG_Main = new GameObject().AddComponent<RectTransform>();
@@ -71,6 +76,7 @@ public class LevelManagerTests
     [UnityTest]
     public IEnumerator LevelManagerStartLevel()
     {
+        testObj_lm.Setup();
         testObj_lm.StartLevel();
         Assert.AreEqual(1, testObj_lm.lvlState);
         Assert.IsTrue(testObj_lm.countdownText.activeInHierarchy);
