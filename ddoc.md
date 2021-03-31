@@ -10,7 +10,7 @@
 
 # Introduction 
 
-This document provides design documentation to be used to aid in the software development of Mactivision's Mini-game project. It details design descisions and rationales for choosing those descisions.
+This document provides design documentation to be used to aid in the software development of Mactivision's Mini-game project. It details design decisions and rationales for choosing those decisions.
 
 Table of Contents
 =================
@@ -19,7 +19,13 @@ Table of Contents
 * 2 [Unlikely Changes](#2-unlikely-changes)
 * 3 [List of Concepts](#3-list-of-concepts)
 * 4 [List of Modules](#4-list-of-modules)
-  * 4.1 [Battery Module](#41-battery-module)
+  * 4.1 [Battery Modules](#41-battery-module)
+   * 4.1.1 [Start Screen Module](#411-start-screen-module)
+   * 4.1.2 [End Screen Module](#412-end-screen-module)
+   * 4.1.3 [Scene Controller Module](#413-scene-controller-module)
+   * 4.1.4 [Client Server Module](#414-client-server-module)
+   * 4.1.5 [File Handler Module](#415-file-handler-module)
+   * 4.1.6 [Config Handler Module](#416-config-handler-module)
   * 4.2 [Minigame Modules](#42-minigame-modules)
     * 4.2.0 [Abstract Level Manager Module](#420-abstract-level-manager-module)
     * 4.2.1 [Digger Modules](#421-digger-modules)
@@ -46,11 +52,7 @@ Table of Contents
       * 4.3.2.3 [Memory Choice Metric Module](#4323-memory-choice-metric-module)
       * 4.3.2.4 [Linear Variable Metric Module](#4324-linear-variable-metric-module)
     * 4.3.3 [Metric JSON Writer Module](#433-metric-json-writer-module)
-  * 4.4 [Server Module](#44-server-module)
-    * 4.4.1 [Request Handler Module](#441-request-handler-module)
-    * 4.4.2 [Session Module](#442-session-module)
-   * 4.5 [Start Screen Module](#45-start-screen-module)
-   * 4.6 [End Screen Module](#46-end-screen-module)
+  * 4.4 [Server Modules](#44-server-modules)
 * 5 [Traceability Matrix](#5-traceability-matrix)
 * 6 [List of Changes to SRS](#6-list-of-changes-to-srs)
 * 7 [Module Relationship Diagram](#7-module-relationship-diagram)
@@ -66,6 +68,7 @@ Table of Contents
 |-----|------------|---------------------|---------|
 |Team | 2020-11-18 | Initial Release     | 1.0     |
 |Team | 2021-01-13 | Prototype 2         | 2.0     |
+|Team | 2021-03-30 | Code Complete       | 3.0     |
 
 # 1. Anticipated Changes
 
@@ -79,8 +82,7 @@ Table of Contents
 | AC6    | Mini-game Length        | Duration of the mini-games will change. Currently, the target length is 30-60 seconds per mini-game, however that time will change depends on the game and what player ability the game is measuring. | [Availability](https://github.com/BryanChiu/Mactivision/wiki/Software-Requirements-Specification#334-availability) |
 | AC7   | UI for Battery           | The start screen to get player input and start the battery will change over time to improve user experience. | [User Interfaces](https://github.com/BryanChiu/Mactivision/wiki/Software-Requirements-Specification#311-user-interfaces) |
 | AC8   | UI for Mini-games        | Start screen, instructions and end screen will change over time to improve user experience. | [User Interfaces](https://github.com/BryanChiu/Mactivision/wiki/Software-Requirements-Specification#311-user-interfaces) |
-| AC9   | UI for Data Manager      | How data is organized and presented will change to improve readbility and findability. | [User Interfaces](https://github.com/BryanChiu/Mactivision/wiki/Software-Requirements-Specification#311-user-interfaces) |
-| AC10  | Number of JSON Files     | Currently each games and battery outputs a seperate JSON files. This may be consolidated into one file in future. | [User Interfaces](https://github.com/BryanChiu/Mactivision/wiki/Software-Requirements-Specification#311-user-interfaces) |
+| AC9  | Number of JSON Files     | Currently each games and battery outputs a seperate JSON files. This may be consolidated into one file in future. | [User Interfaces](https://github.com/BryanChiu/Mactivision/wiki/Software-Requirements-Specification#311-user-interfaces) |
 
 # 2. Unlikely Changes
 
@@ -90,7 +92,6 @@ Table of Contents
 | UC2    | Adding Database          | A database may be required to store the data instead of using JSON or other data structures in the long term. However, that is currently outside the scope of this project. | [Work Scope](https://github.com/BryanChiu/Mactivision/wiki/Software-Requirements-Specification#16-work-scope) |
 | UC3    | Crash Recovery           | There is currently no plan to include functionality to handle the scenario where the player stops playing the games during the middle of the battery. The administrator of the battery will have to decide if the data collected so far is sufficient or if the battery should be re administered. Similarly, any software crashes or bugs which halt the execution of the battery or any of the mini games will be unrecoverable. The battery module contains no functionality to recover from these errors only to report them to the user and administrator. All attempts will be made to make the software robust enough for this to be unlikely and for error messages to be helpful to players and administrators so they can make actionable decisions. Thankfully, the duration of the battery should be short enough that a battery restart is possible. | [Product Scope](https://github.com/BryanChiu/Mactivision/wiki/Software-Requirements-Specification#12-product-scope) |
 | UC4    | Additional Input Devices | Because of COVID-19 most of the players will be completing a battery using a browser and a keyboard. The supervisors of the project hope to be able to add more input types in future, however that will mostly be attempted after Mactivision has submitted their final work. Therefore, it is unlikely that keyboard will change before work is completed. However, since the future of the project will likely add new inputs all efforts have been made, now, to accommodate different input devices. Using Unity to abstract player inputs into actions like "left", "right" and "fire 1" instead of "pad-up", "right arrow", "trigger 2" make accommodating different yet similar input devices trivial. Different kinds of input devices like motion controls and mice can't be mapped as nicely and will require new modules. | [Hardware Interfaces](https://github.com/BryanChiu/Mactivision/wiki/Software-Requirements-Specification#312-hardware-interfaces) |
-| UC5    | Adding Music            | While sound effects will be included in mini-games to help with gamification, music which might continue throughout a mini-game will not be included. | [Assumptions](https://github.com/BryanChiu/Mactivision/wiki/Software-Requirements-Specification#25-assumptions-and-dependencies) |
 
 # 3. List of Concepts
 
@@ -121,35 +122,42 @@ This section of the document contains all modules relating to the Battery. This 
 Battery 
 
 ### Uses
-`UnityEngine.SceneManagement`,
-`Newtonsoft.Json`,
-`System.Collections`,
+`System`
+`System.Collections`
 `System.IO`
-`System.DateTime`
-
-### Syntax
+`System.Collections.Generic`
+`UnityEngine`
+`UnityEngine.UI`
+`UnityEngine.SceneManagement`
+`Newtonsoft.Json`
+`ConfigHandler`
+`SceneController`
+`FileHandler`
 
 #### __Exported Constants__
-JSON\_BATTERY\_OUTPUT\_PATH
 
 #### __Exported Types__
-None
+GameConfig
+BatteryConfig
 
 #### __Exported Access Programs__
 
 | Routine Name       | IN     | Out    | Exceptions                |
 |--------------------|--------|--------|---------------------------|
-|`LoadBattery`       | string |        | `IOException`             | 
-|`StartBattery`      |        |        | `IOException`             | 
-|`EndBattery`        |        | JSON   | `IOException`             | 
-|`LoadScene`         | string | 𝔹      | `SceneCouldNotBeLoaded`   | 
-|`LoadBattery`       | string |        | `JsonException`           |
-|`Start`             |        |        |                           |
-|`GetGameName`       |        | string |                           |
-|`GetOutputPath`     |        | string |                           |
+|`GetConfigFileName` |        | string |                           | 
+|`GetServerURL`      |        | string |                           | 
+|`GetToken`          |        | string |                           | 
+|`Reset`             |        |        |                           | 
+|`GetGameName`       |        | string |                           | 
 |`GetCurrentConfig`  |        | string |                           |
-|`WriteJSONToFile`   | string, string, string | JSON | `IOException` |
-|`SetPlayerName`     | string |        |                           |
+|`LoadBattery`       | string |        | `JSONException`           |
+|`LoadScene`         | string |        |                           | 
+|`SerializedConfig`  |        | string |                           |
+|`StartBattery`      |        |        |                           | 
+|`EndBattery`        |        | JSON   |                           | 
+|`GetStartTime`      |        | string |                           |
+|`GetEndTime`        |        | string |                           |
+|`LoadNextScene`     |        |        |                           |
 |`GetCurrentScene`   |        | string |                           |
 |`GetGameList`       |        | List<string> |                     | 
 |`WriteExampleConfig`|        | JSON   | `IOException`             |
@@ -157,20 +165,25 @@ None
 ### Semantics
 
 #### Environment Variables
-window: The game window
 
 #### __State Variables__
 `Battery`: Static Instance 
-`StartScene`: Scene 
-`EndScene`: Scene 
-`Config`: BatteryConfig   
-`ConfigFile`: JSON Text 
-`Scene Index`: ℕ 
-`OuputFolderPath`: string 
-`OuputFolderName`: string 
-`StartTime`: string 
-`EndTime`: string 
-`PlayerName`: string 
+`IsLoaded`: 𝔹 
+`Token`: string 
+`Debug.Log`: string
+`Config`: ConfigHandler
+`Scene`: SceneController
+`File`: FileHandler
+
+### __Constants__
+`ServerURL` : string
+`StartScene` : string
+`EndScene` : string
+`ConfigFileName` : string
+`ConfigPath` : string
+`GeneratedFileName` : string
+`GeneratedMetaFileName` : string
+`GameList` : Dictionary<string,GameConfig>
 
 #### __Assumptions__
 Battery is also a scene in unity. It is the primary scene and will load and unload other scenes (the games). Because Battery is a scene, Unity will automatically construct the object and then call Start(), therefore Start will act as the constructor. The `battery` variable will need to be available for each game as a global. 
@@ -184,13 +197,23 @@ The Battery module will output a copy of the JSON file used as input with additi
 
 #### __Access Routine Semantics__
 
-`LoadBattery(BatteryConfig)`:
-* transition: `Config` := `loadJSON(filename)`
-* output: None
-* exception: `IOException`
+`GetConfigFileName()`:
+* transition: None
+* output: `ConfigFileName`
+* exception: None
 
-`Start()`:
-* transition: `OutputFolderPath`
+`GetServerURL()`:
+* transition: None
+* output: `ServerURL` 
+* exception: None
+
+`GetToken()`:
+* transition: None
+* output: `Token` 
+* exception: None
+
+`Reset()`:
+* transition: `Token` := UUID, `IsLoaded` := `false`, `Config` := `ConfigHandler`, `File` := `FileHandler`  
 * output: None
 * exception: None
 
@@ -199,39 +222,49 @@ The Battery module will output a copy of the JSON file used as input with additi
 * output: string
 * exception: None
 
-`GetOutputPath()`:
-* transition: None
-* output: string 
-* exception: None
-
 `GetCurrentConfig()`:
 * transition: None
 * output: string 
 * exception: None
 
+`LoadBattery(JSON)`:
+* transition: `IsLoaded` := `true`, `Scene` := `SceneController`
+* output: None
+* exception: `JSONException`
+
 `LoadScene(scene)`:
 * transition: None
 * output: None 
-* exception: `SceneCouldNotBeLoaded`
+* exception: `Unity Error Message`
 
-`StartBattery(game)`:
-* transition: `StartTime`, `OutputFolderName`
-* output: `Output Folder Created` 
-* exception: `IOException` 
+`SerializedConfig()`:
+* transition: None
+* output: string 
+* exception: None
 
-`EndBattery()`:
-* transition: `EndTime`
-* output: `JSON` 
-* exception: `IOException`
-
-`SetPlayerName(name)`:
-* transition: `PlayerName` := `name`
+`StartBattery()`:
+* transition: None
 * output: None 
 * exception: None
 
+`EndBattery()`:
+* transition: None
+* output: None 
+* exception: None
+
+`GetStartTime()`:
+* transition: None
+* output: string 
+* exception: None
+
+`GetEndTime()`:
+* transition: None
+* output: string 
+* exception: None
+
 `LoadNextScene()`:
-* transition: `SceneIndex` := `SceneIndex + 1`
-* output: `LoadScene` 
+* transition: None
+* output: None 
 * exception: None
 
 `GetCurrentScene()`:
@@ -246,14 +279,507 @@ The Battery module will output a copy of the JSON file used as input with additi
 
 `WriteExampleConfig()`:
 * transition: None
-* output: `BatteryConfig JSON File`
+* output: `JSON File`
 * exception: `IOException`
 
 __Local Functions__
 
-`Awake` : Don't destroy Battery on scene change.
+## 4.1.1 Start Screen Module
+This module handles the Battery start screen GUI and starting the Battery by connecting to the Server Module and getting the battery configuration, then running StartBattery from Battery Module. 
 
-`WriteJSONToFile(path, filename, json)`: System.IO.File.WriteAllText(path + filename, json);
+### Module inherits MonoBehaviour
+StartScreen 
+
+### Uses
+`System`
+`System.Text`
+`System.Collections`
+`System.Collections.Generic`
+`UnityEngine`
+`UnityEngine.UI`
+`UnityEngine.Networking`
+`ClientServer`
+`Battery`
+
+### Syntax
+
+#### __Exported Constants__
+None
+
+#### __Exported Types__
+None
+
+#### __Exported Access Programs__
+
+| Routine Name       | IN     | Out    | Exceptions                |
+|--------------------|--------|--------|---------------------------|
+|`Start`             |        |        |                           |
+|`GetConfigFromServer`| Func(string) | IEnumerator        | NetworkError                          |
+|`GetBatteryConfig`  | int    |        | EmptyConfigException, InvalidScenesException, BadConfigException |
+|`GenerateButtonClicked` |  |        |                           | 
+|`StartButtonClicked`      |        |        |                           |
+
+### Semantics
+
+#### Environment Variables
+
+#### __State Variables__
+`StartButton`: Button;
+`GenerateButton`: Button;
+`Console`: Text;
+`ConfigLoaded`: bool;
+
+#### __Assumptions__
+Scene created in Unity using Unity's built in GUI components.
+
+#### __Design Decisions__
+This screen should provide a GUI for the player to start the Battery. It will include instructions on how to use the Battery. A Start Button will be used to start the Button when hit. A Text Console GUI exists to provide error information to the user if the Battery fails in some way. The Start Button will only be clickable if a valid Battery Configuration is loaded. Generate Button is only for developers to easily generate a blank config file.
+
+#### __Access Routine Semantics__
+`Start()`
+* transition: `ConfigIsLoaded` := `false`, `StartButton.interactable` := `false`
+* output: None
+* exception: None
+
+`GetConfigFromServer()`
+* transition: `Console`
+* output: None
+* exception: NetworkError
+
+`GetBatteryConfig()`
+* transition: `Console`, `ConfigIsLoaded` := `true`, `StartButton.interactable` := `true`
+* output: None
+* exception: EmptyConfigException, InvalidScenesException, BadConfigException
+
+`GenerateButtonClicked()`
+* transition: `Console`
+* output: None
+* exception: None
+
+`ClearConsole()`
+* transition: `Console` := `''`
+* output: None
+* exception: None
+
+`StartButtonClicked()`
+* transition: None
+* output: None
+* exception: None
+
+## 4.1.2 End Screen Module
+This module handles the GUI to load and start Battery's for the player and developers.
+
+### Module inherits MonoBehaviour
+EndScreen 
+
+### Uses
+`System.Text`
+`System.Collections`
+`System.Collections.Generic`
+`UnityEngine`
+`UnityEngine.UI`
+`UnityEngine.Networking`
+`ClientServer`
+`Battery`
+
+### Syntax
+
+#### __Exported Constants__
+None
+
+#### __Exported Types__
+None
+
+#### __Exported Access Programs__
+| Routine Name       | IN     | Out    | Exceptions                |
+|--------------------|--------|--------|---------------------------|
+|`Start`             |        |        |                           |
+
+### Semantics
+
+#### Environment Variables
+
+#### __State Variables__
+`ClientServer`: Client;
+
+#### __Assumptions__
+Scene created in Unity using Unity's built in GUI components.
+
+#### __Design Decisions__
+The last scene of the Battery. Display GUI message to player letting them know the Battery has ended. Send the configuration used in current Battery to server and then end the Battery.
+
+#### __Access Routine Semantics__
+
+`Start()`
+* transition:  
+* output: None
+* exception: None
+
+## 4.1.3 Scene Controller Module
+Maps Mini-games to scenes and controls moving backward and forward through scenes.
+
+### Uses
+`System.Collections.Generic`
+`System.Collections`
+
+### Syntax
+
+#### __Exported Constants__
+None
+
+#### __Exported Types__
+None
+
+#### __Exported Access Programs__
+| Routine Name       | IN     | Out    | Exceptions                |
+|--------------------|--------|--------|---------------------------|
+|`SceneController`   | string, string, List<string>      |        |                           |
+|`setIndex`          | ℤ      |        |                           |
+|`setIndex`          | ℤ      |        |                           |
+|`setMax`            | ℤ      |        |                           |
+|`Next`              |        |        |                           |
+|`Current`           |        | ℤ      |                           |
+|`Name`              |        | string |                           |
+
+### Semantics
+
+#### Environment Variables
+
+#### __State Variables__
+`Index`: ℤ  
+`Start`: string  
+`End`: string  
+`Games` : List<string>  
+`Max`: ℤ  
+
+#### __Assumptions__
+Unity can switch between scenes by name or by number. Scenes must be added to builds in order to switch.
+
+#### __Design Decisions__
+The start screen scene is -1 because there is only one start screen. The default number of max scenes is 100 because it very unlikely there will be that many scenes, but it can be increased as needed.
+
+#### __Access Routine Semantics__
+
+`SceneController()`
+* transition: `Start` := `string`, `End` := `string`, `Games` := `List<string>`  
+* output: None
+* exception: None
+
+`setIndex(n)`
+* transition: `Index` := n 
+* output: None
+* exception: None
+
+`setMax(n)`
+* transition: `Max` := n 
+* output: None
+* exception: None
+
+`Next()`
+* transition: `Index` := `Index` + 1 
+* output: None
+* exception: None
+
+`Current()`
+* transition: None 
+* output: `Index`
+* exception: None
+
+`Name()`
+* transition: None 
+* output: `Games[Index]`
+* exception: None
+
+## 4.1.4 Client Server Module
+Handles network communication between Battery Module, Mini-game Modules and the Server Module.
+
+### Uses
+`System`
+`System.Text`
+`System.Collections`
+`System.Collections.Generic`
+`UnityEngine`
+`UnityEngine.Networking`
+
+### Syntax
+
+#### __Exported Constants__
+CREATED = 0,
+GAME\_STARTED = 1, 
+GAME\_ENDED = 2,
+FINISHED = 3,
+
+#### __Exported Types__
+enum ClientState
+
+#### __Exported Access Programs__
+| Routine Name       | IN     | Out    | Exceptions                |
+|--------------------|--------|--------|---------------------------|
+| `ClientServer`     | string |        |                           |
+| `UpdateServerCreateRequest`     |  | UnityWebRequest |                           |
+| `QueryString`             | IDictionary<string, object> | string       |                           |
+| `Post`                    | string, string, ClientState | IEnumerator | NetworkError |
+| `PostGameEnd`             | string, data | IEnumerator |                           |
+| `PostFinished`            | string, data | IEnumerator |                           |
+| `UpdateServerState`       | IDictionary<string, object> | IEnumerator |                           |
+| `UpdateServerGameStarted` | float | IEnumerator |                           |
+
+### Semantics
+
+#### Environment Variables
+
+#### __State Variables__
+`URL`: Client;
+
+#### __Assumptions__
+Unity can handle Web Requests. 
+
+#### __Design Decisions__
+Communicating over HTTP let us built-in Unity libraries. IEnumerator are returned because these methods are intended to be used as Unity Co-routines.
+
+#### __Access Routine Semantics__
+
+`ClientServer(s)`
+* transition: `URL` := s
+* output: None
+* exception: None
+
+`UpdateServerCreateRequest()`
+* transition: None
+* output: UnityWebRequest
+* exception: None
+
+`QueryString(dict)`
+* transition: None
+* output: ∀ item ∈ dict | String.Join("&", item.Key + "=" + item.Value)
+* exception: None
+
+`Post(filename, data, state)`
+* transition: None
+* output: IEnumerator
+* exception: NetworkError
+
+`PostGameEnd(filename, data)`
+* transition: None
+* output: Post(filename, data, GAME\_ENDED)
+* exception: None
+
+`PostFinished(filename, data)`
+* transition: None
+* output: None
+* exception: None
+
+`UpdateServerState(dict)`
+* transition: None
+* output: IEnumerator
+* exception: None
+
+`UpdateServerGameStarted(expected_game_length)`
+* transition: None
+* output: IEnumerator
+* exception: None
+
+## 4.1.5 File Handler Module
+Handles local file IO in Unity.
+
+### Uses
+`System`
+`System.IO`
+`System.Linq`
+`System.Collections`
+`System.Collections.Generic`
+`UnityEngine`
+
+### Syntax
+
+#### __Exported Constants__
+None
+
+#### __Exported Types__
+None
+
+#### __Exported Access Programs__
+| Routine Name       | IN     | Out    | Exceptions                |
+|--------------------|--------|--------|---------------------------|
+|`FileHandler`       | string, string, string        |        |                           |
+|`DeleteGeneratedConfig` |        |        | IOException |
+|`DirectoryExists`       | string | bool |                           |
+|`GeneratedConfigExists` |        | bool |                           |
+|`DeleteDirectory`       | string, bool |  | IOException |
+|`WriteGenerated`        | string |  | IOException |
+|`WriteFile`        | string, string, string |  |  IOException  |
+
+### Semantics
+
+#### Environment Variables
+
+#### __State Variables__
+`ConfigPath` : string  
+`GeneratedFile` : string  
+`MetaFile` : string  
+
+#### __Assumptions__
+C# has file handling libraries to handle OS quirks.
+
+#### __Design Decisions__
+File IO is mostly used in the development phase when the server is not running.
+
+#### __Access Routine Semantics__
+
+`FileHandler(path, filename, metafilename)`
+* transition: `ConfigPath` := path, `GeneratedFile` := filename, `MetaFile` := metafilename
+* output: None
+* exception: None
+
+`DeleteGeneratedConfig()`
+* transition: None 
+* output: None
+* exception: IOException
+
+`DirectoryExists(path)`
+* transition: None 
+* output: bool
+* exception: None
+
+`GeneratedConfigExists()`
+* transition: None 
+* output: bool
+* exception: None
+
+`DeleteDirectory(path, and_contents)`
+* transition: None 
+* output: None
+* exception: IOException
+
+`WriteGenerated(json)`
+* transition: None 
+* output: None
+* exception: IOException
+
+`WriteFile(path, filename, text)`
+* transition: None 
+* output: None
+* exception: IOException
+
+## 4.1.6 Config Handler Module
+Handles the Battery configuration file. Checks the validity of the configuration. Converts the configuration from JSON to GameConfig objects
+
+### Uses
+`System`
+`System.Collections.Generic`
+`System.Collections`
+`System.IO`
+`Newtonsoft.Json`
+`UnityEngine`
+
+### Syntax
+
+#### __Exported Constants__
+None
+
+#### __Exported Types__
+GameConfig
+BatteryConfig
+
+#### __Exported Access Programs__
+| Routine Name       | IN     | Out    | Exceptions                |
+|--------------------|--------|--------|---------------------------|
+|`ConfigHandler`     | Dictionary<string,GameConfig>       |        |                           |
+|`GetGameList`     |        | Dictionary<string,GameConfig> |                           |
+|`GameScenes`       |        | List<string> |                           |
+|`StartTime`       |        | string |                           |
+|`EndTime`       |        | string |                           |
+|`Start`       |        | string |                           |
+|`End`         |        | string |                           |
+|`Get`         | int | GameConfig |                           |
+|`GetTestName` | int | string |                           |
+|`TimeStamp` |  | string |                           |
+|`Generate` |  | string | JSONException |
+|`Serialize` |  | string | JSONException |
+|`FolderTimeStamp` |  | string |                           |
+|`Load` | string  |  | JSONException, BadConfigException, EmptyConfigException, InvalidScenesException  |
+
+### Semantics
+
+#### Environment Variables
+
+#### __State Variables__
+`GameList`: Dictionary<string,GameConfig>  
+`Config`: BatteryConfig    
+`ConfigLoaded`: bool  
+
+#### __Assumptions__
+Can find a library that can serialize JSON and convert C# Classes to JSON and back again.
+
+#### __Design Decisions__
+BatteryConfig and GameConfig are C# classes which represent the configuration for the Battery and Mini-Games respectively. We serialize these classes to JSON so we can store them as JSON files and send them between the local file IO, the Battery and the Server. The Config Handler loads the serialized JSON can convert it back into configuration classes. This requires storing extra type data in the JSON files. 
+
+#### __Access Routine Semantics__
+
+`ConfigHandler(games)`
+* transition: `GameList` := games 
+* output: None
+* exception: None
+
+`GetGameList()`
+* transition: None
+* output: `GameList`
+* exception: None
+
+`GameScenes()`
+* transition: None
+* output: List<string>
+* exception: None
+
+`StartTime()`
+* transition: None
+* output: `Config.StartTime`
+* exception: None
+
+`EndTime()`
+* transition: None
+* output: `Config.EndTime`
+* exception: None
+
+`Start()`
+* transition: `Config.StartTime` := TimeStamp()
+* output: None
+* exception: None
+
+`End()`
+* transition: `Config.EndTime` := TimeStamp()
+* output: None
+* exception: None
+
+`Get(index)`
+* transition: None
+* output: `Config.Games[index]`
+* exception: None
+
+`TimeStamp()`
+* transition: None
+* output: string
+* exception: None
+
+`Generate()`
+* transition: None
+* output: string
+* exception: JSONException
+
+`Serialize()`
+* transition: None
+* output: string
+* exception: JSONException
+
+`FolderTimeStamp()`
+* transition: None
+* output: string
+* exception: None
+
+`Load(json)`
+* transition: `Config` := new BatteryConfig
+* output: None 
+* exception: None
 
 ## 4.2 Minigame Modules
 
@@ -962,24 +1488,24 @@ This section of the document contains all modules relating to the _Measurement M
   ### Uses
   * `System.DateTime`
   ### Syntax
-  #### **Exported Constants**
+  #### __Exported Constants__
   None
-  #### **Exported Types**
+  #### __Exported Types__
   None
-  #### **Exported Access Programs**
+  #### __Exported Access Programs__
   |Routine Name|In |Out |Exceptions |
   |---|---|---|---|
   |`AbstractMetricEvent`|`DateTime`|`AbstractMetricEvent`||
   |`getEventTime`||`DateTime`||
 
   ### Semantics
-  #### **State Variables**
+  #### __State Variables__
   * `eventTime: DateTime`
-  #### **Assumptions**
+  #### __Assumptions__
   * The constructor `AbstractMetricEvent(DateTime)` is called before any other access routines are called for that object.
-  #### **Design Decision**
+  #### __Design Decision__
   This module is to represent an abstract class for all _Metric Events_. Every _Metric Event_ at least has a time stamp (`eventTime`) in which the event occurred.
-  #### **Access Routine Semantics**
+  #### __Access Routine Semantics__
   `AbstractMetricEvent(et)`
   * transition: eventTime = et
   * output: _out_ := _self_
@@ -996,11 +1522,11 @@ This section of the document contains all modules relating to the _Measurement M
   * `System.DateTime`
   * `UnityEngine.KeyCode`
   ### Syntax
-  #### **Exported Constants**
+  #### __Exported Constants__
   None
-  #### **Exported Types**
+  #### __Exported Types__
   None
-  #### **Exported Access Programs**
+  #### __Exported Access Programs__
   |Routine Name|In |Out |Exceptions |
   |---|---|---|---|
   |`ButtonPressingEvent`|`DateTime`, `KeyCode`, `𝔹`|`ButtonPressingEvent`||
@@ -1009,15 +1535,15 @@ This section of the document contains all modules relating to the _Measurement M
   |`isKeyDown`||`𝔹`||
 
   ### Semantics
-  #### **State Variables**
+  #### __State Variables__
   * `eventTime: DateTime` (inherited from `AbstractMetricEvent`)
   * `keyCode: KeyCode`
   * `keyDown: 𝔹` 
-  #### **Assumptions**
+  #### __Assumptions__
   * The constructor `ButtonPressingEvent(DateTime,KeyCode, 𝔹)` is called before any other access routines are called for that object.
-  #### **Design Decision**
+  #### __Design Decision__
   This module represents the [`ButtonPressingEvent`](#4311-button-pressing-event-module) class which can be instantiated by a _Minigame_ to store data relating to a single _Button Pressing Metric Event_. This object should be passed to a _Button Pressing Metric_ object ([`ButtonPressingMetric`](#4321-button-pressing-metric-module)) for consumption. Every _Button Pressing Metric Event_ has a time stamp (`eventTime`) in which the event occurred, a key code (`keyCode`) representing the keyboard key which was pressed, and a key value (`keyDown`), representing if the key is pressed down or not (`true` indicated the key is pressed down).
-  #### **Access Routine Semantics**
+  #### __Access Routine Semantics__
   `ButtonPressingEvent(et, kc, kd)`
   * transition: eventTime, keyCode, keyDown = et, kc, kd
   * output: _out_ := _self_
@@ -1045,11 +1571,11 @@ This section of the document contains all modules relating to the _Measurement M
   * `System.DateTime`
   * `UnityEngine.Vector2`
   ### Syntax
-  #### **Exported Constants**
+  #### __Exported Constants__
   None
-  #### **Exported Types**
+  #### __Exported Types__
   None
-  #### **Exported Access Programs**
+  #### __Exported Access Programs__
   |Routine Name|In |Out |Exceptions |
   |---|---|---|---|
   |`PositionEvent`|`DateTime`, seq of `Vector2`|`PositionEvent`||
@@ -1057,14 +1583,14 @@ This section of the document contains all modules relating to the _Measurement M
   |`getPositions`||seq of `Vector2`||
 
   ### Semantics
-  #### **State Variables**
+  #### __State Variables__
   * `eventTime: DateTime` (inherited from `AbstractMetricEvent`)
   * `positions: `seq of `Vector2`
-  #### **Assumptions**
+  #### __Assumptions__
   * The constructor `PositionEvent(DateTime,`seq of `Vector2)` is called before any other access routines are called for that object.
-  #### **Design Decision**
+  #### __Design Decision__
   This module represents the `PositionEvent` class which can be instantiated by a _Minigame_ to store data relating to a single _Position Metric Event_. This object should be passed to a _Position Metric_ object ([`PositionMetric`](#4322-position-metric-module)) for consumption. Every _Position Metric Event_ has a time stamp (`eventTime`) in which the event occurred, and an array of vector (`Vector2`) objects representing the positions of objects in the game. The names/ids of these objects are stored in the ([`PositionMetric`](#4322-position-metric-module)) which will consume these events.
-  #### **Access Routine Semantics**
+  #### __Access Routine Semantics__
   `PositionMetric(et, pos)`
   * transition: eventTime, positions = et, pos
   * output: _out_ := _self_
@@ -1086,11 +1612,11 @@ This section of the document contains all modules relating to the _Measurement M
   * [`AbstractMetricEvent`](#431-abstract-metric-event-module)
   * `System.DateTime`
   ### Syntax
-  #### **Exported Constants**
+  #### __Exported Constants__
   None
-  #### **Exported Types**
+  #### __Exported Types__
   None
-  #### **Exported Access Programs**
+  #### __Exported Access Programs__
   |Routine Name|In |Out |Exceptions |
   |---|---|---|---|
   |`MemoryChoiceEvent`|`DateTime`, seq of `string`, `string`, `𝔹`, `DateTime`|`MemoryChoiceEvent`||
@@ -1101,17 +1627,17 @@ This section of the document contains all modules relating to the _Measurement M
   |`getChoiceTime`||`DateTime`||
 
   ### Semantics
-  #### **State Variables**
+  #### __State Variables__
   * `eventTime: DateTime` (inherited from `AbstractMetricEvent`)
   * `objectsSet:` seq of `string`
   * `object: string`
   * `choice: 𝔹`
   * `choiceTime: DateTime`
-  #### **Assumptions**
+  #### __Assumptions__
   * The constructor `MemoryChoiceEvent(DateTime,`seq of `string, string, 𝔹, DateTime)` is called before any other access routines are called for that object.
-  #### **Design Decision**
+  #### __Design Decision__
   This module represents the `MemoryChoiceEvent` class which can be instantiated by a _Minigame_ to store data relating to a single _Memory Choice Event_. This object should be passed to a _Memory Choice Metric_ object ([`MemoryChoiceMetric`](#memory-choice-metric-module)) for consumption. Every _Memory Choice Event_ has a time stamp (`eventTime`) in which the event occurred, and an array of strings (`objectsSet`) representing the set of objects which should be answered `true`: ie., if `object` is a member of `objectsSet`, `choice` should be `true` if the user guesses correctly; `false` if the user guesses incorrectly. `choiceTime` is the timestamp the user made the choice, and `eventTime` is the timestamp the choice was presented to the user. If you subtract the two, the result is the time it took for the user to make the choice.
-  #### **Access Routine Semantics**
+  #### __Access Routine Semantics__
   `MemoryChoiceEvent(et, os, o, c, ct)`
   * transition: `eventTime`, `objectsSet`, `object`, `choice`, `choiceTime` = `et`, `os`, `o`, `c`, `ct` 
   * output: _out_ := _self_
@@ -1148,11 +1674,11 @@ This section of the document contains all modules relating to the _Measurement M
   * [`AbstractMetricEvent`](#431-abstract-metric-event-module)
   * `System.DateTime`
   ### Syntax
-  #### **Exported Constants**
+  #### __Exported Constants__
   None
-  #### **Exported Types**
+  #### __Exported Types__
   None
-  #### **Exported Access Programs**
+  #### __Exported Access Programs__
   |Routine Name|In |Out |Exceptions |
   |---|---|---|---|
   |`LinearVariableEvent`|`DateTime`, `ℝ`, `ℝ`, `ℕ`|`LinearVariableEvent`||
@@ -1162,16 +1688,16 @@ This section of the document contains all modules relating to the _Measurement M
   |`getReasonIndex`||`ℕ`||
 
   ### Semantics
-  #### **State Variables**
+  #### __State Variables__
   * `eventTime: DateTime` (inherited from `AbstractMetricEvent`)
   * `currentValue: ℝ`
   * `valueChange: ℝ`
   * `reasonIndex: ℕ`
-  #### **Assumptions**
+  #### __Assumptions__
   * The constructor `LinearVariableEvent(DateTime, ℝ, ℝ, ℕ)` is called before any other access routines are called for that object.
-  #### **Design Decision**
+  #### __Design Decision__
   This module is for the class `LinearVariableEvent`, which contains the data for each _event_ passed to `LinearVariableMetric#recordEvent()`. This data contains the _event time_, _current value_ (which is the value after the change), _value change_ (change in value since last event), and _index of reason_ (the reason for the change in the event. Index refers to the position in the array of _reasons_ stored in `LinearVariableMetric`).
-  #### **Access Routine Semantics**
+  #### __Access Routine Semantics__
   `LinearVariableEvent(et, cv, vc, ri)`
   * transition: `eventTime`, `currentValue`, `valueChange`, `reasonIndex` = `et`, `cv`, `vc`, `ri` 
   * output: _out_ := _self_
@@ -1203,11 +1729,11 @@ This section of the document contains all modules relating to the _Measurement M
   * [`AbstractMetricEvent`](#431-abstract-metric-event-module)
   * `Newtonsoft.Json`
   ### Syntax
-  #### **Exported Constants**
+  #### __Exported Constants__
   None
-  #### **Exported Types**
+  #### __Exported Types__
   None
-  #### **Exported Access Programs**
+  #### __Exported Access Programs__
   |Routine Name|In |Out |Exceptions |
   |---|---|---|---|
   |`AbstractMetric`||`AbstractMetric`||
@@ -1216,18 +1742,18 @@ This section of the document contains all modules relating to the _Measurement M
   |`recordEvent`|`AbstractMetricEvent`|||
   |`abstract getJSON`||JSON||
   ### Semantics
-  #### **State Variables**
+  #### __State Variables__
   * `isRecording: 𝔹`
   * `eventList:` seq of `AbstractMetricEvent`
-  #### **Assumptions**
+  #### __Assumptions__
   * The constructor `AbstractMetric()` is called before any other access routines are called for that object, and is also called before any other access routines from objects of children classes of `AbstractMetric`.
-  #### **Design Decision**
+  #### __Design Decision__
   This module is for the class `AbstractMetric`, which is a parent class of many _metrics_, ie. `ButtonPressingMetric`, `PositionMetric`, etc. This class has a method `recordEvent` which will take some subclass of `AbstractMetricEvent` as input. Each time an event is passed to the metric, it will append it to `eventList`. 
   
   The `abstract` method `getJSON` will also be implemented by all child classes, and will be used to deliver all data recorded by `recordEvent` as JSON to the caller. This will be used by the `MetricWriter` module to output all game data as a JSON file. 
 
   `startRecording` and `stopRecording` are to toggle a `AbstractMetric` object's `isRecording` state, which will allow for recording of events while `true`, and allow outputting of JSON when it is false.
-  #### **Access Routine Semantics**
+  #### __Access Routine Semantics__
   `AbstractMetric()`
   * transition: `isRecording`, `eventList` = `false`, `<>`
   * output: _out_ := _self_
@@ -1258,11 +1784,11 @@ This section of the document contains all modules relating to the _Measurement M
   * `ButtonPressingEvent`
   * `Newtonsoft.Json`
   ### Syntax
-  #### **Exported Constants**
+  #### __Exported Constants__
   None
-  #### **Exported Types**
+  #### __Exported Types__
   None
-  #### **Exported Access Programs**
+  #### __Exported Access Programs__
   |Routine Name|In |Out |Exceptions |
   |---|---|---|---|
   |`ButtonPressingMetric`||`ButtonPressingMetric`||
@@ -1271,14 +1797,14 @@ This section of the document contains all modules relating to the _Measurement M
   |`recordEvent`|`ButtonPressingEvent`|||
   |`getJSON`||JSON||
   ### Semantics
-  #### **State Variables**
+  #### __State Variables__
   * `isRecording: 𝔹` (inherited from `AbstractMetric`)
   * `eventList`: seq of `ButtonPressingEvent` (inherited from `AbstractMetric`)
-  #### **Assumptions**
+  #### __Assumptions__
   * The constructor `ButtonPressingMetric()` is called before any other access routines are called for that object. `ButtonPressingMetric()` will invoke the `AbstractMetric()` (inherited from `AbstractMetric`) before any other statements are executed.
-  #### **Design Decision**
+  #### __Design Decision__
   This class is a subclass of `AbstractMetric`, and is used to record `ButtonPressingEvent` objects passed from a _Level Manager_. when `getJson()` is invoked, it will return a JSON object containing all the data stored in `eventList`, as well as the name of this _Metric_.
-  #### **Access Routine Semantics**
+  #### __Access Routine Semantics__
   `ButtonPressingMetric(keys)`
   * transition: `gameObjectKeys` := `keys`
   * output: _out_ := _self_
@@ -1310,11 +1836,11 @@ This section of the document contains all modules relating to the _Measurement M
   * `PositionEvent`
   * `Newtonsoft.Json`
   ### Syntax
-  #### **Exported Constants**
+  #### __Exported Constants__
   None
-  #### **Exported Types**
+  #### __Exported Types__
   None
-  #### **Exported Access Programs**
+  #### __Exported Access Programs__
   |Routine Name|In |Out |Exceptions |
   |---|---|---|---|
   |`PositionMetric`|seq of `string`|`PositionMetric`||
@@ -1323,15 +1849,15 @@ This section of the document contains all modules relating to the _Measurement M
   |`recordEvent`|`PositionEvent`|||
   |`getJSON`||JSON||
   ### Semantics
-  #### **State Variables**
+  #### __State Variables__
   * `isRecording: 𝔹` (inherited from `AbstractMetric`)
   * `eventList`: seq of `PositionEvent` (inherited from `AbstractMetric`)
   * `gameObjectKeys:` seq of `string`
-  #### **Assumptions**
+  #### __Assumptions__
   * The constructor `PositionMetric(`seq of `string)` is called before any other access routines are called for that object. `PositionMetric(`seq of `string)` will invoke the `AbstractMetric()` (inherited from `AbstractMetric`) before any other statements are executed.
-  #### **Design Decision**
+  #### __Design Decision__
   This class is a subclass of `AbstractMetric`, and is used to record `PositionEvent` objects passed from a _Level Manager_. `PositionEvent` objects records a sequence of labeled _Vectors_ which correspond to positions of game objects in the _minigame_. When `getJson()` is invoked, it will return a JSON object containing all the data stored in `eventList`, as well as the name of this _Metric_, and the names of the objects being recorded.
-  #### **Access Routine Semantics**
+  #### __Access Routine Semantics__
   `ButtonPressingMetric()`
   * transition: none
   * output: _out_ := _self_
@@ -1363,11 +1889,11 @@ This section of the document contains all modules relating to the _Measurement M
   * `PositionEvent`
   * `Newtonsoft.Json`
   ### Syntax
-  #### **Exported Constants**
+  #### __Exported Constants__
   None
-  #### **Exported Types**
+  #### __Exported Types__
   None
-  #### **Exported Access Programs**
+  #### __Exported Access Programs__
   |Routine Name|In |Out |Exceptions |
   |---|---|---|---|
   |`MemoryChoiceMetric`||`MemoryChoiceMetric`||
@@ -1376,14 +1902,14 @@ This section of the document contains all modules relating to the _Measurement M
   |`recordEvent`|`MemoryChoiceEvent`|||
   |`getJSON`||JSON||
   ### Semantics
-  #### **State Variables**
+  #### __State Variables__
   * `isRecording: 𝔹` (inherited from `AbstractMetric`)
   * `eventList`: seq of `MemoryChoiceEvent` (inherited from `AbstractMetric`)
-  #### **Assumptions**
+  #### __Assumptions__
   * The constructor `MemoryChoiceMetric()` is called before any other access routines are called for that object. `MemoryChoiceMetric()` will invoke the `AbstractMetric()` (inherited from `AbstractMetric`) before any other statements are executed.
-  #### **Design Decision**
+  #### __Design Decision__
   This class is a subclass of `AbstractMetric`, and is used to record `PositionEvent` objects passed from a _Level Manager_. `PositionEvent` objects records a sequence of labeled _Vectors_ which correspond to positions of game objects in the _minigame_. When `getJson()` is invoked, it will return a JSON object containing all the data stored in `eventList`, as well as the name of this _Metric_, and the names of the objects being recorded.
-  #### **Access Routine Semantics**
+  #### __Access Routine Semantics__
   `ButtonPressingMetric()`
   * transition: none
   * output: _out_ := _self_
@@ -1416,11 +1942,11 @@ This section of the document contains all modules relating to the _Measurement M
   * `LinearVariableEvent`
   * `Newtonsoft.Json`
   ### Syntax
-  #### **Exported Constants**
+  #### __Exported Constants__
   None
-  #### **Exported Types**
+  #### __Exported Types__
   None
-  #### **Exported Access Programs**
+  #### __Exported Access Programs__
   |Routine Name|In |Out |Exceptions |
   |---|---|---|---|
   |`LinearVariableMetric`|`ℝ`, `R`, `R`, seq of `string`|`LinearVariableMetric`||
@@ -1429,18 +1955,18 @@ This section of the document contains all modules relating to the _Measurement M
   |`recordEvent`|`LinearVariableEvent`|||
   |`getJSON`||JSON||
   ### Semantics
-  #### **State Variables**
+  #### __State Variables__
   * `minValue: ℝ`
   * `maxValue: ℝ`
   * `intialValue: ℝ`
   * `reasons:` seq of `string`
   * `isRecording: 𝔹` (inherited from `AbstractMetric`)
   * `eventList`: seq of `LinearVariableEvent` (inherited from `AbstractMetric`)
-  #### **Assumptions**
+  #### __Assumptions__
   * The constructor `LinearVariableMetric(ℝ, ℝ, ℝ, `seq of `string)` is called before any other access routines are called for that object. `LinearVariableMetric(ℝ, ℝ, ℝ, `seq of `string)` will invoke the `AbstractMetric()` (inherited from `AbstractMetric`) before any other statements are executed.
-  #### **Design Decision**
+  #### __Design Decision__
   This class is a subclass of `AbstractMetric`, and is used to record `LinearVariableEvent` objects passed from a _Level Manager_. When `getJson()` is invoked, it will return a JSON object containing all the data stored in `eventList`, as well as the name of this _Metric_, and the minimum, maximum, and initial values, as well as the sequence of _reasons_ of this metric.
-  #### **Access Routine Semantics**
+  #### __Access Routine Semantics__
   `LinearVariableMetric(min, max, init, rs)`
   * transition: `minValue`, `maxValue`, `initialValue`, `reaons` := `min`, `max`, `init`, `rs`
   * output: _out_ := _self_
@@ -1474,26 +2000,26 @@ This section of the document contains all modules relating to the _Measurement M
   * `Newtonsoft.Json`
   * `System.DateTime`
 ### Syntax
-#### **Exported Constants**
+#### __Exported Constants__
 None
-#### **Exported Types**
+#### __Exported Types__
 * `CannotWriteToFileException`
-#### **Exported Access Programs**
+#### __Exported Access Programs__
 |Routine Name|In |Out |Exceptions |
 |---|---|---|---|
 |`MetricJSONWriter`|`string`, `DateTime`|`MetricJSONWriter`||
 |`logMetrics`|`string`, `DateTime`, seq of `AbstractMetric`|||
 ### Semantics
-#### **State Variables**
+#### __State Variables__
 * `gameName: string`
 * `gameStartTime: DateTime`
-#### **Assumptions**
+#### __Assumptions__
 * The constructor `MetricJSONWriter(`seq of `AbstractJSONMetric)` is called before any other access routines are called for that object.
-#### **Design Decision**
+#### __Design Decision__
 This module represents the class `MetricJSONWriter`. It will be instantiated by _Level Manager_ classes. `MetricJSONWriter(string, DateTime)`. The method `logMetrics(fileName: string, DateTime, `seq of `AbstractMetric)` takes a file name, game end time, and list of _metrics_ and will call the `getJSON()` method on each _Metric_ in `metrics`, and stitch together the result, before writing to the file specified at `fileName`.
 
 `CannotWriteToFileException` is an exception that is caused when `logMetrics` is not able to write to the file given by `fileName: string` method input. This can be caused by lack of permission to write to that location or if an empty string is provided, etc. Details of the specific reason will be provided in the exception output log.
-#### **Access Routine Semantics**
+#### __Access Routine Semantics__
 `MetricJSONWriter(gn, gst)`
 * transition: `gameName`, `gameStartTime` := `gn`, `gst`
 * output: _out_ := _self_
@@ -1504,371 +2030,7 @@ This module represents the class `MetricJSONWriter`. It will be instantiated by 
 * output: _out_ := none
 * exceptions: `CannotWriteToFileException`
 
-
-## 4.4 Server Module
-
-This module handles the server which accepts HTTP requests from the `ClientServer Module`.
-
-### Module
-Server 
-
-### Uses
-* `os`
-* `argparse`
-* `cgi`
-* `json`
-* `sys`
-* `signal`
-* `threading`
-* `urllib`
-* `http.server`
-* `datetime`
-
-### Syntax
-
-#### __Exported Constants__
-None
-
-#### __Exported Types__
-* `Session`
-* `RequestHandler`
-
-#### __Exported Access Programs__
-|Routine Name|In |Out |Exceptions |
-|---|---|---|---|
-|`get_state_str`|`{0,1,2,3}`|`string`||
-|`log`|`string`|||
-|`cleanup_loop`|`ℕ`|||
-
-### Semantics
-
-#### __Environment Variables__
-* `file`: `string`, passed as input to module
-* `ROOT`: `string`, passed as input to module
-
-#### __State Variables__
-* `SESSIONS`: `dict of {string: Session}`
-
-#### __Constants__
-* `IP = ''`
-* `PORT = 8000`
-* `EXPIRE_TIME: timedelta = 20 minutes`
-* `CREATED = 0`
-* `GAME_STARTED = 1`
-* `GAME_FINISHED = 2`
-* `FINISHED = 3`
-* `CLEANUP_TIME = 60`
-
-#### __Assumptions__
-None
-
-#### __Design Decisions__
-The Server Module is used to receive and store data from client sessions. Data generated from `Measurement Modules` is sent from `ClientServer Module` to `Server Module` via the singleton `RequestHandler Module`.
-
-#### __Access Routine Semantics__
-
-`get_state_str(st)`
-* transition: None
-* output: `'CREATED'` if `st = 0`, `'GAME_STARTED'` if `st = 1`, `'GAME_ENDED'` if `st = 2`, `'FINISHED'` if `st = 3`
-* exception: None
-
-`log(str)`
-* transition: None
-* output: None
-* exception: None
-
-`cleanup_loop(dt)`
-* transition: Removes elements from Session dict
-* output: None
-* exception: None
-
-## 4.4.1 Request Handler Module
-
-This module handles the server which accepts HTTP requests from the `ClientServer Module`.
-
-### Module inherits SimpleHTTPRequestHandler
-RequestHandler 
-
-### Uses
-* `os`
-* `argparse`
-* `cgi`
-* `json`
-* `sys`
-* `signal`
-* `threading`
-* `urllib`
-* `http.server`
-* `datetime`
-
-* `Server Module`
-
-### Syntax
-
-#### __Exported Constants__
-None
-
-#### __Exported Types__
-None
-
-#### __Exported Access Programs__
-|Routine Name|In |Out |Exceptions |
-|---|---|---|---|
-|`do_CORS`||||
-|`split_url`|`string`|`string`, `dict of {string: string}`||
-|`get_url_query`|`string`|`dict of {string: string}`||
-|`state_created`|`string, dict of {string: string}`|`HTTP Error Code`|
-|`state_game_started`|`string, dict of {string: string}`|`HTTP Error Code`|
-|`state_game_ended`|`string, dict of {string: string}`||
-|`post_data`|`string, dict of {string: string}`|`HTTP Error Code`|
-|`state_game_finished`|`string, dict of {string: string}`||
-|`handle_request`|`string, dict of {string: string}`|`HTTP Error Code`|
-|`do_GET`||||
-|`do_POST`||||
-
-### Semantics
-
-#### __Environment Variables__
-None
-
-#### __State Variables__
-None
-
-#### __Constants__
-None
-
-#### __Assumptions__
-None
-
-#### __Design Decisions__
-The RequestHandler Module is used to receive and store data from client sessions using HTTP.
-
-#### __Access Routine Semantics__
-
-`do_CORS()`
-* transition: None
-* output: 200
-* exception: None
-
-`split_url(path)`
-* transition: None
-* output: `action, query`
-* exception: None
-
-`get_url_query(path)`
-* transition: None
-* output: `query`
-* exception: None
-
-`state_created(token, query)`
-* transition: None
-* output: `do_CORS()`
-* exception: `500, 'Could not create new folder'` if folder cannot be created
-
-`state_game_started(token, query)`
-* transition: None
-* output: `do_CORS()`
-* exception: `400, 'Invalid maxgameseconds ' + query['maxgameseconds']` if `query['maxgameseconds']` invalid
-
-`post_data(token, query)`
-* transition: None
-* output: `do_CORS()`
-* exception: `400, 'Missing path parameter \"filename\"'` if `'filename' not in query` or `400, 'Content-Type must be application/json'`
-
-`state_game_ended(token, query)`
-* transition: None
-* output: `do_CORS()`
-* exception: None
-
-`state_game_finished(token, query)`
-* transition: None
-* output: `do_CORS()`
-* exception: None
-
-`handle_request(action, query)`
-* transition: None
-* output: one of: {`state_created()`, `state_game_started()`, `state_game_ended()`, `state_game_finished()`}
-* exception: `400, 'Missing path parameter \"token\"'` if `'token' not in query` or `400, 'Missing path parameter \"state\"'` if `'state' not in query` or `400, 'Bad state type ' + query['state']` if `query['state'] not ℕ` or `400, 'Bad state value ' + query['state']` if `query['state'] not in {CREATED, GAME_STARTED, GAME_ENDED, FINISHED}` or `400, 'Invalid token'` if `token not in SESSIONS and token != CREATED`
-
-`do_GET()`
-* transition: None
-* output: `handle_request('get', query)`
-* exception: `404`
-
-`go_POST()`
-* transition: None
-* output: `handle_request('post', query)`
-* exception `404`
-
-## 4.4.2 Session Module
-
-This module is a blueprint for `Session` objects, which are used by `Server` and `RequestHandler` modules.
-
-### Module
-Session
-
-### Uses
-* `datetime`
-
-### Syntax
-
-#### __Exported Constants__
-None
-
-#### __Exported Types__
-None
-
-#### __Exported Access Programs__
-|Routine Name|In |Out |Exceptions |
-|---|---|---|---|
-|`Session`|`string, string`|`Session`||
-|`set_state`|`ℕ`, `datetime`|||
-
-### Semantics
-
-#### __Environment Variables__
-None
-
-#### __State Variables__
-* `token: string`
-* `output_path: string`
-* `expire_time: datetime`
-* `state: ℕ: {0,1,2,3}`
-
-#### __Constants__
-None
-
-#### __Assumptions__
-`Session` is called before any other access routines.
-
-#### __Design Decisions__
-The `Session` Module stores data for a single `Session` object.
-
-#### __Access Routine Semantics__
-
-`Session(tkn, out)`
-* Transition: `token, output_path := tkn, out`
-* Output: `self`
-* Exceptions: None
-
-`set_state(st, ex)`
-* Transition: `state, expire_time := st, current_time + ex`
-* Output: None
-* Exceptions: None
-
-## 4.5 Start Screen Module
-This module handles the Battery start screen GUI. It displays configurations for developers and a start button for players and field for the player to input their name.
-
-### Module inherits MonoBehaviour
-StartScreen 
-
-### Uses
-`System.Collections`,
-`System.Collections.Generic`,
-`UnityEngine`,
-`UnityEngine.UI`,
-`UnityEngine.SceneManagement`
-
-### Syntax
-
-#### __Exported Constants__
-None
-
-#### __Exported Types__
-None
-
-#### __Exported Access Programs__
-None
-
-### Semantics
-
-#### Environment Variables
-
-#### __State Variables__
-`StartButton`: Button  
-`PlayerInput`: InputField  
-`GameList`: Text  
-`GenerateButton`: Button  
-`ConfigDropdown`: Dropdown  
-`ConfigDropDownSelected`: Text  
-`ConfigIsLoaded`: Bool  
-
-#### __Assumptions__
-Scene created in Unity using Unity's built in GUI components.
-
-#### __Design Decisions__
-This screen should introduce the player to the battery. It will ask for the player's name and will start the battery when the user hits the submit button. The screen will also show GUI components for developer tools like picking battery configurations and generating new configuration, which should improve development time.
-
-#### __Access Routine Semantics__
-
-`Start()`
-* transition: `ConfigIsLoaded` := `false`, `StartButton.interactable` := `false`
-* output: None
-* exception: None
-
-`ConfigDropdownChange()`
-* transition: `ConfigIsLoaded`
-* output: Bool
-* exception: None
-
-`GenerateButtonClicked()`
-* transition: None
-* output: Battery.Instance.WriteExampleConfig()
-* exception: None
-
-`ListGames()`
-* transition: `GameList`
-* output: String
-* exception: None
-
-`PlayerInputOnChange()`
-* transition: `StartButton.interactable`
-* output: Bool
-* exception: None
-
-`StartButtonClicked()`
-* transition: None
-* output: Battery.Instance.LoadNextScene()
-* exception: None
-
-## 4.6 End Screen Module
-This module handles the GUI to load and start Battery's for the player and developers.
-
-### Module inherits MonoBehaviour
-EndScreen 
-
-### Uses
-`System.Collections`,
-`System.Collections.Generic`,
-`UnityEngine`,
-
-### Syntax
-
-#### __Exported Constants__
-None
-
-#### __Exported Types__
-None
-
-#### __Exported Access Programs__
-None
-
-### Semantics
-
-#### Environment Variables
-
-#### __Assumptions__
-Scene created in Unity using Unity's built in GUI components.
-
-#### __Design Decisions__
-This is the last scene the user will see. The screen/scene should let the player knowt the battery is completed and thank the player for participating. This scene will also trigger the Battery module to stop and output the current player and battery configuration data into the output folder specificed by the Battery module. 
-
-#### __Access Routine Semantics__
-
-`Start()`
-* transition: 
-* output: Battery.Instance.EndBattery()
-* exception: None
+## 4.4 Server Modules
 
 # 5. Traceability Matrix
 
