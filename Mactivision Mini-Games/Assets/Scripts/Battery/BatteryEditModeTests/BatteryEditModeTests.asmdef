@@ -4,8 +4,7 @@
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "Battery",
-        ""
+        "Battery"
     ],
     "includePlatforms": [
         "Editor"

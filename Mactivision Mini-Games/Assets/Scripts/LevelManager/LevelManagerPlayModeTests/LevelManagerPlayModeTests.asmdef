@@ -8,7 +8,10 @@
         "Unity.TextMeshPro",
         "Unity.Postprocessing.Runtime"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor",
+        "WSA"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,

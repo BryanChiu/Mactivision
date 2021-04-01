@@ -6,7 +6,10 @@
         "GUID:0acc523941302664db1f4e527237feb3",
         "GUID:6beca12c80abc764d9f7f5024302446e"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor",
+        "WSA"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,
