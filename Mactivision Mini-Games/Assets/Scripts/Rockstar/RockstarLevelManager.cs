@@ -181,6 +181,7 @@ public class RockstarLevelManager : LevelManager
                 return;
             }
 
+            BackgroundAnimation();
             InputHandler();
             RecordMetricEvents();
         }
@@ -222,6 +223,17 @@ public class RockstarLevelManager : LevelManager
         music.Stop();
     }
 
+    void BackgroundAnimation()
+    {
+        if (enableAnimations) {
+            if (Math.Abs(rockstar.GetPosition().x - spotlight.GetPosition().x) < 1) {
+                background.speed = Mathf.Clamp(background.speed + Time.deltaTime, 0f, 1f);
+            } else {
+                background.speed = Mathf.Clamp(background.speed - Time.deltaTime, 0f, 1f);
+            }
+        }
+    }
+
     // Handles player keyboard input
     void InputHandler()
     {
@@ -251,16 +263,6 @@ public class RockstarLevelManager : LevelManager
     // Called each frame to add metric event
     void RecordMetricEvents()
     {
-        if (Math.Abs(rockstar.GetPosition().x - spotlight.GetPosition().x) < 1)
-        {
-            background.GetComponent<Animator>().enabled = true;
-            background.Play("Base Layer.rockstarbg_1");
-        }
-        else
-        {
-            background.GetComponent<Animator>().enabled = false;
-        }
-
         if (Input.GetKeyDown(leftKey) || Input.GetKeyUp(leftKey) || Input.GetKeyDown(rightKey) || Input.GetKeyUp(rightKey) || !Mathf.Approximately(currRockstarVel, rockstar.currVelocity)) {
             pMetric.recordEvent(new PositionEvent(DateTime.Now, new List<Vector2>{rockstar.GetPosition(), spotlight.GetPosition()}));
             currRockstarVel = rockstar.currVelocity;
