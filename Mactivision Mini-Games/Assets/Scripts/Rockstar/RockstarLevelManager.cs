@@ -107,7 +107,7 @@ public class RockstarLevelManager : LevelManager
         meterMinVel = dependencyCheck ? rockstarConfig.MeterMinVel : Default(5f, "MeterMinVel");
         meterMaxVel = dependencyCheck ? rockstarConfig.MeterMaxVel : Default(30f, "MeterMaxVel");
         meterUpVel = dependencyCheck ? rockstarConfig.MeterUpVel : Default(60f, "MeterUpVel");
-        meterGoodRange = rockstarConfig.MeterGoodRange > 0 && rockstarConfig.MeterGoodRange < 100 ? rockstarConfig.MeterGoodRange : 60f;
+        meterGoodRange = rockstarConfig.MeterGoodRange > 0 && rockstarConfig.MeterGoodRange < 100 ? rockstarConfig.MeterGoodRange : Default(60f, "MeterGoodRange");
         // use default key if string cannot be parsed to keycode (or is null)
         dependencyCheck = rockstarConfig.LeftKey != rockstarConfig.RightKey && rockstarConfig.LeftKey != rockstarConfig.UpKey && rockstarConfig.RightKey != rockstarConfig.UpKey;
         try {
