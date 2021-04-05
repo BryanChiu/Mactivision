@@ -8,6 +8,8 @@ CS4ZP6 2020-21 Capstone group. Mini-games
 * Michael Tee
 * Sijie Zhou
 
+[Demo Video](https://youtu.be/hvBHpPJgVD8)
+
 ## Mactivision Mini-Games
 
 Video games are experienced at many different levels; however, all games by
