@@ -10,6 +10,8 @@ CS4ZP6 2020-21 Capstone group. Mini-games
 
 [Demo Video](https://youtu.be/hvBHpPJgVD8)
 
+[Game Demo](https://chiubacca44.itch.io/mactivision-mini-game-battery-project)
+
 ## Mactivision Mini-Games
 
 Video games are experienced at many different levels; however, all games by
